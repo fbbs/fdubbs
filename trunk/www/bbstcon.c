@@ -9,11 +9,24 @@ int main()
 	FILE *fp;
 	char buf[512], board[80], dir[80], file[80], filename[80];
 	struct fileheader x;
+    struct boardheader *x1;//added by polygon
 	int i, num=0, found=0;
 	init_all();
 	strsncpy(board, getparm("board"), 32);
 	strsncpy(file, getparm("file"), 32);
-	printf("<center>\n");
+    /*
+     *  下面代码用于添加帖子的版面验证，与bbsdoc.c中的验证代码类似,added by polygon
+     * */
+    x1=getbcache(board);
+         if ((x1->flag & BOARD_CLUB_FLAG)
+                          && (x1->flag & BOARD_READ_FLAG )
+                                       && !has_BM_perm(&currentuser, board)
+                                                        && !isclubmember(currentuser.userid, board))
+                                        http_fatal("您不是俱乐部版 %s 的成员，无权访问该版面", board);
+	/*
+     * end polygon
+     * */
+    printf("<center>\n");
 	if(!has_read_perm(&currentuser, board)) 
 	{
 		printf("<b>同主题文章阅读 · %s </b></center><br>\n",BBSNAME);

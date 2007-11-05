@@ -1123,24 +1123,24 @@ int choose_board (int newflag)
       //其他情况
       } else {			//added by iamfat 2003.11.20 add goodbrd directly
 	      load_GoodBrd ();
-	      //added by iamfat 2003.12.28 to avoid flow bug
-	      struct boardheader *bp1 =NULL;
-	      bp1 = getbcache(nbrd[num].name);
-	      if (!((nbrd[num].flag & BOARD_DIR_FLAG)&& (bp1->group == 0))){ //根目录不可加入收藏夹Danielfree 06.3.5
-		      if (GoodBrd.num >= GOOD_BRC_NUM) {
-			      presskeyfor ("个人热门版数已经达上限", t_lines - 1);
-		      } 
-		      else if (!inGoodBrds (getbnum(nbrd[num].name)-1)) {
-			      sprintf (genbuf, "您确定要添加%s到收藏夹吗?", nbrd[num].name);
-			      if (askyn (genbuf, NA, YEA) == YEA) {
-				      //strcpy (GoodBrd.ID[GoodBrd.num++], nbrd[num].name);
-				      add_GoodBrd(nbrd[num].name, 0); //modified by cometcaptor 2007-04-21
-				      //save_GoodBrd ();
-			      }
-			      brdnum = -1;
-		      }
-	      }
-	      GoodBrd.num = 0;
+          //added by iamfat 2003.12.28 to avoid flow bug
+          //struct boardheader *bp1 =NULL;
+	      //bp1 = getbcache(nbrd[num].name);
+	      //if (!((nbrd[num].flag & BOARD_DIR_FLAG)&& (bp1->group == 0))){ //根目录不可加入收藏夹Danielfree 06.3.5
+          if (GoodBrd.num >= GOOD_BRC_NUM) {
+              presskeyfor ("个人热门版数已经达上限", t_lines - 1);
+          } 
+          else if (!inGoodBrds (getbnum(nbrd[num].name)-1)) {
+              sprintf (genbuf, "您确定要添加%s到收藏夹吗?", nbrd[num].name);
+              if (askyn (genbuf, NA, YEA) == YEA) {
+                  //strcpy (GoodBrd.ID[GoodBrd.num++], nbrd[num].name);
+                  add_GoodBrd(nbrd[num].name, 0); //modified by cometcaptor 2007-04-21
+                  //save_GoodBrd ();
+              }
+              brdnum = -1;
+          }
+          //}
+          GoodBrd.num = 0;
       }
       break;
     case 'A':

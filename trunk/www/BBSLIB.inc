@@ -1378,7 +1378,10 @@ int has_read_perm(struct userec *user, char *board) {
 	if(x->flag & (BOARD_POST_FLAG | BOARD_NOZAP_FLAG)) return 1;
 	if(!user_perm(user, PERM_LOGIN)) return 0;
 	//if(user_perm(user, PERM_SPECIAL8)) return 1;	//commented by stephen 2003.06.02 
-	return user_perm(user, x->level);
+	//return user_perm(user, x->level);
+    
+    if (currentuser.userlevel & x->level) return 1;
+    return 0;
 }
 
 int has_post_perm(struct userec *user, char *board) {
