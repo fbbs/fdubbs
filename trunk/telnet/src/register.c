@@ -79,6 +79,95 @@ int ci_strnbcmp( register char *s1, register char *s2, int n ) {
         return 0;
 }
 
+
+
+/* added by Ashinmarch Sep.23. 07.     *
+ * Compare userid to restrictid        *
+ * It can match any expression pattern *
+ * like "*aab*bac*adfa*...*asdf*".     */
+char *toLowercase(char *str)
+{
+    char *str_t = malloc(sizeof(char) * 20);
+    strcpy(str_t, str);
+    int i = 0;
+    while(str_t[i])
+    {
+        if(str_t[i] >= 'A' && str_t[i] <='Z')
+        {
+                                                                 
+            str_t[i] = str_t[i]  -'A' + 'a';
+        }
+        i++;
+    }
+
+    return str_t;
+}
+
+//used in ex_strcmp_v2. Using delimiter to get strBuf token. Then match strUid
+int check_str_tok(char *strUid, char *strBuf,  char *delim)   
+{
+    char str_t[20];
+    strcpy(str_t,strBuf);
+
+    if(*str_t == '*')
+        strcpy(str_t, str_t+1);
+    if(str_t[strlen(str_t)-1] == '*')
+        str_t[strlen(str_t)-1] = 0;
+
+                       
+    char *temp[10];
+    int i = 0;
+
+    temp[0] = strtok(str_t, delim);
+    while(temp[i++])
+    {
+        temp[i] = strtok(NULL, delim);
+    }
+                                      
+    char str_u[20];
+    strcpy(str_u, strUid);
+    int j;
+    for(j = 0; j < i-1; j++)
+    {
+        char *p;
+        if((p = strstr(str_u, temp[j])) != NULL)
+        {
+            if(*(p+strlen(temp[j])) != 0)
+            {
+                strcpy(str_u, p+ strlen(temp[j]));
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    return 1;                                                            
+}
+
+
+int ex_strcmp_v2( char *restrictid, char *userid ) 
+{
+    char *strBuf, *strUid;
+    strBuf = toLowercase(restrictid);
+    strUid = toLowercase(userid);
+                                  
+    if(check_str_tok(strUid, strBuf, "*") == 1)  
+        return 0;
+    else
+         return 1;
+}
+
+/*add end*/
+
+
+
+
+
+
+
+
+
 /* Add by Amigo. 2001.02.13. Called by bad_user_id. */
 /* Compares userid to restrictid. */
 /* Restrictid support * match in three style: prefix*, *suffix, prefix*suffix. */
@@ -172,7 +261,7 @@ int bad_user_id(char *userid) {
             ptr = strtok( buf, " \n\t\r" );
             /* Modified by Amigo. 2001.02.13.8. * match support added. */
             /* Original: if( ptr != NULL && *ptr != '#' && ci_strcmp( ptr, userid ) == 0 ) {*/
-            if( ptr != NULL && *ptr != '#' && ( ci_strcmp( ptr, userid ) == 0 || ex_strcmp( ptr, userid ) == 0 ) ) {
+            if( ptr != NULL && *ptr != '#' && ( ci_strcmp( ptr, userid ) == 0 || ex_strcmp_v2( ptr, userid ) == 0 ) ) {
                 fclose( fp );
                 return 1;
             }
