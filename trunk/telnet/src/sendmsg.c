@@ -64,7 +64,8 @@ int get_msg(char *uid,char * msg, int line)
 
 char	msgchar(struct user_info *uin)
 {
-	if(uin->mode==FIVE||uin->mode==BBSNET) 
+    //added by Ashinmarch: uin->mode == LOCKSCREEN to show the P M status on 07.11.5
+	if(uin->mode==FIVE||uin->mode==BBSNET || uin->mode == LOCKSCREEN) 
 		return '@';
 	if (isreject(uin))
 		return '*';

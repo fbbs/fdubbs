@@ -364,8 +364,8 @@ int do_userlist()
 	    (HAS_PERM(PERM_OCHAT)||(uentp->from[22] != 'H'))?uentp->from:"......",
 #endif
 	//End IAMFAT
-
-	    (uentp->mode == FIVE || uentp->mode == BBSNET)?'@':pagerchar(hisfriend(uentp),uentp->pager),msgchar(uentp),
+        //added by Ashinmarch : uentp->mode ==LOCKSCREEN used to modify status on 2007.11.5
+	    (uentp->mode == FIVE || uentp->mode == BBSNET || uentp->mode == LOCKSCREEN)?'@':pagerchar(hisfriend(uentp),uentp->pager),msgchar(uentp),
 	    (uentp->invisible == YEA)?'@':' ',
 	    (uentp->invisible == YEA)?"[36m":(uentp->mode==POSTING||uentp->mode==MARKET)?"[32m":((uentp->mode==FIVE||uentp->mode==BBSNET)?"[33m":""),
 	    ModeType(uentp->mode), 
