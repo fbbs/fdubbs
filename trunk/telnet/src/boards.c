@@ -710,7 +710,7 @@ void show_brdlist (page, clsflag, newflag)
     strncpy (cate, ptr->title + 1, 6);
     strcpy (title, ptr->title + 11);
     ellipsis (title, 20);
-    prints ("%c%-16s %s%s%6s %-20s %c ",
+    prints ("%c%-17s %s%s%6s %-20s %c ",
 	    (ptr->zap && !(ptr->flag & BOARD_NOZAP_FLAG)) ? '*' : ' ',
 	    ptr->name,
 	    (ptr->flag & BOARD_VOTE_FLAG) ? "[1;31mV[m" : " ",
