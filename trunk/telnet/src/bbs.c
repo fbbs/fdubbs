@@ -1232,13 +1232,11 @@ char   *readdoent (int num, struct fileheader *ent)		// ндубап╠М
     } else {
         filetime = atoi (ent->filename + 2);
     }
-<<<<<<< .mine
     if (filetime > 740000000) {
         date = ctime (&filetime) + 4;
     } else {
         date = "";
     }
-=======
   }
   if (ent->accessed[0] & FILE_DELETED) {
     if (brc_unread (ent->filename))

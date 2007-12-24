@@ -85,7 +85,7 @@ int get_msg(char *uid,char * msg, int line)
 	move(line, 0);
 	clrtoeol();
 	prints("送音信给：%s  按Ctrl+Q重写当前消息.     音信:", uid);
-	memset(msg, 0, sizeof(msg));
+	msg[0] = 0;
 	while (1) {
 		msg_line = multi_getdata(line + 1, 0, LINE_LEN-1, NULL, msg, MAX_MSG_SIZE+1, MAX_MSG_LINE, 0, 0);
 		if (msg[0] == '\0')
