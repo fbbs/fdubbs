@@ -730,8 +730,7 @@ void show_brdlist (page, clsflag, newflag)
     if (ptr->flag & BOARD_DIR_FLAG)
         prints("\n");
     else
-      prints ("%-12s %4d\n",
-	      ptr->BM[0] <= ' ' ? "³ÏÕ÷°æÖ÷ÖÐ" : strtok (tmpBM, " ")
+        prints ("%4d\n",
 #ifdef NEWONLINECOUNT
 	      , brdshm->bstatus[ptr->pos].inboard
 #else
