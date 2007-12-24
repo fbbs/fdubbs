@@ -67,6 +67,13 @@ extern long ti ;
 
 #endif /* BBSIRC */
 
+//Added by Ashinmarch on 2007.12.01 to support multi-line msg
+//#define DEBUGMSG
+#define MAX_MSG_SIZE 240-1
+#define MAX_MSG_LINE 2
+#define LINE_LEN 78
+//Added end
+
 #define MAXFRIENDS (300)
 #define MAXREJECTS (32)
 #define NUMPERMS   (32)

@@ -731,7 +731,8 @@ int SR_BMfunc(int ent, struct fileheader *fileinfo, char *direct)
    if (!in_mail){
       if(uinfo.mode != READING) return DONOTHING;
 	  if (fileinfo->owner[0] == '-') return DONOTHING;
-	  if (!chk_currBM(currBM, 0)) return DONOTHING;
+	  //if (!chk_currBM(currBM, 0)) return DONOTHING;
+      if (!chk_BM(currboard, 0)) return DONOTHING; //cometcaptor 2007-08-11
    }
    saveline(t_lines - 1, 0);
    move(t_lines - 1, 0);
@@ -1014,19 +1015,21 @@ int BM_range(int ent, struct fileheader *fileinfo, char *direct)
    struct fileheader fhdr;
    char annpath[512];
    char buf[STRLEN],ans[8],info[STRLEN],bname[STRLEN],dbname[STRLEN];
-   char items[8][7] = 
-      {"保留","文摘","不可RE","删除","精华区","水文","转载","恢复"};
-   int type, num1,num2,i,max=8;
+   /*Added by phrack to support deletion of water posts on 2007.12.12*/
+   char items[9][8] = 
+      {"保留","文摘","不可RE","删除","精华区","水文","转载","删水文","恢复"};
+   int type, num1,num2,i,max=9;
    int fdr, ssize;
    extern int SR_BMDELFLAG;
    extern char quote_file[120], quote_title[120], quote_board[120];
 
    if(uinfo.mode != READING) return DONOTHING;
-   if(!chk_currBM(currBM, 0)) return DONOTHING;
+   //if(!chk_currBM(currBM, 0)) return DONOTHING;
+   if(!chk_BM(currboard, 0)) return DONOTHING;//cometcaptor 2007-08-11
    saveline(t_lines - 1, 0);
 /* Modified by Amigo 2002.06.27. Add restore for big D board. */
 //   if(strcmp(currboard, "deleted")&&strcmp(currboard,"junk"))max=7;
-   if(digestmode!=TRASH_MODE && digestmode!=JUNK_MODE)max=7;
+   if(digestmode!=TRASH_MODE && digestmode!=JUNK_MODE)max=8; //modified by phrack
    strcpy(info,"区段:");
    for(i=0;i<max;i++){
       sprintf(buf," %d)%s",i+1,items[i]);
@@ -1039,9 +1042,9 @@ int BM_range(int ent, struct fileheader *fileinfo, char *direct)
       saveline(t_lines - 1, 1); 
       return DONOTHING; 
    }
-   if(((digestmode!=TRASH_MODE && digestmode!=JUNK_MODE)&&((digestmode&&(type==2||type==3||type==8))
+   if(((digestmode!=TRASH_MODE && digestmode!=JUNK_MODE)&&((digestmode&&(type==2||type==3||type==9)) //modified by phrack
       || (digestmode>1 && digestmode!=TRASH_MODE && digestmode!=JUNK_MODE &&type!=5&&type!=6) ))
-      || ((digestmode==TRASH_MODE||digestmode==JUNK_MODE)&& type!=5 && type !=6 && type!=8)) {
+      || ((digestmode==TRASH_MODE||digestmode==JUNK_MODE)&& type!=5 && type !=6 && type!=9)) {
       saveline(t_lines - 1, 1); 
       return DONOTHING; 
    }
@@ -1165,7 +1168,30 @@ int BM_range(int ent, struct fileheader *fileinfo, char *direct)
 				  post_cross('l', 0);
 				  strcpy(currboard, dbname);
 				  break;
-		   case 8: 
+           case 8:    //added by phrack
+                  {
+                      /*delete the posts that have the deleted flag*/
+                      int result;
+                      if(fhdr.accessed[0] & FILE_DELETED)
+                      {
+                          SR_BMDELFLAG = YEA;
+                          result = del_post(num1, &fhdr, direct);
+                          SR_BMDELFLAG = NA;
+                          if(result == -1)
+                          {
+                              close(fdr);
+                              return DIRCHANGED;
+                          }
+                          if(result != DONOTHING)
+                          {
+                              lseek(fdr, (-1)*ssize, SEEK_CUR);
+                              num1--;
+                              num2--;
+                          }
+                      }
+                  }
+                  break;
+		   case 9:
 				  { int result;
 					  SR_BMDELFLAG = YEA;
 					  result=_UndeleteArticle(num1,&fhdr,direct,NA);
@@ -1218,7 +1244,8 @@ char *direct ;
     struct fileheader fhdr;
     int    fdr,cou;
     
-    if(!chk_currBM(currBM, 0)) return DONOTHING ;
+    //if(!chk_currBM(currBM, 0)) return DONOTHING ;
+    if(!chk_BM(currboard, 0)) return DONOTHING ;//cometcaptor 2007-08-11
 
     if(digestmode==2) return DONOTHING;
     saveline(t_lines-2, 0);
@@ -1653,7 +1680,8 @@ int sread(int readfirst, int auser, struct fileheader *ptitle)
 	    if(!get_records(currdirect,ptitle,sizeof(*ptitle),rem_crs,1))
 		    return DONOTHING;
 	    noreply=ptitle->accessed[0]&FILE_NOREPLY||bp->flag & BOARD_NOREPLY_FLAG;
-	    if(!noreply ||chk_currBM(currBM, 0)){
+	    //if(!noreply ||chk_currBM(currBM, 0)){
+        if(!noreply ||chk_BM(currboard, 0)){//cometcaptor 2007-08-11
 	       local_article=!(ptitle->filename[STRLEN-1]=='S');
 	       do_reply(ptitle);
             } else {

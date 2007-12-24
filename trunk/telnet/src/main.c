@@ -1065,13 +1065,25 @@ void login_query()
 	    write_to_count(--counter, logfile);
 	  }
 
+	  /**
+	   * 日  期：2007.12.7
+	   * 维护者：Anonomous
+	   * 代码段：下面的if(counter <= 0)一段。
+	   * 备  注：Don't kick him/her off if the user's logins are too frequent.
+	   *         Instead, the user's numlogins doesn't get increased within 20 mins
+	   *         since his/her last login. This is done by the codes below (aproximately
+	   *         at line 1505).
+	   *
+	   *         However, such behaviors should be reported as potential danger. So we
+	   *         still need to log it.
+	   */
 	  if (counter <= 0) {
-	    prints("您的登录过于频繁，请休息20分钟后再来！");
+	    /* prints("您的登录过于频繁，请休息20分钟后再来！"); */
 	    securityreport("登录过于频繁", 0, 3);
-	    oflush();
-	    sleep(3);
+	    /* oflush(); */
+	    /* sleep(3); */
 	    report("Too Frequently");
-	    exit(1);
+	    /* exit(1); */
 	  }
 
 	  if (passsec < 60) {
@@ -1493,6 +1505,18 @@ void user_login()
 	stay = 0;
     } else
       stay = 0;
+    /**
+     * 日  期：2007.12.7
+     * 维护者：Anonomous
+     * 代码断：从下面的if(login_start_time - currentuser.lastlogin > 20 * 60)开始6行。
+     * 备  注：
+     *         Jugde if current user logined within 20 mins since his/her last login.
+     *         If so, don't increase his/her numlogins. ;)
+     */
+    if(login_start_time - currentuser.lastlogin > 20*60)
+    {
+	currentuser.numlogins++;
+    }
     currentuser.lastlogin = login_start_time;
     currentuser.stay += stay;
   }
@@ -1509,7 +1533,11 @@ void user_login()
     currentuser.userlevel &= ~(PERM_REGISTER | PERM_TALK);
     mail_file("etc/expired", currentuser.userid, "更新个人资料说明。");
   }
-  currentuser.numlogins++;
+  /**
+   * Anonomou 2007.12.7
+   * Move the following line to the above
+   */
+  /* currentuser.numlogins++; */
 #ifdef ALLOWGAME
   if (currentuser.money > 1000000) {
     currentuser.nummedals += currentuser.money / 10000;

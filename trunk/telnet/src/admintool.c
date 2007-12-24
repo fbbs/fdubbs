@@ -790,7 +790,7 @@ m_editbrd ()
 	    clrtoeol ();
 	    continue;
 	  }
-	  if (valid_brdname (genbuf)) {
+	  if (HAS_PERM(PERM_SYSOPS) || valid_brdname (genbuf)) {
 	    strncpy (newfh.filename, genbuf, sizeof (newfh.filename));
 	    strcpy (bname, genbuf);
 	    break;

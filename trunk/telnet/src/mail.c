@@ -1270,7 +1270,53 @@ g_send()
 		if (tmp[0] == 'a' || tmp[0] == 'd' || tmp[0] == 'A' || tmp[0] == 'D') {
 			move(1, 0);
 			if (tmp[0] == 'a' || tmp[0] == 'A')
+			    /**
+			     * ÈÕ  ÆÚ: 2007.12.19
+			     * Î¬»¤Õß: Anonomous
+			     * ´úÂë¶Î: ´ÓÏÂÃæwhile(1)Óï¾ä¿ªÊ¼µ½while½áÊø£¬Ò»¹²34ĞĞ¡£
+			     * Ä¿  µÄ: Ôö¼ÓÈºĞÅ·¢ĞÅÈËµÄÊ±ºò²»ĞèÒªÃ¿´Î¶¼°´A¼ü£¬ËùÓĞµÄ²Ù×÷Ò»´Î°´A
+			     *         Ö®ºóÍê³É¡£
+			     * ±¸  ×¢: Õâ¸ö×ö·¨ÆäÊµ²»ÊÇºÜºÃ£¬²»¹ıÒòÎªÕû¸öFBÏµÍ³Éè¼ÆµÄ¾ÖÏŞĞÔ£¬Ã»ÓĞ
+			     *         °ì·¨¸Ä³É±È½ÏºÃµÄÁ÷³Ì£¬Ö»ÄÜÔÚÔ­±¾µÄÁ÷³Ì»ù´¡ÉÏÖØ¸´ÀÍ¶¯¡£FBµÄ
+			     *         Éè¼ÆÓĞµãÌ«ËÀ°å£¬Ã¿´ÎÔö¼Ó·¢ĞÅÈËµÄÊ±ºò¶¼Ö»´¦ÀíÒ»¸öid£¬¶øÇÒÕâ
+			     *         ¸ö´¦Àí¹ı³ÌÊÇ¼ĞÔÓÔÚÆäËû²Ù×÷ÖĞ¼äµÄ£¬Õû¸öÁ÷³ÌµÄñîºÏ¶ÈÌ«¸ß£¬Ã»
+			     *         °ì·¨²ğ·Ö£¬Ö»ºÃ²ÉÈ¡ÏÂÃæµÄ·½Ê½£¬Ã¿´ÎÔö¼Ó·¢ĞÅÈËµÄÊ±ºòÖØ»æÕû¸ö
+			     *         ÆÁÄ»£¬²¢ÇÒÍê³ÉÒ»´ÎÌí¼Ó²Ù×÷¡£Ï£ÍûÒÔºó»áÓĞ¸üºÃµÄ°ì·¨¡£-_-||
+			     */
+			    while(1) {
+				clear();
+				cnt = listfilecontent(maillists, 3);
+				if (cnt > maxrecp - 10) {
+				    move(1, 0);
+			            prints("Ä¿Ç°ÏŞÖÆ¼ÄĞÅ¸ø [1m%d[m ÈË", maxrecp);
+				}
+				move(2,0);
+				prints("ÏÖÔÚÊÇµÚ %c ¸öÃûµ¥ (0~9)Ñ¡ÔñÆäËûÃûµ¥", current_maillist);
+				move(0,0);
+				prints("(A)Ôö¼Ó (D)É¾³ı (I)ÒıÈëºÃÓÑ (C)Çå³ıÄ¿Ç°Ãûµ¥ (E)·ÅÆú (S)¼Ä³ö? [S]£º ");
+				move(1,0);
 				usercomplete("ÇëÒÀ´ÎÊäÈëÊ¹ÓÃÕß´úºÅ(Ö»°´ ENTER ½áÊøÊäÈë): ", uident);
+				move(1, 0);
+				clrtoeol();
+				if (uident[0] == '\0')
+				    break;
+				if (!getuser(uident)) {
+				    move(2, 0);
+				    prints("Õâ¸öÊ¹ÓÃÕß´úºÅÊÇ´íÎóµÄ.\n");
+				    continue;
+				}
+				if (!(lookupuser.userlevel & PERM_READMAIL)) {
+				    move(2,0);
+				    prints("ÎŞ·¨ËÍĞÅ¸ø: [1m%s[m\n", lookupuser.userid);
+				    continue;
+				} else if (seek_in_file(maillists, uident)) {
+				    move(2,0);
+				    prints("ÒÑ¾­ÁĞÎªÊÕ¼şÈËÖ®Ò» \n");
+				    continue;
+				}
+				add_to_file(maillists, uident);
+				cnt++;
+			    }
 			else
 				namecomplete("ÇëÒÀ´ÎÊäÈëÊ¹ÓÃÕß´úºÅ(Ö»°´ ENTER ½áÊøÊäÈë): ", uident);
 			move(1, 0);
@@ -1295,6 +1341,9 @@ g_send()
 		switch (tmp[0]) {
 		case 'A':
 		case 'a':
+		        /* ÕâÒ»¶ÎcaseÓ¦¸ÃÓÀÔ¶¶¼Ö´ĞĞ²»µ½£¬ÒòÎªÇ°ÃæµÄ²¿·ÖÒÑ¾­Íê³ÉÁËĞ©²Ù×÷£¬
+			 * ±£ÏÕÆğ¼û£¬ÔİÊ±±£Áô¡£
+			 * by Anonomous */
 			if (!(lookupuser.userlevel & PERM_READMAIL)) {
 				move(2, 0);
 				prints("ÎŞ·¨ËÍĞÅ¸ø: [1m%s[m\n", lookupuser.userid);
