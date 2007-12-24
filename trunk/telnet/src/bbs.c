@@ -1215,29 +1215,6 @@ char   *readdoent (int num, struct fileheader *ent)		// 文章列表
                 break;
         }
     }
-    if (ent->accessed[0] & FILE_DELETED) {
-        if (brc_unread (ent->filename))
-            type = 'X';		// deardragon 0729
-        else
-            type = 'x';
-    }
-    //  bp = getbcache (currboard);
-    //  if (ent->accessed[0] & FILE_NOREPLY || bp->flag & BOARD_NOREPLY_FLAG)
-    if (ent->accessed[0] & FILE_NOREPLY)
-        noreply = 1;
-    else
-        noreply = 0;
-    if (digestmode == ATTACH_MODE) {
-        filetime = ent->timeDeleted;
-    } else {
-        filetime = atoi (ent->filename + 2);
-    }
-    if (filetime > 740000000) {
-        date = ctime (&filetime) + 4;
-    } else {
-        date = "";
-    }
-  }
   if (ent->accessed[0] & FILE_DELETED) {
     if (brc_unread (ent->filename))
       type = 'W';		// deardragon 0729
@@ -1260,7 +1237,6 @@ char   *readdoent (int num, struct fileheader *ent)		// 文章列表
   } else {
     date = "";
   }
->>>>>>> .r6
 
 #ifdef COLOR_POST_DATE
     mytm = localtime (&filetime);
