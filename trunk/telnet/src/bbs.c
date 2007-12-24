@@ -1215,28 +1215,28 @@ char   *readdoent (int num, struct fileheader *ent)		// ÎÄÕÂÁĞ±í
                 break;
         }
     }
-  if (ent->accessed[0] & FILE_DELETED) {
-    if (brc_unread (ent->filename))
-      type = 'W';		// deardragon 0729
+    if (ent->accessed[0] & FILE_DELETED) {
+        if (brc_unread (ent->filename))
+            type = 'W';		// deardragon 0729
+        else
+            type = 'w';     //change 'x' to 'w' by Ashinmarch on Oct 25, 2007
+    }
+    //  bp = getbcache (currboard);
+    //  if (ent->accessed[0] & FILE_NOREPLY || bp->flag & BOARD_NOREPLY_FLAG)
+    if (ent->accessed[0] & FILE_NOREPLY)
+        noreply = 1;
     else
-      type = 'w';     //change 'x' to 'w' by Ashinmarch on Oct 25, 2007
-  }
-//  bp = getbcache (currboard);
-//  if (ent->accessed[0] & FILE_NOREPLY || bp->flag & BOARD_NOREPLY_FLAG)
-  if (ent->accessed[0] & FILE_NOREPLY)
-    noreply = 1;
-  else
-    noreply = 0;
-  if (digestmode == ATTACH_MODE) {
-    filetime = ent->timeDeleted;
-  } else {
-    filetime = atoi (ent->filename + 2);
-  }
-  if (filetime > 740000000) {
-    date = ctime (&filetime) + 4;
-  } else {
-    date = "";
-  }
+        noreply = 0;
+    if (digestmode == ATTACH_MODE) {
+        filetime = ent->timeDeleted;
+    } else {
+        filetime = atoi (ent->filename + 2);
+    }
+    if (filetime > 740000000) {
+        date = ctime (&filetime) + 4;
+    } else {
+        date = "";
+    }
 
 #ifdef COLOR_POST_DATE
     mytm = localtime (&filetime);
@@ -2940,16 +2940,16 @@ int read_post (int ent, struct fileheader *fileinfo, char *direct)
              * ±¸  ×¢£ºĞŞ¸Ä±êÌâµÄÍ¬Ê±£¬ÔÚÎÄÕÂÄ©Î²Ìí¼ÓÒ»¸öĞŞ¸Ä±ê¼Ç£¬±íÃ÷ÎÄÕÂÒÑ¾­±»ĞŞ¸Ä¹ı¡£
              */
             if (!strncmp(buf, "[m[1;36m¡ù ĞŞ¸Ä:¡¤", 17)) {
-              snprintf(buf, 256, "[m[1;36m¡ù ĞŞ¸Ä:¡¤%s ì¶ %16.16s ĞŞ¸Ä±¾ÎÄ¡¤[FROM: %-.20s][m\n",
-		        	currentuser.userid, datestring + 6, fromhost);
-              found = 1;
+                snprintf(buf, 256, "[m[1;36m¡ù ĞŞ¸Ä:¡¤%s ì¶ %16.16s ĞŞ¸Ä±¾ÎÄ¡¤[FROM: %-.20s][m\n",
+                        currentuser.userid, datestring + 6, fromhost);
+                found = 1;
             }
 
             fputs (buf, out);
-        
+
             if(!found) {
-                  fprintf(out,  "[m[1;36m¡ù ĞŞ¸Ä:¡¤%s ì¶ %16.16s ĞŞ¸Ä±¾ÎÄ¡¤[FROM: %-.20s][m\n",
-        			currentuser.userid, datestring + 6, fromhost);
+                fprintf(out,  "[m[1;36m¡ù ĞŞ¸Ä:¡¤%s ì¶ %16.16s ĞŞ¸Ä±¾ÎÄ¡¤[FROM: %-.20s][m\n",
+                        currentuser.userid, datestring + 6, fromhost);
             }
 
         }

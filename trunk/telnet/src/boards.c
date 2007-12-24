@@ -730,7 +730,7 @@ void show_brdlist (page, clsflag, newflag)
     if (ptr->flag & BOARD_DIR_FLAG)
         prints("\n");
     else
-        prints ("%4d\n",
+        prints ("%4d\n"
 #ifdef NEWONLINECOUNT
 	      , brdshm->bstatus[ptr->pos].inboard
 #else
