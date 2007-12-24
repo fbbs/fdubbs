@@ -828,12 +828,6 @@ int getdata (	int line,
 
 int show_data(char *buf, int maxcol, int line, int col)
 {
-#ifdef DEBUGMSG
-    char temp[500];
-    sprintf(temp, "show_data: %s", buf);
-    file_append("/home/bbs/msglog", temp);
-#endif
-
 
     //int y = line, x = col;
     int y, x;
@@ -968,13 +962,6 @@ int multi_getdata(int line, int col, int maxcol, char *prompt, char *buf, int le
 
 		    if ((RMSG == YEA) && msg_num == 0) 
             {
-
-      #ifdef DEBUGMSG
-            char temp[40];
-            sprintf(temp, "multi_getdata: Ctrl+Z or A\n");
-            file_append("/home/bbs/msglog", temp);
-      #endif
- 
 			    if (ch == Ctrl('Z') ) 
                 {
 				    buf[0] = Ctrl('Z');

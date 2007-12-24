@@ -281,22 +281,12 @@ int do_sendmsg(	struct user_info *uentp,
     	sprintf(wholebuf, "%s\n", msgstr==NULL? buf:msgstr);
         strcat(msgbuf, wholebuf);
 
-#ifdef DEBUGMSG
-    char temp[40];
-	sprintf(temp, "mode 2 msgsize: %d\n", strlen(msgbuf));
-	file_append("/home/bbs/msglog", temp);
-
-#endif
-
 #ifdef LOG_MY_MESG
 		//sprintf(mymsg, "[1;32;40mTo [1;33;40m%-12.12s[m (%-5.5s):%-58.58s\n",
 		//modified by iamfat 02.05.14
         sprintf(mymsg, "[1;32;40mTo [1;33;40m%-12.12s[m(%-24.24s):%-38.38s\n", uin->userid, timestr, " "); 
 			sprintf(wholebuf, "%s\n", msgstr==NULL? buf:msgstr);
 		   strcat(mymsg, wholebuf);
-#ifdef DEBUGMSG
-	
-#endif
 
 		sprintf(buf2, "ÄãµÄºÃÅóÓÑ %s ÒÑ¾­ÉÏÕ¾ÂÞ£¡", currentuser.userid);
 
@@ -337,12 +327,6 @@ int do_sendmsg(	struct user_info *uentp,
 /* add end */
 	if (userpid) {
 		if (userpid != uin->pid) {
- 
-#ifdef DEBUGMSG
-    char temp[40];
-    sprintf(temp, "%d xxx %d\n", userpid, uin->pid);
-    file_append("/home/bbs/msglog", temp);
-#endif
 
 			saveline(0, 0);	/* Save line */
 			move(0, 0);
@@ -354,12 +338,6 @@ int do_sendmsg(	struct user_info *uentp,
 		}
 	}
 	if (!uin->active || kill(uin->pid, 0) == -1) {
-
-#ifdef DEBUGMSG
-    char temp[40];
-    sprintf(temp, "uin->active = %d\n", uin->active);
-    file_append("/home/bbs/msglog", temp);
-#endif
 
 		if (msgstr == NULL) {
 			prints("\n¶Ô·½ÒÑ¾­ÀëÏß...\n");
@@ -610,11 +588,6 @@ r_msg2()
        
         prints("%s", msghead);
 
-#ifdef DEBUGMSG
-        
-        file_append("/home/bbs/msglog", msg);
-        file_append("/home/bbs/msglog", "msg of r_msg2");
-#endif
         move(line+1, 0);
         clrtoeol();
         msg_line = show_data(msg, LINE_LEN-1, line + 1, 0); 
@@ -649,15 +622,6 @@ r_msg2()
      				good_id = NA;  // change 2 lines by quickmouse 2002-5-15 for reply who's msg off
      				if(uin != NULL && ( uin->pid == send_pid || canmsg(uin) ))
       					good_id = YEA;
-
-            
-#ifdef DEBUGMSG
-    char temp[100];
-	sprintf(temp, "currentuser %s, r_msg2. good_id = %d, ptr = %s, \n",currentuser.userid, good_id, ptr);
-	file_append("/home/bbs/msglog", temp);
-
-#endif
-
   			}
   			if (good_id == YEA /*&& canmsg(uin)*/) { // comment by quickmouse 2002-5-15 for reply who's msg off 
 			//modified end
@@ -790,11 +754,6 @@ r_msg()
 		setuserfile(fname, "msgfile");
 		//i = get_num_records(fname, 129);
         i = get_num_msgs(fname);
-#ifdef DEBUGMSG
-        char temp[40];
-        sprintf(temp, "r_msg: i = %d, msg_num = %d.\n", i, msg_num);
-        file_append("/home/bbs/msglog", temp);
-#endif
 		if ((fp = fopen(fname, "r")) == NULL){
 		   sigemptyset(&act.sa_mask);
 		   act.sa_flags = SA_NODEFER;
@@ -815,13 +774,8 @@ r_msg()
 		move(line, 0);
 		clrtoeol();
 		//prints("%s", msg);
-       
         prints("%s", msghead);
 
-#ifdef DEBUGMSG
-        file_append("/home/bbs/msglog", msg);
-        file_append("/home/bbs/msglog", "msg of r_msg");
-#endif
         move(line+1, 0);
         clrtoeol();
         msg_line = show_data(msg, LINE_LEN-1, line + 1, 0); //·µ»ØµÄÊÇmsg_lineÐÐ,Ò²¾ÍÊÇ»ØÐÅÏ¢µÄµÚÒ»ÐÐ
@@ -875,13 +829,6 @@ r_msg()
                         saveline_buf(k, 0);
                     }
 
-#ifdef DEBUGMSG
-    char temp[100];
-	sprintf(temp, "currentuser %s, r_msg. good_id = %d, ptr = %s, \n",currentuser.userid, good_id, ptr);
-	file_append("/home/bbs/msglog", temp);
-
-#endif
-
 					if (good_id == YEA) {
 						int     userpid;
 						userpid = uin->pid;
@@ -912,10 +859,7 @@ r_msg()
 					if (!strstr(msgbuf, "°ïÄú"))
 						sleep(1);
 					//saveline(line + 1, 3);
-#ifdef DEBUGMSG
-                    sprintf(temp, "r_msg, msg_line %d\n", msg_line);
-                    file_append("/home/bbs/msglog", temp);
-#endif
+
                     for(k = msg_line; k < MAX_MSG_LINE*2+2; k++)
                     {
                         saveline_buf(k, 1);
