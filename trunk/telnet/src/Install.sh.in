@@ -2,7 +2,7 @@
 # Install.sh a shell script to install whole BBS
 
 BBS_HOME=@BBS_HOME@
-BBSUID=@BBS_UID@
+BBSUID=@BBS_USER@
 BBSGRP=@BBS_GROUP@
 INSTALL=@INSTALL@
 TARGET=@BBS_HOME@/bin
