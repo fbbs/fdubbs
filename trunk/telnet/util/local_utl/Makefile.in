@@ -7,15 +7,16 @@ CC       = @CC@
 CFLAGS   = @CFLAGS@ -I../../include
 BBSHOME	 = @BBS_HOME@
 
-UTILITY  = account averun bbstop bbspop3d birthday horoscope \
-		   newacct poststat usage showuser bbsuptime
+UTILITY  = account averun bbstop bbspop3d birthday horoscope usage_day remake\
+	   newacct poststat showuser bbsuptime badbms AnnIndex showbm statBM\
+	   countid
 
 .c.o:   ;   $(CC) $(CFLAGS) -c $*.c
 
 all: $(UTILITY)
 
 install: $(UTILITY)
-	cp $(UTILITY) $(BBSHOME)/bin
+	cp $(UTILITY) $(BBSHOME)/bin/@stat
 
 clean:
 	rm -fr *.o *.BAK *.log $(UTILITY) *core* DEAD* *~
@@ -23,5 +24,8 @@ clean:
 bbspop3d:
 	$(CC) $(CFLAGS) -o bbspop3d bbspop3d.c @libCRYPT@
 
-usage: usage.c ../../src/record.c
-	$(CC) $(CFLAGS) -o usage usage.c ../../src/record.c
+usage: usage.c record.c
+       $(CC) $(CFLAGS) -o usage usage.c record.c
+
+usage_day: usage_day.c record.c
+       $(CC) $(CFLAGS) -o usage_day usage_day.c record.c
