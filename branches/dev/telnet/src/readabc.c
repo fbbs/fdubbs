@@ -78,7 +78,7 @@ int	marked_all(int	type) {
 			}
             strtolower(tempname2,someoneID);
 
-            if ( strcasestr(tempname1,tempname2) ) {
+            if ( strcasestr2(tempname1,tempname2) ) {
                 append_record(tname, &post, sizeof(post));
 			}
             break;

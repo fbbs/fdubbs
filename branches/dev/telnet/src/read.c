@@ -1773,7 +1773,7 @@ int strncasecmp2(char *s1, char *s2,int n)
   else
 	 return -1;
 }
-char * strcasestr(char* haystack, char* needle)
+char * strcasestr2(char* haystack, char* needle)
 {
   int i;
   int nlength = strlen (needle);
@@ -1806,7 +1806,7 @@ char   *query;
 		return 0;
 	while (fgets(buf, 256, fp) != NULL) {
 		//Modified by IAMFAT 2002-05-25
-		if (strcasestr(buf, query)) {
+		if (strcasestr2(buf, query)) {
 			fclose(fp);
 			return YEA;
 		}
@@ -1923,7 +1923,7 @@ int search_articles(struct keeploc *locmem,
 			}
 		}
 	} else {//相关主题
-		if (strcasestr(ptr, query) != NULL) {
+		if (strcasestr2(ptr, query) != NULL) {
 			if(aflag){
 				if(strcasecmp(ptr,query)) 
 					continue;
@@ -2100,7 +2100,7 @@ int searchallboard (char *id, char *patten, int dt, int all, int del,int flag)
 						counts++;
 						n2++;
 						sprintf (buf2, " %4d  %24s  %s\n", n,
-								ctime (&t0), xx.title);
+								ctime ((time_t *)&t0), xx.title);
 						for (n3 = 0; n3 < 90; n3++)
 							if (buf2[n3] == 10)
 								buf2[n3] = 32;						

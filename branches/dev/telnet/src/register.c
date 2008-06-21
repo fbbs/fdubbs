@@ -24,8 +24,6 @@
 $Id: register.c 366 2007-05-12 16:35:51Z danielfree $
 */
 
-#include <gd.h>
-#include <gdfontl.h>
 #include "bbs.h"
 
 #ifndef DLM
@@ -517,67 +515,67 @@ int id_with_num(char	userid[IDLEN + 1]) {
     return 0;
 }
 
-#ifndef FDQUAN
-const char *generate_verify_num() {
-    /* Declare the image */
-    gdImagePtr im;
-    /* Declare output files */
-    //FILE *gifout;
-    /* Declare color indexes */
-    int black;
-    int white;
-    int x, y, z;
-    int rd;
-    static char s[10];
+//#ifndef FDQUAN
+//const char *generate_verify_num() {
+//    /* Declare the image */
+//    gdImagePtr im;
+//    /* Declare output files */
+//    //FILE *gifout;
+//    /* Declare color indexes */
+//    int black;
+//    int white;
+//    int x, y, z;
+//    int rd;
+//    static char s[10];
 
-    /* Allocate the image: 64 pixels across by 64 pixels tall */
-    im = gdImageCreate(40, 16);
+//    /* Allocate the image: 64 pixels across by 64 pixels tall */
+//    im = gdImageCreate(40, 16);
 
-    /* Allocate the color black (red, green and blue all minimum).
-      Since this is the first color in a new image, it will
-      be the background color. */
-    black = gdImageColorAllocate(im, 0, 0, 0);
+//    /* Allocate the color black (red, green and blue all minimum).
+//      Since this is the first color in a new image, it will
+//      be the background color. */
+//    black = gdImageColorAllocate(im, 0, 0, 0);
 
-    white = gdImageColorAllocate(im, 255, 255, 255);
+//    white = gdImageColorAllocate(im, 255, 255, 255);
 
-    srandom(time(0)%getpid());
+//    srandom(time(0)%getpid());
 
-    rd=random()%(100000);
-    sprintf(s,"%05d", rd);
-    gdImageString(im, gdFontGetLarge(),  0, 0, s, white);
-    for(z=0;z<20;z++) {
-        x=random()%(im->sx);
-        y=random()%(im->sy);
-        gdImageSetPixel(im, x, y, white);
-    }
-    for(y=0;y<im->sy;y++) {
-        for(x=0;x<im->sx;x++) {
-            if(gdImageGetPixel(im,x,y))
-                outc('o');
-            else
-                outc(' ');
-        }
-        outc('\n');
-    }
+//    rd=random()%(100000);
+//    sprintf(s,"%05d", rd);
+//    gdImageString(im, gdFontGetLarge(),  0, 0, s, white);
+//    for(z=0;z<20;z++) {
+//        x=random()%(im->sx);
+//        y=random()%(im->sy);
+//        gdImageSetPixel(im, x, y, white);
+//    }
+//    for(y=0;y<im->sy;y++) {
+//        for(x=0;x<im->sx;x++) {
+//            if(gdImageGetPixel(im,x,y))
+//                outc('o');
+//            else
+//                outc(' ');
+//        }
+//        outc('\n');
+//    }
 
-    gdImageDestroy(im);
+//    gdImageDestroy(im);
 
-    oflush();
+//    oflush();
 
-    return s;
-}
-#endif
+//    return s;
+//}
+//#endif
 
 void new_register() {
     struct userec newuser;
     char    passbuf[STRLEN];
     int     allocid, try;
-#ifndef FDQUAN
-	char    verify_code[IDLEN+1];
-	const char *verify_num;
-    int sec;
-    char log[100];
-#endif
+//#ifndef FDQUAN
+//	char    verify_code[IDLEN+1];
+//	const char *verify_num;
+//    int sec;
+//    char log[100];
+//#endif
     if (dashf("NOREGISTER")) {
         ansimore("NOREGISTER", NA);
         pressreturn();
@@ -603,31 +601,31 @@ void new_register() {
 		}
 
 									
-        verify_num=generate_verify_num();
-        getdata(0, 0, "请输入上面显示的数字: ", verify_code, IDLEN + 1, DOECHO, YEA);
+//        verify_num=generate_verify_num();
+//        getdata(0, 0, "请输入上面显示的数字: ", verify_code, IDLEN + 1, DOECHO, YEA);
 #endif
         getdata(0, 0, "请输入帐号名称 (Enter User ID, \"0\" to abort): ",
                 passbuf, IDLEN + 1, DOECHO, YEA);
         if (passbuf[0] == '0') {
             longjmp(byebye, -1);
         }
-#ifndef FDQUAN
-        sec=random()%5;
-        prints("为避免与其他注册者冲突...请耐心等候%d秒...\n", sec);
-        oflush();
-        sleep(sec);
+//#ifndef FDQUAN
+//        sec=random()%5;
+//        prints("为避免与其他注册者冲突...请耐心等候%d秒...\n", sec);
+//        oflush();
+//        sleep(sec);
 
-        if(strcmp(verify_num, verify_code)) {
-            sprintf(log, "verify '%s' error with code %s!=%s from %s", passbuf, verify_num, verify_code, fromhost);
-            report(log);
-            prints("抱歉, 您输入的验证码不正确.\n");
-            continue;
-        }
+//        if(strcmp(verify_num, verify_code)) {
+//            sprintf(log, "verify '%s' error with code %s!=%s from %s", passbuf, verify_num, verify_code, fromhost);
+//            report(log);
+//            prints("抱歉, 您输入的验证码不正确.\n");
+//            continue;
+//        }
 
-        sprintf(log, "verify '%s' with code %s from %s ", passbuf, verify_code, fromhost);
-        report(log);
+//        sprintf(log, "verify '%s' with code %s from %s ", passbuf, verify_code, fromhost);
+//        report(log);
 		
-#endif
+//#endif
         if (id_with_num(passbuf)) {
             prints("帐号必须全为英文字母!\n");
         } else if (strlen(passbuf) < 2) {
