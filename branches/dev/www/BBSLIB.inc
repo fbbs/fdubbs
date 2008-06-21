@@ -559,7 +559,7 @@ char *strright(char *s, int len) {
 	return s+(l-len);
 }
 
-char *strcasestr(char *s1, char *s2) {
+/*char *strcasestr(char *s1, char *s2) {
 	int l;
 	l=strlen(s2);
 	while(s1[0]) {
@@ -569,7 +569,7 @@ char *strcasestr(char *s1, char *s2) {
 		s1++;
 	}
 	return 0;
-}
+}*/
 
 int strsncpy(char *s1, char *s2, int n) {
 	int l=strlen(s2);
