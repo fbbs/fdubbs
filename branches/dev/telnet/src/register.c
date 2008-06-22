@@ -83,22 +83,16 @@ int ci_strnbcmp( register char *s1, register char *s2, int n ) {
  * Compare userid to restrictid        *
  * It can match any expression pattern *
  * like "*aab*bac*adfa*...*asdf*".     */
-char *toLowercase(char *str)
+//modified by cometcaptor 2008.06.22
+char *tolowercase(char *dst, const char *src)
 {
-    char *str_t = malloc(sizeof(char) * 20);
-    strcpy(str_t, str);
-    int i = 0;
-    while(str_t[i])
-    {
-        if(str_t[i] >= 'A' && str_t[i] <='Z')
-        {
-                                                                 
-            str_t[i] = str_t[i]  -'A' + 'a';
-        }
-        i++;
-    }
-
-    return str_t;
+    char *ret = dst;
+    if (dst == NULL || src == NULL)
+        return NULL;
+    while (*src)
+        *dst++ = tolower(*src++);
+    *dst = '\0';
+    return ret;
 }
 
 //used in ex_strcmp_v2. Using delimiter to get strBuf token. Then match strUid
@@ -146,9 +140,9 @@ int check_str_tok(char *strUid, char *strBuf,  char *delim)
 
 int ex_strcmp_v2( char *restrictid, char *userid ) 
 {
-    char *strBuf, *strUid;
-    strBuf = toLowercase(restrictid);
-    strUid = toLowercase(userid);
+    char strBuf[20], strUid[20];
+    tolowercase(strBuf, restrictid);
+    tolowercase(strUid, userid);
                                   
     if(check_str_tok(strUid, strBuf, "*") == 1)  
         return 0;
