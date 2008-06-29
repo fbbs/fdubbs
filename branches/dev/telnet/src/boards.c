@@ -480,7 +480,7 @@ int search_board (int *num)
     if (isprint2 (ch)) {
       bname[i++] = ch;
       for (n = 0; n < brdnum; n++) {
-	if (!ci_strncmp (nbrd[n].name, bname, i)) {
+	if (!strncasecmp (nbrd[n].name, bname, i)) {
 	  tmpn = YEA;
 	  *num = n;
 	  if (!strcmp (nbrd[n].name, bname))
@@ -748,16 +748,16 @@ int cmpboard (brd, tmp)
 {
   register int    type = 0;
   if (currentuser.flags[0] & BRDSORT_FLAG) {
-    return ci_strcmp (brd->name, tmp->name);
+    return strcasecmp (brd->name, tmp->name);
   } else if (currentuser.flags[0] & BRDSORT_ONLINE) {
     return brdshm->bstatus[tmp->pos].inboard - brdshm->bstatus[brd->pos].inboard;
   }
 
   type = brd->title[0] - tmp->title[0];
   if (type == 0)
-    type = ci_strncmp (brd->title + 1, tmp->title + 1, 6);
+    type = strncasecmp (brd->title + 1, tmp->title + 1, 6);
   if (type == 0)
-    type = ci_strcmp (brd->name, tmp->name);
+    type = strcasecmp (brd->name, tmp->name);
   return type;
 }
 

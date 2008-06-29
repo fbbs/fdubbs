@@ -2729,7 +2729,7 @@ int read_post (int ent, struct fileheader *fileinfo, char *direct)
         }
 #ifndef NOREPLY
         if (replytitle[0] != '\0') {
-            if (ci_strncmp (replytitle, "Re:", 3) == 0) {
+            if (strncasecmp (replytitle, "Re:", 3) == 0) {
                 strcpy (header.title, replytitle);
             } else {
                 sprintf (header.title, "Re: %s", replytitle);
@@ -4514,7 +4514,7 @@ int read_post (int ent, struct fileheader *fileinfo, char *direct)
                         //      将bname与brec->filename进行大小为sizeof(brec->filename)的比较
                         int cmpbnames (char *bname, struct fileheader *brec)
                         {
-                            if (!ci_strncmp (bname, brec->filename, sizeof (brec->filename)))
+                            if (!strncasecmp (bname, brec->filename, sizeof (brec->filename)))
                                 return 1;
                             else
                                 return 0;

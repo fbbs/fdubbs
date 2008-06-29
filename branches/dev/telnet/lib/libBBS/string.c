@@ -42,92 +42,6 @@
 
 char string_c[] = "$Id: string.c 2 2005-07-14 15:06:08Z root $";
 
-char *substr(char *string, int from, int to)
-{
-    char *result;
-    int i,j;
-
-    result = (char *)malloc(strlen(string)+1);
-
-    j = 0;
-    for (i = from ; i < to+1 ; i++)
-    {
-        if ( string[i] == '\0'|| i >= strlen(string) )
-            break;
-        result[j] = string[i];
-        j++;
-    }
-
-    return((char *)result);
-}
-
-char *stringtoken(char *string, char tag, int *log)
-{
-    int i,j;
-    char *result;
-
-    result = (char *)malloc(strlen(string)+1);
-
-    j = 0;
-    for (i = *log ; ; i++)
-    {
-        if (i == strlen(string) || i >= strlen(string))
-            break;
-        if (string[i] == 0)
-            break;
-        if (string[i] == tag)
-            break;
-        result[j] = string[i];
-        j++;
-    }
-
-    *log = i+1;
-    result[j] = '\0';
-    return((char *)result);
-}
-
-/* deliverd from bbs source .. (stuff.c) */
-/* Case Independent strncmp */
-//´óÐ¡Ð´ÎÞ¹ØµÄstrncmp()
-int ci_strncmp(register char *s1, register char *s2, register int n)
-{
-    char c1, c2;
-
-    while( n-- > 0 )
-    {
-        c1 = *s1++;
-        c2 = *s2++;
-        if( c1 >= 'a' && c1 <= 'z' )
-            c1 += 'A' - 'a';
-        if( c2 >= 'a' && c2 <= 'z' )
-            c2 += 'A' - 'a';
-        if( c1 != c2 )
-            return (c1 - c2);
-        if( c1 == 0 )
-            return 0;
-    }
-    return 0;
-}
-
-int ci_strcmp(register char *s1, register char *s2)
-{
-    char c1, c2;
-
-    while( 1 ) 
-    {
-        c1 = *s1++;
-        c2 = *s2++;
-        if( c1 >= 'a' && c1 <= 'z' )
-            c1 += 'A' - 'a';
-        if( c2 >= 'a' && c2 <= 'z' )
-            c2 += 'A' - 'a';
-        if( c1 != c2 )
-            return (c1 - c2);
-        if( c1 == 0 )
-            return 0;
-    }
-}
-
 // ½«srcÖÐµÄ×Ö·û´®×ª»»³ÉÐ¡Ð´²¢´æ·ÅÔÚdstÖÐ
 // ****   ÓÉµ÷ÓÃÕßÈ·±£dstËùÄÜ´æ´¢µÄÈÝÁ¿²»ÉÙÓÚsrcµÄ×Ö·û¸öÊý
 char *strtolower(char *dst, char *src)
@@ -152,11 +66,6 @@ char *strtoupper(char *dst, char *src)
     return ret;
 }
 
-int is_alpha(int ch)
-{
-    return ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z'));
-}
-
 void my_ansi_filter(char *source)
 {
     char result[500];
@@ -166,7 +75,7 @@ void my_ansi_filter(char *source)
         if ( source[i] == '' ) {
             flag = 1;
             continue;
-        } else if ( flag == 1 && is_alpha(source[i]) ) {
+        } else if ( flag == 1 && isalpha(source[i]) ) {
             flag = 0;
             continue;
         } else if ( flag == 1 ) {
@@ -190,7 +99,7 @@ char *ansi_filter(char *source)
         if ( source[i] == '' ) {
             flag = 1;
             continue;
-        } else if ( flag == 1 && is_alpha(source[i]) ) {
+        } else if ( flag == 1 && isalpha(source[i]) ) {
             flag = 0;
             continue;
         } else if ( flag == 1 ) {
