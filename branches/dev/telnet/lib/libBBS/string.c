@@ -40,80 +40,51 @@
 #include <time.h> /* for time_t prototype */
 #endif
 
-char string_c[] = "$Id: string.c 2 2005-07-14 15:06:08Z root $";
-
-// ½«srcÖĞµÄ×Ö·û´®×ª»»³ÉĞ¡Ğ´²¢´æ·ÅÔÚdstÖĞ
-// ****   ÓÉµ÷ÓÃÕßÈ·±£dstËùÄÜ´æ´¢µÄÈİÁ¿²»ÉÙÓÚsrcµÄ×Ö·û¸öÊı
-char *strtolower(char *dst, char *src)
+//½«srcÖĞµÄ×Ö·û´®×ª»»³ÉĞ¡Ğ´²¢´æ·ÅÔÚdestÖĞ
+char *strtolower(char *dest, char *src)
 {
-    char *ret = dst;
-    if (dst == NULL || src == NULL)
+    char *ret = dest;
+    if (dest == NULL || src == NULL)
         return NULL;
     while (*src)
-        *dst++ = tolower(*src++);
-    *dst = '\0';
+        *dest++ = tolower(*src++);
+    *dest = '\0';
     return ret;
 }
 
-char *strtoupper(char *dst, char *src)
+//½«srcÖĞµÄ×Ö·û×ª»»³É´óĞ´²¢´æ·ÅÔÚdestÖĞ
+char *strtoupper(char *dest, char *src)
 {
-    char *ret = dst;
-    if (dst == NULL || src == NULL)
+    char *ret = dest;
+    if (dest == NULL || src == NULL)
         return NULL;
     while (*src)
-        *dst++ = toupper(*src++);
-    *dst = '\0';
+        *dest++ = toupper(*src++);
+    *dest = '\0';
     return ret;
 }
 
-void my_ansi_filter(char *source)
+//½«srcÖĞµÄÄÚÈİ¹ıÂËANSI¸´ÖÆµ½destÖĞ£¬srcºÍdest¿ÉÒÔÎªÍ¬Ò»ÇøÓò
+char *ansi_filter(char *dest, char *src)
 {
-    char result[500];
-    int  i, flag = 0, loc=0;
-
-    for ( i = 0 ; i < strlen(source) ; i++ ) {
-        if ( source[i] == '' ) {
+    char *ret = dest;
+    int flag = 0;
+    if (dest == NULL || src == NULL)
+        return NULL;
+    for (; *src != '\0'; src++)
+    {
+        if (*src == '')
             flag = 1;
-            continue;
-        } else if ( flag == 1 && isalpha(source[i]) ) {
+        else if (flag == 0)
+            *dest++ = *src;
+        else if (isalpha(*src))
             flag = 0;
-            continue;
-        } else if ( flag == 1 ) {
-            continue;
-        } else {
-            result[loc++]=source[i];
-        }
-    }
-    result[loc]='\0';
-    strncpy(source, result,loc+1);
+    };
+    *dest = '\0';
+    return ret;
 }
 
-char *ansi_filter(char *source)
-{
-    char *result, ch[3];
-    int  i, flag = 0, slen = strlen(source);
-
-    result = (char *)malloc((slen+10)*sizeof(char));
-
-    for ( i = 0 ; i < slen ; i++ ) {
-        if ( source[i] == '' ) {
-            flag = 1;
-            continue;
-        } else if ( flag == 1 && isalpha(source[i]) ) {
-            flag = 0;
-            continue;
-        } else if ( flag == 1 ) {
-            continue;
-        } else {
-            sprintf(ch,"%c", source[i]);
-            strcat(result, ch);
-        }
-    }
-
-    return (char *)result;
-}
-
-// ½«Ò»¸öÕûÊıÊ±¼äÖµÂÖ»»³É ÄêÔÂÈÕÊ±·ÖÃëÖÜÈÕ¸ñÊ½,²¢·µ»Ø
+//½«Ò»¸öÕûÊıÊ±¼äÖµÂÖ»»³É ÄêÔÂÈÕÊ±·ÖÃëÖÜÈÕ¸ñÊ½,²¢·µ»Ø
 char *Cdate(time_t *clock)
 {
     static char foo[23];
