@@ -79,18 +79,43 @@ char *ansi_filter(char *dest, char *src)
             *dest++ = *src;
         else if (isalpha(*src))
             flag = 0;
-    };
+    }
     *dest = '\0';
     return ret;
 }
 
-//将一个整数时间值轮换成 年月日时分秒周日格式,并返回
-char *Cdate(time_t *clock)
-{
-    static char foo[23];
-    struct tm *mytm = localtime(clock);
+char datestring[30]; //为兼容以前的代码，先用着这个，以后再逐步去掉
 
-    strftime(foo, 23, "%D %T %a", mytm);
-    return (foo);
+//时间转换 mode: 0-中文 1-英文 2-英文短格式
+int getdatestring(time_t time, int mode)
+{
+    struct tm tm;
+    char weeknum[7][3] = {"天", "一", "二", "三", "四", "五", "六"};
+    char engweek[7][4] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+
+    localtime_r(&time, &tm);
+    switch (mode)
+    {
+        case 0:
+            sprintf(datestring, "%4d年%02d月%02d日%02d:%02d:%02d 星期%2s",
+                    tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+                    tm.tm_hour, tm.tm_min, tm.tm_sec, weeknum[tm.tm_wday]);
+            break;
+        case 1:
+            sprintf(datestring, "%02d/%02d/%02d %02d:%02d:%02d",
+                    tm.tm_mon + 1, tm.tm_mday, tm.tm_year - 100,
+                    tm.tm_hour, tm.tm_min, tm.tm_sec);
+            break;
+        case 2:
+            sprintf(datestring, "%02d.%02d %02d:%02d",
+                    tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min);
+            break;
+        default:
+            sprintf(datestring, "%02d/%02d/%02d %02d:%02d:%02d %3s",
+                    tm.tm_mon + 1, tm.tm_mday, tm.tm_year - 100,
+                    tm.tm_hour, tm.tm_min, tm.tm_sec, engweek[tm.tm_wday]);
+            break;
+    }
+    return (tm.tm_sec % 10);
 }
 
