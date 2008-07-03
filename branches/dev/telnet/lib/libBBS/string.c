@@ -64,6 +64,36 @@ char *strtoupper(char *dest, char *src)
     return ret;
 }
 
+//支持中文的strcasestr，参数名起得很创意啊
+char *strcasestr_zh(char *haystack, char *needle)
+{
+    int i;
+    int nlength;
+    int hlength;
+
+    if (haystack == NULL || needle == NULL)
+        return NULL;
+
+    nlength = strlen(needle);
+    hlength = strlen(haystack);
+
+    if (nlength > hlength)
+        return NULL;
+    if (hlength <= 0)
+        return NULL;
+    if (nlength <= 0)
+        return haystack;
+
+    for (i = 0; i <= (hlength - nlength); i++)
+    {
+        if (strncasecmp(haystack+i, needle, nlength) == 0)
+            return haystack+i;
+        if (haystack[i] & 0x80)
+            i++;
+    }
+    return NULL;
+}
+
 //将src中的内容过滤ANSI复制到dest中，src和dest可以为同一区域
 char *ansi_filter(char *dest, char *src)
 {

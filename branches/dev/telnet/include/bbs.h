@@ -42,6 +42,7 @@ $Id: bbs.h 365 2007-05-12 13:07:16Z danielfree $
 #include "glossary.h"
 #include "functions.h"				/* you can enable functions that you want */
 #include "permissions.h"
+#include "libBBS.h"
 
 #ifndef LOCK_EX
 	#define LOCK_EX         2       /* exclusive lock */

@@ -1773,26 +1773,6 @@ int strncasecmp2(char *s1, char *s2,int n)
   else
 	 return -1;
 }
-char * strcasestr2(char* haystack, char* needle)
-{
-  int i;
-  int nlength = strlen (needle);
-  int hlength = strlen (haystack);
-
-  if (nlength > hlength) return NULL;
-  if (hlength <= 0) return NULL;
-  if (nlength <= 0) return haystack;
-  // hlength and nlength > 0, nlength <= hlength
-  for (i = 0; i <= (hlength - nlength); i++){
-    if (strncasecmp2(haystack + i, needle, nlength) == 0)
-	  return haystack + i;
-	if (haystack[i] & 0x80)
-	    i++;
-  }
-	
-
-  return NULL;
-}
 //Add End
 
 int
@@ -1806,7 +1786,7 @@ char   *query;
 		return 0;
 	while (fgets(buf, 256, fp) != NULL) {
 		//Modified by IAMFAT 2002-05-25
-		if (strcasestr2(buf, query)) {
+		if (strcasestr_zh(buf, query)) {
 			fclose(fp);
 			return YEA;
 		}
@@ -1923,7 +1903,7 @@ int search_articles(struct keeploc *locmem,
 			}
 		}
 	} else {//相关主题
-		if (strcasestr2(ptr, query) != NULL) {
+		if (strcasestr_zh(ptr, query)) {
 			if(aflag){
 				if(strcasecmp(ptr,query)) 
 					continue;
