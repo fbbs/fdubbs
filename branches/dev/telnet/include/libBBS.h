@@ -1,6 +1,6 @@
-#ifdef __LIBBBS_H
+#ifndef _LIBBBS_H_
 
-#define __LIBBBS_H
+#define _LIBBBS_H_
 
 //fileio.c
 void file_append(char *fpath,char *msg);
@@ -14,7 +14,7 @@ int touchfile(char *filename);
 int f_rm(char *fpath);
 
 //mmdecode.c
-void _mmdecode(str);
+void _mmdecode(unsigned char *str);
 
 //string.c
 char *strtolower(char *dest, char *src);
