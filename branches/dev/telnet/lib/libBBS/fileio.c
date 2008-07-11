@@ -42,7 +42,6 @@
 #include <dirent.h>
 #endif
 
-char fileio_c[] = "$Id: fileio.c 366 2007-05-12 16:35:51Z danielfree $";
 #define BLK_SIZ 4096
 
 static int rm_dir();
