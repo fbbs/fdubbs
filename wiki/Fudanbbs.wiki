@@ -2,12 +2,12 @@
 #labels fb2000
 
 = Introduction =
-It is fudan RYGH bbs source code. 
+It is fudan *RYGH* bbs source code. 
 
 
 = Details =
 
-Origined from firebird 2000
+Origined from _firebird2000_
   * Text in *bold* or _italic_
   * Headings, paragraphs, and lists
   * Automatic links to other wiki pages
