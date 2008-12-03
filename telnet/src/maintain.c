@@ -83,7 +83,8 @@ int autoreport(char *title,char *str,int toboard,char *userid,int mode)
 //		if(toboard) Postfile( fname,currboard,title,1);
 		if(toboard) {
     		if(mode == 1){
-			Postfile( fname,currboard,title,3);    	//ÓÉBMS·¢±íµÄÈÎÃü¹«?		} else if (mode == 2){
+			Postfile( fname,currboard,title,3);    	//ÓÉBMS·¢±íµÄÈÎÃü¹«¸
+		} else if (mode == 2){
 			Postfile( fname,currboard,title,2);
 		} else{
 			//mode ==
@@ -144,7 +145,7 @@ char    seekstr[STRLEN];
 		return 0;
 	while (fgets(buf, STRLEN, fp) != NULL) {
 		namep = strtok(buf, ": \n\r\t");
-		if (namep != NULL && ci_strcmp(namep, seekstr) == 0) {
+		if (namep != NULL && strcasecmp(namep, seekstr) == 0) {
 			fclose(fp);
 			strtok(NULL, "/");
 			namep = strtok(NULL, "/");

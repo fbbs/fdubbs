@@ -1,6 +1,6 @@
 /*
- * string.c			-- there's some useful function about string
- *	
+ * string.c -- there's some useful function about string
+ *
  * of SEEDNetBBS generation 1 (libtool implement)
  *
  * Copyright (c) 1998, 1999, Edward Ping-Da Chuang <edwardc@edwardc.dhs.org>
@@ -37,166 +37,115 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include <time.h>	/* for time_t prototype */
+#include <time.h> /* for time_t prototype */
 #endif
 
-char string_c[] = "$Id: string.c 2 2005-07-14 15:06:08Z root $";
-
-char * substr(char *string, int from, int to) {
-	char *result;
-	int i, j;
-
-	result = (char *)malloc(strlen(string)+1);
-
-	j = 0;
-	for (i = from; i < to+1; i++) {
-		if (string[i] == '\0'|| i >= strlen(string) )
-			break;
-		result[j] = string[i];
-		j++;
-	}
-
-	return ((char *)result);
-
-}
-
-char * stringtoken(char *string, char tag, int *log) {
-	int i, j;
-	char *result;
-
-	result = (char *)malloc(strlen(string)+1);
-
-	j = 0;
-	for (i = *log;; i++) {
-		if (i == strlen(string) || i >= strlen(string) )
-			break;
-		if (string[i] == 0)
-			break;
-		if (string[i] == tag)
-			break;
-		result[j] = string[i];
-		j++;
-	}
-
-	*log = i+1;
-	result[j] = '\0';
-	return ((char *)result);
-}
-
-/* deliverd from bbs source .. (stuff.c) */
-/* Case Independent strncmp */
-//´óÐ¡Ð´ÎÞ¹ØµÄstrncmp()
-int ci_strncmp(register char *s1, register char *s2, register int n) {
-	char c1, c2;
-
-	while (n-- > 0) {
-		c1 = *s1++;
-		c2 = *s2++;
-		if (c1 >= 'a' && c1 <= 'z')
-			c1 += 'A' - 'a';
-		if (c2 >= 'a' && c2 <= 'z')
-			c2 += 'A' - 'a';
-		if (c1 != c2)
-			return (c1 - c2);
-		if (c1 == 0)
-			return 0;
-	}
-	return 0;
-}
-
-int
-ci_strcmp( s1, s2 )
-register char *s1, *s2;
+//½«srcÖÐµÄ×Ö·û´®×ª»»³ÉÐ¡Ð´²¢´æ·ÅÔÚdestÖÐ
+char *strtolower(char *dest, char *src)
 {
-	char c1, c2;
-
-	while( 1 ) {
-		c1 = *s1++;
-		c2 = *s2++;
-		if( c1 >= 'a' && c1 <= 'z' )
-		c1 += 'A' - 'a';
-		if( c2 >= 'a' && c2 <= 'z' )
-		c2 += 'A' - 'a';
-		if( c1 != c2 )
-		return (c1 - c2);
-		if( c1 == 0 )
-		return 0;
-	}
+    char *ret = dest;
+    if (dest == NULL || src == NULL)
+        return NULL;
+    while (*src)
+        *dest++ = tolower(*src++);
+    *dest = '\0';
+    return ret;
 }
 
-//	½«srcÖÐµÄ×Ö·û´®×ª»»³ÉÐ¡Ð´²¢´æ·ÅÔÚdstÖÐ
-//	****   ÓÉµ÷ÓÃÕßÈ·±£dstËùÄÜ´æ´¢µÄÈÝÁ¿²»ÉÙÓÚsrcµÄ×Ö·û¸öÊý
-void strtolower(char *dst, char *src) {
-	for (; *src; src++)
-		*dst++ = tolower( *src);
-	*dst = '\0';
-}
-
-void strtoupper( dst, src )
-char *dst, *src;
+//½«srcÖÐµÄ×Ö·û×ª»»³É´óÐ´²¢´æ·ÅÔÚdestÖÐ
+char *strtoupper(char *dest, char *src)
 {
-	for(; *src; src++ )
-	*dst++ = toupper( *src );
-	*dst = '\0';
+    char *ret = dest;
+    if (dest == NULL || src == NULL)
+        return NULL;
+    while (*src)
+        *dest++ = toupper(*src++);
+    *dest = '\0';
+    return ret;
 }
 
-int
-is_alpha(ch)
-int ch;
+//Ö§³ÖÖÐÎÄµÄstrcasestr£¬²ÎÊýÃûÆðµÃºÜ´´Òâ°¡
+char *strcasestr_zh(char *haystack, char *needle)
 {
-	return ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z'));
+    int i;
+    int nlength;
+    int hlength;
+
+    if (haystack == NULL || needle == NULL)
+        return NULL;
+
+    nlength = strlen(needle);
+    hlength = strlen(haystack);
+
+    if (nlength > hlength)
+        return NULL;
+    if (hlength <= 0)
+        return NULL;
+    if (nlength <= 0)
+        return haystack;
+
+    for (i = 0; i <= (hlength - nlength); i++)
+    {
+        if (strncasecmp(haystack+i, needle, nlength) == 0)
+            return haystack+i;
+        if (haystack[i] & 0x80)
+            i++;
+    }
+    return NULL;
 }
 
-void my_ansi_filter(char *source) {
-	char result[500];
-	int i, flag = 0, loc=0;
-
-	for (i = 0; i < strlen(source) ; i++) {
-		if (source[i] == '') {
-			flag = 1;
-			continue;
-		} else if (flag == 1 && is_alpha(source[i]) ) {
-			flag = 0;
-			continue;
-		} else if (flag == 1) {
-			continue;
-		} else {
-			result[loc++]=source[i];
-		}
-	}
-	result[loc]='\0';
-	strncpy(source, result, loc+1);
+//½«srcÖÐµÄÄÚÈÝ¹ýÂËANSI¸´ÖÆµ½destÖÐ£¬srcºÍdest¿ÉÒÔÎªÍ¬Ò»ÇøÓò
+char *ansi_filter(char *dest, char *src)
+{
+    char *ret = dest;
+    int flag = 0;
+    if (dest == NULL || src == NULL)
+        return NULL;
+    for (; *src != '\0'; src++)
+    {
+        if (*src == '')
+            flag = 1;
+        else if (flag == 0)
+            *dest++ = *src;
+        else if (isalpha(*src))
+            flag = 0;
+    }
+    *dest = '\0';
+    return ret;
 }
 
-char * ansi_filter(char *source) {
-	char *result, ch[3];
-	int i, flag = 0, slen = strlen(source);
+char datestring[30]; //Îª¼æÈÝÒÔÇ°µÄ´úÂë£¬ÏÈÓÃ×ÅÕâ¸ö£¬ÒÔºóÔÙÖð²½È¥µô
 
-	result = (char *)malloc((slen+10)*sizeof(char));
+//Ê±¼ä×ª»» mode: 0-ÖÐÎÄ 1-Ó¢ÎÄ 2-Ó¢ÎÄ¶Ì¸ñÊ½
+int getdatestring(time_t time, int mode)
+{
+    struct tm tm;
+    char weeknum[7][3] = {"Ìì", "Ò»", "¶þ", "Èý", "ËÄ", "Îå", "Áù"};
+    char engweek[7][4] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
-	for (i = 0; i < slen; i++) {
-		if (source[i] == '') {
-			flag = 1;
-			continue;
-		} else if (flag == 1 && is_alpha(source[i]) ) {
-			flag = 0;
-			continue;
-		} else if (flag == 1) {
-			continue;
-		} else {
-			sprintf(ch, "%c", source[i]);
-			strcat(result, ch);
-		}
-	}
-
-	return (char *)result;
+    localtime_r(&time, &tm);
+    switch (mode)
+    {
+        case 0:
+            sprintf(datestring, "%4dÄê%02dÔÂ%02dÈÕ%02d:%02d:%02d ÐÇÆÚ%2s",
+                    tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+                    tm.tm_hour, tm.tm_min, tm.tm_sec, weeknum[tm.tm_wday]);
+            break;
+        case 1:
+            sprintf(datestring, "%02d/%02d/%02d %02d:%02d:%02d",
+                    tm.tm_mon + 1, tm.tm_mday, tm.tm_year - 100,
+                    tm.tm_hour, tm.tm_min, tm.tm_sec);
+            break;
+        case 2:
+            sprintf(datestring, "%02d.%02d %02d:%02d",
+                    tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min);
+            break;
+        default:
+            sprintf(datestring, "%02d/%02d/%02d %02d:%02d:%02d %3s",
+                    tm.tm_mon + 1, tm.tm_mday, tm.tm_year - 100,
+                    tm.tm_hour, tm.tm_min, tm.tm_sec, engweek[tm.tm_wday]);
+            break;
+    }
+    return (tm.tm_sec % 10);
 }
 
-// ½«Ò»¸öÕûÊýÊ±¼äÖµÂÖ»»³É ÄêÔÂÈÕÊ±·ÖÃëÖÜÈÕ¸ñÊ½,²¢·µ»Ø
-char *Cdate(time_t *clock) {
-	static char foo[23];
-	struct tm *mytm = localtime(clock);
-
-	strftime(foo, 23, "%D %T %a", mytm);
-	return (foo);
-}

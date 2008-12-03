@@ -38,7 +38,7 @@ CFLAGS   = -Os -pipe -fomit-frame-pointer -export -Wunused -I../include
 #CFLAGS   = -Os -DFDQUAN -export -Wunused -I../include   #for  water host
 #CFLAGS   =-march=pentium3 -O3 -pipe -fomit-frame-pointer -export -Wunused -I../include
 #LIBS     = -ltermcap -ldl -lrpcsvc -lbsd -lnsl -lcrypt
-LIBS	 = -lncurses -lcrypt -ldl -lgd
+LIBS	 = -lncurses -lcrypt
 #-ldmalloc
 
 INSTALL  = /usr/bin/install -c 
