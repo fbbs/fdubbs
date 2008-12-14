@@ -329,7 +329,7 @@ int cmpuids(uid, up)
 char *uid;
 struct userec *up;
 {
-	return !ci_strncmp(uid, up->userid, sizeof(up->userid));
+	return !strncasecmp(uid, up->userid, sizeof(up->userid));
 }
 
 int dosearchuser(userid)
@@ -733,63 +733,13 @@ sprintf(genbuf,
 prints(genbuf);
 }
 
-/* The following function added by Amigo 2002.04.02. Called by login_query. */
-void write_to_count(value, fname)
-int value;
-char *fname;
-{
-	FILE *fp;
-	char fbuf[STRLEN];
-
-	//modified by iamfat 2002.08.12
-	//Èç¹û´ò¿ªÎÄ¼ş³ö´í Ôò·µ»Ø
-	if (!(fp = fopen(fname, "wt")))
-	return;
-
-	/* {
-	 prints( "ÄúµÄµÇÂ¼ÈÕÖ¾ÎÄ¼ş´íÎó£¬ÇëÏòÕ¾³¤²éÑ¯£¡" );
-	 oflush();
-	 sleep(1);
-	 exit(1);
-	 } */
-	sprintf(fbuf, "%d", value);
-	fputs(fbuf, fp);
-	fclose(fp);
-}
-
-//added by iamfat 2003.10.23
-//int num_http_anon()
-//{
-//  static int num = 0;
-//  static time_t tm = 0;
-//  FILE   *fp;
-//  time_t  now = time(0);
-//
-//  if (now - tm < 60)
-//    return num;
-//  tm = now;
-//  fp = fopen("tmp/http_anon_count", "r");
-//  if (!fp)
-//    return 0;
-//  fscanf(fp, "%d", &num);
-//  fclose(fp);
-//  return num;
-//}
-
-//added end
-
 void login_query() {
 	char uid[IDLEN + 2];
 	char passbuf[PASSLEN];
 	int curr_login_num;
 	int attempts;
 	char genbuf[STRLEN];
-
-	/* The following 4 lines are added by Amigo 2002.04.02. */
-	char logfile[STRLEN];
-	FILE *fp, *fn;
-	double passsec;
-	int counter;
+	FILE *fn;
 	char *ptr;
 	extern struct UTMPFILE *utmpshm;
 	int i, j, tmpid, tmpcount, sflag[10][2]; /*2003.04.22 added by stephen */
@@ -1029,78 +979,15 @@ void login_query() {
 				}
 
 				/*2003.04.22 stephen add end*/
-#ifdef CHECK_LESS60SEC
-				if (!HAS_PERM(PERM_SYSOPS) && strcasecmp(currentuser.userid, "guest")
-						!= 0) {
-					//prints("ÄúÔÚ 60 ÃëÄÚÖØ¸´ÉÏÕ¾.Çë°´ [1;36mCtrl+C[m ¼üÈ·ÈÏÄúµÄÉí·İ: ");
-					/* modified by roly 02.03.27 */
-					int add1, add2;
-
-					/* Added by Amigo 2002.04.02. To prevent login machine. */
-					sprintf(logfile, "home/%c/%s/logcount",
-							toupper(currentuser.userid[0]), currentuser.userid);
-					if (!(fp = fopen(logfile, "rt"))) {
-						write_to_count(10, logfile);
-						counter = 10;
-					} else {
-						fgets(genbuf, STRLEN, fp);
-						genbuf[2] = '\0';
-						counter = atoi(genbuf);
-						fclose(fp);
-					}
-
-					passsec = abs(time(0) - currentuser.lastlogin);
-					if (passsec >= 1200) {
-						write_to_count(10, logfile);
-						counter = 10;
-					} else if (passsec < 90) {
-						write_to_count(counter - 2, logfile);
-						counter -= 2;
-					} else if (passsec < 150) {
-						write_to_count(--counter, logfile);
-					}
-
-					/**
-					 * ÈÕ  ÆÚ£º2007.12.7
-					 * Î¬»¤Õß£ºAnonomous
-					 * ´úÂë¶Î£ºÏÂÃæµÄif(counter <= 0)Ò»¶Î¡£
-					 * ±¸  ×¢£ºDon't kick him/her off if the user's logins are too frequent.
-					 *         Instead, the user's numlogins doesn't get increased within 20 mins
-					 *         since his/her last login. This is done by the codes below (aproximately
-					 *         at line 1505).
-					 *
-					 *         However, such behaviors should be reported as potential danger. So we
-					 *         still need to log it.
-					 */
-					if (counter <= 0) {
-						/*prints("ÄúµÄµÇÂ¼¹ıÓÚÆµ·±£¬ÇëĞİÏ¢20·ÖÖÓºóÔÙÀ´£¡");*/
-						securityreport("µÇÂ¼¹ıÓÚÆµ·±", 0, 3);
-						/*oflush();*/
-						/*sleep(3);*/
-						report("Too Frequently");
-						/*exit(1);*/
-					}
-
-					if (passsec < 60) {
-						/* Add end. */
-						randomize();
-						add1 = rand() % 5;
-						add2 = rand() % 6;
-						prints
-						("ÄúÔÚ 60 ÃëÄÚÖØ¸´ÉÏÕ¾.àÅ£¬ÄúÖªµÀ [1;36m%d + %d = ?[m ¶àÉÙÃ´? Çë°´´Ë¼ü",
-								add1, add2);
-						genbuf[0] = igetkey();
-						//if ( genbuf[0] != Ctrl('C') ) 
-						if (genbuf[0] != '0' + add1 + add2) {
-							//prints("\n¶Ô²»Æğ£¬Äú²¢Ã»ÓĞ°´ÏÂ CTRL+C ¼ü£¡Äú²»ÄÜ½øÈë±¾Õ¾\n");
-							prints("\n¶Ô²»Æğ,ÄúÃ»ÓĞËã³ö´ËÌâ£¡ Äú²»ÄÜ½øÈë±¾Õ¾\n");
-							prints("ÈôÓĞÒÉÎÊÇëÍ¨ÖªÕ¾ÎñÈËÔ±, Ğ»Ğ».\n");
-							oflush();
-							sleep(3);
-							exit(1);
-						}
-						prints("\n");
-					}
+#ifdef CHECK_FREQUENTLOGIN
+				if (!HAS_PERM(PERM_SYSOPS)
+                        && strcasecmp(currentuser.userid, "guest") != 0
+                        && abs(time(0) - currentuser.lastlogin) < 10) {
+                    prints("µÇÂ¼¹ıÓÚÆµ·±£¬ÇëÉÔºòÔÙÀ´\n");
+                    report("Too Frequent");
+                    oflush();
+                    sleep(3);
+                    exit(1);
 				}
 #endif
 
@@ -1202,7 +1089,7 @@ void notepad_init() {
 		}
 		getdatestring(now, NA);
 		sprintf(notetitle, "[%s] ÁôÑÔ°å¼ÇÂ¼", datestring);
-		if (dashf("etc/notepad", "r")) {
+		if (dashf("etc/notepad")) {
 			Postfile("etc/notepad", "Notepad", notetitle, 1);
 			unlink("etc/notepad");
 		}
@@ -1423,62 +1310,6 @@ void user_login() {
 	}
 
 	set_safe_record();
-	/*2003.04.22 added by stephen to make give up bbs user back */
-	/*use "char * genbuf" as template buffer for fileName need care */
-	/*2003.05.02 commented by stephen,set this func in login_query */
-	/*
-	 sethomefile(genbuf, currentuser.userid, "giveupBBS");
-	 fn = fopen(genbuf, "rt");
-	 if (fn) {
-	 while (!feof(fn)) {
-	 if (fscanf(fn, "%d %d", &i, &j) <= 0)
-	 break;
-
-	 s[lcount][0] = i;
-	 s[lcount][1] = j;
-	 lcount++;
-	 }
-
-	 fclose(fn);
-	 tmpnum = lcount;
-
-	 for (i = 0; i < lcount; i++) {
-	 if (s[i][1] <= time(0) / 3600 / 24) {
-	 tmpnum--;
-	 switch (s[i][0]) {
-	 case 1:
-	 currentuser.userlevel |= PERM_LOGIN;
-	 break;
-	 case 2:
-	 currentuser.userlevel |= PERM_POST;
-	 break;
-	 case 3:
-	 currentuser.userlevel |= PERM_TALK;
-	 break;
-	 case 4:
-	 currentuser.userlevel |= PERM_MAIL;
-	 break;
-	 }
-	 s[i][1] = 0;
-	 }
-	 }
-
-	 if (currentuser.flags[0] & GIVEUPBBS_FLAG && tmpnum == 0)
-	 currentuser.flags[0] &= ~GIVEUPBBS_FLAG;
-	 if (tmpnum == 0)
-	 unlink(genbuf);
-	 else {
-	 fn = fopen(genbuf, "wt");
-	 for (i = 0; i < lcount; i++)
-	 if (s[i][1] > 0)
-	 fprintf(fn, "%d %d\n", s[i][0], s[i][1]);
-	 fclose(fn);
-	 }
-
-	 }
-	 */
-	/*2003.05.02 commented by stephen */
-	/*2003.04.22 stephen add end */
 	check_uinfo(&currentuser, 0);
 	strncpy(currentuser.lasthost, fromhost, 16);
 	currentuser.lasthost[15] = '\0'; /* dumb mistake on my part */
@@ -1495,16 +1326,9 @@ void user_login() {
 		} else
 			stay = 0;
 
-		/**
-		 * ÈÕ  ÆÚ£º2007.12.7
-		 * Î¬»¤Õß£ºAnonomous
-		 * ´úÂë¶Ï£º´ÓÏÂÃæµÄif(login_start_time - currentuser.lastlogin > 20 * 60)¿ªÊ¼6ĞĞ¡£
-		 * ±¸  ×¢£º
-		 *         Jugde if current user logined within 20 mins since his/her last login.
-		 *         If so, don't increase his/her numlogins. ;)
-		 */
-		if (login_start_time - currentuser.lastlogin >= 20*60 || !strcmp(
-				currentuser.userid, "guest")) {
+		if (login_start_time - currentuser.lastlogin >= 20 * 60
+				|| !strcmp(currentuser.userid, "guest")
+				|| currentuser.numlogins < 100){
 			currentuser.numlogins++;
 		}
 		currentuser.lastlogin = login_start_time;
