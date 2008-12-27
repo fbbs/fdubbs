@@ -70,7 +70,6 @@
 #define OFFLINE         45
 #define EDITANN         46
 #define WWW             47
-#define CCUGOPHER       48
 #define LOOKMSGS        49
 #define WFRIEND         50
 #define SYSINFO	        51
