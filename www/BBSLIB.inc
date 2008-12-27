@@ -803,7 +803,7 @@ int hhprintf(char *fmt, ...) {
                     //polygon<<
                     //
                     //if(strstr(ltmp, ".gif"))
-                    if(true)//Disable the thumbnail
+                    if(1)//Disable the thumbnail
                     {
                         printf("<IMG border=0 SRC='%s' onload='javascript:if(this.width>(screen.width*0.85))this.width=(screen.width*0.85)'>", nohtml(tmp));
                     }else
@@ -1697,22 +1697,6 @@ char   *cperf(int perf) {
         if (perf < 1000) return GLY_CPERFA;
 	return GLY_CPERFB;
 }
-
-/*2003.06.02 modified by stephen to sync web mode life count*/
-int count_life_value(struct userec *urec) {
-	int i;
-	i=(time(0) - urec->lastlogin)/60;
-	if((urec->userlevel & PERM_LONGLIFE) && !(urec->userlevel & PERM_XEMPT))
-	        return (366*24*60-i)/1440;
-	if((urec->userlevel & PERM_XEMPT) && (urec->userlevel & PERM_LONGLIFE) ||!strcasecmp(urec->userid, "guest"))
-        	return 999;
-	if((urec->userlevel & PERM_XEMPT) && !(urec->userlevel & PERM_LONGLIFE))
-	        return 666;
-	if(!(urec->userlevel & PERM_REGISTER))
-		return (15*1440-i)/1440;
-	return (90*1440-i)/1440;
-}
-/*2003.06.02 stephen modify end*/
 
 int countexp(struct userec *x) {
         int tmp;

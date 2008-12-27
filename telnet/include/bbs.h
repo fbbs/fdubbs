@@ -5,10 +5,7 @@
 #ifndef  _BBS_H_
 #define _BBS_H_
 
-#ifndef BBSIRC
-
-/* Global includes, needed in most every source file... */
-
+/* Global includes, needed in almost every source file... */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -35,12 +32,12 @@
 #include <dmalloc.h>
 #endif
 
-#include "types.h"
 #include "config.h"             	/* User-configurable stuff */
 
 #include "glossary.h"
 #include "functions.h"				/* you can enable functions that you want */
 #include "permissions.h"
+#include "libBBS.h"
 
 #ifndef LOCK_EX
 #define LOCK_EX         2       /* exclusive lock */
@@ -57,13 +54,6 @@ extern int errno; //出错信息编号
 
 #define DOECHO (1)     /* Flags to getdata input function */
 #define NOECHO (0)
-
-char * bfile();
-
-extern FILE *ufp; /* External variable declarations */
-extern long ti;
-
-#endif /* BBSIRC */
 
 /*Added by Ashinmarch on 12.24
  *to support multi-line msgs
@@ -129,8 +119,6 @@ extern long ti;
 #define ULIST_BASE   ".UTMP"       /* Names of users currently on line */
 extern char ULIST[];
 
-#ifndef BBSIRC 
-
 #define FLUSH       ".PASSFLUSH"   /* Stores date for user cache flushing */
 #define BOARDS      ".BOARDS"      /* File containing list of boards */
 #define DOT_DIR     ".DIR"         /* Name of Directory file info */
@@ -185,6 +173,7 @@ extern char ULIST[];
 #define FILE_NOTICE     0x01
 #define FILE_SUBDEL     0x02
 #define FILE_LASTONE	0x04
+#define FILE_IMPORTED   0x08
 
 /*	版面的标志		*/
 #define BOARD_VOTE_FLAG    	0x1		//投票模式
@@ -210,8 +199,6 @@ extern char ULIST[];
 #define GIVEUPBBS_FLAG  0x80  /* true if the user give up BBs now (2003.04.22 stephen)*/
 #define ACTIVE_BOARD 	0x200 /* true if user toggled active movie board on */
 
-#define MSG_SEPERATOR   "\
-———————————————————————————————————————"
 #define MULTI_LOGINS	2	/* 同时可上站 ID 数 */
 #ifndef FDQUAN
 #define IPMAXLOGINS		5	// 同IP同时上站ID数
@@ -225,22 +212,10 @@ extern char ULIST[];
 #define FRIENDMSG_PAGER 0x8
 #define LOGOFFMSG_PAGER 0x10   /* Amigo 2002.04.03 */
 
-#define SHIFTMODE(usernum,mode) ((usernum<MAXUSERS)?mode:mode<<4)
-
-#define SETFILEMODE(array,usernum,mode) \
-     (array[usernum%MAXUSERS] |= ((usernum<MAXUSERS)?mode:mode<<4))
-
-#define CLRFILEMODE(array,usernum,mode) \
-          (array[usernum%MAXUSERS] &= ((usernum<MAXUSERS)?~mode:~(mode<<4)))
-
-#define CHECKFILEMODE(array,usernum,mode) \
-       (array[usernum%MAXUSERS] & ((usernum<MAXUSERS)?mode:mode<<4))
 #define USERIDSIZE 		(16)
 #define USERNAMESZ 		(24)
 #define TERMTYPESZ 		(10)
 /* END */
-
-#endif /* BBSIRC */
 
 #ifndef NO_STRUCT_H
 #include "struct.h"
@@ -311,10 +286,7 @@ extern int t_lines, t_columns; /* Screen size / width */
 extern struct userec lookupuser; /* Used when searching for other user info */
 
 #endif					/* NO_STRUCT_H */
-extern char someoneDIR[];
-extern int nettyNN;
-extern char netty_path[];
-extern char netty_board[];
+
 extern char currboard[]; /* name of currently selected board */
 extern char currBM[]; /* BM of currently selected board */
 
@@ -407,13 +379,7 @@ extern int editansi;
 extern int KEY_ESC_arg;
 /* ============================================ */
 
-/* Added by deardragon 1999.11.2 */
 extern char datestring[];
-/* Added End. */
-
-/* added by iamfat 2002.08.29 */
-//extern int technician;
-/* added end. */
 
 //added by iamfat 2003.02.27
 #define DEBUG(x) {file_append("debug", #x"\n");x;}	//调试模式

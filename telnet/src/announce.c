@@ -122,7 +122,7 @@ void a_showmenu(MENU *pm) {
 				mtime = time(0);
 			}
 			pt = localtime(&mtime);
-			sprintf(fname, "[[1m%02d[m.[1m%02d[m.[1m%02d[m]",
+			sprintf(fname, "[%02d.%02d.%02d]",
 					pt->tm_year%100, pt->tm_mon + 1, pt->tm_mday);
 			ch = ' ';
 		}
@@ -495,6 +495,8 @@ int a_Import(char *path, char* key, int ent, struct fileheader *fileinfo,
 		sprintf(genbuf, "/bin/cp -r boards/%s/%s %s", key,
 				fileinfo->filename, bname);
 	system(genbuf);
+	fileinfo->accessed[1] |= FILE_IMPORTED;
+	substitute_record(direct, fileinfo, sizeof(*fileinfo), ent);
 	if (!nomsg && !DEFINE(DEF_MULTANNPATH)) {
 		presskeyfor("ÒÑ½«¸ÃÎÄÕÂ·Å½ø¾«»ªÇø, Çë°´<Enter>¼ÌÐø...", t_lines-1);
 	}
