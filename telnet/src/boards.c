@@ -32,7 +32,7 @@
 #define BRC_STRLEN      20
 //modified by roly form 15 to 20 02.03.25
 #define BRC_ITEMSIZE    (BRC_STRLEN + 1 + BRC_MAXNUM * sizeof( int ))
-//#define GOOD_BRC_NUM	40	//modfied by money 2003.10.17 //ÒÆµ½bbs.hÀï cometcaptor 2007-04-23
+//#define GOOD_BRC_NUM	40	//modfied by money 2003.10.17 //ç§»åˆ°bbs.hé‡Œ cometcaptor 2007-04-23
 
 char brc_buf[BRC_MAXSIZE];
 int brc_size, brc_changed = 0;
@@ -57,7 +57,7 @@ struct newpostdata {
 
 struct goodboard {
 	//char            ID[GOOD_BRC_NUM][BRC_STRLEN];
-	//changed by cometcaptor 2007-04-17 ÎªÔö¼Ó×Ô¶¨ÒåÄ¿Â¼¹¦ÄÜ
+	//changed by cometcaptor 2007-04-17 ä¸ºå¢åŠ è‡ªå®šä¹‰ç›®å½•åŠŸèƒ½
 	struct goodbrdheader boards[GOOD_BRC_NUM];
 	int nowpid;
 	int num;
@@ -114,7 +114,7 @@ void GoodBrds() {
 void New() {
 	if (heavyload()) {
 		clear();
-		prints("±§Ç¸£¬Ä¿Ç°ÏµÍ³¸ººÉ¹ıÖØ£¬Çë¸ÄÓÃ Boards Ö¸ÁîÔÄÀÀÌÖÂÛÇø...");
+		prints("æŠ±æ­‰ï¼Œç›®å‰ç³»ç»Ÿè´Ÿè·è¿‡é‡ï¼Œè¯·æ”¹ç”¨ Boards æŒ‡ä»¤é˜…è§ˆè®¨è®ºåŒº...");
 		pressanykey();
 		return;
 	}
@@ -126,7 +126,7 @@ void New() {
 }
 
 //int inGoodBrds (char *bname)
-int inGoodBrds(int pos) //modified by cometcaptor 2007-04-21 ¼ò»¯²éÕÒÁ÷³Ì
+int inGoodBrds(int pos) //modified by cometcaptor 2007-04-21 ç®€åŒ–æŸ¥æ‰¾æµç¨‹
 {
 	int i;
 	for (i = 0; i < GoodBrd.num && i < GOOD_BRC_NUM; i++)
@@ -161,7 +161,7 @@ void load_GoodBrd() {
 
 	GoodBrd.num = 0;
 	setuserfile(fname, ".goodbrd");
-	//modified by cometcaptor 2007-04-23 ÊÕ²Ø¼Ğ×Ô¶¨ÒåÄ¿Â¼
+	//modified by cometcaptor 2007-04-23 æ”¶è—å¤¹è‡ªå®šä¹‰ç›®å½•
 	if ((fp = fopen(fname, "rb"))) {
 		while (fread(&GoodBrd.boards[GoodBrd.num],
 				sizeof(struct goodbrdheader), 1, fp)) {
@@ -170,9 +170,9 @@ void load_GoodBrd() {
 			else {
 				i = GoodBrd.boards[GoodBrd.num].pos;
 				if ((bcache[i].filename[0]) && (bcache[i].flag
-						& BOARD_POST_FLAG //pÏŞÖÆ°æÃæ
-						|| HAS_PERM(bcache[i].level) //È¨ÏŞ×ã¹»
-				||(bcache[i].flag & BOARD_NOZAP_FLAG))) //²»¿Ézap
+						& BOARD_POST_FLAG //pé™åˆ¶ç‰ˆé¢
+						|| HAS_PERM(bcache[i].level) //æƒé™è¶³å¤Ÿ
+				||(bcache[i].flag & BOARD_NOZAP_FLAG))) //ä¸å¯zap
 					GoodBrd.num++;
 			}
 			if (GoodBrd.num == GOOD_BRC_NUM)
@@ -277,7 +277,7 @@ void add_GoodBrd(char *bname, int pid) //cometcaptor 2007-04-21
 		strcpy(GoodBrd.boards[GoodBrd.num].filename, bcache[i].filename);
 		strcpy(GoodBrd.boards[GoodBrd.num].title, bcache[i].title);
 		GoodBrd.boards[GoodBrd.num].flag = bcache[i].flag;
-		//»¹ÊÇ²»ÒªÓÃÄÇÃ´¸´ÔÓµÄÑ­»·ÕÒ¿ÕÁË£¬Ã»±ØÒª
+		//è¿˜æ˜¯ä¸è¦ç”¨é‚£ä¹ˆå¤æ‚çš„å¾ªç¯æ‰¾ç©ºäº†ï¼Œæ²¡å¿…è¦
 		if (GoodBrd.num)
 			GoodBrd.boards[GoodBrd.num].id
 					= GoodBrd.boards[GoodBrd.num-1].id + 1;
@@ -290,15 +290,15 @@ void add_GoodBrd(char *bname, int pid) //cometcaptor 2007-04-21
 
 void mkdir_GoodBrd(char *dirname, char *dirtitle, int pid)//cometcaptor 2007-04-21
 {
-	//pidÔİÊ±ÊÇ¸ö²»Ê¹ÓÃµÄ²ÎÊı£¬ÒòÎª²»´òËã½¨¶ş¼¶Ä¿Â¼£¨É¾³ıÄ¿Â¼µÄ´úÂëÄ¿Â¼ÈÔ²»ÍêÉÆ£©
+	//pidæš‚æ—¶æ˜¯ä¸ªä¸ä½¿ç”¨çš„å‚æ•°ï¼Œå› ä¸ºä¸æ‰“ç®—å»ºäºŒçº§ç›®å½•ï¼ˆåˆ é™¤ç›®å½•çš„ä»£ç ç›®å½•ä»ä¸å®Œå–„ï¼‰
 	if (GoodBrd.num < GOOD_BRC_NUM) {
 		GoodBrd.boards[GoodBrd.num].pid = 0;
 		strcpy(GoodBrd.boards[GoodBrd.num].filename, dirname);
-		strcpy(GoodBrd.boards[GoodBrd.num].title, "~[ÊÕ²Ø] ¡ğ ");
+		strcpy(GoodBrd.boards[GoodBrd.num].title, "~[æ”¶è—] â—‹ ");
 		if (dirtitle[0] != '\0')
 			strcpy(GoodBrd.boards[GoodBrd.num].title+11, dirtitle);
 		else
-			strcpy(GoodBrd.boards[GoodBrd.num].title+11, "×Ô¶¨ÒåÄ¿Â¼");
+			strcpy(GoodBrd.boards[GoodBrd.num].title+11, "è‡ªå®šä¹‰ç›®å½•");
 		GoodBrd.boards[GoodBrd.num].flag = BOARD_DIR_FLAG
 				| BOARD_CUSTOM_FLAG;
 		GoodBrd.boards[GoodBrd.num].pos = -1;
@@ -314,7 +314,7 @@ void mkdir_GoodBrd(char *dirname, char *dirtitle, int pid)//cometcaptor 2007-04-
 
 void rmdir_GoodBrd(int id)//cometcaptor 2007-04-21
 {
-	//Ä¿Â¼Ã»ÓĞ¶Ô¶ş¼¶Ä¿Â¼Ç¶Ì×É¾³ıµÄ¹¦ÄÜ£¬Ò²ÒòÎªÕâ¸öÏŞÖÆ£¬ÊÕ²Ø¼ĞÄ¿Â¼²»ÔÊĞí½¨Á¢¶ş¼¶Ä¿Â¼
+	//ç›®å½•æ²¡æœ‰å¯¹äºŒçº§ç›®å½•åµŒå¥—åˆ é™¤çš„åŠŸèƒ½ï¼Œä¹Ÿå› ä¸ºè¿™ä¸ªé™åˆ¶ï¼Œæ”¶è—å¤¹ç›®å½•ä¸å…è®¸å»ºç«‹äºŒçº§ç›®å½•
 	int i, n = 0;
 	for (i = 0; i < GoodBrd.num; i++) {
 		if (((GoodBrd.boards[i].flag & BOARD_CUSTOM_FLAG)
@@ -365,7 +365,7 @@ int load_boards() {
 	for (n = 0; n < numboards; n++) {
 		bptr = &bcache[n];
 		if (!(bptr->filename[0]))
-			continue; /* Òş²Ø±»É¾³ıµÄ°æÃæ */
+			continue; /* éšè—è¢«åˆ é™¤çš„ç‰ˆé¢ */
 		if (goodbrd == 0) {
 			if (!(bptr->flag & BOARD_POST_FLAG) && !HAS_PERM(bptr->level)
 					&& !(bptr->flag & BOARD_NOZAP_FLAG))
@@ -386,8 +386,8 @@ int load_boards() {
 						bptr->title[0]) == NULL && boardprefix[0] != '*')
 					continue;
 				if (boardprefix != NULL && boardprefix[0] == '*') {
-					if (!strstr(bptr->title, "¡ñ") && !strstr(bptr->title,
-							"¡Ñ") && bptr->title[0] != '*')
+					if (!strstr(bptr->title, "â—") && !strstr(bptr->title,
+							"âŠ™") && bptr->title[0] != '*')
 						continue;
 				}
 				if (boardprefix == NULL && bptr->title[0] == '*')
@@ -426,7 +426,7 @@ int load_boards() {
 			}
 		}
 	}
-	//added by cometcaptor 2007-04-21 ¶ÁÈ¡×Ô¶¨ÒåÄ¿Â¼
+	//added by cometcaptor 2007-04-21 è¯»å–è‡ªå®šä¹‰ç›®å½•
 	if (goodbrd) {
 		for (n = 0; n<GoodBrd.num && n<GOOD_BRC_NUM; n++) {
 			if ((GoodBrd.boards[n].flag & BOARD_CUSTOM_FLAG)
@@ -471,7 +471,7 @@ int search_board(int *num) {
 	while (1) {
 		move(t_lines - 1, 0);
 		clrtoeol();
-		prints("ÇëÊäÈëÒªÕÒÑ°µÄ board Ãû³Æ£º%s", bname);
+		prints("è¯·è¾“å…¥è¦æ‰¾å¯»çš„ board åç§°ï¼š%s", bname);
 		ch = egetch();
 
 		if (isprint2(ch)) {
@@ -481,7 +481,7 @@ int search_board(int *num) {
 					tmpn = YEA;
 					*num = n;
 					if (!strcmp(nbrd[n].name, bname))
-						return 1 /* ÕÒµ½ÀàËÆµÄ°æ£¬»­ÃæÖØ»­
+						return 1 /* æ‰¾åˆ°ç±»ä¼¼çš„ç‰ˆï¼Œç”»é¢é‡ç”»
 						 */;
 				}
 			}
@@ -513,7 +513,7 @@ int search_board(int *num) {
 	if (find) {
 		move(t_lines - 1, 0);
 		clrtoeol();
-		return 2 /* ½áÊøÁË */;
+		return 2 /* ç»“æŸäº† */;
 	}
 	return 1;
 }
@@ -646,11 +646,11 @@ int page, clsflag, newflag;
 	char buf[20];
 
 	if (currentuser.flags[0] & BRDSORT_FLAG) {
-		strcpy (buf, "[ÌÖÂÛÇøÁĞ±í] [×ÖÄ¸]");
+		strcpy (buf, "[è®¨è®ºåŒºåˆ—è¡¨] [å­—æ¯]");
 	} else if (currentuser.flags[0] & BRDSORT_ONLINE) {
-		strcpy (buf, "[ÌÖÂÛÇøÁĞ±í] [ÔÚÏß]");
+		strcpy (buf, "[è®¨è®ºåŒºåˆ—è¡¨] [åœ¨çº¿]");
 	} else {
-		strcpy (buf, "[ÌÖÂÛÇøÁĞ±í] [·ÖÀà]");
+		strcpy (buf, "[è®¨è®ºåŒºåˆ—è¡¨] [åˆ†ç±»]");
 	}
 
 	//countbrdonline();
@@ -658,21 +658,21 @@ int page, clsflag, newflag;
 	if (clsflag) {
 		clear ();
 		docmdtitle (buf,
-				" [mÖ÷Ñ¡µ¥[[1;32m¡û[m,[1;32me[m] ÔÄ¶Á[[1;32m¡ú[m,[1;32mRtn[m] Ñ¡Ôñ[[1;32m¡ü[m,[1;32m¡ı[m] ÁĞ³ö[[1;32my[m] ÅÅĞò[[1;32ms[m] ËÑÑ°[[1;32m/[m] ÇĞ»»[[1;32mc[m] ÇóÖú[[1;32mh[m]\n");
+				" [mä¸»é€‰å•[[1;32mâ†[m,[1;32me[m] é˜…è¯»[[1;32mâ†’[m,[1;32mRtn[m] é€‰æ‹©[[1;32mâ†‘[m,[1;32mâ†“[m] åˆ—å‡º[[1;32my[m] æ’åº[[1;32ms[m] æœå¯»[[1;32m/[m] åˆ‡æ¢[[1;32mc[m] æ±‚åŠ©[[1;32mh[m]\n");
 		/*
-		 prints("[1;44;37m %s ÌÖÂÛÇøÃû³Æ       V  Àà±ğ  ×ª %-25s S °æ  Ö÷   %s   [m\n",
-		 newflag ? "È«²¿  Î´" : "±àºÅ  ", "ÖĞ  ÎÄ  Ğğ  Êö", newflag ? "" : "   "); */
+		 prints("[1;44;37m %s è®¨è®ºåŒºåç§°       V  ç±»åˆ«  è½¬ %-25s S ç‰ˆ  ä¸»   %s   [m\n",
+		 newflag ? "å…¨éƒ¨  æœª" : "ç¼–å·  ", "ä¸­  æ–‡  å™  è¿°", newflag ? "" : "   "); */
 		//Modified by IAMFAT 2002-05-26
 		//Modified by IAMFAT 2002-05-29
 		//Modified by IAMFAT 2002-06-11
 		/*
-		 prints("[1;44;37m %s ÌÖÂÛÇøÃû³Æ       V  Àà±ğ  ×ª %-25s S °æ  Ö÷   %s  [m\n",
-		 newflag ? "È« ²¿  Î´" : "±à ºÅ  ", "ÖĞ  ÎÄ  Ğğ  Êö", newflag ? "" : "   "); */
+		 prints("[1;44;37m %s è®¨è®ºåŒºåç§°       V  ç±»åˆ«  è½¬ %-25s S ç‰ˆ  ä¸»   %s  [m\n",
+		 newflag ? "å…¨ éƒ¨  æœª" : "ç¼– å·  ", "ä¸­  æ–‡  å™  è¿°", newflag ? "" : "   "); */
 		prints
-		("[1;44;37m %s ÌÖÂÛÇøÃû³Æ        V  Àà±ğ  %-20s S °æ  Ö÷        ÔÚÏß [m\n",
-				newflag ? "È« ²¿  Î´" : "±à ºÅ  Î´", "ÖĞ  ÎÄ  Ğğ  Êö");
-		//              prints("[1;44;37m %s ÌÖÂÛÇøÃû³Æ       V  Àà±ğ  %-25s S °æ  Ö÷   %s     [m\n",
-		//                      newflag ? "È« ²¿  Î´" : "±à ºÅ  ", "ÖĞ  ÎÄ  Ğğ  Êö", newflag ? "" : "  ");
+		("[1;44;37m %s è®¨è®ºåŒºåç§°        V  ç±»åˆ«  %-20s S ç‰ˆ  ä¸»        åœ¨çº¿ [m\n",
+				newflag ? "å…¨ éƒ¨  æœª" : "ç¼– å·  æœª", "ä¸­  æ–‡  å™  è¿°");
+		//              prints("[1;44;37m %s è®¨è®ºåŒºåç§°       V  ç±»åˆ«  %-25s S ç‰ˆ  ä¸»   %s     [m\n",
+		//                      newflag ? "å…¨ éƒ¨  æœª" : "ç¼– å·  ", "ä¸­  æ–‡  å™  è¿°", newflag ? "" : "  ");
 	}
 	move (3, 0);
 	for (n = page; n < page + BBS_PAGESIZE; n++) {
@@ -689,14 +689,14 @@ int page, clsflag, newflag;
 		if (!newflag)
 		prints (" %5d", (n + 1));
 		else if (ptr->flag & BOARD_DIR_FLAG)
-		prints ("  Ä¿Â¼");
+		prints ("  ç›®å½•");
 		else
 		prints (" %5d", ptr->total);
 
 		if (ptr->flag & BOARD_DIR_FLAG)
-		prints ("  £«");
+		prints ("  ï¼‹");
 		else
-		prints ("  %s", ptr->unread ? "¡ô" : "¡ó");
+		prints ("  %s", ptr->unread ? "â—†" : "â—‡");
 		if (!(ptr->flag & BOARD_CUSTOM_FLAG)) //added by cometcaptor 2007-04-23   
 		strcpy (tmpBM, ptr->BM);
 		strncpy (cate, ptr->title + 1, 6);
@@ -710,10 +710,10 @@ int page, clsflag, newflag;
 				? "[1;31mc[m" : "[1;33mc[m" : " ",
 				cate, title, HAS_PERM (PERM_POST) ? ptr->status : ' ');
 		if (ptr->flag & BOARD_DIR_FLAG)
-		prints ("[Ä¿Â¼]\n");
+		prints ("[ç›®å½•]\n");
 		else
 		prints ("%-12s %4d\n",
-				ptr->BM[0] <= ' ' ? "³ÏÕ÷°æÖ÷ÖĞ" : strtok (tmpBM, " ")
+				ptr->BM[0] <= ' ' ? "è¯šå¾ç‰ˆä¸»ä¸­" : strtok (tmpBM, " ")
 #ifdef NEWONLINECOUNT
 				, brdshm->bstatus[ptr->pos].inboard
 #else
@@ -750,40 +750,40 @@ int show_board_info(char *board) {
 	bp = getbcache(board);
 	bs = getbstat(board);
 	clear();
-	prints("°æÃæÏêÏ¸ĞÅÏ¢:\n\n");
+	prints("ç‰ˆé¢è¯¦ç»†ä¿¡æ¯:\n\n");
 	prints("number  :     %d\n", getbnum(bp->filename));
-	prints("Ó¢ÎÄÃû³Æ:     %s\n", bp->filename);
-	prints("ÖĞÎÄÃû³Æ:     %s\n", (HAS_PERM(PERM_SPECIAL0)) ? bp->title
+	prints("è‹±æ–‡åç§°:     %s\n", bp->filename);
+	prints("ä¸­æ–‡åç§°:     %s\n", (HAS_PERM(PERM_SPECIAL0)) ? bp->title
 			: (bp->title + 11));
-	prints("°æ    Ö÷:     %s\n", bp->BM);
-	prints("ËùÊôÌÖÂÛÇø:   %s\n", bp->group ? bcache[bp->group - 1].filename
-			: "ÎŞ");
-	prints("ÊÇ·ñÄ¿Â¼:     %s\n", (bp->flag & BOARD_DIR_FLAG) ? "Ä¿Â¼" : "°æÃæ");
-	prints("¿ÉÒÔ ZAP:     %s\n", (bp->flag & BOARD_NOZAP_FLAG) ? "²»¿ÉÒÔ"
-			: "¿ÉÒÔ");
+	prints("ç‰ˆ    ä¸»:     %s\n", bp->BM);
+	prints("æ‰€å±è®¨è®ºåŒº:   %s\n", bp->group ? bcache[bp->group - 1].filename
+			: "æ— ");
+	prints("æ˜¯å¦ç›®å½•:     %s\n", (bp->flag & BOARD_DIR_FLAG) ? "ç›®å½•" : "ç‰ˆé¢");
+	prints("å¯ä»¥ ZAP:     %s\n", (bp->flag & BOARD_NOZAP_FLAG) ? "ä¸å¯ä»¥"
+			: "å¯ä»¥");
 
 	if (!(bp->flag & BOARD_DIR_FLAG)) {
-		prints("ÔÚÏßÈËÊı:     %d ÈË\n", bs->inboard);
-		prints("ÎÄ ÕÂ Êı:     %s\n", (bp->flag & BOARD_JUNK_FLAG) ? "²»¼ÆËã"
-				: "¼ÆËã");
-		prints("¿ÉÒÔ»Ø¸´:     %s\n", (bp->flag & BOARD_NOREPLY_FLAG) ? "²»¿ÉÒÔ"
-				: "¿ÉÒÔ");
-		//prints ("¿ÉÒÔ ZAP:     %s\n",
-		//	    (bp->flag & BOARD_NOZAP_FLAG) ? "²»¿ÉÒÔ" : "¿ÉÒÔ");
-		prints("Ää Ãû °æ:     %s\n", (bp->flag & BOARD_ANONY_FLAG) ? "ÊÇ"
-				: "·ñ");
+		prints("åœ¨çº¿äººæ•°:     %d äºº\n", bs->inboard);
+		prints("æ–‡ ç«  æ•°:     %s\n", (bp->flag & BOARD_JUNK_FLAG) ? "ä¸è®¡ç®—"
+				: "è®¡ç®—");
+		prints("å¯ä»¥å›å¤:     %s\n", (bp->flag & BOARD_NOREPLY_FLAG) ? "ä¸å¯ä»¥"
+				: "å¯ä»¥");
+		//prints ("å¯ä»¥ ZAP:     %s\n",
+		//	    (bp->flag & BOARD_NOZAP_FLAG) ? "ä¸å¯ä»¥" : "å¯ä»¥");
+		prints("åŒ¿ å ç‰ˆ:     %s\n", (bp->flag & BOARD_ANONY_FLAG) ? "æ˜¯"
+				: "å¦");
 #ifdef ENABLE_PREFIX
-		prints ("Ç¿ÖÆÇ°×º:     %s\n",
-				(bp->flag & BOARD_PREFIX_FLAG) ? "±ØĞë" : "²»±Ø");
+		prints ("å¼ºåˆ¶å‰ç¼€:     %s\n",
+				(bp->flag & BOARD_PREFIX_FLAG) ? "å¿…é¡»" : "ä¸å¿…");
 #endif
-		prints("¾ã ÀÖ ²¿:     %s\n", (bp->flag & BOARD_CLUB_FLAG) ? (bp-> flag
-				& BOARD_READ_FLAG) ? "¶ÁÏŞÖÆ¾ãÀÖ²¿" : "ÆÕÍ¨¾ãÀÖ²¿" : "·Ç¾ãÀÖ²¿");
+		prints("ä¿± ä¹ éƒ¨:     %s\n", (bp->flag & BOARD_CLUB_FLAG) ? (bp-> flag
+				& BOARD_READ_FLAG) ? "è¯»é™åˆ¶ä¿±ä¹éƒ¨" : "æ™®é€šä¿±ä¹éƒ¨" : "éä¿±ä¹éƒ¨");
 		prints("now id  :     %d\n", bs->nowid);
-		prints("¶ÁĞ´ÏŞÖÆ:     %s\n", (bp->flag & BOARD_POST_FLAG) ? "ÏŞÖÆ·¢ÎÄ"
-				: (bp->level ==0) ? "Ã»ÓĞÏŞÖÆ" : "ÏŞÖÆÔÄ¶Á");
+		prints("è¯»å†™é™åˆ¶:     %s\n", (bp->flag & BOARD_POST_FLAG) ? "é™åˆ¶å‘æ–‡"
+				: (bp->level ==0) ? "æ²¡æœ‰é™åˆ¶" : "é™åˆ¶é˜…è¯»");
 	}
 	if (HAS_PERM(PERM_SPECIAL0) && bp->level != 0) {
-		prints("È¨    ÏŞ:     ");
+		prints("æƒ    é™:     ");
 		strcpy(secu, "ltmprbBOCAMURS#@XLEast0123456789");
 		for (i = 0; i < 32; i++) {
 			if (!(bp->level & (1 << i)))
@@ -793,11 +793,11 @@ int show_board_info(char *board) {
 			}
 
 		}
-		prints("\nÈ¨ ÏŞ Î»:     %s\n", secu);
+		prints("\næƒ é™ ä½:     %s\n", secu);
 	}
 
 	prints(
-			"URL µØÖ·:     http://bbs.fudan.edu.cn/cgi-bin/bbs/bbsdoc?board=%s\n",
+			"URL åœ°å€:     http://bbs.fudan.edu.cn/cgi-bin/bbs/bbsdoc?board=%s\n",
 			bp->filename);
 	pressanykey();
 	return FULLUPDATE;
@@ -813,7 +813,7 @@ int read_board(struct newpostdata *ptr, int newflag) {
 		tmpmode = choosemode;
 		choosemode = 0;
 		boardparent = getbnum(ptr->name) - 1;
-		oldpid = GoodBrd.nowpid; //cometcaptor ±£´æGoodBrd.nowpid
+		oldpid = GoodBrd.nowpid; //cometcaptor ä¿å­˜GoodBrd.nowpid
 		if (ptr->flag & BOARD_CUSTOM_FLAG)
 			GoodBrd.nowpid = ptr->pos;
 		else
@@ -930,7 +930,7 @@ int choose_board(int newflag) {
 				if (nbrd[num].flag & BOARD_CUSTOM_FLAG)
 					break;
 				strncpy(addname, nbrd[num].name, STRLEN-8);
-				presskeyfor("°æÃûÒÑ¸´ÖÆ Çë°´PÕ³Ìù", t_lines - 1);
+				presskeyfor("ç‰ˆåå·²å¤åˆ¶ è¯·æŒ‰Pç²˜è´´", t_lines - 1);
 				brdnum=-1;
 				break;
 			case 'c':
@@ -954,7 +954,7 @@ int choose_board(int newflag) {
 				page = -1;
 				break;
 			case 'H':
-				getdata(t_lines - 1, 0, "ÄúÑ¡Ôñ? (1) ±¾ÈÕÊ®´ó  (2) ÏµÍ³ÈÈµã [1]",
+				getdata(t_lines - 1, 0, "æ‚¨é€‰æ‹©? (1) æœ¬æ—¥åå¤§  (2) ç³»ç»Ÿçƒ­ç‚¹ [1]",
 						ans, 2, DOECHO, YEA);
 				if (ans[0] == '2')
 					show_help("etc/hotspot");
@@ -964,7 +964,7 @@ int choose_board(int newflag) {
 				break;
 				/*		case 'R': {
 				 *			char buf[200],path[80],ans[4],*t;
-				 *			sprintf(buf, "[1;5;31mÁ¢¼´¶ÏÏß[m: [1;33mÒÔ±ã»Ö¸´ÉÏ´ÎÕı³£Àë¿ª±¾Õ¾Ê±µÄÎ´¶Á±ê¼Ç (Y/N) ? [[1;32mN[m[1;33m]£º[m");
+				 *			sprintf(buf, "[1;5;31mç«‹å³æ–­çº¿[m: [1;33mä»¥ä¾¿æ¢å¤ä¸Šæ¬¡æ­£å¸¸ç¦»å¼€æœ¬ç«™æ—¶çš„æœªè¯»æ ‡è®° (Y/N) ? [[1;32mN[m[1;33m]ï¼š[m");
 				 *			getdata(22, 0, buf, ans, 3, DOECHO, YEA);
 				 *			if (ans[0] == 'Y' || ans[0] == 'y' ) {
 				 *			setuserfile(path, ".lastread");
@@ -976,7 +976,7 @@ int choose_board(int newflag) {
 				 system(buf);
 				 move(23,0);clrtoeol();
 				 move(22,0);clrtoeol();
-				 prints("[1;33mÒÑ¾­»Ö¸´ÉÏ´ÎÕı³£Àë¿ª±¾Õ¾Ê±µÄÎ´¶Á±ê¼Ç[m\n[1;32mÇë°´ Enter ¼ü[1;31mÁ¢¼´¶ÏÏß[m[1;32m, È»ºóÖØĞÂµÇÂ½±¾Õ¾ [m");
+				 prints("[1;33må·²ç»æ¢å¤ä¸Šæ¬¡æ­£å¸¸ç¦»å¼€æœ¬ç«™æ—¶çš„æœªè¯»æ ‡è®°[m\n[1;32mè¯·æŒ‰ Enter é”®[1;31mç«‹å³æ–­çº¿[m[1;32m, ç„¶åé‡æ–°ç™»é™†æœ¬ç«™ [m");
 				 egetch();
 				 exit(0);
 				 }
@@ -1085,15 +1085,15 @@ int choose_board(int newflag) {
 				if (!HAS_PERM(PERM_LOGIN))
 					break;
 				if ((GoodBrd.num)&&(GoodBrd.nowpid == -1))
-					break; //added by cometcaptor 2007-04-24 ·ÀÖ¹ÔÚ·Ç×Ô¶¨ÒåÄ¿Â¼¼Ó°æÃæ
+					break; //added by cometcaptor 2007-04-24 é˜²æ­¢åœ¨éè‡ªå®šä¹‰ç›®å½•åŠ ç‰ˆé¢
 				if (GoodBrd.num >= GOOD_BRC_NUM) {
-					presskeyfor("¸öÈËÈÈÃÅ°æÊıÒÑ¾­´ïÉÏÏŞ", t_lines - 1);
-					//ÊÕ²Ø¼Ğ
+					presskeyfor("ä¸ªäººçƒ­é—¨ç‰ˆæ•°å·²ç»è¾¾ä¸Šé™", t_lines - 1);
+					//æ”¶è—å¤¹
 				} else if (GoodBrd.num) {
 					int pos;
 					char bname[STRLEN];
 					struct boardheader fh;
-					if (gettheboardname(1, "ÊäÈëÌÖÂÛÇøÃû (°´¿Õ°×¼ü×Ô¶¯ËÑÑ°): ", &pos,
+					if (gettheboardname(1, "è¾“å…¥è®¨è®ºåŒºå (æŒ‰ç©ºç™½é”®è‡ªåŠ¨æœå¯»): ", &pos,
 							&fh, bname, 1)) {
 						if (!inGoodBrds(getbnum(bname)-1)) {
 							//strcpy (GoodBrd.ID[GoodBrd.num++], bname);
@@ -1105,17 +1105,17 @@ int choose_board(int newflag) {
 						}
 					}
 					page = -1;
-					//ÆäËûÇé¿ö
+					//å…¶ä»–æƒ…å†µ
 				} else { //added by iamfat 2003.11.20 add goodbrd directly
 					load_GoodBrd();
 					//added by iamfat 2003.12.28 to avoid flow bug
 					//struct boardheader *bp1 =NULL;
 					//bp1 = getbcache(nbrd[num].name);
-					//if (!((nbrd[num].flag & BOARD_DIR_FLAG)&& (bp1->group == 0))){ //¸ùÄ¿Â¼²»¿É¼ÓÈëÊÕ²Ø¼ĞDanielfree 06.3.5
+					//if (!((nbrd[num].flag & BOARD_DIR_FLAG)&& (bp1->group == 0))){ //æ ¹ç›®å½•ä¸å¯åŠ å…¥æ”¶è—å¤¹Danielfree 06.3.5
 					if (GoodBrd.num >= GOOD_BRC_NUM) {
-						presskeyfor("¸öÈËÈÈÃÅ°æÊıÒÑ¾­´ïÉÏÏŞ", t_lines - 1);
+						presskeyfor("ä¸ªäººçƒ­é—¨ç‰ˆæ•°å·²ç»è¾¾ä¸Šé™", t_lines - 1);
 					} else if (!inGoodBrds(getbnum(nbrd[num].name)-1)) {
-						sprintf(genbuf, "ÄúÈ·¶¨ÒªÌí¼Ó%sµ½ÊÕ²Ø¼ĞÂğ?", nbrd[num].name);
+						sprintf(genbuf, "æ‚¨ç¡®å®šè¦æ·»åŠ %såˆ°æ”¶è—å¤¹å—?", nbrd[num].name);
 						if (askyn(genbuf, NA, YEA) == YEA) {
 							//strcpy (GoodBrd.ID[GoodBrd.num++], nbrd[num].name);
 							add_GoodBrd(nbrd[num].name, 0); //modified by cometcaptor 2007-04-21
@@ -1128,23 +1128,23 @@ int choose_board(int newflag) {
 				}
 				break;
 			case 'A':
-				//added by cometcaptor 2007-04-22 ÕâÀïĞ´ÈëµÄÊÇ´´½¨×Ô¶¨ÒåÄ¿Â¼µÄ´úÂë
+				//added by cometcaptor 2007-04-22 è¿™é‡Œå†™å…¥çš„æ˜¯åˆ›å»ºè‡ªå®šä¹‰ç›®å½•çš„ä»£ç 
 				if (!HAS_PERM(PERM_LOGIN))
 					break;
 				if (GoodBrd.nowpid == 0) {
 					if (GoodBrd.num >= GOOD_BRC_NUM)
-						presskeyfor("¸öÈËÈÈÃÅ°æÊıÒÑ¾­´ïÉÏÏŞ", t_lines - 1);
+						presskeyfor("ä¸ªäººçƒ­é—¨ç‰ˆæ•°å·²ç»è¾¾ä¸Šé™", t_lines - 1);
 					else {
-						//ÒªÇóÊäÈëÄ¿Â¼Ãû
+						//è¦æ±‚è¾“å…¥ç›®å½•å
 						char dirname[STRLEN];
 						char dirtitle[STRLEN];
-						//.....ÕâÀï
-						dirname[0] = '\0'; //Çå³ıÉÏÒ»´Î´´½¨µÄÄ¿Â¼Ãû
-						getdata(t_lines - 1, 0, "´´½¨×Ô¶¨ÒåÄ¿Â¼: ", dirname, 17,
-								DOECHO, NA); //Éè³É17ÊÇÒòÎªÖ»ÏÔÊ¾16¸ö×Ö·û£¬ÎªÁË·ÀÖ¹´´½¨µÄÄ¿Â¼ÃûºÍÏÔÊ¾µÄ²»Í¬¶øÏŞ¶¨
+						//.....è¿™é‡Œ
+						dirname[0] = '\0'; //æ¸…é™¤ä¸Šä¸€æ¬¡åˆ›å»ºçš„ç›®å½•å
+						getdata(t_lines - 1, 0, "åˆ›å»ºè‡ªå®šä¹‰ç›®å½•: ", dirname, 17,
+								DOECHO, NA); //è®¾æˆ17æ˜¯å› ä¸ºåªæ˜¾ç¤º16ä¸ªå­—ç¬¦ï¼Œä¸ºäº†é˜²æ­¢åˆ›å»ºçš„ç›®å½•åå’Œæ˜¾ç¤ºçš„ä¸åŒè€Œé™å®š
 						if (dirname[0] != '\0') {
-							strcpy(dirtitle, "×Ô¶¨ÒåÄ¿Â¼");
-							getdata(t_lines - 1, 0, "×Ô¶¨ÒåÄ¿Â¼ÃèÊö: ", dirtitle,
+							strcpy(dirtitle, "è‡ªå®šä¹‰ç›®å½•");
+							getdata(t_lines - 1, 0, "è‡ªå®šä¹‰ç›®å½•æè¿°: ", dirtitle,
 									21, DOECHO, NA);
 							mkdir_GoodBrd(dirname, dirtitle, 0);
 						}
@@ -1153,7 +1153,7 @@ int choose_board(int newflag) {
 				}
 				break;
 			case 'T':
-				//added by cometcaptor 2007-04-25 ĞŞ¸Ä×Ô¶¨ÒåÄ¿Â¼Ãû
+				//added by cometcaptor 2007-04-25 ä¿®æ”¹è‡ªå®šä¹‰ç›®å½•å
 				if (!HAS_PERM(PERM_LOGIN))
 					break;
 				if ((GoodBrd.nowpid == 0)&&(brdnum)&&(nbrd[num].flag
@@ -1167,11 +1167,11 @@ int choose_board(int newflag) {
 					if (gbid == GoodBrd.num)
 						break;
 					strcpy(dirname, GoodBrd.boards[gbid].filename);
-					getdata(t_lines - 1, 0, "ĞŞ¸Ä×Ô¶¨ÒåÄ¿Â¼Ãû: ", dirname, 17,
+					getdata(t_lines - 1, 0, "ä¿®æ”¹è‡ªå®šä¹‰ç›®å½•å: ", dirname, 17,
 							DOECHO, NA);
 					if (dirname[0] != '\0') {
 						strcpy(dirtitle, GoodBrd.boards[gbid].title+11);
-						getdata(t_lines - 1, 0, "×Ô¶¨ÒåÄ¿Â¼ÃèÊö: ", dirtitle, 21,
+						getdata(t_lines - 1, 0, "è‡ªå®šä¹‰ç›®å½•æè¿°: ", dirtitle, 21,
 								DOECHO, NA);
 						if (dirtitle[0] == '\0')
 							strcpy(dirtitle, GoodBrd.boards[gbid].title+11);
@@ -1186,7 +1186,7 @@ int choose_board(int newflag) {
 				if ((GoodBrd.num)&&(brdnum > 0)) { //modified by cometcaptor 2007-04-24
 					int i, pos;
 					char ans[5];
-					sprintf(genbuf, "Òª°Ñ %s ´ÓÊÕ²Ø¼ĞÖĞÈ¥µô£¿[y/N]", nbrd[num].name);
+					sprintf(genbuf, "è¦æŠŠ %s ä»æ”¶è—å¤¹ä¸­å»æ‰ï¼Ÿ[y/N]", nbrd[num].name);
 					getdata(t_lines - 1, 0, genbuf, ans, 2, DOECHO, YEA);
 					//if (ans[0] == 'n' || ans[0] == 'N') {
 					//  page = -1;

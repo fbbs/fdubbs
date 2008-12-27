@@ -24,17 +24,17 @@ char   *argv[];
 		return 1;
 	}
 	now = time(0);
-	now += 86400;		/* Ö±½ÓËãÃ÷Ìì±È½Ï×¼À²! +1 ²»×¼ */
+	now += 86400;		/* ç›´æŽ¥ç®—æ˜Žå¤©æ¯”è¾ƒå‡†å•¦! +1 ä¸å‡† */
 
 	tmnow = localtime(&now);
-	fprintf(fout, "\n%sÃ÷ÈÕÊÙÐÇÃû±í\n\n", BBSNAME);
-	fprintf(fout, "ÒÔÏÂÊÇ %d ÔÂ %d ÈÕµÄÊÙÐÇ:\n\n",tmnow->tm_mon + 1, tmnow->tm_mday);
+	fprintf(fout, "\n%sæ˜Žæ—¥å¯¿æ˜Ÿåè¡¨\n\n", BBSNAME);
+	fprintf(fout, "ä»¥ä¸‹æ˜¯ %d æœˆ %d æ—¥çš„å¯¿æ˜Ÿ:\n\n",tmnow->tm_mon + 1, tmnow->tm_mday);
 
 	for (i = 0;; i++) {
 		if (fread(&aman, sizeof(struct userec), 1, fp) <= 0)
 			break;
 			
-		/* ÒÔÏÂµÄ  *ÃûÈË* ²»ÐèÒªËãÔÚÄÚ */
+		/* ä»¥ä¸‹çš„  *åäºº* ä¸éœ€è¦ç®—åœ¨å†… */
 		if (!strcasecmp(aman.userid, "SYSOP") || !strcasecmp(aman.userid, "guest") )
 			continue;
 			
@@ -46,7 +46,7 @@ char   *argv[];
 			j++;
 		}
 	}
-	fprintf(fout, "\n\n×Ü¹²ÓÐ %d Î»ÊÙÐÇ¡£\n", j);
+	fprintf(fout, "\n\næ€»å…±æœ‰ %d ä½å¯¿æ˜Ÿã€‚\n", j);
 	fclose(fout);
 	fclose(fp);
 }

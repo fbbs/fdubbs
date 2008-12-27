@@ -1,13 +1,13 @@
 /* 
    Added by roly 2002.05.03 
-	×Ô¶¯¼ì²é.BOARDSÎÄ¼ş,Ñ°ÕÒµ£ÈÎ°ßÖñµÄID,¸øÕâĞ©IDÌí¼Ó°ßÖñÈ¨ÏŞ
+	è‡ªåŠ¨æ£€æŸ¥.BOARDSæ–‡ä»¶,å¯»æ‰¾æ‹…ä»»æ–‘ç«¹çš„ID,ç»™è¿™äº›IDæ·»åŠ æ–‘ç«¹æƒé™
 
 
-±àÒë±¾³ÌĞòÇ°£¬Çë°Ñ #define BBSHOME "/home/bbs" ĞŞ¸Ä³ÉÄãÕıÈ·µÄÂ·¾¶¡£
+ç¼–è¯‘æœ¬ç¨‹åºå‰ï¼Œè¯·æŠŠ #define BBSHOME "/home/bbs" ä¿®æ”¹æˆä½ æ­£ç¡®çš„è·¯å¾„ã€‚
 
-±àÒë·½·¨£º
+ç¼–è¯‘æ–¹æ³•ï¼š
  gcc -O2 -L/usr/ucblib -lucb -lsocket -lnsl -I../../include -o BMPerm BMPerm.c ../../src/record.c -L../../lib -lBBS
-Ê¹ÓÃ·½·¨£º ./reBMlist 
+ä½¿ç”¨æ–¹æ³•ï¼š ./reBMlist 
 
 */
 #define BM_LEN	60

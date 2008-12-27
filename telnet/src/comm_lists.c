@@ -87,7 +87,7 @@ int wait_friend();
 #endif
 int t_query(), t_talk(), t_pager(), t_friend(), t_reject(), x_cloak();
 int ent_chat();
-int AddPCorpus(); // deardragon ¸öÈËÎÄ¼¯ 
+int AddPCorpus(); // deardragon ä¸ªäººæ–‡é›† 
 int sendgoodwish();
 //int	show_myfile();
 
@@ -129,7 +129,7 @@ typedef struct {
 
 MENU currcmd;
 
-//±£´æ×Ö·û´®Ëù¶ÔÓ¦µÄº¯Êı
+//ä¿å­˜å­—ç¬¦ä¸²æ‰€å¯¹åº”çš„å‡½æ•°
 MENU sysconf_cmdlist[] = { { "domenu", domenu, 0 },
 		{ "EGroups", EGroup, 0 }, { "BGroups", BoardGroup, 0 }, {
 				"BoardsAll", Boards, 0 }, { "BoardsGood", GoodBrds, 0 }, {
@@ -340,7 +340,7 @@ char *str;
 	return buf;
 }
 
-//	¸ù¾İ×Ö·û´®key·µ»ØÏà¶ÔÓ¦µÄstr×Ö·û´®
+//	æ ¹æ®å­—ç¬¦ä¸²keyè¿”å›ç›¸å¯¹åº”çš„strå­—ç¬¦ä¸²
 char * sysconf_str(char *key) {
 	int n;
 	for (n = 0; n < sysconf_key; n++)

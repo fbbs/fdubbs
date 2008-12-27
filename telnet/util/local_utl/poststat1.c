@@ -1,7 +1,7 @@
 /*-------------------------------------------------------*/
 /* util/poststat.c      ( NTHU CS MapleBBS Ver 2.36 )    */
 /*-------------------------------------------------------*/
-/* target : Í³¼Æ½ñÈÕ¡¢ÖÜ¡¢ÔÂ¡¢ÄêÈÈÃÅ»°Ìâ                 */
+/* target : ç»Ÿè®¡ä»Šæ—¥ã€å‘¨ã€æœˆã€å¹´çƒ­é—¨è¯é¢˜                 */
 /* create : 95/03/29                                     */
 /* update : 95/12/15                                     */
 /*-------------------------------------------------------*/
@@ -14,7 +14,7 @@
 char *myfile[] = {"day", "week", "month", "year"};
 int mycount[4] = {7, 4, 12};
 int mytop[] = {10, 50, 100, 150};
-char *mytitle[] = {"ÈÕÊ®", "ÖÜÎåÊ®", "ÔÂÒ»°Ù", "Äê¶È°ÙÎå"};
+char *mytitle[] = {"æ—¥å", "å‘¨äº”å", "æœˆä¸€ç™¾", "å¹´åº¦ç™¾äº”"};
 
 
 #define HASHSIZE 1024
@@ -85,7 +85,7 @@ search(t)
   if (found)
   {
     p->number += t->number;
-    if (p->date < t->date)      /* È¡½Ï½üÈÕÆÚ */
+    if (p->date < t->date)      /* å–è¾ƒè¿‘æ—¥æœŸ */
       p->date = t->date;
   }
   else
@@ -220,7 +220,7 @@ poststat(mytype)
   sprintf(curfile, "etc/posts/%s", p);
   if (fp = fopen(curfile, "w"))
   {
-    fprintf(fp, "                [1;34m-----[37m=====[41m ±¾%s´óÈÈÃÅ»°Ìâ [40m=====[34m-----[0m\n\n", mytitle[mytype]);
+    fprintf(fp, "                [1;34m-----[37m=====[41m æœ¬%så¤§çƒ­é—¨è¯é¢˜ [40m=====[34m-----[0m\n\n", mytitle[mytype]);
 
     i = mytop[mytype];
     if (j > i)
@@ -232,8 +232,8 @@ poststat(mytype)
       buf[20] = '\0';
       p = buf + 4;
       fprintf(fp,
-        "[1;37mµÚ[1;31m%3d[37m Ãû [37mĞÅÇø : [33m%-16s[37m¡¾[32m%s[37m¡¿[36m%4d [37mÆª[35m%+16s\n"
-        "     [37m±êÌâ : [1;44;37m%-60.60s[40m\n"
+        "[1;37mç¬¬[1;31m%3d[37m å [37mä¿¡åŒº : [33m%-16s[37mã€[32m%s[37mã€‘[36m%4d [37mç¯‡[35m%+16s\n"
+        "     [37mæ ‡é¢˜ : [1;44;37m%-60.60s[40m\n"
         ,i + 1, top[i].board, p, top[i].number, top[i].author, top[i].title);
     }
     fclose(fp);

@@ -35,9 +35,9 @@ struct userec { /* Structure used to hold information in */
 	char lasthost[16];
 	unsigned int numlogins;
 	unsigned int numposts;
-	int nummedals; /* ½±ÕÂÊı money modified u_int to int 2002.11.19*/
-	int money; /* ´æ¿î */
-	int bet; /* ´û¿î */
+	int nummedals; /* å¥–ç« æ•° money modified u_int to int 2002.11.19*/
+	int money; /* å­˜æ¬¾ */
+	int bet; /* è´·æ¬¾ */
 	time_t dateforbet;
 	char flags[2];
 #ifdef ENCPASSLEN
@@ -52,18 +52,18 @@ struct userec { /* Structure used to hold information in */
 	unsigned int userlevel;
 	//unsigned long   dwExLevel;
 	time_t lastlogin;
-	time_t lastlogout;/* ×î½üÀëÏßÊ±¼ä */
+	time_t lastlogout;/* æœ€è¿‘ç¦»çº¿æ—¶é—´ */
 	time_t stay;
 	char realname[NAMELEN];
 	char address[STRLEN];
 	char email[STRLEN-12];
 	unsigned int nummails;
 	time_t lastjustify;
-	char gender; //ĞÔ±ğ
-	unsigned char birthyear; //³öÉúÄê
-	unsigned char birthmonth; //³öÉúÔÂ
-	unsigned char birthday; //³öÉúÈÕ
-	int signature; //Ç©ÃûµµÊıÄ¿
+	char gender; //æ€§åˆ«
+	unsigned char birthyear; //å‡ºç”Ÿå¹´
+	unsigned char birthmonth; //å‡ºç”Ÿæœˆ
+	unsigned char birthday; //å‡ºç”Ÿæ—¥
+	int signature; //ç­¾åæ¡£æ•°ç›®
 	unsigned int userdefine;
 	time_t notedate;
 	int noteline;
@@ -145,10 +145,10 @@ struct fileheader { /* This structure is used to hold data in */
 	time_t timeDeleted;
 };
 
-//added by cometcaptor 2007-04-21 ĞŞ¸Ä.goodbrdµÄÊı¾İ½á¹¹
+//added by cometcaptor 2007-04-21 ä¿®æ”¹.goodbrdçš„æ•°æ®ç»“æ„
 struct goodbrdheader {
-	int id; //×ÔÉíID
-	int pid; //¸¸ID
+	int id; //è‡ªèº«ID
+	int pid; //çˆ¶ID
 	int pos;
 	unsigned int flag;
 	char filename[STRLEN - 8];
@@ -164,7 +164,7 @@ struct bstat { /* used for caching files and boards */
 };
 
 struct one_key { /* Used to pass commands to the readmenu */
-	int key; //ÊäÈë×Ö·ûÓë¶¯×÷º¯ÊıÒ»Ò»¶ÔÓ¦
+	int key; //è¾“å…¥å­—ç¬¦ä¸åŠ¨ä½œå‡½æ•°ä¸€ä¸€å¯¹åº”
 	int (*fptr)();
 };
 
@@ -177,7 +177,7 @@ struct UTMPFILE {
 	int total_num;
 };
 
-struct BCACHE { //°æÃæµÄ»º³å?
+struct BCACHE { //ç‰ˆé¢çš„ç¼“å†²?
 	struct bstat bstatus[MAXBOARD ];
 	int number;
 	time_t uptime;
@@ -188,7 +188,7 @@ struct BCACHE { //°æÃæµÄ»º³å?
 	time_t inboarduptime;
 };
 
-struct UCACHE { //ÓÃ»§µÄ»º³å
+struct UCACHE { //ç”¨æˆ·çš„ç¼“å†²
 	char userid[MAXUSERS ][IDLEN + 1 ];
 	int number;
 	time_t uptime;
@@ -196,12 +196,12 @@ struct UCACHE { //ÓÃ»§µÄ»º³å
 	int next[MAXUSERS];
 	int prev[MAXUSERS];
 	int hash[26][26][256];
-	struct userec passwd[MAXUSERS]; //ÄÚ´æÓ³ÉäµÄÊıÄ¿Ì«¶àÁËÒ»µã?
+	struct userec passwd[MAXUSERS]; //å†…å­˜æ˜ å°„çš„æ•°ç›®å¤ªå¤šäº†ä¸€ç‚¹?
 	/* add end */
 	int status[MAXUSERS];
 };
 
-struct postheader { //.DIRÖĞµÄ¼ÇÂ¼¸ñÊ½
+struct postheader { //.DIRä¸­çš„è®°å½•æ ¼å¼
 	char title[STRLEN];
 	char ds[40]; //board
 #ifdef ENABLE_PREFIX
@@ -239,7 +239,7 @@ struct KEYWORDS_SHM {
 };
 #endif
 
-typedef struct reginfo { //×¢²á±íµ¥ĞÅÏ¢
+typedef struct reginfo { //æ³¨å†Œè¡¨å•ä¿¡æ¯
 	char userid[IDLEN+1];
 	char realname[NAMELEN];
 	char dept[STRLEN];
@@ -250,7 +250,7 @@ typedef struct reginfo { //×¢²á±íµ¥ĞÅÏ¢
 	time_t regdate;
 } REGINFO;
 
-typedef struct _ANONCACHE { //wwwÄäÃûÓÃ»§»º³å
+typedef struct _ANONCACHE { //wwwåŒ¿åç”¨æˆ·ç¼“å†²
 	time_t item[MAX_ANON];
 	int next[MAX_ANON];
 	int freenode;

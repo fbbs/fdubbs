@@ -1445,7 +1445,7 @@ echo "platform type... $objtarget"
  
 echo " .................................. "
 echo "   Please fill data for your BBS    "
-echo "   ÇëÌîÐ´Óë¹óÕ¾Ïà¹ØµÄ BBS Êý¾Ý.     "
+echo "   è¯·å¡«å†™ä¸Žè´µç«™ç›¸å…³çš„ BBS æ•°æ®.     "
 echo " .................................. "
 
 bbshome=`cd ~bbs ; pwd`
@@ -1479,9 +1479,9 @@ echo -n "The ID of your site --> [RYGHBBS] "
 read BBS_ID
 BBS_ID=${BBS_ID:-RYGHBBS}
 
-echo -n "The name of your site --> [ÈÕÔÂ¹â»ª] "
+echo -n "The name of your site --> [æ—¥æœˆå…‰åŽ] "
 read BBS_CNAME
-BBS_CNAME=${BBS_CNAME:-"ÈÕÔÂ¹â»ªÕ¾"}
+BBS_CNAME=${BBS_CNAME:-"æ—¥æœˆå…‰åŽç«™"}
 
 echo -n "The domain name of your site --> [bbs.fudan.edu.cn]"
 read DOMAIN

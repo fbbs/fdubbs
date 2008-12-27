@@ -47,8 +47,8 @@ char fileio_c[] = "$Id: fileio.c 366 2007-05-12 16:35:51Z danielfree $";
 
 static int rm_dir();
 
-//½«ÏûÏ¢msg´æÈëµ½ÎÄ¼şfpathÖĞ,Ğ´Ê±Ëø×¡ÎÄ¼ş,Ğ´Íê½âËø
-//****	ÎÄ¼ş²Ù×÷¾ùÊÇµ×²ãÎÄ¼şIO²Ù×÷,¼Ó¿ìËÙ¶È
+//å°†æ¶ˆæ¯msgå­˜å…¥åˆ°æ–‡ä»¶fpathä¸­,å†™æ—¶é”ä½æ–‡ä»¶,å†™å®Œè§£é”
+//****	æ–‡ä»¶æ“ä½œå‡æ˜¯åº•å±‚æ–‡ä»¶IOæ“ä½œ,åŠ å¿«é€Ÿåº¦
 void file_append(char *fpath, char *msg) {
 	int fd;
 	if ((fd = open(fpath, O_WRONLY | O_CREAT, 0644)) >= 0) {
@@ -59,13 +59,13 @@ void file_append(char *fpath, char *msg) {
 		close(fd);
 	}
 }
-//Èôfname´æÔÚ,ÇÒÎªÕı³£ÎÄ¼ş,·µ»ØÕæ
+//è‹¥fnameå­˜åœ¨,ä¸”ä¸ºæ­£å¸¸æ–‡ä»¶,è¿”å›çœŸ
 int dashf(char *fname) {
 	struct stat st;
 	return (stat(fname, &st) == 0 && S_ISREG(st.st_mode));
 }
 
-//Èç¹ûfname´æÔÚ,ÇÒÎªÄ¿Â¼,·µ»ØÕæ
+//å¦‚æœfnameå­˜åœ¨,ä¸”ä¸ºç›®å½•,è¿”å›çœŸ
 int dashd(char *fname) {
 	struct stat st;
 	return (stat(fname, &st) == 0 && S_ISDIR(st.st_mode));
@@ -89,14 +89,14 @@ int part_cp(char *src, char *dst, char *mode) {
 			fputs(buf, fdst);
 			break;
 		}
-		if (flag==0&&(!strncmp(buf+2, "ĞÅÈË: ", 6) ||!strncmp(buf,
-				"[1;41;33m·¢ĞÅÈË: ", 18))) {
+		if (flag==0&&(!strncmp(buf+2, "ä¿¡äºº: ", 6) ||!strncmp(buf,
+				"[1;41;33må‘ä¿¡äºº: ", 18))) {
 			fputs(buf, fdst);
 			continue;
 		}
-		if (flag==0&&(buf[0]=='\0'||buf[0]=='\n'/*||!strncmp(buf+2,"ĞÅÈË: ",6)*/
-		|| !strncmp(buf, "±ê  Ìâ: ", 8)||!strncmp(buf, "·¢ĞÅÕ¾: ", 8)
-		/*|| !strncmp(buf,"[1;41;33m·¢ĞÅÈË: ",18)*/))
+		if (flag==0&&(buf[0]=='\0'||buf[0]=='\n'/*||!strncmp(buf+2,"ä¿¡äºº: ",6)*/
+		|| !strncmp(buf, "æ ‡  é¢˜: ", 8)||!strncmp(buf, "å‘ä¿¡ç«™: ", 8)
+		/*|| !strncmp(buf,"[1;41;33må‘ä¿¡äºº: ",18)*/))
 			continue;
 		flag =1;
 		fputs(buf, fdst);
@@ -166,13 +166,13 @@ int touchfile(char *filename) {
  */
 int f_rm(char *fpath) {
 	struct stat st;
-	if (stat(fpath, &st)) //statÎ´ÄÜ³É¹¦
+	if (stat(fpath, &st)) //statæœªèƒ½æˆåŠŸ
 		return -1;
 
-	if (!S_ISDIR(st.st_mode)) //²»ÊÇÄ¿Â¼,ÔòÉ¾³ı´ËÎÄ¼ş
+	if (!S_ISDIR(st.st_mode)) //ä¸æ˜¯ç›®å½•,åˆ™åˆ é™¤æ­¤æ–‡ä»¶
 		return unlink(fpath);
 
-	return rm_dir(fpath); //É¾³ıÄ¿Â¼
+	return rm_dir(fpath); //åˆ é™¤ç›®å½•
 }
 
 /*

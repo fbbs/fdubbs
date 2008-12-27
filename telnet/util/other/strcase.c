@@ -40,7 +40,7 @@ char *strcasestr(char *s1, char *s2) {
 
 int main()
 {
-if (strcasestr("֪ʶ��ȨҪ��չ","�ھ���"))
+if (strcasestr("知识产权要发展","冠军杯"))
  printf("true");
 else
  printf("false");

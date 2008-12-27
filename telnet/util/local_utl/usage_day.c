@@ -36,10 +36,10 @@ int report()
 void getdatestring( time_t now)
 {
         struct tm *tm;
-        char weeknum[7][3]={"Ìì","Ò»","¶ş","Èı","ËÄ","Îå","Áù"};
+        char weeknum[7][3]={"å¤©","ä¸€","äºŒ","ä¸‰","å››","äº”","å…­"};
 
         tm = localtime(&now);
-        sprintf(datestring,"%4dÄê%02dÔÂ%02dÈÕ%02d:%02d:%02d ĞÇÆÚ%2s",
+        sprintf(datestring,"%4då¹´%02dæœˆ%02dæ—¥%02d:%02d:%02d æ˜ŸæœŸ%2s",
                 tm->tm_year+1900,tm->tm_mon+1,tm->tm_mday,
                 tm->tm_hour,tm->tm_min,tm->tm_sec,
                 weeknum[tm->tm_wday]);
@@ -128,8 +128,8 @@ time_t now;
   int i, j,k;
   char    *blk[10] =
   {
-                "£ß", "£ß", "¨x", "¨y", "¨z",
-                "¨{", "¨|", "¨}", "¨~", "¨€",
+                "ï¼¿", "ï¼¿", "â–", "â–‚", "â–ƒ",
+                "â–„", "â–…", "â–†", "â–‡", "â–ˆ",
   };
 
   mode=atoi(argv[1]);
@@ -154,7 +154,7 @@ time_t now;
   fillboard();
   now=time(0);
   tmtime=gmtime(&now);
-  sprintf(buftime,"20%02dÄê%02dÔÂ%02dÈÕ",tmtime->tm_year%100, tmtime->tm_mon+1,tmtime->tm_mday);
+  sprintf(buftime,"20%02då¹´%02dæœˆ%02dæ—¥",tmtime->tm_year%100, tmtime->tm_mon+1,tmtime->tm_mday);
 
   //printf("buftime:%s",buftime);
   getdatestring(now);
@@ -245,13 +245,13 @@ time_t now;
    st[numboards-1].times=ave[0]/numboards;
    st[numboards-1].sum=ave[1]/numboards;
    strcpy(st[numboards-1].boardname,"Average");
-   strcpy(st[numboards-1].expname,"×ÜÆ½¾ù");
+   strcpy(st[numboards-1].expname,"æ€»å¹³å‡");
    if(mode==1)
    {
-        fprintf(op,"[1;37mÃû´Î %-15.15s%-28.28s %5s %8s %10s[m\n","ÌÖÂÛÇøÃû³Æ","ÖĞÎÄĞğÊö","ÈË´Î","ÀÛ»ıÊ±¼ä","Æ½¾ùÊ±¼ä");
+        fprintf(op,"[1;37måæ¬¡ %-15.15s%-28.28s %5s %8s %10s[m\n","è®¨è®ºåŒºåç§°","ä¸­æ–‡å™è¿°","äººæ¬¡","ç´¯ç§¯æ—¶é—´","å¹³å‡æ—¶é—´");
    }else
    {
-        fprintf(op,"      [1;37m1 [m[34m%2s[1;37m= %d (×ÜÈË´Î) [1;37m1 [m[32m%2s[1;37m= %s (ÀÛ»ı×ÜÊ±Êı) [1;37m1 [m[31m%2s[1;37m= %d Ãë(Æ½¾ùÊ±Êı)\n\n",
+        fprintf(op,"      [1;37m1 [m[34m%2s[1;37m= %d (æ€»äººæ¬¡) [1;37m1 [m[32m%2s[1;37m= %s (ç´¯ç§¯æ€»æ—¶æ•°) [1;37m1 [m[31m%2s[1;37m= %d ç§’(å¹³å‡æ—¶æ•°)\n\n",
                 blk[9],c[0],blk[9],timetostr(c[1]),blk[9],c[2]);
    }
 
@@ -261,28 +261,28 @@ time_t now;
         fprintf(op,"[1m%4d[m %-15.15s%-28.28s %5d %-.8s %10d\n",i+1,st[i].boardname,st[i].expname,st[i].times,timetostr(st[i].sum),st[i].times==0?0:st[i].sum/st[i].times);
       else
       {
-        fprintf(op,"      [1;37mµÚ[31m%3d [37mÃû ÌÖÂÛÇøÃû³Æ£º[31m%s [35m%s[m\n",i+1,st[i].boardname,st[i].expname);
-        fprintf(op,"[1;37m    ©°¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª\n");
-        fprintf(op,"[1;37mÈË´Î©¦[m[34m");
+        fprintf(op,"      [1;37mç¬¬[31m%3d [37må è®¨è®ºåŒºåç§°ï¼š[31m%s [35m%s[m\n",i+1,st[i].boardname,st[i].expname);
+        fprintf(op,"[1;37m    â”Œâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”\n");
+        fprintf(op,"[1;37mäººæ¬¡â”‚[m[34m");
         for(j=0;j<st[i].times/c[0];j++)
         {
                 fprintf(op,"%2s",blk[9]);
         }
                 fprintf(op,"%2s [1;37m%d[m\n",blk[(st[i].times%c[0])*10/c[0]],st[i].times);
-        fprintf(op,"[1;37mÊ±¼ä©¦[m[32m");
+        fprintf(op,"[1;37mæ—¶é—´â”‚[m[32m");
         for(j=0;j<st[i].sum/c[1];j++)
         {
                 fprintf(op,"%2s",blk[9]);
         }
                 fprintf(op,"%2s [1;37m%s[m\n",blk[(st[i].sum%c[1])*10/c[1]],timetostr(st[i].sum));
         j=st[i].times==0?0:st[i].sum/st[i].times;
-        fprintf(op,"[1;37mÆ½¾ù©¦[m[31m");
+        fprintf(op,"[1;37må¹³å‡â”‚[m[31m");
         for(k=0;k<j/c[2];k++)
         {
                 fprintf(op,"%2s",blk[9]);
         }
                 fprintf(op,"%2s [1;37m%s[m\n",blk[(j%c[2])*10/c[2]],timetostr(j));
-        fprintf(op,"[1;37m    ©¸¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª[m\n\n");
+        fprintf(op,"[1;37m    â””â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”[m\n\n");
       }
    }
    fclose(op);

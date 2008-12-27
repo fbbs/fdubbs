@@ -24,18 +24,18 @@ CVS: $Id: config.h.in 2 2005-07-14 15:06:08Z root $
 */
 /* FIREBIRD BBS 3.0 CONFIGURATION VARIABLES */
 
-#define BBSVERSION      "¡²FB2000 v1106¡³"
+#define BBSVERSION      "ã€”FB2000 v1106ã€•"
 
 /*
-   °åÖ÷ÈÎÃüÊ±£¬ Èç¹ûÏ£ÍûÈÎÃüÎÄÕÂ²»½ö½ö·¢ËÍµ½±»ÈÎÃü°æÃæ£¬¶øÇÒÍ¬Ê±·¢ËÍµ½
-   sysop °å£¬»òÆäËû°æÃæ£¬Äã¿ÉÒÔ´ò¿ªÏÂÃæµÄ¶¨Òå¡£ÆäÖÐµÄ @DEFAULTBD@ ¿ÉÒÔ¸Ä³ÉÄã
-   Ï£Íû·¢±íµÄ°æÃæ¡£×¢Òâ£ºÕâ¸ö°æÃæÒ»¶¨ÒªÊÇ´æÔÚµÄ¡£
+   æ¿ä¸»ä»»å‘½æ—¶ï¼Œ å¦‚æžœå¸Œæœ›ä»»å‘½æ–‡ç« ä¸ä»…ä»…å‘é€åˆ°è¢«ä»»å‘½ç‰ˆé¢ï¼Œè€Œä¸”åŒæ—¶å‘é€åˆ°
+   sysop æ¿ï¼Œæˆ–å…¶ä»–ç‰ˆé¢ï¼Œä½ å¯ä»¥æ‰“å¼€ä¸‹é¢çš„å®šä¹‰ã€‚å…¶ä¸­çš„ @DEFAULTBD@ å¯ä»¥æ”¹æˆä½ 
+   å¸Œæœ›å‘è¡¨çš„ç‰ˆé¢ã€‚æ³¨æ„ï¼šè¿™ä¸ªç‰ˆé¢ä¸€å®šè¦æ˜¯å­˜åœ¨çš„ã€‚
 
 #define ORDAINBM_POST_BOARDNAME "@DEFAULTBD@"
 */
 
 /*  
-   ÔÊÐí¿ªÆôÍâ²¿³ÌÐòµÄÓÃ»§ÊýÄ¿¡£ ±ÈÈç£ºBBSNET¡¢WINMINE¡¢SHOWUSER µÈ
+   å…è®¸å¼€å¯å¤–éƒ¨ç¨‹åºçš„ç”¨æˆ·æ•°ç›®ã€‚ æ¯”å¦‚ï¼šBBSNETã€WINMINEã€SHOWUSER ç­‰
 */
 
 #define MAX_USESHELL    20

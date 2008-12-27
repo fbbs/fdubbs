@@ -1,5 +1,5 @@
 /*
-*    ÇåÀíĞÅÏäµÄĞÅ¼ş£¬ËÑÑ°Ã¿Ò»¸öµµ°¸£¬È»ááÖØ½¨ .DIR£¬¿³µôÀ¬»øµµ¡£
+*    æ¸…ç†ä¿¡ç®±çš„ä¿¡ä»¶ï¼Œæœå¯»æ¯ä¸€ä¸ªæ¡£æ¡ˆï¼Œç„¶å¾Œé‡å»º .DIRï¼Œç æ‰åƒåœ¾æ¡£ã€‚
 *
 *    $Id: remail.c 2 2005-07-14 15:06:08Z root $
 */
@@ -31,12 +31,12 @@ char *pathname ;
    DIR *dp ;
    struct dirent *dirp ;
    if(pathname == NULL){
-	printf(" ÇëĞŞ¸Ä BBSMAIL ÎªÕıÈ·µÄÄ¿Â¼£¬ ²»ÄÜÎª¿Õ¡£");
+	printf(" è¯·ä¿®æ”¹ BBSMAIL ä¸ºæ­£ç¡®çš„ç›®å½•ï¼Œ ä¸èƒ½ä¸ºç©ºã€‚");
 	return 0;
    }
    if((dp = opendir(BBSMAIL)) == NULL)
    {
-      printf("\nÎŞ·¨¿ªÆôÄ¿Â¼ %s£¡", pathname) ;
+      printf("\næ— æ³•å¼€å¯ç›®å½• %sï¼", pathname) ;
       return 0;
    }
    while(dirp = readdir(dp))
@@ -53,11 +53,11 @@ char *pathname ;
       {
          continue ;
       }
-      printf("\n½øÈëÄ¿Â¼ %s/%s ....\n", pathname, dirp->d_name) ;
+      printf("\nè¿›å…¥ç›®å½• %s/%s ....\n", pathname, dirp->d_name) ;
       sprintf(workpath, "%s/%s", pathname, dirp->d_name) ;
       if( (workdp = opendir(workpath)) == NULL )
       {
-         printf("\nÎŞ·¨¿ªÆôÄ¿Â¼ %s£¡", workpath) ;
+         printf("\næ— æ³•å¼€å¯ç›®å½• %sï¼", workpath) ;
          return 0 ;
       }
       while(workdirp = readdir(workdp))
@@ -71,17 +71,17 @@ char *pathname ;
          {
             continue ;
          }
-         printf("\no¸üĞÂ¡¾%-.12s¡¿µÄĞÅ¼ş", workdirp->d_name) ;
+         printf("\noæ›´æ–°ã€%-.12sã€‘çš„ä¿¡ä»¶", workdirp->d_name) ;
          sprintf(userpath, "%s/%s", workpath, workdirp->d_name) ;
          if( (userdp = opendir(userpath)) == NULL )
          {
-            printf("\n      ÎŞ·¨¿ªÆô %s µÄĞÅ¼şÄ¿Â¼£¡", userpath) ;
+            printf("\n      æ— æ³•å¼€å¯ %s çš„ä¿¡ä»¶ç›®å½•ï¼", userpath) ;
             continue ;
          }
          sprintf(dot_dir, "%s/.DIR", userpath) ;
          sprintf(dot_dir_bak, "%s.bak", dot_dir) ;
          rename(dot_dir, dot_dir_bak) ;
-         printf("\n ==> ÕûÀí %s ĞÅ¼ş£¬ÖØ½¨ .DIR µµ£¡", workdirp->d_name) ;
+         printf("\n ==> æ•´ç† %s ä¿¡ä»¶ï¼Œé‡å»º .DIR æ¡£ï¼", workdirp->d_name) ;
          while( (userdirp = readdir(userdp)) != NULL)
          {
             if( !strcmp(userdirp->d_name, ".") ||
@@ -95,14 +95,14 @@ char *pathname ;
          }
          closedir(userdp) ;
          chown(dot_dir, 9999, 999) ;
-         printf("\n ==> ¹²ÖØ½¨ %d ÆªĞÅ¼ş£¬ %dÆªĞÅ¼şÊ§°Ü¡£\n", mailcounts, allactions - mailcounts) ;
+         printf("\n ==> å…±é‡å»º %d ç¯‡ä¿¡ä»¶ï¼Œ %dç¯‡ä¿¡ä»¶å¤±è´¥ã€‚\n", mailcounts, allactions - mailcounts) ;
          mailcounts = 0 ;
          allactions = 0 ;
       }
       closedir(workdp) ;
    }
    closedir(dp) ;
-   printf("\nËùÓĞ×ÊÁÏ×ª»»Íê³É\n") ;
+   printf("\næ‰€æœ‰èµ„æ–™è½¬æ¢å®Œæˆ\n") ;
 }
 
 int do_remail(path, file, dot_dir, username)
@@ -122,11 +122,11 @@ int do_remail(path, file, dot_dir, username)
    sprintf(filename, "%s/%s", path, file) ;
 //   if( (fp = fopen(filename, "r")) == NULL)
    if( stat(filename, &st) == -1 ) {
-      printf("\n         ÎŞ·¨¿ªÆôµµ°¸ %s£¡", file) ;
+      printf("\n         æ— æ³•å¼€å¯æ¡£æ¡ˆ %sï¼", file) ;
       return 0;
    } else file_size=st.st_blksize*st.st_blocks;
    fp = fopen(filename, "r");
-   strncpy(fh.filename, file, sizeof(fh.filename)) ; /* ÌîÈëµµÃû */
+   strncpy(fh.filename, file, sizeof(fh.filename)) ; /* å¡«å…¥æ¡£å */
    memcpy(fh.filename+STRLEN-5,&file_size,4);
 
    fh.level = 0 ;
@@ -135,9 +135,9 @@ int do_remail(path, file, dot_dir, username)
    {
       if( strstr(buf,"[0;1;44;36m") ||
           strstr(buf,"[1;32;40mTo") ) msgbackup = 1;
-      if(strstr(buf,"·¢ĞÅÈË: ") ||
-         strstr(buf,"×÷  Õß: ") ||
-         strstr(buf,"¼ÄĞÅÈË: "))
+      if(strstr(buf,"å‘ä¿¡äºº: ") ||
+         strstr(buf,"ä½œ  è€…: ") ||
+         strstr(buf,"å¯„ä¿¡äºº: "))
       {
          ptr = &buf[8] ;
          ptr2 = strchr(ptr, ' ') ;
@@ -153,7 +153,7 @@ int do_remail(path, file, dot_dir, username)
          printf("#") ;
          step = 1 ;
       }
-      if(strstr(buf, "±ê  Ìâ: ")||strstr(buf,"Ìâ  Ä¿: "))
+      if(strstr(buf, "æ ‡  é¢˜: ")||strstr(buf,"é¢˜  ç›®: "))
       {
          ptr = &buf[8] ;
          ptr[strlen(ptr) - 1] = 0 ;
@@ -167,10 +167,10 @@ int do_remail(path, file, dot_dir, username)
    if(step != 2)
    {
       if(msgbackup) {	
-         strncpy(fh.title, "ËùÓĞÑ¶Ï¢±¸·İ",sizeof(fh.title));
+         strncpy(fh.title, "æ‰€æœ‰è®¯æ¯å¤‡ä»½",sizeof(fh.title));
          strncpy(fh.owner, username, sizeof(fh.owner)) ;
       } else {
-         strncpy(fh.title, "²¹¾ÈÎÄ¼ş£¬Èç²»ĞèÒªÇëÊÖ¹¤É¾³ı£¡",sizeof(fh.title));
+         strncpy(fh.title, "è¡¥æ•‘æ–‡ä»¶ï¼Œå¦‚ä¸éœ€è¦è¯·æ‰‹å·¥åˆ é™¤ï¼",sizeof(fh.title));
          strncpy(fh.owner, "UnkownUser", sizeof(fh.owner)) ;
      }
    }

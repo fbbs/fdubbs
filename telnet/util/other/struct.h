@@ -34,9 +34,9 @@ struct userec {                  /* Structure used to hold information in */
         char            lasthost[16];
         unsigned int    numlogins;
         unsigned int    numposts;
-	unsigned int    nummedals; /* ½±ÕÂÊý */
-        unsigned int    money;   /* ´æ¿î */
-        unsigned int    bet;     /* ´û¿î */
+	unsigned int    nummedals; /* å¥–ç« æ•° */
+        unsigned int    money;   /* å­˜æ¬¾ */
+        unsigned int    bet;     /* è´·æ¬¾ */
 	time_t		dateforbet;
         char            flags[2];
 #ifdef ENCPASSLEN
@@ -50,7 +50,7 @@ struct userec {                  /* Structure used to hold information in */
         char            reginfo[STRLEN-16];
         unsigned int    userlevel;
         time_t          lastlogin;
-        time_t          lastlogout;/* ×î½üÀëÏßÊ±¼ä */
+        time_t          lastlogout;/* æœ€è¿‘ç¦»çº¿æ—¶é—´ */
         time_t          stay;
         char            realname[NAMELEN];
         char            address[STRLEN];

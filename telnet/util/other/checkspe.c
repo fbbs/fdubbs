@@ -34,7 +34,7 @@ int main(){
 			print=false;
 		}
 		
-		//printf("%s\n",u.userid);//将所有用户的ID输出
+		//printf("%s\n",u.userid);//灏嗘墍鏈夌敤鎴风殑ID杈撳嚭
 		fread(&u,sizeof(struct userec),1,fp);		
 	}
 	return 0;

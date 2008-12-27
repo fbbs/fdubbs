@@ -60,7 +60,7 @@
 #endif
 
 #ifdef LINUX
-#define HAVE_CHKLOAD		/*	ÊÇ·ñ¼ì²é·şÎñÆ÷¸ººÉ	*/
+#define HAVE_CHKLOAD		/*	æ˜¯å¦æ£€æŸ¥æœåŠ¡å™¨è´Ÿè·	*/
 #endif
 
 #define SOCKET_QLEN     4
@@ -74,25 +74,25 @@
 #define NOLOGIN			BBSHOME"/NOLOGIN"
 
 #ifdef  HAVE_CHKLOAD
-#define BANNER  "\r\n»¶Ó­¹âÁÙ[1;33m"BBSNAME"[m[ [1;32m"BBSHOST"[m ] [1;33m"BBSVERSION"[m ÇëÉÔºò...\r\n[1;36m×î½ü [33m(1,10,15)[36m ·ÖÖÓÆ½¾ù¸ººÉÎª[33m %s [36m(ÉÏÏŞ = %d) [%s][0m\r\n"
+#define BANNER  "\r\næ¬¢è¿å…‰ä¸´[1;33m"BBSNAME"[m[ [1;32m"BBSHOST"[m ] [1;33m"BBSVERSION"[m è¯·ç¨å€™...\r\n[1;36mæœ€è¿‘ [33m(1,10,15)[36m åˆ†é’Ÿå¹³å‡è´Ÿè·ä¸º[33m %s [36m(ä¸Šé™ = %d) [%s][0m\r\n"
 #else
-#define BANNER  "\r\n»¶Ó­¹âÁÙ[1;33m"BBSNAME"[m[ [1;32m"BBSHOST"[m] [1;33m"BBSVERSION"[m \r\n"
+#define BANNER  "\r\næ¬¢è¿å…‰ä¸´[1;33m"BBSNAME"[m[ [1;32m"BBSHOST"[m] [1;33m"BBSVERSION"[m \r\n"
 #endif
 
-jmp_buf byebye; //´æ´¢Ä³¸ö·ÖÖ§×´Ì¬.longjumpµ½´ËÊ±½«ÍË³ö
+jmp_buf byebye; //å­˜å‚¨æŸä¸ªåˆ†æ”¯çŠ¶æ€.longjumpåˆ°æ­¤æ—¶å°†é€€å‡º
 char remoteusername[40] = "?"; //
-extern char fromhost[60]; //´æ´¢ÓÃ»§µÄIPÀ´Ô´,»òÕßÊÇ×Ö·û±íÊ¾µÄÓòÃû
-char genbuf[1024]; //Í¨ÓÃ×Ö·û´®»º³åÇø,ÒÔ½øÒ»²½²Ù×÷
+extern char fromhost[60]; //å­˜å‚¨ç”¨æˆ·çš„IPæ¥æº,æˆ–è€…æ˜¯å­—ç¬¦è¡¨ç¤ºçš„åŸŸå
+char genbuf[1024]; //é€šç”¨å­—ç¬¦ä¸²ç¼“å†²åŒº,ä»¥è¿›ä¸€æ­¥æ“ä½œ
 #ifdef HAVE_CHKLOAD
-char loadstr[1024]; //±íÊ¾ÏµÍ³¸ººÉµÄ×Ö·û´®
+char loadstr[1024]; //è¡¨ç¤ºç³»ç»Ÿè´Ÿè·çš„å­—ç¬¦ä¸²
 #endif
-char status[64]; //¸ù¾İÏµÍ³¸ººÉ,ÓÃÓÚÏÔÊ¾µÄ×Ö·û´®
+char status[64]; //æ ¹æ®ç³»ç»Ÿè´Ÿè·,ç”¨äºæ˜¾ç¤ºçš„å­—ç¬¦ä¸²
 
 /* ----------------------------------------------------- */
 /* FSA (finite state automata) for telnet protocol       */
 /* ----------------------------------------------------- */
 
-//	telnet³õÊ¼»¯,ÓëÓÃ»§Í¨ĞÅ
+//	telnetåˆå§‹åŒ–,ä¸ç”¨æˆ·é€šä¿¡
 static void telnet_init() {
 	static char svr[] = { IAC, WILL, TELOPT_ECHO, IAC, WILL, TELOPT_SGA };
 	struct timeval to;
@@ -107,7 +107,7 @@ static void telnet_init() {
 }
 
 /* ----------------------------------------------- */
-/* È¡µÃ remote user name ÒÔÅĞ¶¨Éí·İ                */
+/* å–å¾— remote user name ä»¥åˆ¤å®šèº«ä»½                */
 /* ----------------------------------------------- */
 
 /*
@@ -130,15 +130,15 @@ static void telnet_init() {
 /* timeout - handle timeouts */
 /* ------------------------- */
 #ifdef DOMAIN_NAME	
-//³¬Ê±´¦Àíº¯Êı,Ìø×ªµ½byebye´æ´¢µÄ×´Ì¬ÖĞÈ¥
+//è¶…æ—¶å¤„ç†å‡½æ•°,è·³è½¬åˆ°byebyeå­˜å‚¨çš„çŠ¶æ€ä¸­å»
 static void timeout(int sig)
 {
 	(void) longjmp(byebye, sig);
 }
 #endif
 
-//´ÓfromÖĞÈ¡µÃÔ¶³Ì¼ÆËã»úµÄÃû³Æ,²¢´æ´¢ÔÚrhostÖĞ
-//rnameÎªÓÃ»§Ãû,Ä¿Ç°ËÆºõ²¢ÎŞÓÃ´¦
+//ä»fromä¸­å–å¾—è¿œç¨‹è®¡ç®—æœºçš„åç§°,å¹¶å­˜å‚¨åœ¨rhostä¸­
+//rnameä¸ºç”¨æˆ·å,ç›®å‰ä¼¼ä¹å¹¶æ— ç”¨å¤„
 static void getremotename(struct sockaddr_in *from, char *rhost,
 		char *rname) {
 	//struct sockaddr_in our_sin;
@@ -179,7 +179,7 @@ static void getremotename(struct sockaddr_in *from, char *rhost,
 #ifdef  HAVE_CHKLOAD
 int fkmem;
 
-//¼ì²éÏµÍ³¸ººÉ,²¢·µ»Ø¸ººÉ¶È
+//æ£€æŸ¥ç³»ç»Ÿè´Ÿè·,å¹¶è¿”å›è´Ÿè·åº¦
 int chkload(int limit)
 {
 	double cpu_load[3];
@@ -193,7 +193,7 @@ int chkload(int limit)
 	if (!fp)
 	cpu_load[0] = cpu_load[1] = cpu_load[2] = 0;
 	else {
-		float av[3]; /*	Õâ¸ö±äÁ¿ËÆºõÓĞµã¶àÓà	*/
+		float av[3]; /*	è¿™ä¸ªå˜é‡ä¼¼ä¹æœ‰ç‚¹å¤šä½™	*/
 		fscanf(fp, "%g %g %g", av, av + 1, av + 2);
 		fclose(fp);
 		cpu_load[0] = av[0];
@@ -255,13 +255,13 @@ int chkload(int limit)
 	//	if (i < limit)
 	i = 0;
 	if(i) {
-		strcpy(status,"³¬¸ººÉ£¬ÇëÉÔºóÔÙÀ´");
+		strcpy(status,"è¶…è´Ÿè·ï¼Œè¯·ç¨åå†æ¥");
 	} else if (cpu_load[0] >= (float) 0 && cpu_load[0] < (float) 1) {
-		strcpy(status, "¸ººÉÕı³£");
+		strcpy(status, "è´Ÿè·æ­£å¸¸");
 	} else if (cpu_load[0] >= 1 && cpu_load[0] < (float) 10) {
-		strcpy(status, "¸ººÉÆ«¸ß");
+		strcpy(status, "è´Ÿè·åé«˜");
 	} else {
-		strcpy(status, "¸ººÉ¹ıÖØ");
+		strcpy(status, "è´Ÿè·è¿‡é‡");
 	}
 	sprintf(loadstr,"%.2f %.2f %.2f",cpu_load[0],cpu_load[1],cpu_load[2]);
 
@@ -276,15 +276,15 @@ int chkload(int limit)
 static int mainset; /* read file descriptor set */
 static struct sockaddr_in xsin;
 
-//µÈ´ıËùÓĞµÄ×Ó½ø³ÌÍê³É
+//ç­‰å¾…æ‰€æœ‰çš„å­è¿›ç¨‹å®Œæˆ
 static void reapchild() {
 	int state, pid;
 	while ((pid = waitpid(-1, &state, WNOHANG | WUNTRACED)) > 0)
 		;
 }
 
-//Æô¶¯·şÎñ½ø³Ì,¹Ø±ÕËùÓĞ´ò¿ªµÄÎÄ¼şÃèÊö·û,°ÑËùÓĞµÄĞÅºÅ´¦ÀíÉèÖÃ³Éignore
-//		ºöÊÓËùÓĞµÄÍâ²¿ĞÅºÅ kill -9 Ó¦¸Ã²»ÄÜºöÊÓµÄ:)
+//å¯åŠ¨æœåŠ¡è¿›ç¨‹,å…³é—­æ‰€æœ‰æ‰“å¼€çš„æ–‡ä»¶æè¿°ç¬¦,æŠŠæ‰€æœ‰çš„ä¿¡å·å¤„ç†è®¾ç½®æˆignore
+//		å¿½è§†æ‰€æœ‰çš„å¤–éƒ¨ä¿¡å· kill -9 åº”è¯¥ä¸èƒ½å¿½è§†çš„:)
 static void start_daemon() {
 	int n;
 	char buf[80];
@@ -328,12 +328,12 @@ static void start_daemon() {
 
 }
 
-//ÍË³ö·şÎñ½ø³Ì
+//é€€å‡ºæœåŠ¡è¿›ç¨‹
 static void close_daemon() {
 	exit(0);
 }
 
-//½«Ê±¼ä,½ø³ÌIDµÈĞÅÏ¢Ğ´ÈëÈÕÖ¾ÎÄ¼ş
+//å°†æ—¶é—´,è¿›ç¨‹IDç­‰ä¿¡æ¯å†™å…¥æ—¥å¿—æ–‡ä»¶
 static void bbsd_log(char *str) {
 	char buf[256];
 	time_t mytime;
@@ -347,7 +347,7 @@ static void bbsd_log(char *str) {
 file_append(LOG_FILE, buf);
 }
 
-//°ó¶¨²¢¼àÌı¶Ë¿Úport,·µ»ØsocketÃèÊö·û
+//ç»‘å®šå¹¶ç›‘å¬ç«¯å£port,è¿”å›socketæè¿°ç¬¦
 static int bind_port(int port) {
 	int sock, on;
 	sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -376,8 +376,8 @@ static int bind_port(int port) {
 }
 
 #ifdef BAD_HOST
-//·µ»ØnameÊÇ·ñÔÚBAD_HOSTºêËùÖ¸¶¨µÄÎÄ¼şÖĞ´æÔÚ,
-//		·µ»ØÊÇ·ñ·ûºÏÏà¹ØÌõ¼ş	1Îªtrue,0Îªfalse
+//è¿”å›nameæ˜¯å¦åœ¨BAD_HOSTå®æ‰€æŒ‡å®šçš„æ–‡ä»¶ä¸­å­˜åœ¨,
+//		è¿”å›æ˜¯å¦ç¬¦åˆç›¸å…³æ¡ä»¶	1ä¸ºtrue,0ä¸ºfalse
 static int bad_host(char *name)
 {
 	FILE *list;
@@ -440,8 +440,8 @@ int main(int argc, char *argv[]) {
 
 	start_daemon();
 
-	(void) signal(SIGCHLD, reapchild); //ÊÕµ½´ËĞÅºÅÊ±,µÈºòËùÓĞ×Ó½ø³Ì½áÊø
-	(void) signal(SIGTERM, close_daemon); //½áÊøÊ±,¹Ø±Õdaemon
+	(void) signal(SIGCHLD, reapchild); //æ”¶åˆ°æ­¤ä¿¡å·æ—¶,ç­‰å€™æ‰€æœ‰å­è¿›ç¨‹ç»“æŸ
+	(void) signal(SIGTERM, close_daemon); //ç»“æŸæ—¶,å…³é—­daemon
 
 
 	/* --------------------------------------------------- */
@@ -449,7 +449,7 @@ int main(int argc, char *argv[]) {
 	/* --------------------------------------------------- */
 
 	xsin.sin_family = AF_INET;
-	if (argc > 1) { //¼àÌı¶Ë¿ÚÎªcsock
+	if (argc > 1) { //ç›‘å¬ç«¯å£ä¸ºcsock
 		csock = atoi(argv[1]) ;
 	}
 	if (csock <= 0) {
@@ -468,7 +468,7 @@ int main(int argc, char *argv[]) {
 	(void) setgid((gid_t)BBSGID);
 	(void) setuid((uid_t)BBSUID);
 	(void) chdir(BBSHOME);
-	umask((mode_t)022); //Ä¬ÈÏ´´½¨µÄÎÄ¼şÄ¿Â¼È¨ÏŞ¶¼ÊÇ644
+	umask((mode_t)022); //é»˜è®¤åˆ›å»ºçš„æ–‡ä»¶ç›®å½•æƒé™éƒ½æ˜¯644
 
 unlink(PID_FILE);
 		sprintf(genbuf, "%d", getpid());
@@ -497,7 +497,7 @@ file_append(PID_FILE, genbuf);
 		char line[STRLEN], *special;
 		memset(table, 0, sizeof(struct ip_name)*256);
 
-		netip = fopen("etc/hosts", "r");//ÉèÖÃIPµ½DNSµÄÓ³Éä,Èç
+		netip = fopen("etc/hosts", "r");//è®¾ç½®IPåˆ°DNSçš„æ˜ å°„,å¦‚
 		//		202.120.3.1->bbs.sjtu.edu.cn
 		if (netip != NULL) {
 			i_counter = 0;
@@ -536,7 +536,7 @@ file_append(PID_FILE, genbuf);
 		pid = time(0);
 		if (pid> uptime) {
 			overload = chkload(TH_LOW); //chkload(overload ? TH_LOW : TH_HIGH);
-			uptime = pid + 10; /* ¶ÌÊ±¼äÄÚ²»ÔÙ¼ì²é system load */
+			uptime = pid + 10; /* çŸ­æ—¶é—´å†…ä¸å†æ£€æŸ¥ system load */
 		}
 #endif
 
@@ -575,7 +575,7 @@ sprintf		(genbuf, BANNER);
 			}
 		}// HAVE_CHKLOAD
 
-		sprintf(genbuf, "\nÄ¿Ç°ÕıÓĞ%dÈËÕı³¢ÊÔÁ¬½Ó", deadnum);
+		sprintf(genbuf, "\nç›®å‰æ­£æœ‰%däººæ­£å°è¯•è¿æ¥", deadnum);
 		write(csock, genbuf, strlen(genbuf));
 
 		if (overload) {
@@ -602,7 +602,7 @@ sprintf		(genbuf, BANNER);
 		{
 			FILE *fp;
 			char buf[256];
-#define MYBANNER "\r\nFB2000 [bbsd NOLOGIN] ÏµÍ³´¦ÓÚ[1;33mÔİÍ£µÇÂ½[m×´Ì¬\r\n[1;32m[±¾Õ¾³ÌĞòÎ¬»¤¿ÉÒÔÉ¾³ı \'[36m~bbs/NOLOGIN[32m\' ºó½â³ı¸Ã×´Ì¬][m\r\n\r\n£½£½£½£½£½£½¹ØÓÚÏµÍ³½øÈëÔİÍ£µÇÂ½×´Ì¬µÄ¡¾¹«¸æ¡¿£½£½£½£½£½£½\r\n"
+#define MYBANNER "\r\nFB2000 [bbsd NOLOGIN] ç³»ç»Ÿå¤„äº[1;33mæš‚åœç™»é™†[mçŠ¶æ€\r\n[1;32m[æœ¬ç«™ç¨‹åºç»´æŠ¤å¯ä»¥åˆ é™¤ \'[36m~bbs/NOLOGIN[32m\' åè§£é™¤è¯¥çŠ¶æ€][m\r\n\r\nï¼ï¼ï¼ï¼ï¼ï¼å…³äºç³»ç»Ÿè¿›å…¥æš‚åœç™»é™†çŠ¶æ€çš„ã€å…¬å‘Šã€‘ï¼ï¼ï¼ï¼ï¼ï¼\r\n"
 
 			if ((fp = fopen(NOLOGIN, "r")) != NULL) {
 				(void) write(csock, MYBANNER, strlen(MYBANNER));
@@ -634,7 +634,7 @@ sprintf		(genbuf, BANNER);
 #else	//LOADTEST
 			strcpy(fromhost,"LOADTEST");
 #endif //LOADTEST
-			/* ban µô bad host / bad user */
+			/* ban æ‰ bad host / bad user */
 #ifdef BAD_HOST
 			if (bad_host(fromhost) && !strcmp(remoteusername, "?"))
 			exit(1);
@@ -645,7 +645,7 @@ sprintf		(genbuf, BANNER);
 #ifndef FDQUAN
 			if (strncmp(fromhost, "10.", 3) && strncmp(fromhost, "192.", 4))
 #endif
-			//²»ÊÇ´ÓĞ£ÄÚÀ´µÄIP,Ôò:
+			//ä¸æ˜¯ä»æ ¡å†…æ¥çš„IP,åˆ™:
 			while (table[i_counter].ip[0] != '\0') {
 				if(!strcasecmp(table[i_counter].ip, fromhost)) {
 					strcpy(fromhost, table[i_counter].name);
@@ -655,13 +655,13 @@ sprintf		(genbuf, BANNER);
 			}
 
 #endif
-			//ÏÂÃæÁ½¸öµ÷ÓÃËÆºõ¶àÁËÒ»¸ö²ÎÊı
+			//ä¸‹é¢ä¸¤ä¸ªè°ƒç”¨ä¼¼ä¹å¤šäº†ä¸€ä¸ªå‚æ•°
 			bbssetenv("REMOTEHOST", fromhost, 1);
 			bbssetenv("REMOTEUSERNAME", remoteusername, 1);
 
 			telnet_init();
 			//nice(3);
-			start_client();//¿ªÊ¼ÓÃ»§½ø³Ì???,ËÆºõÃ»ÓĞÕÒµ½
+			start_client();//å¼€å§‹ç”¨æˆ·è¿›ç¨‹???,ä¼¼ä¹æ²¡æœ‰æ‰¾åˆ°
 		}//if(!pid)
 #ifndef LOADTEST
 		(void) close(csock);

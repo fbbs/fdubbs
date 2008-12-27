@@ -91,16 +91,16 @@ void do_dir()
     //sprintf(strSourcedir,"%s%s%s",BBSDISKPATH,strAnnpath,arrDirs[intbottom]);
     sprintf(strSourcedir,arrDirs[intbottom]);
     sprintf(strTargetdir,"%s%sd%7",TARWORKPATH,strBoard,intbottom);
-    // ¶ÔÎÄ¼şËùÔÚÔ´Â·¾¶ºÍÄ¿µÄÂ·¾¶¸³Öµ
+    // å¯¹æ–‡ä»¶æ‰€åœ¨æºè·¯å¾„å’Œç›®çš„è·¯å¾„èµ‹å€¼
 
     // &&& sprintf(strFindex,"%s/index.htm",strTargetdir);
     // &&& if ( findex=fopen(strFindex,"w") ) {
-        // &&& Ğ´Èë index.htm µÄÆğÊ¼µÄÒ»Ğ©ĞÅÏ¢
+        // &&& å†™å…¥ index.htm çš„èµ·å§‹çš„ä¸€äº›ä¿¡æ¯
 
         //sprintf(strFnames,"%s%s%s/%s",BBSDISKPATH,strAnnpath,strBoard,DOTNAMES);
         sprintf(strFnames,"%s/%s",strSourcedir,DOTNAMES);
         if (fnames=fopen(strFnames,"rt")) {
-            // &&& ¶ÁÍ·ĞÅÏ¢
+            // &&& è¯»å¤´ä¿¡æ¯
             intfcount=0;
             while (!feof(fnames)) {
                 fgets(strCon,STRLEN,fnames);
@@ -123,20 +123,20 @@ void do_dir()
                     }
                     intfcount++;
                 }
-                // &&& ½«PATH×Ö¶ÎµÄÖµĞ´ÈëarrFiles[intfcount];
+                // &&& å°†PATHå­—æ®µçš„å€¼å†™å…¥arrFiles[intfcount];
 
                 
-                // ¼ì²éÊÇ·ñ´æÔÚÖØ¸´µÄÁ´½Ó£¬ÈôÓĞ£¬ÔòÌø¹ı´ËÎÄ¼ş¡£
+                // æ£€æŸ¥æ˜¯å¦å­˜åœ¨é‡å¤çš„é“¾æ¥ï¼Œè‹¥æœ‰ï¼Œåˆ™è·³è¿‡æ­¤æ–‡ä»¶ã€‚
                 
                 
             }
         }
-        // ¶Á .Names ÎÄ¼ş
+        // è¯» .Names æ–‡ä»¶
         fclose(fnames);
 
         deltrashfile(strSourcedir);
         printf("Do Dir:%s.\n",strSourcedir);
-        // &&& Ğ´Èë index.htm ½áÊøµÄÒ»Ğ©ĞÅÏ¢
+        // &&& å†™å…¥ index.htm ç»“æŸçš„ä¸€äº›ä¿¡æ¯
     // &&& }
 }
 
@@ -147,8 +147,8 @@ main(int argc, char **argv)
     char strFname[DIRPATHLEN];
     FILE * fw;
 
-    strcpy(strBoard,"emprise");  // &&& ĞèÒªÌæ»»
-    // copy from Ô­À´µÄ³ÌĞò
+    strcpy(strBoard,"emprise");  // &&& éœ€è¦æ›¿æ¢
+    // copy from åŸæ¥çš„ç¨‹åº
     printf("Initializing...\n"); 
     if (argc < 2) { 
         printf("Syntax: %s XDIR\n", argv[0]); 
@@ -161,44 +161,44 @@ main(int argc, char **argv)
     //    printf("XDIR \"%s\" not found\n", strBoard); 
     //    exit(-1); 
     //}
-    strcpy(strAnnpath,"literal.faq/"); // &&& ĞèÒªÌæ»»
+    strcpy(strAnnpath,"literal.faq/"); // &&& éœ€è¦æ›¿æ¢
     if (!dashd(strBoard)){
         printf("XDIR \"%s\" not found\n", strBoard); 
     	exit(-1);
     }
     // end of copy
     
-    // µÃµ½°æÃæÃû³Æ£¬´æÈëstrBoard
+    // å¾—åˆ°ç‰ˆé¢åç§°ï¼Œå­˜å…¥strBoard
 
     intbottom=0;
     inttop=1;
     sprintf(arrDirs[intbottom],"%s",strBoard);
-    // ³õÊ¼»¯´æ·ÅÄ¿Â¼µÄ¶ÓÁĞ
+    // åˆå§‹åŒ–å­˜æ”¾ç›®å½•çš„é˜Ÿåˆ—
     
     // &&& sprintf(strCmd,"mkdir %s%s",TARWORKPATH,strBoard);
     // &&& system(strCmd);
     sprintf(strCmd,"mkdir %s%s",TRASHPATH,strBoard);
     system(strCmd);
-    // ½¨Á¢ÏàÓ¦µÄÄ¿Â¼
+    // å»ºç«‹ç›¸åº”çš„ç›®å½•
 
     while (intbottom<inttop) {
         do_dir();
         intbottom++;
     }
-    // ´¦Àí¸Ã°æ¾«»ªÇøÏÂËùÓĞµÄÄ¿Â¼
+    // å¤„ç†è¯¥ç‰ˆç²¾ååŒºä¸‹æ‰€æœ‰çš„ç›®å½•
     
     /* // &&&
     sprintf(strFname,"%s%s/index.htm",TARWORKPATH,strBoard);
     if ( fw=fopen(strFname,"w") ) {
-        // &&& ¸ù¾İÒ³Ãæ£¬Ğ´Èëindex.htm
+        // &&& æ ¹æ®é¡µé¢ï¼Œå†™å…¥index.htm
     }
-    // Ğ´Èëindex.htm
+    // å†™å…¥index.htm
 
     sprintf(strCmd,"tar cf - %s%s| gzip - >%s%s%s.tar.gz"
         ,TARWORKPATH,strBoard,BBSDISKPATH,strAnnpath,strBoard);
     system(strCmd);
     */
-    // ½«Éú³ÉµÄÄÚÈİ´ò°ü
+    // å°†ç”Ÿæˆçš„å†…å®¹æ‰“åŒ…
     
     printf("END.\n");
 }

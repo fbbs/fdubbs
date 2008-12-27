@@ -22,24 +22,24 @@ int debug(char* msg){
 
 int show(int k,int i)
 {
-    printf("ĞòºÅ: %-4d ", k+1);
+    printf("åºå·: %-4d ", k+1);
     if(lib[i].data[0]>=3600)
-    	printf("°æÃû: %-15s °æÖ÷: %-13s Í£Áô: %d Ğ¡Ê± %d ·Ö %dÃë\n", lib[i].boardname, lib[i].id, lib[i].data[0]/3600, lib[i].data[0]/60%60, lib[i].data[0]%60);
+    	printf("ç‰ˆå: %-15s ç‰ˆä¸»: %-13s åœç•™: %d å°æ—¶ %d åˆ† %dç§’\n", lib[i].boardname, lib[i].id, lib[i].data[0]/3600, lib[i].data[0]/60%60, lib[i].data[0]%60);
     else if(lib[i].data[0]>=60)
-    	printf("°æÃû: %-15s °æÖ÷: %-13s Í£Áô: %d ·Ö %d Ãë\n", lib[i].boardname, lib[i].id, lib[i].data[0]/60, lib[i].data[0]%60);
+    	printf("ç‰ˆå: %-15s ç‰ˆä¸»: %-13s åœç•™: %d åˆ† %d ç§’\n", lib[i].boardname, lib[i].id, lib[i].data[0]/60, lib[i].data[0]%60);
     else
-		printf("°æÃû: %-15s °æÖ÷: %-13s Í£Áô: %d Ãë\n", lib[i].boardname, lib[i].id, lib[i].data[0]);
-    printf("    ½ø°æ´ÎÊı: %-4d    °æÄÚ·¢ÎÄ: %-4d    É¾³ıÎÄÕÂ: %-4d    »Ö¸´É¾³ı: %-4d\n", 
+		printf("ç‰ˆå: %-15s ç‰ˆä¸»: %-13s åœç•™: %d ç§’\n", lib[i].boardname, lib[i].id, lib[i].data[0]);
+    printf("    è¿›ç‰ˆæ¬¡æ•°: %-4d    ç‰ˆå†…å‘æ–‡: %-4d    åˆ é™¤æ–‡ç« : %-4d    æ¢å¤åˆ é™¤: %-4d\n", 
 		lib[i].data[BMLOG_INBOARD], lib[i].data[BMLOG_POST], lib[i].data[BMLOG_DELETE], lib[i].data[BMLOG_UNDELETE]);
-    printf("    ÊÕÈëÎÄÕª: %-4d    È¥µôÎÄÕª: %-4d    ±ê¼Ç mÎÄ: %-4d    È¥µô mÎÄ: %-4d\n", 
+    printf("    æ”¶å…¥æ–‡æ‘˜: %-4d    å»æ‰æ–‡æ‘˜: %-4d    æ ‡è®° mæ–‡: %-4d    å»æ‰ mæ–‡: %-4d\n", 
 	lib[i].data[BMLOG_DIGIST], lib[i].data[BMLOG_UNDIGIST],	lib[i].data[BMLOG_MARK], lib[i].data[BMLOG_UNMARK]);
-    printf("    ±ê¼ÇË®ÎÄ: %-4d    È¥µôË®ÎÄ: %-4d    ±ê¼Ç xÎÄ: %-4d    È¥µô xÎÄ: %-4d\n", 
+    printf("    æ ‡è®°æ°´æ–‡: %-4d    å»æ‰æ°´æ–‡: %-4d    æ ‡è®° xæ–‡: %-4d    å»æ‰ xæ–‡: %-4d\n", 
 	lib[i].data[BMLOG_WATER], lib[i].data[BMLOG_UNWATER], lib[i].data[BMLOG_CANNOTRE], lib[i].data[BMLOG_UNCANNOTRE]);
-    printf("    ·â½ûÈËÊı: %-4d    ½â·âÈËÊı: %-4d    ¼ÓÈëClub: %-4d    È¡ÏûClub: %-4d\n", 
+    printf("    å°ç¦äººæ•°: %-4d    è§£å°äººæ•°: %-4d    åŠ å…¥Club: %-4d    å–æ¶ˆClub: %-4d\n", 
 		lib[i].data[BMLOG_DENYPOST], lib[i].data[BMLOG_UNDENY], lib[i].data[BMLOG_ADDCLUB], lib[i].data[BMLOG_DELCLUB]);
-    printf("    ÊÕÈë¾«»ª: %-4d    ÕûÀí¾«»ª: %-4d    ºÏ¼¯ÎÄÕÂ: %-4d\n", 
+    printf("    æ”¶å…¥ç²¾å: %-4d    æ•´ç†ç²¾å: %-4d    åˆé›†æ–‡ç« : %-4d\n", 
 		lib[i].data[BMLOG_ANNOUNCE], lib[i].data[BMLOG_DOANN], lib[i].data[BMLOG_COMBINE]);
-    printf("    Çø¶ÎÊÕ¾«: %-4d    Çø¶ÎÉ¾³ı: %-4d    Çø¶ÎÆäËû: %-4d\n", lib[i].data[BMLOG_RANGEANN],  lib[i].data[BMLOG_RANGEDEL], lib[i].data[BMLOG_RANGEOTHER]);
+    printf("    åŒºæ®µæ”¶ç²¾: %-4d    åŒºæ®µåˆ é™¤: %-4d    åŒºæ®µå…¶ä»–: %-4d\n", lib[i].data[BMLOG_RANGEANN],  lib[i].data[BMLOG_RANGEDEL], lib[i].data[BMLOG_RANGEOTHER]);
 	printf("\n");
     return 0;
 }
@@ -82,21 +82,21 @@ void showall()
 	
 	switch (timed){
 		case 0:
-			printf("%04d-%02d-%02d ÈÕ°æÖ÷¹¤×÷Çé¿öÒ»ÀÀ\n", 
+			printf("%04d-%02d-%02d æ—¥ç‰ˆä¸»å·¥ä½œæƒ…å†µä¸€è§ˆ\n", 
 				1900+today->tm_year, today->tm_mon + 1, today->tm_mday);
 			break;
 		case 1:
-			printf("%04d-%02d-%02d ±¾ÖÜ°æÖ÷¹¤×÷Çé¿öÒ»ÀÀ.\n",
+			printf("%04d-%02d-%02d æœ¬å‘¨ç‰ˆä¸»å·¥ä½œæƒ…å†µä¸€è§ˆ.\n",
 				1900+today->tm_year, today->tm_mon + 1, today->tm_mday);
 			break;
 		case 2:
-			printf("%04d-%02d-%02d µ½ %04d-%02d-%02d ±¾ÔÂ°æÖ÷¹¤×÷Çé¿öÒ»ÀÀ\n",
+			printf("%04d-%02d-%02d åˆ° %04d-%02d-%02d æœ¬æœˆç‰ˆä¸»å·¥ä½œæƒ…å†µä¸€è§ˆ\n",
 				1900+today->tm_year, today->tm_mon + 1,1,
 				1900+today->tm_year, today->tm_mon + 1, today->tm_mday);
 				
 			break;
 		case 3:
-			printf("%04d-%02d-%02d µ½ %04d-%02d-%02d Äê¶È°æÖ÷¹¤×÷Çé¿öÒ»ÀÀ\n",
+			printf("%04d-%02d-%02d åˆ° %04d-%02d-%02d å¹´åº¦ç‰ˆä¸»å·¥ä½œæƒ…å†µä¸€è§ˆ\n",
 				1900+today->tm_year, 1, 1,
 				1900+today->tm_year, today->tm_mon + 1, today->tm_mday);
 	}

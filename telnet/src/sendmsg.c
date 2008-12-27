@@ -44,13 +44,13 @@ int get_msg(char *uid, char * msg, int line) {
 	char genbuf[3];
 	move(line, 0);
 	clrtoeol();
-	prints("ËÍÒôĞÅ¸ø£º%s", uid);
+	prints("é€éŸ³ä¿¡ç»™ï¼š%s", uid);
 	memset(msg, 0, sizeof(msg));
 	while (1) {
-		getdata(line + 1, 0, "ÒôĞÅ : ", msg, 55, DOECHO, NA);
+		getdata(line + 1, 0, "éŸ³ä¿¡ : ", msg, 55, DOECHO, NA);
 		if (msg[0] == '\0')
 			return NA;
-		getdata(line + 2, 0, "È·¶¨ÒªËÍ³öÂğ(Y)ÊÇµÄ (N)²»Òª (E)ÔÙ±à¼­? [Y]: ", genbuf, 2,
+		getdata(line + 2, 0, "ç¡®å®šè¦é€å‡ºå—(Y)æ˜¯çš„ (N)ä¸è¦ (E)å†ç¼–è¾‘? [Y]: ", genbuf, 2,
 				DOECHO, YEA);
 		if (genbuf[0] == 'e' || genbuf[0] == 'E')
 			continue;
@@ -102,7 +102,7 @@ char *direct;
 	uin = t_search(fileinfo->owner, NA);
 	if (uin == NULL ||(uin->invisible && !HAS_PERM(PERM_SEECLOAK))) {
 		move(2, 0);
-		prints("¶Ô·½Ä¿Ç°²»ÔÚÏßÉÏ...\n");
+		prints("å¯¹æ–¹ç›®å‰ä¸åœ¨çº¿ä¸Š...\n");
 		pressreturn();
 	} else {
 		do_sendmsg(uin, NULL, 0, uin->pid);
@@ -126,7 +126,7 @@ int show_allmsgs() {
 		clear();
 	} else {
 		move(5, 30);
-		prints("Ã»ÓĞÈÎºÎµÄÑ¶Ï¢´æÔÚ£¡£¡");
+		prints("æ²¡æœ‰ä»»ä½•çš„è®¯æ¯å­˜åœ¨ï¼ï¼");
 		pressanykey();
 		clear();
 	}//if dashf(fname)
@@ -140,7 +140,7 @@ int do_sendmsg(struct user_info *uentp, char msgstr[256], int mode,
 	char buf[80], *msgbuf, *timestr;
 #ifdef LOG_MY_MESG
 	char *mymsg, buf2[80];
-	int ishelo = 0; /* ÊÇ²»ÊÇºÃÓÑÉÏÕ¾Í¨ÖªÑ¶Ï¢ */
+	int ishelo = 0; /* æ˜¯ä¸æ˜¯å¥½å‹ä¸Šç«™é€šçŸ¥è®¯æ¯ */
 	mymsg = (char *) malloc(256);
 #endif
 	msgbuf = (char *) malloc(256);
@@ -151,7 +151,7 @@ int do_sendmsg(struct user_info *uentp, char msgstr[256], int mode,
 		/*
 		 if (uinfo.invisible && !HAS_PERM(PERM_SYSOP)) {
 		 move(2, 0);
-		 prints("±§Ç¸, ´Ë¹¦ÄÜÔÚÒşÉí×´Ì¬ÏÂ²»ÄÜÖ´ĞĞ...\n");
+		 prints("æŠ±æ­‰, æ­¤åŠŸèƒ½åœ¨éšèº«çŠ¶æ€ä¸‹ä¸èƒ½æ‰§è¡Œ...\n");
 		 pressreturn();
 		 return 0;
 		 }
@@ -159,10 +159,10 @@ int do_sendmsg(struct user_info *uentp, char msgstr[256], int mode,
 		modify_user_mode(MSG);
 	}
 	if (uentp == NULL) {
-		prints("<ÊäÈëÊ¹ÓÃÕß´úºÅ>\n");
+		prints("<è¾“å…¥ä½¿ç”¨è€…ä»£å·>\n");
 		move(1, 0);
 		clrtoeol();
-		prints("ËÍÑ¶Ï¢¸ø: ");
+		prints("é€è®¯æ¯ç»™: ");
 		creat_list();
 		namecomplete(NULL, uident);
 		if (uident[0] == '\0') {
@@ -176,7 +176,7 @@ int do_sendmsg(struct user_info *uentp, char msgstr[256], int mode,
 		uin = t_search(uident, NA);
 		if (uin == NULL) {
 			move(2, 0);
-			prints("¶Ô·½Ä¿Ç°²»ÔÚÏßÉÏ...\n");
+			prints("å¯¹æ–¹ç›®å‰ä¸åœ¨çº¿ä¸Š...\n");
 			pressreturn();
 			move(2, 0);
 			clrtoeol();
@@ -186,7 +186,7 @@ int do_sendmsg(struct user_info *uentp, char msgstr[256], int mode,
 				== LOCKSCREEN || uin->mode == HYTELNET ||uin->mode == GAME
 				|| uin->mode == PAGE ||uin->mode == FIVE || !canmsg(uin)) {
 			move(2, 0);
-			prints("Ä¿Ç°ÎŞ·¨´«ËÍÑ¶Ï¢¸ø¶Ô·½.\n");
+			prints("ç›®å‰æ— æ³•ä¼ é€è®¯æ¯ç»™å¯¹æ–¹.\n");
 			pressreturn();
 			move(2, 0);
 			clrtoeol();
@@ -215,7 +215,7 @@ int do_sendmsg(struct user_info *uentp, char msgstr[256], int mode,
 	now = time(0);
 	timestr = ctime(&now) + 11;
 	*(timestr + 8) = '\0';
-	strcpy(ret_str, "^Z»Ø");
+	strcpy(ret_str, "^Zå›");
 	if (msgstr == NULL || mode == 2) {
 		sprintf(
 				msgbuf,
@@ -228,7 +228,7 @@ int do_sendmsg(struct user_info *uentp, char msgstr[256], int mode,
 		sprintf(mymsg, "[1;32;40mTo [1;33;40m%-12.12s[m(%-5.5s):%-57.57s\n",
 				uin->userid, timestr, (msgstr == NULL) ? buf : msgstr);
 
-		sprintf(buf2, "ÄãµÄºÃÅóÓÑ %s ÒÑ¾­ÉÏÕ¾ÂŞ£¡", currentuser.userid);
+		sprintf(buf2, "ä½ çš„å¥½æœ‹å‹ %s å·²ç»ä¸Šç«™ç½—ï¼", currentuser.userid);
 
 		if (msgstr != NULL)
 		if (strcmp(msgstr, buf2) == 0)
@@ -239,12 +239,12 @@ int do_sendmsg(struct user_info *uentp, char msgstr[256], int mode,
 	} else if (mode == 0) {
 		sprintf(
 				msgbuf,
-				"[0;1;5;44;33mÕ¾³¤ ì¶[36m %8.8s [33m¹ã²¥£º[m[1;37;44m%-57.57s[m[%05dm\n",
+				"[0;1;5;44;33mç«™é•¿ æ–¼[36m %8.8s [33må¹¿æ’­ï¼š[m[1;37;44m%-57.57s[m[%05dm\n",
 				timestr, msgstr, uinfo.pid);
 	} else if (mode == 1) {
 		sprintf(
 				msgbuf,
-				"[0;1;44;36m%-12.12s[37m([36m%-5.5s[37m) ÑûÇëÄã[37m%-48.48s[31m(%s)[m[%05dm\n",
+				"[0;1;44;36m%-12.12s[37m([36m%-5.5s[37m) é‚€è¯·ä½ [37m%-48.48s[31m(%s)[m[%05dm\n",
 				currentuser.userid, timestr, msgstr, ret_str, uinfo.pid);
 	} else if (mode == 3) {
 		sprintf(
@@ -257,7 +257,7 @@ int do_sendmsg(struct user_info *uentp, char msgstr[256], int mode,
 	else if (mode == 4) {
 		sprintf(
 				msgbuf,
-				"[0;1;45;36m%-12.12s[36mÏòÄú¸æ±ğ([1;36;45m%8.8s[36m)£º[m[1;36;45m%-48.48s[m[%05dm\n",
+				"[0;1;45;36m%-12.12s[36må‘æ‚¨å‘Šåˆ«([1;36;45m%8.8s[36m)ï¼š[m[1;36;45m%-48.48s[m[%05dm\n",
 				currentuser.userid, timestr, msgstr, 0);
 	}
 	/* add end */
@@ -266,7 +266,7 @@ int do_sendmsg(struct user_info *uentp, char msgstr[256], int mode,
 			saveline(0, 0); /* Save line */
 			move(0, 0);
 			clrtoeol();
-			prints("[1m¶Ô·½ÒÑ¾­ÀëÏß...[m\n");
+			prints("[1må¯¹æ–¹å·²ç»ç¦»çº¿...[m\n");
 			sleep(1);
 			saveline(0, 1); /* restore line */
 			return -1;
@@ -274,7 +274,7 @@ int do_sendmsg(struct user_info *uentp, char msgstr[256], int mode,
 	}
 	if (!uin->active || kill(uin->pid, 0) == -1) {
 		if (msgstr == NULL) {
-			prints("\n¶Ô·½ÒÑ¾­ÀëÏß...\n");
+			prints("\nå¯¹æ–¹å·²ç»ç¦»çº¿...\n");
 			pressreturn();
 			clear();
 		}
@@ -285,8 +285,8 @@ int do_sendmsg(struct user_info *uentp, char msgstr[256], int mode,
 
 #ifdef LOG_MY_MESG
 	/*
-	 * 990610.edwardc ³ıÁËÎÒÖ±½ÓËÍÑ¶Ï¢¸øÄ³ÈËÍâ, ÆäËûÈç¹ã²¦¸øÕ¾ÉÏ
-	 * ²¦ºÃÓÑÒ»ÂÉ²»¼ÍÂ¼ .. :)
+	 * 990610.edwardc é™¤äº†æˆ‘ç›´æ¥é€è®¯æ¯ç»™æŸäººå¤–, å…¶ä»–å¦‚å¹¿æ‹¨ç»™ç«™ä¸Š
+	 * æ‹¨å¥½å‹ä¸€å¾‹ä¸çºªå½• .. :)
 	 */
 
 	if (mode == 2 || (mode == 0 && msgstr == NULL)) {
@@ -305,7 +305,7 @@ int do_sendmsg(struct user_info *uentp, char msgstr[256], int mode,
 		kill(uin->pid, SIGUSR2);
 	}
 	if (msgstr == NULL) {
-		prints("\nÒÑËÍ³öÑ¶Ï¢...\n");
+		prints("\nå·²é€å‡ºè®¯æ¯...\n");
 		pressreturn();
 		clear();
 	}
@@ -317,7 +317,7 @@ int dowall(struct user_info *uin) {
 		return -1;
 	move(1, 0);
 	clrtoeol();
-	prints("[1;32mÕı¶Ô %s ¹ã²¥.... Ctrl-D Í£Ö¹¶Ô´ËÎ» User ¹ã²¥¡£[m", uin->userid);
+	prints("[1;32mæ­£å¯¹ %s å¹¿æ’­.... Ctrl-D åœæ­¢å¯¹æ­¤ä½ User å¹¿æ’­ã€‚[m", uin->userid);
 	refresh();
 	do_sendmsg(uin, buf2, 0, uin->pid);
 }
@@ -331,7 +331,7 @@ struct user_info *uin;
 	if (myfriend(uin->uid)) {
 		move(1, 0);
 		clrtoeol();
-		prints("[1;32mÕıÔÚËÍÑ¶Ï¢¸ø %s...  [m", uin->userid);
+		prints("[1;32mæ­£åœ¨é€è®¯æ¯ç»™ %s...  [m", uin->userid);
 		refresh();
 		do_sendmsg(uin, buf2, 3, uin->pid);
 	}
@@ -364,7 +364,7 @@ struct user_info *uin;
 		/*
 		 move(1, 0);
 		 clrtoeol();
-		 prints("[1;32mÕıÔÚËÍÑ¶Ï¢¸ø %s...  [m", uin->userid);
+		 prints("[1;32mæ­£åœ¨é€è®¯æ¯ç»™ %s...  [m", uin->userid);
 		 *///commented by roly 02.03.29
 		refresh();
 		do_sendmsg(uin, buf2, 3, uin->pid);
@@ -383,7 +383,7 @@ int friend_wall() {
 	/* 
 	 if (uinfo.invisible) {
 	 move(2, 0);
-	 prints("±§Ç¸, ´Ë¹¦ÄÜÔÚÒşÉí×´Ì¬ÏÂ²»ÄÜÖ´ĞĞ...\n");
+	 prints("æŠ±æ­‰, æ­¤åŠŸèƒ½åœ¨éšèº«çŠ¶æ€ä¸‹ä¸èƒ½æ‰§è¡Œ...\n");
 	 pressreturn();
 	 return 0;
 	 }
@@ -391,37 +391,37 @@ int friend_wall() {
 	modify_user_mode(MSG);
 	move(2, 0);
 	clrtobot();
-	getdata(1, 0, "ËÍÑ¶Ï¢¸ø [1] ÎÒµÄºÃÅóÓÑ£¬[2] ÓëÎÒÎªÓÑÕß: ", buf, 2, DOECHO, YEA);
+	getdata(1, 0, "é€è®¯æ¯ç»™ [1] æˆ‘çš„å¥½æœ‹å‹ï¼Œ[2] ä¸æˆ‘ä¸ºå‹è€…: ", buf, 2, DOECHO, YEA);
 	switch (buf[0]) {
 		case '1':
-			if (!get_msg("ÎÒµÄºÃÅóÓÑ", buf2, 1))
+			if (!get_msg("æˆ‘çš„å¥½æœ‹å‹", buf2, 1))
 				return 0;
 			if (apply_ulist(myfriend_wall) == -1) {
 				move(2, 0);
-				prints("ÏßÉÏ¿ÕÎŞÒ»ÈË\n");
+				prints("çº¿ä¸Šç©ºæ— ä¸€äºº\n");
 				pressanykey();
 			} else {
-				/* ¼ÇÂ¼ËÍÑ¶Ï¢¸øºÃÓÑ */
+				/* è®°å½•é€è®¯æ¯ç»™å¥½å‹ */
 				sprintf(
 						msgbuf,
-						"[0;1;45;36mËÍÑ¶Ï¢¸øºÃÓÑ[33m([36m%-5.5s[33m):[37m%-54.54s[31m(^Z»Ø)[m[%05dm\n",
+						"[0;1;45;36mé€è®¯æ¯ç»™å¥½å‹[33m([36m%-5.5s[33m):[37m%-54.54s[31m(^Zå›)[m[%05dm\n",
 						timestr, buf2, uinfo.pid);
 				setuserfile(filename, "msgfile.me");
 				file_append(filename, msgbuf);
 			}
 			break;
 		case '2':
-			if (!get_msg("ÓëÎÒÎªÓÑÕß", buf2, 1))
+			if (!get_msg("ä¸æˆ‘ä¸ºå‹è€…", buf2, 1))
 				return 0;
 			if (apply_ulist(hisfriend_wall) == -1) {
 				move(2, 0);
-				prints("ÏßÉÏ¿ÕÎŞÒ»ÈË\n");
+				prints("çº¿ä¸Šç©ºæ— ä¸€äºº\n");
 				pressanykey();
 			} else {
-				/* ¼ÇÂ¼ËÍÑ¶Ï¢¸øÓëÎÒÎªÓÑÕß */
+				/* è®°å½•é€è®¯æ¯ç»™ä¸æˆ‘ä¸ºå‹è€… */
 				sprintf(
 						msgbuf,
-						"[0;1;45;36mËÍ¸øÓëÎÒÎªÓÑ[33m([36m%-5.5s[33m):[37m%-54.54s[31m(^Z»Ø)[m[%05dm\n",
+						"[0;1;45;36mé€ç»™ä¸æˆ‘ä¸ºå‹[33m([36m%-5.5s[33m):[37m%-54.54s[31m(^Zå›)[m[%05dm\n",
 						timestr, buf2, uinfo.pid);
 				setuserfile(filename, "msgfile.me");
 				file_append(filename, msgbuf);
@@ -432,7 +432,7 @@ int friend_wall() {
 			return 0;
 	}
 	move(6, 0);
-	prints("Ñ¶Ï¢´«ËÍÍê±Ï...");
+	prints("è®¯æ¯ä¼ é€å®Œæ¯•...");
 	pressanykey();
 	return 1;
 }
@@ -533,7 +533,7 @@ void r_msg2() {
 				userpid = uin->pid;
 				move(line + 1, 0);
 				clrtoeol();
-				sprintf(msgbuf, "»ØÑ¶Ï¢¸ø %s: ", usid);
+				sprintf(msgbuf, "å›è®¯æ¯ç»™ %s: ", usid);
 				getdata(line + 1, 0, msgbuf, buf, 55, DOECHO, YEA);
 				if (buf[0] == Ctrl('Z')) {
 					MsgNum++;
@@ -546,22 +546,22 @@ void r_msg2() {
 				}
 				if (buf[0] != '\0') {
 					if (do_sendmsg(uin, buf, 2, userpid) == 1)
-						sprintf(msgbuf, "[1;32m°ïÄúËÍ³öÑ¶Ï¢¸ø %s ÁË![m", usid);
+						sprintf(msgbuf, "[1;32må¸®æ‚¨é€å‡ºè®¯æ¯ç»™ %s äº†![m", usid);
 					else
-						sprintf(msgbuf, "[1;32mÑ¶Ï¢ÎŞ·¨ËÍ³ö.[m");
+						sprintf(msgbuf, "[1;32mè®¯æ¯æ— æ³•é€å‡º.[m");
 				} else
-					sprintf(msgbuf, "[1;33m¿ÕÑ¶Ï¢, ËùÒÔ²»ËÍ³ö.[m");
+					sprintf(msgbuf, "[1;33mç©ºè®¯æ¯, æ‰€ä»¥ä¸é€å‡º.[m");
 				move(line + 1, 0);
 				clrtoeol();
 				refresh();
 				prints("%s", msgbuf);
 				refresh();
-				if (!strstr(msgbuf, "°ïÄú"))
+				if (!strstr(msgbuf, "å¸®æ‚¨"))
 					sleep(1);
 			} else {
 				sprintf(
 						msgbuf,
-						"[1;32mÕÒ²»µ½·¢Ñ¶Ï¢µÄ %s! Çë°´ÉÏ:[^Z ¡ü] »òÏÂ:[^A ¡ı] »òÆäËû¼üÀë¿ª.[m",
+						"[1;32mæ‰¾ä¸åˆ°å‘è®¯æ¯çš„ %s! è¯·æŒ‰ä¸Š:[^Z â†‘] æˆ–ä¸‹:[^A â†“] æˆ–å…¶ä»–é”®ç¦»å¼€.[m",
 						usid);
 				move(line + 1, 0);
 				clrtoeol();
@@ -703,26 +703,26 @@ void r_msg() {
 						userpid = uin->pid;
 						move(line + 1, 0);
 						clrtoeol();
-						sprintf(msgbuf, "Á¢¼´»ØÑ¶Ï¢¸ø %s: ", usid);
+						sprintf(msgbuf, "ç«‹å³å›è®¯æ¯ç»™ %s: ", usid);
 						getdata(line + 1, 0, msgbuf, buf, 55, DOECHO, YEA);
 						if (buf[0] != '\0' && buf[0] != Ctrl('Z')
 								&& buf[0] != Ctrl('A')) {
 							if (do_sendmsg(uin, buf, 2, userpid))
-								sprintf(msgbuf, "[1;32m°ïÄúËÍ³öÑ¶Ï¢¸ø %s ÁË![m",
+								sprintf(msgbuf, "[1;32må¸®æ‚¨é€å‡ºè®¯æ¯ç»™ %s äº†![m",
 										usid);
 							else
-								sprintf(msgbuf, "[1;32mÑ¶Ï¢ÎŞ·¨ËÍ³ö.[m");
+								sprintf(msgbuf, "[1;32mè®¯æ¯æ— æ³•é€å‡º.[m");
 						} else
-							sprintf(msgbuf, "[1;33m¿ÕÑ¶Ï¢, ËùÒÔ²»ËÍ³ö. [m");
+							sprintf(msgbuf, "[1;33mç©ºè®¯æ¯, æ‰€ä»¥ä¸é€å‡º. [m");
 					} else {
-						sprintf(msgbuf, "[1;32mÕÒ²»µ½·¢Ñ¶Ï¢µÄ %s.[m", usid);
+						sprintf(msgbuf, "[1;32mæ‰¾ä¸åˆ°å‘è®¯æ¯çš„ %s.[m", usid);
 					}
 					move(line + 1, 0);
 					clrtoeol();
 					refresh();
 					prints("%s", msgbuf);
 					refresh();
-					if (!strstr(msgbuf, "°ïÄú"))
+					if (!strstr(msgbuf, "å¸®æ‚¨"))
 						sleep(1);
 					saveline(line + 1, 3);
 					refresh();
@@ -737,7 +737,7 @@ void r_msg() {
 	if (i>500) {
 		char bak_title[STRLEN];
 		getdatestring(time(0), NA);
-		sprintf(mustbak_title, "[%s] Ç¿ÖÆÑ¶Ï¢±¸·İ%dÌõ", datestring, i);
+		sprintf(mustbak_title, "[%s] å¼ºåˆ¶è®¯æ¯å¤‡ä»½%dæ¡", datestring, i);
 		strncpy(bak_title, save_title, STRLEN-1);
 		bak_title[STRLEN-1]=0;
 		mail_file(fname, currentuser.userid, mustbak_title);
@@ -775,7 +775,7 @@ struct user_info *pageinfo;
 		return 0;
 		if (pageinfo->uid ==usernum)
 		return 0;
-		/* edwardc.990427 ºÃÓÑÒşÉí¾Í²»ÏÔÊ¾ËÍ³öÉÏÕ¾Í¨Öª */
+		/* edwardc.990427 å¥½å‹éšèº«å°±ä¸æ˜¾ç¤ºé€å‡ºä¸Šç«™é€šçŸ¥ */
 		if (pageinfo->invisible)
 		return 0;
 		getyx(&y, &x);
@@ -784,8 +784,8 @@ struct user_info *pageinfo;
 			move(7, 0);
 			clrtobot();
 		}
-		prints("ËÍ³öºÃÓÑÉÏÕ¾Í¨Öª¸ø %s\n", pageinfo->userid);
-		sprintf(msg, "ÄãµÄºÃÅóÓÑ %s ÒÑ¾­ÉÏÕ¾ÂŞ£¡", currentuser.userid);
+		prints("é€å‡ºå¥½å‹ä¸Šç«™é€šçŸ¥ç»™ %s\n", pageinfo->userid);
+		sprintf(msg, "ä½ çš„å¥½æœ‹å‹ %s å·²ç»ä¸Šç«™ç½—ï¼", currentuser.userid);
 		do_sendmsg(pageinfo, msg, 2, pageinfo->pid);
 	}
 	return 0;

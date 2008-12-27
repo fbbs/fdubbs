@@ -103,20 +103,20 @@ char *ansi_filter(char *dst, char *src)
 char datestring[30]; //For compatibility, should be eliminated gradually.
 
 // Convert time to string in specified format.
-// mode: 0 - "2001Äê02ÔÂ03ÈÕ04:05:06 ĞÇÆÚÁù"
+// mode: 0 - "2001å¹´02æœˆ03æ—¥04:05:06 æ˜ŸæœŸå…­"
 //       1 - "02/03/01 04:05:06"
 //       2 - "02.03 04:05"
 //       4 - "02/03/01 04:05:06 Sat"
 int getdatestring(time_t time, int mode)
 {
 	struct tm t;
-	char weeknum[7][3] = {"Ìì", "Ò»", "¶ş", "Èı", "ËÄ", "Îå", "Áù"};
+	char weeknum[7][3] = {"å¤©", "ä¸€", "äºŒ", "ä¸‰", "å››", "äº”", "å…­"};
 	char engweek[7][4] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 
 	localtime_r(&time, &t);
 	switch (mode) {
 		case 0:
-			sprintf(datestring, "%4dÄê%02dÔÂ%02dÈÕ%02d:%02d:%02d ĞÇÆÚ%2s",
+			sprintf(datestring, "%4då¹´%02dæœˆ%02dæ—¥%02d:%02d:%02d æ˜ŸæœŸ%2s",
 					t.tm_year + 1900, t.tm_mon + 1, t.tm_mday,
 					t.tm_hour, t.tm_min, t.tm_sec, weeknum[t.tm_wday]);
 			break;
