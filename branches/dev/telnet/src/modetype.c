@@ -123,8 +123,6 @@ char *ModeType(int mode) {
 			return "编修精华";
 		case HYTELNET:
 			return "Hytelnet";
-		case CCUGOPHER:
-			return "他站精华";
 		case LOOKMSGS:
 			return "察看讯息";
 		case WFRIEND:
