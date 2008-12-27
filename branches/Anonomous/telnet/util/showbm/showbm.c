@@ -201,7 +201,7 @@ bmfilecount (char *pathname, char *bm)
 
 /*
  * function getbmrec:
- * get record of bm from .PASSWD´Ó.PASSWD
+ * get record of bm from .PASSWDä».PASSWD
  * if success return 0
  */
 int
@@ -351,7 +351,7 @@ main (void)
       char boardtitles[STRLEN]; /* source of board's chinese name */
       char boardtitle[STRLEN];  /* fixed chinese name of board */
 
-      char bms[BM_LEN - 1];     /* ¸østrtok()ÓÃ */
+      char bms[BM_LEN - 1];     /* ç»™strtok()ç”¨ */
       char *bm;                 /* pointer to BM */
       int bmflag = 0;           /* flag of BM, 0-BM1 , 1-BM2 */
 
@@ -440,7 +440,7 @@ main (void)
 #ifndef PRINTOFF
       if (bm == NULL)
       {
-          fprintf(fp0, " %s%s%s\n", REDMARK, "³ÏÕ÷°æÖ÷", ENDREDMARK);
+          fprintf(fp0, " %s%s%s\n", REDMARK, "è¯šå¾ç‰ˆä¸»", ENDREDMARK);
           board_num++;
           continue;             /* no bm board */
       }
@@ -489,7 +489,7 @@ main (void)
 /*
 #ifndef PRINTOFF
   fprintf (fp0, "---------------------------------------\n");
-  fprintf (fp0, "×Ü¹² %d ¸ö°å, %d ¸ö°åÖ÷(ÓĞÖØ¸´¼Æ)ÔÚ±íÖĞ.\n",
+  fprintf (fp0, "æ€»å…± %d ä¸ªæ¿, %d ä¸ªæ¿ä¸»(æœ‰é‡å¤è®¡)åœ¨è¡¨ä¸­.\n",
            board_num, bm_num);
 #endif
 */
@@ -502,7 +502,7 @@ main (void)
       fprintf (stderr, "Error open file %s for write.\n", ".Names");
       exit (-1);
     }
-  fprintf (fp0, "%-44s%s\n", "Name=°åÖ÷±íÏÖÍ³¼Æ","deliver");
+  fprintf (fp0, "%-44s%s\n", "Name=æ¿ä¸»è¡¨ç°ç»Ÿè®¡","deliver");
   fprintf (fp0, "Path=~/%s\n", filename0);
   fprintf (fp0, "Numb=1\n#\n");
   */

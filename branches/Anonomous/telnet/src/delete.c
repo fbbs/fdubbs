@@ -34,7 +34,7 @@ int cmpuids3(int unum, struct user_info *urec) {
 	return ((unum == urec->uid) && (uinfo.pid != urec->pid));
 }
 
-//×ÔÉ±,ÏêÇéºóĞğ
+//è‡ªæ€,è¯¦æƒ…åå™
 int offline() {
 	int i;
 	char buf[STRLEN], lastword[640];
@@ -45,7 +45,7 @@ int offline() {
 	if (!HAS_PERM(PERM_POST)|| !HAS_PERM(PERM_MAIL)
 			|| !HAS_PERM(PERM_TALK)) {
 		move(3, 0);
-		prints("Äú±»·â½ûÈ¨ÏŞ, ²»ÄÜËæ±ã×ÔÉ±!!!\n");
+		prints("æ‚¨è¢«å°ç¦æƒé™, ä¸èƒ½éšä¾¿è‡ªæ€!!!\n");
 		pressreturn();
 		clear();
 		return;
@@ -54,7 +54,7 @@ int offline() {
 	if (HAS_PERM(PERM_SYSOPS) || HAS_PERM(PERM_BOARDS)
 			|| HAS_PERM(PERM_ADMINMENU) || HAS_PERM(PERM_SEEULEVELS)) {
 		move(3, 0);
-		prints("ÄúÓĞÖØÈÎÔÚÉí, ²»ÄÜËæ±ã×ÔÉ±À²!!\n");
+		prints("æ‚¨æœ‰é‡ä»»åœ¨èº«, ä¸èƒ½éšä¾¿è‡ªæ€å•¦!!\n");
 		pressreturn();
 		clear();
 		return;
@@ -62,34 +62,34 @@ int offline() {
 	/*2003.04.22 stephen modify end*/
 	if (currentuser.stay < 86400) {
 		move(1, 0);
-		prints("\n\n¶Ô²»Æğ, Äú»¹Î´¹»×Ê¸ñÖ´ĞĞ´ËÃüÁî!!\n");
-		prints("Çë mail ¸ø SYSOP ËµÃ÷×ÔÉ±Ô­Òò, Ğ»Ğ»¡£\n");
+		prints("\n\nå¯¹ä¸èµ·, æ‚¨è¿˜æœªå¤Ÿèµ„æ ¼æ‰§è¡Œæ­¤å‘½ä»¤!!\n");
+		prints("è¯· mail ç»™ SYSOP è¯´æ˜è‡ªæ€åŸå› , è°¢è°¢ã€‚\n");
 		pressreturn();
 		clear();
 		return;
 	}
-	getdata(1, 0, "ÇëÊäÈëÄúµÄÃÜÂë: ", buf, PASSLEN, NOECHO, YEA);
+	getdata(1, 0, "è¯·è¾“å…¥æ‚¨çš„å¯†ç : ", buf, PASSLEN, NOECHO, YEA);
 	if (*buf == '\0' || !checkpasswd(currentuser.passwd, buf)) {
-		prints("\n\nºÜ±§Ç¸, ÄúÊäÈëµÄÃÜÂë²»ÕıÈ·¡£\n");
+		prints("\n\nå¾ˆæŠ±æ­‰, æ‚¨è¾“å…¥çš„å¯†ç ä¸æ­£ç¡®ã€‚\n");
 		pressreturn();
 		clear();
 		return;
 	}
-	getdata(3, 0, "ÇëÎÊÄú½ĞÊ²÷áÃû×Ö? ", buf, NAMELEN, DOECHO, YEA);
+	getdata(3, 0, "è¯·é—®æ‚¨å«ä»€éº½åå­—? ", buf, NAMELEN, DOECHO, YEA);
 	if (*buf == '\0' || strcmp(buf, currentuser.realname)) {
-		prints("\n\nºÜ±§Ç¸, ÎÒ²¢²»ÈÏÊ¶Äú¡£\n");
+		prints("\n\nå¾ˆæŠ±æ­‰, æˆ‘å¹¶ä¸è®¤è¯†æ‚¨ã€‚\n");
 		pressreturn();
 		clear();
 		return;
 	}
 	clear();
 	//   move(1, 0);
-	//   prints("[1;5;31m¾¯¸æ[0;1;31m£º ×ÔÉ±áá, Äú½«ÎŞ·¨ÔÙÓÃ´ËÕÊºÅ½øÈë±¾Õ¾£¡£¡");
+	//   prints("[1;5;31mè­¦å‘Š[0;1;31mï¼š è‡ªæ€å¾Œ, æ‚¨å°†æ— æ³•å†ç”¨æ­¤å¸å·è¿›å…¥æœ¬ç«™ï¼ï¼");
 	move(3, 0);
-	//   prints("[1;32m±¾Õ¾Õ¾ÎñÃ»ÓĞÒåÎñÎªÄú»Ö¸´ÕÊºÅ¡£ºÃÄÑ¹ıà¸ :( .....[m");
+	//   prints("[1;32mæœ¬ç«™ç«™åŠ¡æ²¡æœ‰ä¹‰åŠ¡ä¸ºæ‚¨æ¢å¤å¸å·ã€‚å¥½éš¾è¿‡å–” :( .....[m");
 	//   move(5,0);
 	i = 0;
-	if (askyn("ÕæÊÇÉá²»µÃÄã£¬Äã×ßÖ®Ç°ÓĞÊ²Ã´»°ÏëËµÃ´", NA, NA)==YEA) {
+	if (askyn("çœŸæ˜¯èˆä¸å¾—ä½ ï¼Œä½ èµ°ä¹‹å‰æœ‰ä»€ä¹ˆè¯æƒ³è¯´ä¹ˆ", NA, NA)==YEA) {
 		strcpy(lastword, ">\n> ");
 		buf[0] = '\0';
 		for (i = 0; i< 8; i++) {
@@ -105,16 +105,16 @@ int offline() {
 			strcat(lastword, "\n\n");
 		move(i + 8, 0);
 		if (i == 0)
-			prints("°¥£¬Äã»¹ÊÇÊ²Ã´¶¼²»Ô¸ÒâËµ£¬ÊÇ²»ÊÇ»¹ÓĞĞÄË¼Î´ÁË£¿");
+			prints("å“ï¼Œä½ è¿˜æ˜¯ä»€ä¹ˆéƒ½ä¸æ„¿æ„è¯´ï¼Œæ˜¯ä¸æ˜¯è¿˜æœ‰å¿ƒæ€æœªäº†ï¼Ÿ");
 		else if (i <= 4)
-			prints("¿´×ÅÄãã¾ã²µÄÁ³£¬ÎÒĞÄ¶¼ËéÁË ... ");
+			prints("çœ‹ç€ä½ æ†”æ‚´çš„è„¸ï¼Œæˆ‘å¿ƒéƒ½ç¢äº† ... ");
 		else
-			prints("ÎÒ»á¼ÇµÃÄãµÄ£¬ÅóÓÑ£¬ÎÒÒ²ÖªµÀÄãµÄÀë¿ªÒ²ÊÇÃ»ÓĞ°ì·¨µÄÊÂ£¬ºÃ×ßÁË");
+			prints("æˆ‘ä¼šè®°å¾—ä½ çš„ï¼Œæœ‹å‹ï¼Œæˆ‘ä¹ŸçŸ¥é“ä½ çš„ç¦»å¼€ä¹Ÿæ˜¯æ²¡æœ‰åŠæ³•çš„äº‹ï¼Œå¥½èµ°äº†");
 	} else {
 		strcpy(lastword, "> ......\n\n");
 	}
 	move(i + 10, 0);
-	if (askyn("ÄãÈ·¶¨ÒªÀë¿ªÕâ¸ö´ó¼ÒÍ¥", NA, NA) == 1) {
+	if (askyn("ä½ ç¡®å®šè¦ç¦»å¼€è¿™ä¸ªå¤§å®¶åº­", NA, NA) == 1) {
 		clear();
 		{
 			struct user_info uin;
@@ -135,32 +135,32 @@ int offline() {
 	}
 }
 
-//±£´æÓÃ»§½üÆÚĞÅÏ¢
+//ä¿å­˜ç”¨æˆ·è¿‘æœŸä¿¡æ¯
 int getuinfo(FILE *fn) {
 	int num;
 	char buf[40];
-	fprintf(fn, "\n\nËûµÄ´úºÅ     : %s\n", currentuser.userid);
-	fprintf(fn, "ËûµÄêÇ³Æ     : %s\n", currentuser.username);
-	fprintf(fn, "ÕæÊµĞÕÃû     : %s\n", currentuser.realname);
-	fprintf(fn, "¾Ó×¡×¡Ö·     : %s\n", currentuser.address);
-	fprintf(fn, "µç×ÓÓÊ¼şĞÅÏä : %s\n", currentuser.email);
-	fprintf(fn, "ÕæÊµ E-mail  : %s\n", currentuser.reginfo);
-	fprintf(fn, "Ident ×ÊÁÏ   : %s\n", currentuser.ident);
+	fprintf(fn, "\n\nä»–çš„ä»£å·     : %s\n", currentuser.userid);
+	fprintf(fn, "ä»–çš„æ˜µç§°     : %s\n", currentuser.username);
+	fprintf(fn, "çœŸå®å§“å     : %s\n", currentuser.realname);
+	fprintf(fn, "å±…ä½ä½å€     : %s\n", currentuser.address);
+	fprintf(fn, "ç”µå­é‚®ä»¶ä¿¡ç®± : %s\n", currentuser.email);
+	fprintf(fn, "çœŸå® E-mail  : %s\n", currentuser.reginfo);
+	fprintf(fn, "Ident èµ„æ–™   : %s\n", currentuser.ident);
 	getdatestring(currentuser.firstlogin, NA);
-	fprintf(fn, "ÕÊºÅ½¨Á¢ÈÕÆÚ : %s\n", datestring);
+	fprintf(fn, "å¸å·å»ºç«‹æ—¥æœŸ : %s\n", datestring);
 	getdatestring(currentuser.lastlogin, NA);
-	fprintf(fn, "×î½ü¹âÁÙÈÕÆÚ : %s\n", datestring);
-	fprintf(fn, "×î½ü¹âÁÙ»úÆ÷ : %s\n", currentuser.lasthost);
-	fprintf(fn, "ÉÏÕ¾´ÎÊı     : %d ´Î\n", currentuser.numlogins);
-	fprintf(fn, "ÎÄÕÂÊıÄ¿     : %d\n", currentuser.numposts);
-	fprintf(fn, "ÉÏÕ¾×ÜÊ±Êı   : %d Ğ¡Ê± %d ·ÖÖÓ\n", currentuser.stay / 3600,
+	fprintf(fn, "æœ€è¿‘å…‰ä¸´æ—¥æœŸ : %s\n", datestring);
+	fprintf(fn, "æœ€è¿‘å…‰ä¸´æœºå™¨ : %s\n", currentuser.lasthost);
+	fprintf(fn, "ä¸Šç«™æ¬¡æ•°     : %d æ¬¡\n", currentuser.numlogins);
+	fprintf(fn, "æ–‡ç« æ•°ç›®     : %d\n", currentuser.numposts);
+	fprintf(fn, "ä¸Šç«™æ€»æ—¶æ•°   : %d å°æ—¶ %d åˆ†é’Ÿ\n", currentuser.stay / 3600,
 			(currentuser.stay / 60) % 60);
 	strcpy(buf, "ltmprbBOCAMURS#@XLEast0123456789");
 	for (num = 0; num < 30; num++)
 		if (!(currentuser.userlevel & (1 << num)))
 			buf[num] = '-';
 	buf[num] = '\0';
-	fprintf(fn, "Ê¹ÓÃÕßÈ¨ÏŞ   : %s\n\n", buf);
+	fprintf(fn, "ä½¿ç”¨è€…æƒé™   : %s\n\n", buf);
 	return 0;
 }
 
@@ -171,27 +171,27 @@ void mail_info(char *lastword) {
 
 	now = time(0);
 	getdatestring(now, NA);
-	sprintf(filename, "%s ÓÚ %s µÇ¼Ç×ÔÉ±", currentuser.userid, datestring);
+	sprintf(filename, "%s äº %s ç™»è®°è‡ªæ€", currentuser.userid, datestring);
 	securityreport(filename, 1, 3);
 	sprintf(filename, "tmp/suicide.%s", currentuser.userid);
 	if ((fn = fopen(filename, "w")) != NULL) {
-		fprintf(fn, "´ó¼ÒºÃ,\n\n");
-		fprintf(fn, "ÎÒÊÇ %s (%s)¡£ÎÒ¼º¾­¾ö¶¨ÔÚ 15 ÌìºóÀë¿ªÕâÀïÁË¡£\n\n",
+		fprintf(fn, "å¤§å®¶å¥½,\n\n");
+		fprintf(fn, "æˆ‘æ˜¯ %s (%s)ã€‚æˆ‘å·±ç»å†³å®šåœ¨ 15 å¤©åç¦»å¼€è¿™é‡Œäº†ã€‚\n\n",
 				currentuser.userid, currentuser.username);
 		getdatestring(currentuser.firstlogin, NA);
-		fprintf(fn, "×Ô %14.14s ÖÁ½ñ£¬ÎÒÒÑ¾­À´´Ë %d ´ÎÁË£¬ÔÚÕâ×Ü¼Æ %d ·ÖÖÓµÄÍøÂçÉúÃüÖĞ£¬\n",
+		fprintf(fn, "è‡ª %14.14s è‡³ä»Šï¼Œæˆ‘å·²ç»æ¥æ­¤ %d æ¬¡äº†ï¼Œåœ¨è¿™æ€»è®¡ %d åˆ†é’Ÿçš„ç½‘ç»œç”Ÿå‘½ä¸­ï¼Œ\n",
 				datestring, currentuser.numlogins, currentuser.stay/60);
-		fprintf(fn, "ÎÒÓÖÈçºÎ»áÇáÒ×ÉáÆúÄØ£¿µ«ÊÇÎÒµÃ×ßÁË...  µãµãµÎµÎ£­£­¾¡ÔÚÎÒĞÄÖĞ£¡\n\n");
+		fprintf(fn, "æˆ‘åˆå¦‚ä½•ä¼šè½»æ˜“èˆå¼ƒå‘¢ï¼Ÿä½†æ˜¯æˆ‘å¾—èµ°äº†...  ç‚¹ç‚¹æ»´æ»´ï¼ï¼å°½åœ¨æˆ‘å¿ƒä¸­ï¼\n\n");
 		fprintf(fn, "%s", lastword);
-		fprintf(fn, "ÅóÓÑÃÇ£¬Çë°Ñ %s ´ÓÄãÃÇµÄºÃÓÑÃûµ¥ÖĞÄÃµô°É¡£ÒòÎªÎÒ¼º¾­¾ö¶¨Àë¿ªÕâÀïÁË!\n\n",
+		fprintf(fn, "æœ‹å‹ä»¬ï¼Œè¯·æŠŠ %s ä»ä½ ä»¬çš„å¥½å‹åå•ä¸­æ‹¿æ‰å§ã€‚å› ä¸ºæˆ‘å·±ç»å†³å®šç¦»å¼€è¿™é‡Œäº†!\n\n",
 				currentuser.userid);
-		fprintf(fn, "»òĞíÓĞ³¯Ò»ÈÕÎÒ»á»ØÀ´µÄ¡£ ÕäÖØ!! ÔÙ¼û!!\n\n\n");
+		fprintf(fn, "æˆ–è®¸æœ‰æœä¸€æ—¥æˆ‘ä¼šå›æ¥çš„ã€‚ çé‡!! å†è§!!\n\n\n");
 		getdatestring(now, NA);
-		fprintf(fn, "%s ì¶ %s Áô.\n\n", currentuser.userid, datestring);
+		fprintf(fn, "%s æ–¼ %s ç•™.\n\n", currentuser.userid, datestring);
 		fclose(fn);
 		{
 			char sc_title[128];
-			sprintf(sc_title, "%sµÄ×ÔÉ±ÁôÑÔ...", currentuser.userid);
+			sprintf(sc_title, "%sçš„è‡ªæ€ç•™è¨€...", currentuser.userid);
 			Postfile(filename, "GoneWithTheWind", sc_title, 2);
 			unlink(filename);
 		}
@@ -202,7 +202,7 @@ void mail_info(char *lastword) {
  **can give up these permisions: 1.login 2.chat 3.mail 4.post
  **use lookupuser as temp userec struct 
  */
-//	½äÍø
+//	æˆ’ç½‘
 int giveUpBBS() {
 	char buf[STRLEN], genbuf[STRLEN];
 	FILE *fn;
@@ -219,7 +219,7 @@ int giveUpBBS() {
 	if (!HAS_PERM(PERM_REGISTER)) {
 		clear();
 		move(11, 28);
-		prints("[1m[33mÄãÓĞ»¹Ã»ÓĞ×¢²áÍ¨¹ı£¬²»ÄÜ½äÍø£¡[m");
+		prints("[1m[33mä½ æœ‰è¿˜æ²¡æœ‰æ³¨å†Œé€šè¿‡ï¼Œä¸èƒ½æˆ’ç½‘ï¼[m");
 		pressanykey();
 		return;
 	}
@@ -228,7 +228,7 @@ int giveUpBBS() {
 			|| HAS_PERM(PERM_OBOARDS) || HAS_PERM(PERM_ANNOUNCE)) {
 		clear();
 		move(11, 28);
-		prints("[1m[33mÄãÓĞÖØÈÎÔÚÉí£¬²»ÄÜ½äÍø£¡[m");
+		prints("[1m[33mä½ æœ‰é‡ä»»åœ¨èº«ï¼Œä¸èƒ½æˆ’ç½‘ï¼[m");
 		pressanykey();
 		return;
 	}
@@ -245,25 +245,25 @@ int giveUpBBS() {
 	if (fn) {
 		clear();
 		move(1, 0);
-		prints("ÄãÏÖÔÚµÄ½äÍøÇé¿ö£º\n\n");
+		prints("ä½ ç°åœ¨çš„æˆ’ç½‘æƒ…å†µï¼š\n\n");
 		while (!feof(fn)) {
 			if (fscanf(fn, "%d %d", &i, &j) <= 0)
 				break;
 			switch (i) {
 				case 1:
-					prints("ÉÏÕ¾È¨ÏŞ");
+					prints("ä¸Šç«™æƒé™");
 					break;
 				case 2:
-					prints("·¢±íÈ¨ÏŞ");
+					prints("å‘è¡¨æƒé™");
 					break;
 				case 3:
-					prints("ÁÄÌìÈ¨ÏŞ");
+					prints("èŠå¤©æƒé™");
 					break;
 				case 4:
-					prints("·¢ĞÅÈ¨ÏŞ");
+					prints("å‘ä¿¡æƒé™");
 					break;
 			}
-			sprintf(buf, "        »¹ÓĞ%dÌì\n", j - time(0) / 3600 / 24);
+			sprintf(buf, "        è¿˜æœ‰%då¤©\n", j - time(0) / 3600 / 24);
 			prints(buf);
 			lcount++;
 		}
@@ -274,19 +274,19 @@ int giveUpBBS() {
 
 	clear();
 	move(1, 0);
-	prints("ÇëÑ¡Ôñ½äÍøÖÖÀà:");
+	prints("è¯·é€‰æ‹©æˆ’ç½‘ç§ç±»:");
 	move(3, 0);
-	prints("(0) - ½áÊø");
+	prints("(0) - ç»“æŸ");
 	move(4, 0);
-	prints("(1) - ÉÏÕ¾È¨ÏŞ");
+	prints("(1) - ä¸Šç«™æƒé™");
 	move(5, 0);
-	prints("(2) - ·¢±íÈ¨ÏŞ");
+	prints("(2) - å‘è¡¨æƒé™");
 	move(6, 0);
-	prints("(3) - ÁÄÌìÈ¨ÏŞ");
+	prints("(3) - èŠå¤©æƒé™");
 	move(7, 0);
-	prints("(4) - ·¢ĞÅÈ¨ÏŞ");
+	prints("(4) - å‘ä¿¡æƒé™");
 
-	getdata(10, 0, "ÇëÑ¡Ôñ [0]", ans, 2, DOECHO, NULL);
+	getdata(10, 0, "è¯·é€‰æ‹© [0]", ans, 2, DOECHO, NULL);
 	if (ans[0] < '1' || ans[0] > '4') {
 		return;
 	}
@@ -307,12 +307,12 @@ int giveUpBBS() {
 	}
 
 	if (!k) {
-		prints("\n\nÄãÒÑ¾­Ã»ÓĞÁË¸ÃÈ¨ÏŞ");
+		prints("\n\nä½ å·²ç»æ²¡æœ‰äº†è¯¥æƒé™");
 		pressanykey();
 		return;
 	}
 
-	getdata(11, 0, "ÇëÊäÈë½äÍøÌìÊı [0]", day, 4, DOECHO, NULL);
+	getdata(11, 0, "è¯·è¾“å…¥æˆ’ç½‘å¤©æ•° [0]", day, 4, DOECHO, NULL);
 	i = 0;
 	while (day[i]) {
 		if (!isdigit(day[i]))
@@ -324,7 +324,7 @@ int giveUpBBS() {
 		return;
 
 	if (compute_user_value(&lookupuser) <= j) {
-		prints("\n\n¶Ô²»Æğ£¬ÌìÊı²»¿ÉÒÔ´óÓÚÉúÃüÁ¦...");
+		prints("\n\nå¯¹ä¸èµ·ï¼Œå¤©æ•°ä¸å¯ä»¥å¤§äºç”Ÿå‘½åŠ›...");
 		pressanykey();
 		return;
 	}
@@ -333,10 +333,10 @@ int giveUpBBS() {
 
 	move(13, 0);
 
-	if (askyn("ÄãÈ·¶¨Òª½äÍøÂğ£¿", 0) == 1) {
-		getdata(15, 0, "ÇëÊäÈëÃÜÂë: ", buf, 39, NOECHO, NULL);
+	if (askyn("ä½ ç¡®å®šè¦æˆ’ç½‘å—ï¼Ÿ", 0) == 1) {
+		getdata(15, 0, "è¯·è¾“å…¥å¯†ç : ", buf, 39, NOECHO, NULL);
 		if (*buf == '\0' || !checkpasswd(lookupuser.passwd, buf)) {
-			prints("\n\nºÜ±§Ç¸, ÄúÊäÈëµÄÃÜÂë²»ÕıÈ·¡£\n");
+			prints("\n\nå¾ˆæŠ±æ­‰, æ‚¨è¾“å…¥çš„å¯†ç ä¸æ­£ç¡®ã€‚\n");
 			pressanykey();
 			return;
 		}
@@ -344,7 +344,7 @@ int giveUpBBS() {
 		sethomefile(genbuf, lookupuser.userid, "giveupBBS");
 		fn = fopen(genbuf, "at");
 		if (!fn) {
-			prints("\n\nÓÉÓÚÏµÍ³ÎÊÌâ£¬ÏÖÔÚÄã²»ÄÜ½äÍø");
+			prints("\n\nç”±äºç³»ç»Ÿé—®é¢˜ï¼Œç°åœ¨ä½ ä¸èƒ½æˆ’ç½‘");
 			pressanykey();
 			return;
 		}
@@ -357,23 +357,23 @@ int giveUpBBS() {
 		switch (ans[0]) {
 			case '1':
 				lookupuser.userlevel &= ~PERM_LOGIN;
-				sprintf(buf, "%s ÓÚ %14.14s ½ä %sÈ¨ÏŞ %d Ìì¡£",
-						lookupuser.userid, datestring, "ÉÏÕ¾", atoi(day));
+				sprintf(buf, "%s äº %14.14s æˆ’ %sæƒé™ %d å¤©ã€‚",
+						lookupuser.userid, datestring, "ä¸Šç«™", atoi(day));
 				break;
 			case '2':
 				lookupuser.userlevel &= ~PERM_POST;
-				sprintf(buf, "%s ÓÚ %14.14s ½ä %sÈ¨ÏŞ %d Ìì¡£",
-						lookupuser.userid, datestring, "·¢ÎÄ", atoi(day));
+				sprintf(buf, "%s äº %14.14s æˆ’ %sæƒé™ %d å¤©ã€‚",
+						lookupuser.userid, datestring, "å‘æ–‡", atoi(day));
 				break;
 			case '3':
 				lookupuser.userlevel &= ~PERM_TALK;
-				sprintf(buf, "%s ÓÚ %14.14s ½ä %sÈ¨ÏŞ %d Ìì¡£",
-						lookupuser.userid, datestring, "ÁÄÌì", atoi(day));
+				sprintf(buf, "%s äº %14.14s æˆ’ %sæƒé™ %d å¤©ã€‚",
+						lookupuser.userid, datestring, "èŠå¤©", atoi(day));
 				break;
 			case '4':
 				lookupuser.userlevel &= ~PERM_MAIL;
-				sprintf(buf, "%s ÓÚ %14.14s ½ä %sÈ¨ÏŞ %d Ìì¡£",
-						lookupuser.userid, datestring, "ĞÅ¼ş", atoi(day));
+				sprintf(buf, "%s äº %14.14s æˆ’ %sæƒé™ %d å¤©ã€‚",
+						lookupuser.userid, datestring, "ä¿¡ä»¶", atoi(day));
 				break;
 		}
 		lcount++;
@@ -393,7 +393,7 @@ int giveUpBBS() {
 		else
 			lookupuser.flags[0] &= ~GIVEUPBBS_FLAG;
 
-		prints("\n\nÄãÒÑ¾­¿ªÊ¼½äÍøÁË");
+		prints("\n\nä½ å·²ç»å¼€å§‹æˆ’ç½‘äº†");
 
 		substitut_record(PASSFILE, &lookupuser, sizeof(struct userec), id);
 

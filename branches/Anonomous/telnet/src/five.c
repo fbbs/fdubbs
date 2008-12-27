@@ -1,6 +1,6 @@
-/*  Îå×ÓÆå³ÌÊ½   Programmed by Birdman     */
-/*  140.116.102.125 Á¬ÖéÍÛ¹ş¹şĞ¡Õ¾         */
-/*  ³É´óµç»ú88¼¶                           */
+/*  äº”å­æ£‹ç¨‹å¼   Programmed by Birdman     */
+/*  140.116.102.125 è¿ç å“‡å“ˆå“ˆå°ç«™         */
+/*  æˆå¤§ç”µæœº88çº§                           */
 #ifdef FIVEGAME
 
 #include "bbs.h"
@@ -27,7 +27,7 @@ void press (void);
 
 void Box( int x, int y, int x1, int y1 )
 {
-	char *lt="©°", *rt="©´", *hor="©¤", *ver="©¦", *lb="©¸", *rb="©¼";
+	char *lt="â”Œ", *rt="â”", *hor="â”€", *ver="â”‚", *lb="â””", *rb="â”˜";
 	int i;
 
 	move( x, y );
@@ -59,56 +59,56 @@ void InitScreen()
 	}
 	move(0,0);
 	outs(
-			"©°©Ğ©Ğ©Ğ©Ğ©Ğ©Ğ©Ğ©Ğ©Ğ©Ğ©Ğ©Ğ©Ğ©´15\n"
-			"©À©à©à©à©à©à©à©à©à©à©à©à©à©à©È14\n"
-			"©À©à©à©à©à©à©à©à©à©à©à©à©à©à©È13\n"
-			"©À©à©à£«©à©à©à©à©à©à©à£«©à©à©È12\n"
-			"©À©à©à©à©à©à©à©à©à©à©à©à©à©à©È11\n"
-			"©À©à©à©à©à©à©à©à©à©à©à©à©à©à©È10\n"
-			"©À©à©à©à©à©à©à©à©à©à©à©à©à©à©È9\n"
-			"©À©à©à©à©à©à©à£«©à©à©à©à©à©à©È8\n"
-			"©À©à©à©à©à©à©à©à©à©à©à©à©à©à©È7\n"
-			"©À©à©à©à©à©à©à©à©à©à©à©à©à©à©È6\n"
-			"©À©à©à©à©à©à©à©à©à©à©à©à©à©à©È5\n"
-			"©À©à©à£«©à©à©à©à©à©à©à£«©à©à©È4\n"
-			"©À©à©à©à©à©à©à©à©à©à©à©à©à©à©È3\n"
-			"©À©à©à©à©à©à©à©à©à©à©à©à©à©à©È2\n"
-			"©¸©Ø©Ø©Ø©Ø©Ø©Ø©Ø©Ø©Ø©Ø©Ø©Ø©Ø©¼1\n"
+			"â”Œâ”¬â”¬â”¬â”¬â”¬â”¬â”¬â”¬â”¬â”¬â”¬â”¬â”¬â”15\n"
+			"â”œâ”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤14\n"
+			"â”œâ”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤13\n"
+			"â”œâ”¼â”¼ï¼‹â”¼â”¼â”¼â”¼â”¼â”¼â”¼ï¼‹â”¼â”¼â”¤12\n"
+			"â”œâ”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤11\n"
+			"â”œâ”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤10\n"
+			"â”œâ”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤9\n"
+			"â”œâ”¼â”¼â”¼â”¼â”¼â”¼ï¼‹â”¼â”¼â”¼â”¼â”¼â”¼â”¤8\n"
+			"â”œâ”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤7\n"
+			"â”œâ”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤6\n"
+			"â”œâ”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤5\n"
+			"â”œâ”¼â”¼ï¼‹â”¼â”¼â”¼â”¼â”¼â”¼â”¼ï¼‹â”¼â”¼â”¤4\n"
+			"â”œâ”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤3\n"
+			"â”œâ”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¼â”¤2\n"
+			"â””â”´â”´â”´â”´â”´â”´â”´â”´â”´â”´â”´â”´â”´â”˜1\n"
 			"A B C D E F G H I J K L M N O");
 
 	user_guide();
 	move(0,33);
-	outs("[35;43m¡ôÎå×ÓÆå¶ÔÕ½¡ô[30;42m  ³ÌÊ½:³É´óµç»ú88¼¶ Birdman  [m");
+	outs("[35;43mâ—†äº”å­æ£‹å¯¹æˆ˜â—†[30;42m  ç¨‹å¼:æˆå¤§ç”µæœº88çº§ Birdman  [m");
 }
 
 int user_guide()
 {
 	move(4,64);
-	outs("ÇĞ»»:   Tab¼ü");
+	outs("åˆ‡æ¢:   Tabé”®");
 	move(5,64);
-	outs("ÒÆ¶¯:  ·½Ïò¼ü");
+	outs("ç§»åŠ¨:  æ–¹å‘é”®");
 	move(6,64);
 	outs("      H,J,K,L");
 	move(7,64);
-	outs("ÏÂ×Ó:  ¿Õ¸ñ¼ü");
+	outs("ä¸‹å­:  ç©ºæ ¼é”®");
 	move(8,64);
-	outs("ÖØ¿ª:  N »òÕß");
+	outs("é‡å¼€:  N æˆ–è€…");
 	move(9,64);
 	outs("       Ctrl+N");
 	move(10,64);
-	outs("ÍË³ö:  Q »òÕß");
+	outs("é€€å‡º:  Q æˆ–è€…");
 	move(11,64);
 	outs("       Ctrl+C");
 	move(12,64);
-	outs("  ºÚÏÈÓĞ½ûÊÖ");
+	outs("  é»‘å…ˆæœ‰ç¦æ‰‹");
 	Box( 3,62,13,78 );
 	move( 3,64 );
-	outs( "ÓÃ·¨" );
+	outs( "ç”¨æ³•" );
 }
 
 void haha( int what )
 {
-	char *logo[3] = {" »îÈıà¶! ", "¹ş¹ş»îËÄ!", " Ğ¡ĞÄ³åËÄ! "};
+	char *logo[3] = {" æ´»ä¸‰å–½! ", "å“ˆå“ˆæ´»å››!", " å°å¿ƒå†²å››! "};
 
 	move( 15, 64 );
 	if (what >= 3)
@@ -120,14 +120,14 @@ void haha( int what )
 void win( int who )
 {
 	move(12,35);
-	outs("[47m[31m©°¡ª¡ª¡ª¡ª©´[m");
+	outs("[47m[31mâ”Œâ€”â€”â€”â€”â”[m");
 	move(13,35);
 	if( who == black )
-	outs("[47m[31m©¦  [30;42mºÚÊ¤[m[47m [31m ©¦[m");
+	outs("[47m[31mâ”‚  [30;42mé»‘èƒœ[m[47m [31m â”‚[m");
 	else
-	outs("[47m[31m©¦  [30;42m°×Ê¤[m[47m [31m ©¦[m");
+	outs("[47m[31mâ”‚  [30;42mç™½èƒœ[m[47m [31m â”‚[m");
 	move(14,35);
-	outs("[47m[31m©¸¡ª¡ª¡ª¡ª©¼[m");
+	outs("[47m[31mâ””â€”â€”â€”â€”â”˜[m");
 	refresh ();
 	winner=who;
 	press ();
@@ -136,11 +136,11 @@ void win( int who )
 void quit(void)
 {
 	move(12,35);
-	outs("[47m[31m©°¡ª¡ª¡ª¡ª¡ª¡ª¡ª©´[m");
+	outs("[47m[31mâ”Œâ€”â€”â€”â€”â€”â€”â€”â”[m");
 	move(13,35);
-	outs("[47m[31m©¦  [30;42m¶Ô·½ÍË³öÁË[m[47m [31m ©¦[m");
+	outs("[47m[31mâ”‚  [30;42må¯¹æ–¹é€€å‡ºäº†[m[47m [31m â”‚[m");
 	move(14,35);
-	outs("[47m[31m©¸¡ª¡ª¡ª¡ª¡ª¡ª¡ª©¼[m");
+	outs("[47m[31mâ””â€”â€”â€”â€”â€”â€”â€”â”˜[m");
 	refresh ();
 	bell();
 	press ();
@@ -161,7 +161,7 @@ int calvalue(int x1,int y1,
 	if(winner!=0) return;
 	if(playboard[x2][y2]==0 || playboard[x3][y3]==0
 			|| playboard[x4][y4]==0)
-	empty=1; /*check 10111ĞÍËÀËÄ*/
+	empty=1; /*check 10111å‹æ­»å››*/
 
 	if(playboard[x1][y1]==black) n_black+=1;
 	if(playboard[x1][y1]==white) n_white+=1;
@@ -192,21 +192,21 @@ int calvalue(int x1,int y1,
 	}
 
 	if(n_black==5)
-	{ /*ÔÙÉ¨Á¬Áù*/
+	{ /*å†æ‰«è¿å…­*/
 		tlivef=-1;
 		tdeadf=0;
 		livethree=0;
-		for(i=0;i<=14;i++ ) /*ËÄ×İÏò*/
+		for(i=0;i<=14;i++ ) /*å››çºµå‘*/
 		for(j=0;j<=9;j++)
 		callfour(i,j,i,j+1,i,j+2,i,j+3,i,j+4,i,j+5);
-		for(i=0;i<=9;i++) /*ËÄºáÏò*/
+		for(i=0;i<=9;i++) /*å››æ¨ªå‘*/
 		for(j=0;j<=14;j++)
 		callfour(i,j,i+1,j,i+2,j,i+3,j,i+4,j,i+5,j);
-		for(i=0;i<=9;i++) /*ËÄĞ±ÓÒÏÂ*/
+		for(i=0;i<=9;i++) /*å››æ–œå³ä¸‹*/
 		for(j=0;j<=9;j++)
 		{
 			callfour(i,j,i+1,j+1,i+2,j+2,i+3,j+3,i+4,j+4,i+5,j+5);
-			/*ËÄĞ±×óÏÂ*/
+			/*å››æ–œå·¦ä¸‹*/
 			callfour(i,j+5,i+1,j+4,i+2,j+3,i+3,j+2,i+4,j+1,i+5,j);
 		}
 		if(winner==0)
@@ -231,7 +231,7 @@ int callfour(int x1,int y1,int x2,int y2,int x3,int y3,
 
 	if((playboard[x1][y1]!=0 && playboard[x6][y6]==0)||
 			(playboard[x1][y1]==0 && playboard[x6][y6]!=0))
-	dead=1; /* for checking  ³åËÄ */
+	dead=1; /* for checking  å†²å›› */
 
 	if(playboard[x2][y2]==black) n_black+=1;
 	if(playboard[x2][y2]==white) n_white+=1;
@@ -267,13 +267,13 @@ int callfour(int x1,int y1,int x2,int y2,int x3,int y3,
 
 			haha(2);
 			tdeadf+=1;
-			tlivef+=1; /*ºÚËÀËÄÀ²*/
+			tlivef+=1; /*é»‘æ­»å››å•¦*/
 			threefour=0;
 			return;
 		}
 
 		threefour=black;
-		tlivef+=1; /*»îËÄÒ²ËãË«ËÄ*/
+		tlivef+=1; /*æ´»å››ä¹Ÿç®—åŒå››*/
 	}
 	if(n_white==4)
 	{
@@ -290,12 +290,12 @@ int callfour(int x1,int y1,int x2,int y2,int x3,int y3,
 		tlivef+=1;
 
 	}
-	if(playboard[x1][y1]==black) n_black+=1; /*check Á¬×Ó*/
+	if(playboard[x1][y1]==black) n_black+=1; /*check è¿å­*/
 	if(playboard[x6][y6]==black) n_black+=1;
 
 	if(n_black==5 && (playboard[x3][y3]==0 || playboard[x4][y4]==0 ||
 					playboard[x5][y5]==0 || playboard[x2][y2]==0))
-	tlivef-=1; /* ÁùÈ±Ò»ĞÍ, ²»Ëã³åËÄ */
+	tlivef-=1; /* å…­ç¼ºä¸€å‹, ä¸ç®—å†²å›› */
 
 	if( n_black >= 6 )
 	bandhand(6);
@@ -307,29 +307,29 @@ int bandhand(int style)
 	if(style==3)
 	{
 		move(12,35);
-		outs("[47m[31m©°ºÚ°Ü¡ª¡ª¡ª¡ª¡ª¡ª©´[m");
+		outs("[47m[31mâ”Œé»‘è´¥â€”â€”â€”â€”â€”â€”â”[m");
 		move(13,35);
-		outs("[47m[31m©¦  [37;41mºÚ½ûÊÖË«»îÈı[m[47m  [31m©¦[m");
+		outs("[47m[31mâ”‚  [37;41mé»‘ç¦æ‰‹åŒæ´»ä¸‰[m[47m  [31mâ”‚[m");
 		move(14,35);
-		outs("[47m[31m©¸¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª©¼[m");
+		outs("[47m[31mâ””â€”â€”â€”â€”â€”â€”â€”â€”â”˜[m");
 	}
 	else if(style==4)
 	{
 		move(12,35);
-		outs("[47m[31m©°ºÚ°Ü¡ª¡ª¡ª¡ª¡ª¡ª©´[m");
+		outs("[47m[31mâ”Œé»‘è´¥â€”â€”â€”â€”â€”â€”â”[m");
 		move(13,35);
-		outs("[47m[31m©¦  [37;41mºÚ½ûÊÖË«  ËÄ[m[47m  [31m©¦[m");
+		outs("[47m[31mâ”‚  [37;41mé»‘ç¦æ‰‹åŒ  å››[m[47m  [31mâ”‚[m");
 		move(14,35);
-		outs("[47m[31m©¸¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª©¼[m");
+		outs("[47m[31mâ””â€”â€”â€”â€”â€”â€”â€”â€”â”˜[m");
 	}
 	else
 	{
 		move(12,35);
-		outs("[47m[31m©°ºÚ°Ü¡ª¡ª¡ª¡ª¡ª¡ª©´[m");
+		outs("[47m[31mâ”Œé»‘è´¥â€”â€”â€”â€”â€”â€”â”[m");
 		move(13,35);
-		outs("[47m[31m©¦  [37;41mºÚ½ûÊÖÁ¬Áù×Ó[m[47m  [31m©¦[m");
+		outs("[47m[31mâ”‚  [37;41mé»‘ç¦æ‰‹è¿å…­å­[m[47m  [31mâ”‚[m");
 		move(14,35);
-		outs("[47m[31m©¸¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª©¼[m");
+		outs("[47m[31mâ””â€”â€”â€”â€”â€”â€”â€”â€”â”˜[m");
 	}
 
 	winner=white;
@@ -350,7 +350,7 @@ int first;
 	int i,j /* ,k */,fway,banf,idone;
 
 	/*
-	 *      Ôö¼ÓÁÄÌì¹¦ÄÜ. Added by satan. 99.04.02
+	 *      å¢åŠ èŠå¤©åŠŸèƒ½. Added by satan. 99.04.02
 	 */
 
 #define START    17
@@ -363,7 +363,7 @@ int first;
 	char chatbuf[80], *cbuf;
 	int ptr = 0, chating = 0 /*, over = 0 */;
 
-	setutmpmode(FIVE); /*ÓÃ»§×´Ì¬ÉèÖÃ*/
+	setutmpmode(FIVE); /*ç”¨æˆ·çŠ¶æ€è®¾ç½®*/
 	clear ();
 	InitScreen();
 	five_chat (NULL, 1);
@@ -395,37 +395,37 @@ int first;
 	if(first)
 	{
 		move(1,33);
-		prints("ºÚ¡ñÏÈÊÖ %s  ",genbuf);
+		prints("é»‘â—å…ˆæ‰‹ %s  ",genbuf);
 		move(2,33);
-		prints("°×¡ğºóÊÖ %s  ",save_page_requestor);
+		prints("ç™½â—‹åæ‰‹ %s  ",save_page_requestor);
 	}
 	else
 	{
 		move(1,33);
-		prints("°×¡ğºóÊÖ %s  ",genbuf);
+		prints("ç™½â—‹åæ‰‹ %s  ",genbuf);
 		move(2,33);
-		prints("ºÚ¡ñÏÈÊÖ %s  ",save_page_requestor);
+		prints("é»‘â—å…ˆæ‰‹ %s  ",save_page_requestor);
 	}
 
 	move(15,35);
 	if(first)
-	outs("¡ïµÈ´ı¶Ô·½ÏÂ×Ó¡ï");
+	outs("â˜…ç­‰å¾…å¯¹æ–¹ä¸‹å­â˜…");
 	else
-	outs("¡ôÏÖÔÚ¸Ã×Ô¼ºÏÂ¡ô");
+	outs("â—†ç°åœ¨è¯¥è‡ªå·±ä¸‹â—†");
 	move(7,14);
-	outs("¡ñ");
+	outs("â—");
 	player=white;
 	playboard[7][7]=black;
-	chess[1][0]=14; /*¼ÍÂ¼ËùÏÂÎ»Ö·*/
+	chess[1][0]=14; /*çºªå½•æ‰€ä¸‹ä½å€*/
 	chess[1][1]=7;
 	move(4,35);
-	outs("µÚ 1ÊÖ ¡ñH 8");
+	outs("ç¬¬ 1æ‰‹ â—H 8");
 
-	if(!first) { /*³¬¹Ö!*/
+	if(!first) { /*è¶…æ€ª!*/
 		move (7, 14);
 		fdone=1;
 	}
-	else fdone=0; /*¶ÔÊÖÍê³É*/
+	else fdone=0; /*å¯¹æ‰‹å®Œæˆ*/
 
 	while (1)
 	{
@@ -437,7 +437,7 @@ int first;
 			if (datac <= 0)
 			{
 				move(17,30);
-				outs("[47m[31;47m ¶Ô·½Í¶½µÁË...@_@ [m");
+				outs("[47m[31;47m å¯¹æ–¹æŠ•é™äº†...@_@ [m");
 				break;
 			}
 			if (data[0] == '\0') {
@@ -451,7 +451,7 @@ int first;
 				bell ();
 				RMSG = YEA;
 				saveline (PROMPT, 0);
-				sprintf (genbuf, "%s Ëµ: ÖØÀ´Ò»ÅÌºÃÂğ? (Y/N)[Y]:", save_page_requestor);
+				sprintf (genbuf, "%s è¯´: é‡æ¥ä¸€ç›˜å¥½å—? (Y/N)[Y]:", save_page_requestor);
 				getdata (PROMPT, 0, genbuf, genbuf1, 2, LCECHO, YEA);
 				RMSG = NA;
 				if (genbuf1[0] == 'n' || genbuf1[0] == 'N') {
@@ -470,7 +470,7 @@ int first;
 				saveline (PROMPT, 0);
 				move (PROMPT, 0);
 				clrtoeol ();
-				prints ("%s ½ÓÊÜÁËÄúµÄÇëÇó :-)", save_page_requestor);
+				prints ("%s æ¥å—äº†æ‚¨çš„è¯·æ±‚ :-)", save_page_requestor);
 				refresh ();
 				sleep (1);
 				saveline (PROMPT, 1);
@@ -482,7 +482,7 @@ int first;
 				saveline (PROMPT, 0);
 				move (PROMPT, 0);
 				clrtoeol ();
-				prints ("%s ¾Ü¾øÁËÄúµÄÇëÇó :-(", save_page_requestor);
+				prints ("%s æ‹’ç»äº†æ‚¨çš„è¯·æ±‚ :-(", save_page_requestor);
 				refresh ();
 				sleep (1);
 				saveline (PROMPT, 1);
@@ -497,7 +497,7 @@ int first;
 				break;
 			}
 			i=atoi(data);
-			cx=i/1000; /*½âÒëdata³ÉÆåÅÌ×ÊÁÏ*/
+			cx=i/1000; /*è§£è¯‘dataæˆæ£‹ç›˜èµ„æ–™*/
 			cy=(i%1000)/10;
 			fdone=i%10;
 			hand+=1;
@@ -507,50 +507,50 @@ int first;
 			else
 			move(((hand-1)%19)/2+4,35);
 
-			prints("µÚ%2dÊÖ %s%c%2d",hand,
-					(player==black)?"¡ñ":"¡ğ",abcd[cx/2],15-cy);
+			prints("ç¬¬%2dæ‰‹ %s%c%2d",hand,
+					(player==black)?"â—":"â—‹",abcd[cx/2],15-cy);
 
 			move(cy,cx);
 			x=cx/2;
 			playboard[x][cy]=player;
 			if(player==black)
 			{
-				outs("¡ñ");
+				outs("â—");
 				player=white;
 			}
 			else
 			{
-				outs("¡ğ");
+				outs("â—‹");
 				player=black;
 			}
 			move (cy, cx);
 			refresh ();
 			bell ();
 			move(15,35);
-			outs("¡ôÏÖÔÚ¸Ã×Ô¼ºÏÂ¡ô");
+			outs("â—†ç°åœ¨è¯¥è‡ªå·±ä¸‹â—†");
 			haha (5);
 
 			tdeadf=tlivef=livethree=threefour=0;
 			for(j=0;j<=10;j++)
 			calvalue(cx/2,j,cx/2,j+1,cx/2,j+2,cx/2,j+3,cx/2,j+4);
-			for(i=0;i<=10;i++)/*ºáÏò*/
+			for(i=0;i<=10;i++)/*æ¨ªå‘*/
 			calvalue(i,cy,i+1,cy,i+2,cy,i+3,cy,i+4,cy);
-			for(i=-4;i<=0;i++)/*Ğ±ÓÒÏÂ*/
+			for(i=-4;i<=0;i++)/*æ–œå³ä¸‹*/
 			calvalue(cx/2+i,cy+i,cx/2+i+1,cy+i+1,cx/2+i+2,cy+i+2,
 					cx/2+i+3,cy+i+3,cx/2+i+4,cy+i+4);
-			for(i=-4;i<=0;i++)/*Ğ±×óÏÂ*/
+			for(i=-4;i<=0;i++)/*æ–œå·¦ä¸‹*/
 			calvalue(cx/2-i,cy+i,cx/2-i-1,cy+i+1,cx/2-i-2,cy+i+2,cx/2-i-3,
 					cy+i+3,cx/2-i-4,cy+i+4);
 
 			for(j=0;j<=9;j++)
 			callfour(cx/2,j,cx/2,j+1,cx/2,j+2,cx/2,j+3,cx/2,j+4,cx/2,j+5);
-			for(i=0;i<=9;i++)/*ËÄºáÏò*/
+			for(i=0;i<=9;i++)/*å››æ¨ªå‘*/
 			callfour(i,cy,i+1,cy,i+2,cy,i+3,cy,i+4,cy,i+5,cy);
 			for(i=-5;i<=0;i++)
-			{/*ËÄĞ±ÓÒÏÂ*/
+			{/*å››æ–œå³ä¸‹*/
 				callfour(cx/2+i,cy+i,cx/2+i+1,cy+i+1,cx/2+i+2,cy+i+2,
 						cx/2+i+3,cy+i+3,cx/2+i+4,cy+i+4,cx/2+i+5,cy+i+5);
-				/*ËÄĞ±×óÏÂ*/
+				/*å››æ–œå·¦ä¸‹*/
 				callfour(cx/2-i,cy+i,cx/2-i-1,cy+i+1,cx/2-i-2,cy+i+2,cx/2-i-3,
 						cy+i+3,cx/2-i-4,cy+i+4,cx/2-i-5,cy+i+5);
 			}
@@ -580,7 +580,7 @@ int first;
 			} else if (ch==Ctrl('C') || ((ch=='Q' || ch=='q') && !chating)) {
 				RMSG = YEA;
 				saveline (PROMPT, 0);
-				getdata(PROMPT, 0, "ÄúÈ·¶¨ÒªÀë¿ªÂğ? (Y/N)?[N] ", genbuf1, 2, LCECHO, YEA);
+				getdata(PROMPT, 0, "æ‚¨ç¡®å®šè¦ç¦»å¼€å—? (Y/N)?[N] ", genbuf1, 2, LCECHO, YEA);
 				if (genbuf1[0] == 'Y' || genbuf1[0] == 'y')
 				quitf = 1;
 				else
@@ -590,14 +590,14 @@ int first;
 			} else if (ch==Ctrl('N') || ((ch=='N' || ch=='n') && !chating)) {
 				saveline (PROMPT, 0);
 				RMSG = YEA;
-				getdata(PROMPT,0,"ÄúÈ·¶¨ÒªÖØĞÂ¿ªÊ¼Âğ? (Y/N)?[N] ",genbuf1,2,LCECHO, YEA);
+				getdata(PROMPT,0,"æ‚¨ç¡®å®šè¦é‡æ–°å¼€å§‹å—? (Y/N)?[N] ",genbuf1,2,LCECHO, YEA);
 				if (genbuf1[0] == 'Y' || genbuf1[0] == 'y') {
 					send (fd, "\1", 1, 0);
 					move (PROMPT, 0);
 					bell ();
 					clrtoeol ();
 					move (PROMPT, 0);
-					outs ("ÒÑ¾­ÒÑ¾­ÌæÄú·¢³öÇëÇóÁË");
+					outs ("å·²ç»å·²ç»æ›¿æ‚¨å‘å‡ºè¯·æ±‚äº†");
 					refresh ();
 					sleep (1);
 				}
@@ -707,7 +707,7 @@ int first;
 			}
 		}
 
-		if(fdone==1 && !chating && ch != I_OTHERDATA)/*»»ÎÒ*/
+		if(fdone==1 && !chating && ch != I_OTHERDATA)/*æ¢æˆ‘*/
 		{
 
 			move(py,px);
@@ -742,23 +742,23 @@ int first;
 				if(px>28)
 				{
 					px=0;px=px-1;
-				} /*»áÌø¸ñßÖ*/
+				} /*ä¼šè·³æ ¼å’§*/
 				break;
 				case ' ':
 				if(banf==1) break;
 
-				if((px%2)==1) px=px-1; /*½â¾önetterm²»ºÏÎÊÌâ*/
+				if((px%2)==1) px=px-1; /*è§£å†³nettermä¸åˆé—®é¢˜*/
 				move(py,px);
 				hand+=1;
 				playboard[x][py]=player;
 				if(player==black)
 				{
-					outs("¡ñ");
+					outs("â—");
 					player=white;
 				}
 				else
 				{
-					outs("¡ğ");
+					outs("â—‹");
 					player=black;
 				}
 				chess[hand][0]=px;
@@ -768,8 +768,8 @@ int first;
 				else
 				move(((hand-1)%19)/2+4,35);
 
-				prints("µÚ%2dÊÖ %s%c%2d",hand,
-						(hand%2==1)?"¡ñ":"¡ğ",abcd[px/2],15-py);
+				prints("ç¬¬%2dæ‰‹ %s%c%2d",hand,
+						(hand%2==1)?"â—":"â—‹",abcd[px/2],15-py);
 				idone=1;
 				move (py, px);
 				refresh ();
@@ -796,30 +796,30 @@ int first;
 				break;
 
 				move(15,35);
-				outs("¡ïµÈ´ı¶Ô·½ÏÂ×Ó¡ï");
+				outs("â˜…ç­‰å¾…å¯¹æ–¹ä¸‹å­â˜…");
 				haha (5);
 
 				tdeadf=tlivef=livethree=threefour=0;
 				for(j=0;j<=10;j++)
 				calvalue(px/2,j,px/2,j+1,px/2,j+2,px/2,j+3,px/2,j+4);
-				for(i=0;i<=10;i++)/*ºáÏò*/
+				for(i=0;i<=10;i++)/*æ¨ªå‘*/
 				calvalue(i,py,i+1,py,i+2,py,i+3,py,i+4,py);
-				for(i=-4;i<=0;i++)/*Ğ±ÓÒÏÂ*/
+				for(i=-4;i<=0;i++)/*æ–œå³ä¸‹*/
 				calvalue(px/2+i,py+i,px/2+i+1,py+i+1,px/2+i+2,py+i+2,
 						px/2+i+3,py+i+3,px/2+i+4,py+i+4);
-				for(i=-4;i<=0;i++)/*Ğ±×óÏÂ*/
+				for(i=-4;i<=0;i++)/*æ–œå·¦ä¸‹*/
 				calvalue(px/2-i,py+i,px/2-i-1,py+i+1,px/2-i-2,py+i+2,px/2-i-3,
 						py+i+3,px/2-i-4,py+i+4);
 
 				for(j=0;j<=9;j++)
 				callfour(px/2,j,px/2,j+1,px/2,j+2,px/2,j+3,px/2,j+4,px/2,j+5);
-				for(i=0;i<=9;i++)/*ËÄºáÏò*/
+				for(i=0;i<=9;i++)/*å››æ¨ªå‘*/
 				callfour(i,py,i+1,py,i+2,py,i+3,py,i+4,py,i+5,py);
 				for(i=-5;i<=0;i++)
-				{ /*ËÄĞ±ÓÒÏÂ*/
+				{ /*å››æ–œå³ä¸‹*/
 					callfour(px/2+i,py+i,px/2+i+1,py+i+1,px/2+i+2,py+i+2,
 							px/2+i+3,py+i+3,px/2+i+4,py+i+4,px/2+i+5,py+i+5);
-					/*ËÄĞ±×óÏÂ*/
+					/*å››æ–œå·¦ä¸‹*/
 					callfour(px/2-i,py+i,px/2-i-1,py+i+1,px/2-i-2,py+i+2,px/2-i-3,
 							py+i+3,px/2-i-4,py+i+4,px/2-i-5,py+i+5);
 				}
@@ -857,7 +857,7 @@ void
 five_chat (char *msg, int init)
 {
 	char prompt[] = "===>";
-	char chat[] = "ÁÄÌì: ";
+	char chat[] = "èŠå¤©: ";
 	static char win[MAX][80];
 	static int curr, p, i;
 
@@ -916,7 +916,7 @@ press (void)
 	saveline (t_lines-1, 0);
 	move (t_lines-1, 0);
 	clrtoeol ();
-	prints ("[37;40m[0m                               [33m°´ÈÎÒâ¼ü¼ÌĞø ...[37;40m[0m");
+	prints ("[37;40m[0m                               [33mæŒ‰ä»»æ„é”®ç»§ç»­ ...[37;40m[0m");
 	refresh ();
 	read (0, &c, sizeof (int));
 	move (t_lines-1, 0);

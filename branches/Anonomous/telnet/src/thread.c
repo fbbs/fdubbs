@@ -25,26 +25,26 @@
 
 #include "bbs.h"
 
-char tname[STRLEN]; //.THREADÎÄ¼şÃû,Ôİ´æÖĞ¼ä½á¹û
-char fname[STRLEN]; //.DIR2ÎÄ¼ş,Ôİ´æÖĞ¼ä½á¹û
+char tname[STRLEN]; //.THREADæ–‡ä»¶å,æš‚å­˜ä¸­é—´ç»“æœ
+char fname[STRLEN]; //.DIR2æ–‡ä»¶,æš‚å­˜ä¸­é—´ç»“æœ
 
-struct postnode { //¼ÇÂ¼Í¬Ò»Ö÷ÌâµÄ²»Í¬post
+struct postnode { //è®°å½•åŒä¸€ä¸»é¢˜çš„ä¸åŒpost
 	int num;
 	struct postnode *next;
 };
 
-struct titlenode { //Ã¿¸ötitlenode¼ÇÂ¼²»Í¬Ö÷Ìâ
+struct titlenode { //æ¯ä¸ªtitlenodeè®°å½•ä¸åŒä¸»é¢˜
 	char *title;
 	struct titlenode *next;
 	struct postnode *post;
 };
 
-struct titlenode toptitle; //Í¬Ö÷Ìâ·½Ê½µÄÍ·½áµã
+struct titlenode toptitle; //åŒä¸»é¢˜æ–¹å¼çš„å¤´ç»“ç‚¹
 
 int report() {
 }
 
-// ÊÍ·ÅËùÓĞ¶¯Ì¬·ÖÅäµÄÄÚ´æ¿Õ¼ä
+// é‡Šæ”¾æ‰€æœ‰åŠ¨æ€åˆ†é…çš„å†…å­˜ç©ºé—´
 int FreeTitleMem() {
 	struct titlenode *t=toptitle.next;
 	struct postnode *p=NULL;
@@ -53,29 +53,29 @@ int FreeTitleMem() {
 		p = t->post;
 		while (p!=NULL) {
 			t->post = p->next;
-			free(p); //ÊÍ·ÅÃ¿¸öpostËùÕ¼ÓÃµÄ¿Õ¼ä
+			free(p); //é‡Šæ”¾æ¯ä¸ªpostæ‰€å ç”¨çš„ç©ºé—´
 			p= t->post;
 		}
 		toptitle.next=t->next;
-		free(t->title); //ÊÍ·Å±êÌâ×Ö·û´®ËùÕ¼ÓÃµÄ¿Õ¼ä		
-		free(t); //ÊÍ·Å±êÌâÁ´±í±¾ÉíËùÕ¼ÓÃµÄ¿Õ¼ä
+		free(t->title); //é‡Šæ”¾æ ‡é¢˜å­—ç¬¦ä¸²æ‰€å ç”¨çš„ç©ºé—´		
+		free(t); //é‡Šæ”¾æ ‡é¢˜é“¾è¡¨æœ¬èº«æ‰€å ç”¨çš„ç©ºé—´
 		t = toptitle.next;
 	}
 
 	return 0;
 }
 
-//½«µÚnum¸ö¼ÇÂ¼post¼ÓÈëµ½Í¬Ö÷ÌâÁĞ±íÖĞ
-//·µ»ØÖµÏÖÎŞÒâÒå
+//å°†ç¬¬numä¸ªè®°å½•poståŠ å…¥åˆ°åŒä¸»é¢˜åˆ—è¡¨ä¸­
+//è¿”å›å€¼ç°æ— æ„ä¹‰
 int thread(struct fileheader *post, int num) {
 	struct titlenode *tmp;
 	char *ntitle;
 	tmp = &toptitle;
 
-	//È¡µÃpostµÄ±êÌâ
+	//å–å¾—postçš„æ ‡é¢˜
 	if (post->title[0] == 'R' && post->title[1] == 'e' && post->title[2]
 			== ':') {
-		ntitle = post->title + 4; //reÎÄ´ÓµÚËÄ¸ö×Ö·û¿ªÊ¼ËãÆğ
+		ntitle = post->title + 4; //reæ–‡ä»ç¬¬å››ä¸ªå­—ç¬¦å¼€å§‹ç®—èµ·
 	} else {
 		ntitle = post->title;
 	}
@@ -91,7 +91,7 @@ int thread(struct fileheader *post, int num) {
 			titletmp->next = NULL;
 			tmp->next = titletmp;
 		}
-		if (!strcmp(tmp->next->title, ntitle)) { //ÕÒµ½ÆäËùÊôÖ÷Ìâ
+		if (!strcmp(tmp->next->title, ntitle)) { //æ‰¾åˆ°å…¶æ‰€å±ä¸»é¢˜
 			struct postnode *tmppost, *first = tmp->next->post;
 			if (first == NULL) {
 				tmppost
@@ -113,13 +113,13 @@ int thread(struct fileheader *post, int num) {
 				first = first->next;
 			}//while(1)
 		} else {
-			tmp = tmp->next; //tmp´ËÊ±µÄÖ÷Ìâ·Çntitle,½Ó×ÅÕÒ
+			tmp = tmp->next; //tmpæ­¤æ—¶çš„ä¸»é¢˜éntitle,æ¥ç€æ‰¾
 		} //else
 	} //while(1)
 
 	return 0;
 }
-//·ÃÎÊtoptitleÖĞËùÓĞpost¼ÇÂ¼,´ÓfnameÖĞ¼ÇÈ¡¼ÇÂ¼,ĞŞ¸Äºó±£´æµ½tnameÖĞ
+//è®¿é—®toptitleä¸­æ‰€æœ‰postè®°å½•,ä»fnameä¸­è®°å–è®°å½•,ä¿®æ”¹åä¿å­˜åˆ°tnameä¸­
 int visit_all() {
 	struct titlenode *tmp;
 	struct fileheader post;
@@ -132,8 +132,8 @@ int visit_all() {
 		tmppost = tmp->post;
 		while (tmppost) {
 			get_record(fname, &post, sizeof(post), tmppost->num);
-			//added by iamfat ÃÀ¹ÛÍ¬Ö÷Ìâ 2002.3.11
-			if (!tmppost->next) { //×îºóÒ»Ïî,¹©ÖÃµ×Ê±Ê¹ÓÃ?
+			//added by iamfat ç¾è§‚åŒä¸»é¢˜ 2002.3.11
+			if (!tmppost->next) { //æœ€åä¸€é¡¹,ä¾›ç½®åº•æ—¶ä½¿ç”¨?
 				post.accessed[1]|=FILE_LASTONE;
 			}
 			append_record(tname, &post, sizeof(post));
@@ -152,9 +152,9 @@ int main(int argc, char *argv[]) {
 	char dname[STRLEN];
 	char buf[256];
 	struct stat st1, st2;
-	sprintf(dname, "boards/%s/%s", argv[1], DOT_DIR); //.DIRÎÄ¼ş
-	sprintf(fname, "boards/%s/%s2", argv[1], DOT_DIR); //.DIR2ÎÄ¼ş
-	sprintf(tname, "boards/%s/%s", argv[1], THREAD_DIR);//.THREADÎÄ¼ş
+	sprintf(dname, "boards/%s/%s", argv[1], DOT_DIR); //.DIRæ–‡ä»¶
+	sprintf(fname, "boards/%s/%s2", argv[1], DOT_DIR); //.DIR2æ–‡ä»¶
+	sprintf(tname, "boards/%s/%s", argv[1], THREAD_DIR);//.THREADæ–‡ä»¶
 
 	if (stat(dname, &st1) == -1) {
 		return 1;

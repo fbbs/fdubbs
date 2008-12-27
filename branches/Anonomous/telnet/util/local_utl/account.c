@@ -8,20 +8,20 @@
 char 	datestring[30];
 
 struct {
-	int     no[24];		/* ´ÎÊı */
-	int     sum[24];	/* ×ÜºÏ */
+	int     no[24];		/* æ¬¡æ•° */
+	int     sum[24];	/* æ€»åˆ */
 }       st;
 
 /* Added by deardragon 1999.12.2 */
 void getdatestring( time_t now)
 {
-        //char weeknum[7][3]={"Ìì","Ò»","¶ş","Èı","ËÄ","Îå","Áù"};
+        //char weeknum[7][3]={"å¤©","ä¸€","äºŒ","ä¸‰","å››","äº”","å…­"};
 
 		snprintf(datestring,30,"%s",ctime(&now));
 		datestring[19] =0;
 		sprintf(datestring,"%s",datestring+4);
 	    /*
-        sprintf(datestring,"%4dÄê%02dÔÂ%02dÈÕ%02d:%02d:%02d ĞÇÆÚ%2s",
+        sprintf(datestring,"%4då¹´%02dæœˆ%02dæ—¥%02d:%02d:%02d æ˜ŸæœŸ%2s",
                 tm->tm_year+1900,tm->tm_mon+1,tm->tm_mday,
                 tm->tm_hour,tm->tm_min,tm->tm_sec,
                 weeknum[tm->tm_wday]);
@@ -42,8 +42,8 @@ char   *argv[];
 	int     i, j;
 	char   *blk[10] =
 	{
-                "  ", "  ", "¨x", "¨y", "¨z",
-                "¨{", "¨|", "¨}", "¨~", "¨€",
+                "  ", "  ", "â–", "â–‚", "â–ƒ",
+                "â–„", "â–…", "â–†", "â–‡", "â–ˆ",
 	};
 	
 	//sprintf(buf,"%s/usies", BBSHOME);
@@ -56,7 +56,7 @@ char   *argv[];
 	getdatestring(now);
 	sprintf(date, "%s", datestring);
 	while (fgets(buf, 256, fp)) {
-		hour = atoi(buf + 7);	//Ê±Êı
+		hour = atoi(buf + 7);	//æ—¶æ•°
 		if (hour < 0 || hour > 23) {
 			printf("%s", buf);
 			continue;
@@ -95,12 +95,12 @@ char   *argv[];
 		printf("Cann't open countusr\n");
 		return 1;
 	}
-	//fprintf(fp, "\n[1;36m    ©°©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©´\n");
-//	fprintf(fp, "\n[1;36m    ©°©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©´\n");
-	fprintf(fp, "\n[1;36m    ©°©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤³¬¹ıÒ»Ç§½«²»ÏÔÊ¾¸öÎ»Êı©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©´\n");
+	//fprintf(fp, "\n[1;36m    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”\n");
+//	fprintf(fp, "\n[1;36m    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”\n");
+	fprintf(fp, "\n[1;36m    â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€è¶…è¿‡ä¸€åƒå°†ä¸æ˜¾ç¤ºä¸ªä½æ•°â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”\n");
 	
 	for (i = MAX_LINE; i >= 0; i--) {
-		fprintf(fp, "[1;37m%4.d[36m©¦[33m", (i + 1) * item);
+		fprintf(fp, "[1;37m%4.d[36mâ”‚[33m", (i + 1) * item);
 		for (j = 0; j < 24; j++) {
 			if ((item * (i) > st.no[j]) && (item * (i - 1) <= st.no[j]) && st.no[j]) {
 				//fprintf(fp, "[35m%-3d[33m", (st.no[j]));
@@ -120,12 +120,12 @@ char   *argv[];
 			else
 				fprintf(fp, "   ");
 		}
-		fprintf(fp, "[1;36m©¦\n");
+		fprintf(fp, "[1;36mâ”‚\n");
 	}
 	
-	fprintf(fp,"   [37m0[36m©¸©¤©¤ [37m%s Ã¿Ğ¡Ê±µ½·ÃÈË´ÎÍ³¼Æ[36m ©¤©¤©¤[37m%20s[36m ©¤©¤©¤©¤©¤©¤©¼\n"
+	fprintf(fp,"   [37m0[36mâ””â”€â”€ [37m%s æ¯å°æ—¶åˆ°è®¿äººæ¬¡ç»Ÿè®¡[36m â”€â”€â”€[37m%20s[36m â”€â”€â”€â”€â”€â”€â”˜\n"
 		"    [;36m  00 01 02 03 04 05 06 07 08 09 10 11 [1;31m12 13 14 15 16 17 18 19 20 21 22 23\n\n"
-		"                 [32m1 [33m¨~ [32m= [37m%-5d [32m×Ü¹²ÉÏÕ¾ÈË´Î£º[37m%-9d[32mÆ½¾ùÊ¹ÓÃÊ±¼ä£º[37m%d[m\n"
+		"                 [32m1 [33mâ–‡ [32m= [37m%-5d [32mæ€»å…±ä¸Šç«™äººæ¬¡ï¼š[37m%-9d[32må¹³å‡ä½¿ç”¨æ—¶é—´ï¼š[37m%d[m\n"
 		,BBSNAME, datestring, item, total, ( totaltime == 0 ) ? 0 : totaltime / total + 1);
 	fclose(fp);
 }

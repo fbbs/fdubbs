@@ -61,9 +61,9 @@ char *path,*file;
         memset(&fh.accessed,0,sizeof(fh.accessed));
         while( fgets(buf,256,fp)!=NULL)
         {
-                if(strstr(buf,"^[[1;33m·¢ĞÅÈË: ")||strstr(buf,"·¢ĞÅÈË: ")||strstr(buf,"×÷  Õß: ")||strstr(buf,"¼ÄĞÅÈË: "))
+                if(strstr(buf,"^[[1;33må‘ä¿¡äºº: ")||strstr(buf,"å‘ä¿¡äºº: ")||strstr(buf,"ä½œ  è€…: ")||strstr(buf,"å¯„ä¿¡äºº: "))
                 {		
-						if (strstr(buf,"^[[1;33m·¢ĞÅÈË: "))
+						if (strstr(buf,"^[[1;33må‘ä¿¡äºº: "))
 							ptr=&buf[16];
 						else
 							ptr=&buf[8];
@@ -85,7 +85,7 @@ char *path,*file;
                         strncpy(fh.owner,ptr,sizeof(fh.owner));
                         step=1;
                 }
-                if(strstr(buf,"±ê  Ìâ: ")||strstr(buf,"Ìâ  Ä¿: "))
+                if(strstr(buf,"æ ‡  é¢˜: ")||strstr(buf,"é¢˜  ç›®: "))
                 {
                         ptr=&buf[8];
                         ptr[strlen(ptr)-1]=0;
@@ -165,7 +165,7 @@ char *pathname;
   struct dirent *dirp;
   int all=0,done=0;  
 
-  printf("1. ½øÈëÄ¿Â¼ %s\n",pathname);
+  printf("1. è¿›å…¥ç›®å½• %s\n",pathname);
   if( (dp = opendir(pathname))==NULL)
   {
        printf("OpenDir error for %s\n",pathname);
@@ -174,7 +174,7 @@ char *pathname;
   sprintf(control,"%s/.DIR",pathname);
   sprintf(buf,"%s.bak",control);
   rename(control,buf);
-  printf("2. ÕûÀíÎÄÕÂ£¬½¨Á¢ .DIR\n");
+  printf("2. æ•´ç†æ–‡ç« ï¼Œå»ºç«‹ .DIR\n");
   while((dirp = readdir(dp))!=NULL)
   {
        char pname[256];
@@ -183,9 +183,9 @@ char *pathname;
        done+=do_remake(pathname,dirp->d_name);
        all++;
   }
-  printf("3. ÅÅĞòÎÄÕÂ\n");
+  printf("3. æ’åºæ–‡ç« \n");
   do_sort(pathname);
-  printf("%d ÆªÎÄÕÂÖØ½¨£¬%d ÎÄÕÂÊ§°Ü£¬ÒÑ¾­É¾³ı\n",done,all-done);
+  printf("%d ç¯‡æ–‡ç« é‡å»ºï¼Œ%d æ–‡ç« å¤±è´¥ï¼Œå·²ç»åˆ é™¤\n",done,all-done);
   chown(control,9999,99);
 }
 int	append_record(	char   *filename,

@@ -17,7 +17,7 @@ main()
             "%.2f %.2f %.2f", 
             cpu_load[0], cpu_load[1], cpu_load[2] );
 	
-	fp = popen( "rfinger |grep \"文章\" | wc -l", "r" );
+	fp = popen( "rfinger |grep \"鏂囩珷\" | wc -l", "r" );
 	fgets( buf, 29, fp );
 	b1 = atoi( buf );
 	pclose( fp );
@@ -25,11 +25,11 @@ main()
 	fgets( buf, 29, fp );
 	b2 = atoi( buf );
 	pclose( fp );
-	fp = popen( "rfinger |grep \"公布栏\"| wc -l", "r" );
+	fp = popen( "rfinger |grep \"鍏竷鏍廫"| wc -l", "r" );
 	fgets( buf, 29, fp );
 	b3 = atoi( buf );
 	pclose( fp );
-	fp = popen( "rfinger | grep -v \"文章\" |grep -v \"Talk\" |grep -v \"公布栏\" | wc -l", "r" );
+	fp = popen( "rfinger | grep -v \"鏂囩珷\" |grep -v \"Talk\" |grep -v \"鍏竷鏍廫" | wc -l", "r" );
 	fgets( buf, 29, fp );
 	b4 = atoi( buf );
 	pclose( fp );

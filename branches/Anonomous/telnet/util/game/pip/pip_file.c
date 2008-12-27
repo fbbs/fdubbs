@@ -1,6 +1,6 @@
 
 /*---------------------------------------------------------------------------*/
-/*Ğ¡¼¦µµ°¸µÄ¶ÁĞ´º¯Ê½							     */
+/*å°é¸¡æ¡£æ¡ˆçš„è¯»å†™å‡½å¼							     */
 /*---------------------------------------------------------------------------*/
 #include <time.h>
 #include "bbs.h"
@@ -14,7 +14,7 @@ extern time_t lasttime;
 extern char BoardName[];
 #endif  // END MAPLE
 
-/*ÓÎÏ·Ğ´×ÊÁÏÈëµµ°¸*/
+/*æ¸¸æˆå†™èµ„æ–™å…¥æ¡£æ¡ˆ*/
 pip_write_file()
 {
  FILE *ff;
@@ -58,7 +58,7 @@ pip_write_file()
  }
 }
 
-/*ÓÎÏ·¶Á×ÊÁÏ³öµµ°¸*/
+/*æ¸¸æˆè¯»èµ„æ–™å‡ºæ¡£æ¡ˆ*/
 pip_read_file()
 {
  FILE *fs;
@@ -104,7 +104,7 @@ pip_read_file()
  }
 }
 
-/*¼ÇÂ¼µ½pip.logµµ*/
+/*è®°å½•åˆ°pip.logæ¡£*/
 int 
 pip_log_record(msg)
 char *msg;
@@ -117,11 +117,11 @@ char *msg;
   fclose(fs);
 }
 
-/*Ğ¡¼¦½ø¶È´¢´æ*/
+/*å°é¸¡è¿›åº¦å‚¨å­˜*/
 int
 pip_write_backup()
 {
- char *files[4]={"Ã»ÓĞ","½ø¶ÈÒ»","½ø¶È¶ş","½ø¶ÈÈş"};
+ char *files[4]={"æ²¡æœ‰","è¿›åº¦ä¸€","è¿›åº¦äºŒ","è¿›åº¦å"};
  char buf[200],buf1[200];
  char ans[3];
  int num=0;
@@ -135,7 +135,7 @@ pip_write_backup()
     move(b_lines-1, 0);
     clrtoeol();
     move(b_lines-1,1);
-    prints("´¢´æ [1]½ø¶ÈÒ» [2]½ø¶È¶ş [3]½ø¶ÈÈş [Q]·ÅÆú [1/2/3/Q]£º");
+    prints("å‚¨å­˜ [1]è¿›åº¦ä¸€ [2]è¿›åº¦äºŒ [3]è¿›åº¦å [Q]æ”¾å¼ƒ [1/2/3/Q]ï¼š");
     pipkey=egetch();
     
     if (pipkey=='1')
@@ -150,12 +150,12 @@ pip_write_backup()
  }while(pipkey!='Q' && pipkey!='q' && num!=1 && num!=2 && num!=3);
  if(pipkey=='q' ||pipkey=='Q')
  {
-    pressanykey("·ÅÆú´¢´æÓÎÏ·½ø¶È");
+    pressanykey("æ”¾å¼ƒå‚¨å­˜æ¸¸æˆè¿›åº¦");
     return 0;
  }  
  move(b_lines-2, 1);
- prints("´¢´æµµ°¸»á¸²¸Ç´æ´¢´æì¶ [%s] µÄĞ¡¼¦µÄµµ°¸à¸£¡Çë¿¼ÂÇÇå³ş...",files[num]);
- sprintf(buf1,"È·¶¨Òª´¢´æì¶ [%s] µµ°¸Âğ£¿ [y/N]:",files[num]);
+ prints("å‚¨å­˜æ¡£æ¡ˆä¼šè¦†ç›–å­˜å‚¨å­˜æ–¼ [%s] çš„å°é¸¡çš„æ¡£æ¡ˆå–”ï¼è¯·è€ƒè™‘æ¸…æ¥š...",files[num]);
+ sprintf(buf1,"ç¡®å®šè¦å‚¨å­˜æ–¼ [%s] æ¡£æ¡ˆå—ï¼Ÿ [y/N]:",files[num]);
 #ifdef MAPLE
  getdata(b_lines-1, 1,buf1, ans, 2, 1, 0);
 #else
@@ -163,13 +163,13 @@ pip_write_backup()
 #endif  // END MAPLE
  if (ans[0]!='y'&&ans[0]!='Y') 
  {
-    pressanykey("·ÅÆú´¢´æµµ°¸");
+    pressanykey("æ”¾å¼ƒå‚¨å­˜æ¡£æ¡ˆ");
     return 0;
  }
  
  move(b_lines-1,0);
  clrtobot();
- sprintf(buf1,"´¢´æ [%s] µµ°¸Íê³ÉÁË",files[num]);
+ sprintf(buf1,"å‚¨å­˜ [%s] æ¡£æ¡ˆå®Œæˆäº†",files[num]);
  pressanykey(buf1);
 #ifdef MAPLE
  sprintf(buf,"/bin/cp home/%s/new_chicken home/%s/new_chicken.bak%d",cuser.userid,cuser.userid,num);
@@ -184,7 +184,7 @@ int
 pip_read_backup()
 {
  char buf[200],buf1[200],buf2[200];
- char *files[4]={"Ã»ÓĞ","½ø¶ÈÒ»","½ø¶È¶ş","½ø¶ÈÈş"};
+ char *files[4]={"æ²¡æœ‰","è¿›åº¦ä¸€","è¿›åº¦äºŒ","è¿›åº¦å"};
  char ans[3];
  int pipkey;
  int num=0;
@@ -197,7 +197,7 @@ pip_read_backup()
     move(b_lines-1, 0);
     clrtoeol();
     move(b_lines-1,1);
-    prints("¶ÁÈ¡ [1]½ø¶ÈÒ» [2]½ø¶È¶ş [3]½ø¶ÈÈş [Q]·ÅÆú [1/2/3/Q]£º");
+    prints("è¯»å– [1]è¿›åº¦ä¸€ [2]è¿›åº¦äºŒ [3]è¿›åº¦å [Q]æ”¾å¼ƒ [1/2/3/Q]ï¼š");
     pipkey=egetch();
     
     if (pipkey=='1')
@@ -218,7 +218,7 @@ pip_read_backup()
 #endif  // END MAPLE
       if((fs=fopen(buf,"r")) == NULL)
       {
-        sprintf(buf,"µµ°¸ [%s] ²»´æÔÚ",files[num]);
+        sprintf(buf,"æ¡£æ¡ˆ [%s] ä¸å­˜åœ¨",files[num]);
         pressanykey(buf);
         ok=0;
       }
@@ -226,28 +226,28 @@ pip_read_backup()
       {
          
 	 move(b_lines-2, 1);
-	 prints("¶ÁÈ¡³öµµ°¸»á¸²¸ÇÏÖÔÚÕıÔÚÍæµÄĞ¡¼¦µÄµµ°¸à¸£¡Çë¿¼ÂÇÇå³ş...");
-	 sprintf(buf,"È·¶¨Òª¶ÁÈ¡³ö [%s] µµ°¸Âğ£¿ [y/N]:",files[num]);
+	 prints("è¯»å–å‡ºæ¡£æ¡ˆä¼šè¦†ç›–ç°åœ¨æ­£åœ¨ç©çš„å°é¸¡çš„æ¡£æ¡ˆå–”ï¼è¯·è€ƒè™‘æ¸…æ¥š...");
+	 sprintf(buf,"ç¡®å®šè¦è¯»å–å‡º [%s] æ¡£æ¡ˆå—ï¼Ÿ [y/N]:",files[num]);
 #ifdef MAPLE
 	 getdata(b_lines-1, 1,buf, ans, 2, 1, 0);
 #else
          getdata(b_lines-1, 1,buf, ans, 2, DOECHO, YEA);
 #endif  // END MAPLE
 	 if (ans[0]!='y'&&ans[0]!='Y') {
-	    pressanykey("ÈÃÎÒÔÙ¾ö¶¨Ò»ÏÂ...");
+	    pressanykey("è®©æˆ‘å†å†³å®šä¸€ä¸‹...");
 	 } else ok=1;
       }
     }
  }while(pipkey!='Q' && pipkey!='q' && ok!=1);
  if(pipkey=='q' ||pipkey=='Q')
  {
-    pressanykey("»¹ÊÇÍæÔ­±¾µÄÓÎÏ·");
+    pressanykey("è¿˜æ˜¯ç©åŸæœ¬çš„æ¸¸æˆ");
     return 0;
  }
  
  move(b_lines-1,0);
  clrtobot();
- sprintf(buf,"¶ÁÈ¡ [%s] µµ°¸Íê³ÉÁË",files[num]);
+ sprintf(buf,"è¯»å– [%s] æ¡£æ¡ˆå®Œæˆäº†",files[num]);
  pressanykey(buf);
 
 #ifdef MAPLE
@@ -275,13 +275,13 @@ pip_live_again()
    tm=(d.bbtime)/60/30;
 
    clear();
-   showtitle("Ğ¡¼¦¸´»îÊÖÊõÖĞ", BoardName);
+   showtitle("å°é¸¡å¤æ´»æ‰‹æœ¯ä¸­", BoardName);
 
    now = time(0);
-   sprintf(genbuf, "[1;33m%s %-11sµÄĞ¡¼¦ [%s¶ş´ú] ¸´»îÁË£¡[m\n", Cdate(&now), cuser.userid,d.name);
+   sprintf(genbuf, "[1;33m%s %-11sçš„å°é¸¡ [%säºŒä»£] å¤æ´»äº†ï¼[m\n", Cdate(&now), cuser.userid,d.name);
    pip_log_record(genbuf);
    
-   /*ÉíÌåÉÏµÄÉè¶¨*/
+   /*èº«ä½“ä¸Šçš„è®¾å®š*/
    d.death=0;
    d.maxhp=d.maxhp*3/4+1;
    d.hp=d.maxhp/2+1;
@@ -291,33 +291,33 @@ pip_live_again()
    d.wrist=d.wrist*3/4;
    d.weight=45+10*tm;
    
-   /*Ç®¼õµ½Îå·ÖÖ®Ò»*/
+   /*é’±å‡åˆ°äº”åˆ†ä¹‹ä¸€*/
    d.money=d.money/5;
    
-   /*Õ½¶·ÄÜÁ¦½µÒ»°ë*/
+   /*æˆ˜æ–—èƒ½åŠ›é™ä¸€åŠ*/
    d.attack=d.attack*3/4;
    d.resist=d.resist*3/4;
    d.maxmp=d.maxmp*3/4;
    d.mp=d.maxmp/2;
    
-   /*±äµÄ²»¿ìÀÖ*/
+   /*å˜çš„ä¸å¿«ä¹*/
    d.happy=0;
    d.satisfy=0;
    
-   /*ÆÀ¼Û¼õ°ë*/
+   /*è¯„ä»·å‡åŠ*/
    d.social=d.social*3/4;
    d.family=d.family*3/4;
    d.hexp=d.hexp*3/4;
    d.mexp=d.mexp*3/4;
 
-   /*ÎäÆ÷µô¹â¹â*/   
+   /*æ­¦å™¨æ‰å…‰å…‰*/   
    d.weaponhead=0;
    d.weaponrhand=0;
    d.weaponlhand=0;
    d.weaponbody=0;
    d.weaponfoot=0;
    
-   /*Ê³ÎïÊ£Ò»°ë*/
+   /*é£Ÿç‰©å‰©ä¸€åŠ*/
    d.food=d.food/2;
    d.medicine=d.medicine/2;
    d.bighp=d.bighp/2;
@@ -325,10 +325,10 @@ pip_live_again()
 
    d.liveagain+=1;
    
-   pressanykey("Ğ¡¼¦Æ÷¹ÙÖØ½¨ÖĞ£¡");
-   pressanykey("Ğ¡¼¦ÌåÖÊ»Ö¸´ÖĞ£¡");
-   pressanykey("Ğ¡¼¦ÄÜÁ¦µ÷ÕûÖĞ£¡");
-   pressanykey("¹§ìûÄú£¬ÄãµÄĞ¡¼¦ÓÖ¸´»îÂŞ£¡");
+   pressanykey("å°é¸¡å™¨å®˜é‡å»ºä¸­ï¼");
+   pressanykey("å°é¸¡ä½“è´¨æ¢å¤ä¸­ï¼");
+   pressanykey("å°é¸¡èƒ½åŠ›è°ƒæ•´ä¸­ï¼");
+   pressanykey("æ­ç¦§æ‚¨ï¼Œä½ çš„å°é¸¡åˆå¤æ´»ç½—ï¼");
    pip_write_file();
    return 0;
 }

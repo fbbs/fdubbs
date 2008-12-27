@@ -138,22 +138,22 @@ int write_valid_weather_file(char* tmpfile)
    } 
    else 
    { 
-    if (strstr(rdstring,"ÔÂ")!=NULL && strstr(rdstring,"ÈÕ")!=NULL && strstr 
+    if (strstr(rdstring,"æœˆ")!=NULL && strstr(rdstring,"æ—¥")!=NULL && strstr 
 
-(rdstring,"Ê±")!=NULL && strstr(rdstring,"ÖÁ")!=NULL) 
+(rdstring,"æ—¶")!=NULL && strstr(rdstring,"è‡³")!=NULL) 
     { 
-     printf("\n                         ¹úÄÚ³ÇÊĞ24Ğ¡Ê±ÌìÆøÔ¤±¨\n"); 
-     printf("                    %s\n",rdstring);/*ÄêÔÂÈÕ*/ 
-     printf("©³©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©·\n"); 
-     printf("©§  ³Ç ÊĞ       ÌìÆøÏÖÏó         ÎÂ¶È£¨C£©            ·çÏò·çÁ¦              ©§\n"); 
-     printf("©§           Ò¹¼ä      °×Ìì     ×îµÍ ×î¸ß      Ò¹¼ä            °×Ìì         ©§\n"); 
-     printf("©Ä©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©Ì\n"); 
+     printf("\n                         å›½å†…åŸå¸‚24å°æ—¶å¤©æ°”é¢„æŠ¥\n"); 
+     printf("                    %s\n",rdstring);/*å¹´æœˆæ—¥*/ 
+     printf("â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”“\n"); 
+     printf("â”ƒ  åŸ å¸‚       å¤©æ°”ç°è±¡         æ¸©åº¦ï¼ˆCï¼‰            é£å‘é£åŠ›              â”ƒ\n"); 
+     printf("â”ƒ           å¤œé—´      ç™½å¤©     æœ€ä½ æœ€é«˜      å¤œé—´            ç™½å¤©         â”ƒ\n"); 
+     printf("â” â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¨\n"); 
     } 
-    else if ((rtval=(char*)strstr(rdstring,"±±¾©"))!=NULL) 
+    else if ((rtval=(char*)strstr(rdstring,"åŒ—äº¬"))!=NULL) 
     { 
      for ( i=0;i<LINELEN;i++)genbuf[i]=' '; 
-    strncpy(genbuf,"©§", 2);
-     strcpy(genbuf+4,"±±¾©"); 
+    strncpy(genbuf,"â”ƒ", 2);
+     strcpy(genbuf+4,"åŒ—äº¬"); 
      genbuf[8]=' '; 
      flag=1; 
      for (i=0;i<6;i++) 
@@ -169,7 +169,7 @@ int write_valid_weather_file(char* tmpfile)
       } 
      } 
      genbuf[75]=' ';
-     strcpy(genbuf+76,"©§"); 
+     strcpy(genbuf+76,"â”ƒ"); 
      printf("%s\n",genbuf); 
      fgets(rdstring,400,fp); 
      fgets(rdstring,400,fp); 
@@ -182,7 +182,7 @@ int write_valid_weather_file(char* tmpfile)
    { 
     for ( i=0;i<LINELEN;i++)genbuf[i]=' '; 
 
-    strncpy(genbuf,"©§",2);
+    strncpy(genbuf,"â”ƒ",2);
     fgets(rdstring,400,fp); 
     rtval=(char*)strstr(rdstring+88,"</"); 
     rdstring[rtval-rdstring]='\0'; 
@@ -200,14 +200,14 @@ int write_valid_weather_file(char* tmpfile)
       } 
     }
     genbuf[75]=' '; 
-    strcpy(genbuf+76,"©§"); 
-    if(totalcount==33)//ÉÏº££¬Ê¹ÓÃÌØÊâµÄÑÕÉ« 
+    strcpy(genbuf+76,"â”ƒ"); 
+    if(totalcount==33)//ä¸Šæµ·ï¼Œä½¿ç”¨ç‰¹æ®Šçš„é¢œè‰² 
     { 
-     printf("©§");
+     printf("â”ƒ");
      printf("[1;34;47m"); 
      genbuf[76]='\0'; 
      printf("%s",genbuf+2); 
-     printf("[m©§"); 
+     printf("[mâ”ƒ"); 
      printf("\n"); 
     } 
     else 
@@ -221,8 +221,8 @@ int write_valid_weather_file(char* tmpfile)
   } 
  } 
  fclose(fp); 
- printf("©»©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¿\n"); 
- printf("                 ÆøÏóĞÅÏ¢È¡×Ô ÖĞ¹úÆøÏóÔÚÏß(www.nmc.gov.cn) \n"); 
+ printf("â”—â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”›\n"); 
+ printf("                 æ°”è±¡ä¿¡æ¯å–è‡ª ä¸­å›½æ°”è±¡åœ¨çº¿(www.nmc.gov.cn) \n"); 
  return 0; 
 } 
 

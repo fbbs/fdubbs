@@ -41,7 +41,7 @@ extern char *cexpstr();
 char * genpasswd();
 char *sysconf_str();
 
-//½«ptrÖ¸ÏòµÄ×Ö·û´®ÖĞ×Ö·ûÖµÎª0xFFµÄ×ª»»³É¿Õ¸ñ
+//å°†ptræŒ‡å‘çš„å­—ç¬¦ä¸²ä¸­å­—ç¬¦å€¼ä¸º0xFFçš„è½¬æ¢æˆç©ºæ ¼
 void filter_ff(char *ptr) {
 	while (*ptr) {
 		if (*(unsigned char *)ptr == 0xff)
@@ -51,7 +51,7 @@ void filter_ff(char *ptr) {
 	return;
 }
 
-//	ÓÃÓÚ	Éè¶¨¸öÈË×ÊÁÏ  Ñ¡µ¥Ê±ÏÔÊ¾µÄĞÅÏ¢,¼´ÏÔÊ¾¸öÈË×ÊÁÏ
+//	ç”¨äº	è®¾å®šä¸ªäººèµ„æ–™  é€‰å•æ—¶æ˜¾ç¤ºçš„ä¿¡æ¯,å³æ˜¾ç¤ºä¸ªäººèµ„æ–™
 void disply_userinfo(struct userec *u) {
 	int num, exp;
 #ifdef REG_EXPIRED
@@ -62,95 +62,95 @@ void disply_userinfo(struct userec *u) {
 	clrtobot();
 	now = time(0);
 	set_safe_record();
-	prints("ÄúµÄ´úºÅ     : %-14s", u->userid);
-	prints("êÇ³Æ : %-20s", u->username);
-	prints("     ĞÔ±ğ : %s", (u->gender == 'M' ? "ÄĞ" : "Å®"));
-	prints("\nÕæÊµĞÕÃû     : %-40s", u->realname);
-	prints("  ³öÉúÈÕÆÚ : %d/%d/%d", u->birthmonth, u->birthday, u->birthyear
+	prints("æ‚¨çš„ä»£å·     : %-14s", u->userid);
+	prints("æ˜µç§° : %-20s", u->username);
+	prints("     æ€§åˆ« : %s", (u->gender == 'M' ? "ç”·" : "å¥³"));
+	prints("\nçœŸå®å§“å     : %-40s", u->realname);
+	prints("  å‡ºç”Ÿæ—¥æœŸ : %d/%d/%d", u->birthmonth, u->birthday, u->birthyear
 			+ 1900);
-	prints("\n¾Ó×¡×¡Ö·     : %-38s", u->address);
+	prints("\nå±…ä½ä½å€     : %-38s", u->address);
 	{
 		int tyear, tmonth, tday;
 		tyear = u->birthyear+1900;
 		tmonth = u->birthmonth;
 		tday = u->birthday;
 		countdays(&tyear, &tmonth, &tday, now);
-		prints("ÀÛ¼ÆÉú»îÌìÊı : %d\n", abs(tyear));
+		prints("ç´¯è®¡ç”Ÿæ´»å¤©æ•° : %d\n", abs(tyear));
 	}
-	prints("µç×ÓÓÊ¼şĞÅÏä : %s\n", u->email);
-	prints("ÕæÊµ E-mail  : %s\n", u->reginfo);
+	prints("ç”µå­é‚®ä»¶ä¿¡ç®± : %s\n", u->email);
+	prints("çœŸå® E-mail  : %s\n", u->reginfo);
 	if
 	HAS_PERM (PERM_ADMINMENU)
-	prints("Ident ×ÊÁÏ   : %s\n", u->ident);
-	prints("×î½ü¹âÁÙ»úÆ÷ : %-22s", u->lasthost);
-	prints("ÖÕ¶Ë»úĞÎÌ¬ : %s\n", u->termtype);
+	prints("Ident èµ„æ–™   : %s\n", u->ident);
+	prints("æœ€è¿‘å…‰ä¸´æœºå™¨ : %-22s", u->lasthost);
+	prints("ç»ˆç«¯æœºå½¢æ€ : %s\n", u->termtype);
 	getdatestring(u->firstlogin, NA);
-	prints("ÕÊºÅ½¨Á¢ÈÕÆÚ : %s[¾à½ñ %d Ìì]\n", datestring, (now-(u->firstlogin))
+	prints("å¸å·å»ºç«‹æ—¥æœŸ : %s[è·ä»Š %d å¤©]\n", datestring, (now-(u->firstlogin))
 			/86400);
 	getdatestring(u->lastlogin, NA);
-	prints("×î½ü¹âÁÙÈÕÆÚ : %s[¾à½ñ %d Ìì]\n", datestring, (now-(u->lastlogin))
+	prints("æœ€è¿‘å…‰ä¸´æ—¥æœŸ : %s[è·ä»Š %d å¤©]\n", datestring, (now-(u->lastlogin))
 			/86400);
 #ifndef AUTOGETPERM      
 #ifndef REG_EXPIRED
 	getdatestring(u->lastjustify, NA);
-	prints("Éí·İÈ·ÈÏÈÕÆÚ : %s\n", (u->lastjustify==0) ? "Î´Ôø×¢²á" : datestring);
-#else	//¹ıÆÚ	?
-	if(u->lastjustify == 0) prints("Éí·İÈ·ÈÏ     : Î´Ôø×¢²á\n");
+	prints("èº«ä»½ç¡®è®¤æ—¥æœŸ : %s\n", (u->lastjustify==0) ? "æœªæ›¾æ³¨å†Œ" : datestring);
+#else	//è¿‡æœŸ	?
+	if(u->lastjustify == 0) prints("èº«ä»½ç¡®è®¤     : æœªæ›¾æ³¨å†Œ\n");
 	else {
-		prints("Éí·İÈ·ÈÏ     : ÒÑÍê³É£¬ÓĞĞ§ÆÚÏŞ: ");
+		prints("èº«ä»½ç¡®è®¤     : å·²å®Œæˆï¼Œæœ‰æ•ˆæœŸé™: ");
 		nextreg = u->lastjustify + REG_EXPIRED * 86400;
 		getdatestring(nextreg,NA);
-		sprintf(genbuf,"%14.14s[%s]£¬»¹ÓĞ %d Ìì\n",
+		sprintf(genbuf,"%14.14s[%s]ï¼Œè¿˜æœ‰ %d å¤©\n",
 				datestring ,datestring+23,(nextreg - now) / 86400);
 		prints(genbuf);
 	}
 #endif
 #endif
 #ifdef ALLOWGAME
-	prints("ÎÄÕÂÊıÄ¿     : %-20d ½±ÕÂÊıÄ¿ : %d\n",u->numposts,u->nummedals);
-	prints("Ë½ÈËĞÅÏä     : %d ·â\n", u->nummails);
-	prints("ÄúµÄÒøĞĞ´æ¿î : %dÔª  ´û¿î : %dÔª (%s)\n",
+	prints("æ–‡ç« æ•°ç›®     : %-20d å¥–ç« æ•°ç›® : %d\n",u->numposts,u->nummedals);
+	prints("ç§äººä¿¡ç®±     : %d å°\n", u->nummails);
+	prints("æ‚¨çš„é“¶è¡Œå­˜æ¬¾ : %då…ƒ  è´·æ¬¾ : %då…ƒ (%s)\n",
 			u->money,u->bet,cmoney(u->money-u->bet));
 #else
-	prints("ÎÄÕÂÊıÄ¿     : %-20d \n", u->numposts);
-	prints("Ë½ÈËĞÅÏä     : %d ·â \n", u->nummails);
+	prints("æ–‡ç« æ•°ç›®     : %-20d \n", u->numposts);
+	prints("ç§äººä¿¡ç®±     : %d å° \n", u->nummails);
 #endif
-	prints("ÉÏÕ¾´ÎÊı     : %d ´Î      ", u->numlogins);
-	prints("ÉÏÕ¾×ÜÊ±Êı   : %d Ğ¡Ê± %d ·ÖÖÓ\n", u->stay/3600, (u->stay/60)%60);
+	prints("ä¸Šç«™æ¬¡æ•°     : %d æ¬¡      ", u->numlogins);
+	prints("ä¸Šç«™æ€»æ—¶æ•°   : %d å°æ—¶ %d åˆ†é’Ÿ\n", u->stay/3600, (u->stay/60)%60);
 	exp = countexp(u);
 	//modified by iamfat 2002.07.25
 #ifdef SHOWEXP
-	prints("¾­ÑéÖµ       : %d  (%-10s)    ", exp, cexpstr(exp));
+	prints("ç»éªŒå€¼       : %d  (%-10s)    ", exp, cexpstr(exp));
 #else
-	prints("¾­ÑéÖµ       : [%-10s]     ", cexpstr(exp));
+	prints("ç»éªŒå€¼       : [%-10s]     ", cexpstr(exp));
 #endif
 	exp = countperf(u);
 #ifdef SHOWPERF
-	prints("±íÏÖÖµ : %d  (%s)\n", exp, cperf(exp));
+	prints("è¡¨ç°å€¼ : %d  (%s)\n", exp, cperf(exp));
 #else
-	prints("±íÏÖÖµ  : [%s]\n", cperf(exp));
+	prints("è¡¨ç°å€¼  : [%s]\n", cperf(exp));
 #endif
 	strcpy(genbuf, "ltmprbBOCAMURS#@XLEast0123456789\0");
 	for (num = 0; num < strlen(genbuf) ; num++)
-		if (!(u->userlevel & (1 << num))) //ÏàÓ¦È¨ÏŞÎª¿Õ,ÔòÖÃ'-'
+		if (!(u->userlevel & (1 << num))) //ç›¸åº”æƒé™ä¸ºç©º,åˆ™ç½®'-'
 			genbuf[num] = '-';
-	prints("Ê¹ÓÃÕßÈ¨ÏŞ   : %s\n", genbuf);
+	prints("ä½¿ç”¨è€…æƒé™   : %s\n", genbuf);
 	prints("\n");
 	if (u->userlevel & PERM_SYSOPS) {
-		prints("  ÄúÊÇ±¾Õ¾µÄÕ¾³¤, ¸ĞĞ»ÄúµÄĞÁÇÚÀÍ¶¯.\n");
+		prints("  æ‚¨æ˜¯æœ¬ç«™çš„ç«™é•¿, æ„Ÿè°¢æ‚¨çš„è¾›å‹¤åŠ³åŠ¨.\n");
 	} else if (u->userlevel & PERM_BOARDS) {
-		prints("  ÄúÊÇ±¾Õ¾µÄ°æÖ÷, ¸ĞĞ»ÄúµÄ¸¶³ö.\n");
+		prints("  æ‚¨æ˜¯æœ¬ç«™çš„ç‰ˆä¸», æ„Ÿè°¢æ‚¨çš„ä»˜å‡º.\n");
 	} else if (u->userlevel & PERM_REGISTER) {
-		prints("  ÄúµÄ×¢²á³ÌĞòÒÑ¾­Íê³É, »¶Ó­¼ÓÈë±¾Õ¾.\n");
+		prints("  æ‚¨çš„æ³¨å†Œç¨‹åºå·²ç»å®Œæˆ, æ¬¢è¿åŠ å…¥æœ¬ç«™.\n");
 	} else if (u->lastlogin - u->firstlogin < 3 * 86400) {
-		prints("  ĞÂÊÖÉÏÂ·, ÇëÔÄ¶Á Announce ÌÖÂÛÇø.\n");
+		prints("  æ–°æ‰‹ä¸Šè·¯, è¯·é˜…è¯» Announce è®¨è®ºåŒº.\n");
 	} else {
-		prints("  ×¢²áÉĞÎ´³É¹¦, Çë²Î¿¼±¾Õ¾½øÕ¾»­ÃæËµÃ÷.\n");
+		prints("  æ³¨å†Œå°šæœªæˆåŠŸ, è¯·å‚è€ƒæœ¬ç«™è¿›ç«™ç”»é¢è¯´æ˜.\n");
 	}
 }
 
-//	¸Ä±äÓÃ»§¼ÇÂ¼,uÎªÒÔÇ°µÄ¼ÇÂ¼,newinfoÎªĞÂ¼ÇÂ¼,ºóÁ½¸ö²ÎÊı¾ùÎªÖ¸Õë
-//		iÎªËùÏÔÊ¾µÄĞĞ
+//	æ”¹å˜ç”¨æˆ·è®°å½•,uä¸ºä»¥å‰çš„è®°å½•,newinfoä¸ºæ–°è®°å½•,åä¸¤ä¸ªå‚æ•°å‡ä¸ºæŒ‡é’ˆ
+//		iä¸ºæ‰€æ˜¾ç¤ºçš„è¡Œ
 void uinfo_change1(int i, struct userec *u, struct userec *newinfo) {
 	char buf[STRLEN], genbuf[128];
 
@@ -162,9 +162,9 @@ void uinfo_change1(int i, struct userec *u, struct userec *newinfo) {
 		if ((fp = fopen(genbuf, "r")) != NULL) {
 			fgets(temp, 30, fp);
 			fclose(fp);
-			sprintf(genbuf, "ÊäÈëÉí·İ(Êä¿Õ¸ñÈ¡ÏûÉí·İ)£º[%s]", temp);
+			sprintf(genbuf, "è¾“å…¥èº«ä»½(è¾“ç©ºæ ¼å–æ¶ˆèº«ä»½)ï¼š[%s]", temp);
 		} else
-			sprintf(genbuf, "ÊäÈëÉí·İ£º");
+			sprintf(genbuf, "è¾“å…¥èº«ä»½ï¼š");
 		getdata(i++, 0, genbuf, buf, 30, DOECHO, YEA);
 		if (buf[0]) {
 			sethomefile(genbuf, u->userid, ".volunteer");
@@ -178,7 +178,7 @@ void uinfo_change1(int i, struct userec *u, struct userec *newinfo) {
 		}
 	}
 
-	sprintf(genbuf, "µç×ÓĞÅÏä [%s]: ", u->email);
+	sprintf(genbuf, "ç”µå­ä¿¡ç®± [%s]: ", u->email);
 	getdata(i++, 0, genbuf, buf, STRLEN - 1, DOECHO, YEA);
 	if (buf[0]) {
 #ifdef MAILCHECK
@@ -190,22 +190,22 @@ void uinfo_change1(int i, struct userec *u, struct userec *newinfo) {
 		strncpy(newinfo->email, buf, STRLEN-12);
 	}
 
-	sprintf(genbuf, "ÉÏÏß´ÎÊı [%d]: ", u->numlogins);
+	sprintf(genbuf, "ä¸Šçº¿æ¬¡æ•° [%d]: ", u->numlogins);
 	getdata(i++, 0, genbuf, buf, 10, DOECHO, YEA);
 	if (atoi(buf) > 0)
 		newinfo->numlogins = atoi(buf);
 
-	sprintf(genbuf, "·¢±íÎÄÕÂÊı [%d]: ", u->numposts);
+	sprintf(genbuf, "å‘è¡¨æ–‡ç« æ•° [%d]: ", u->numposts);
 	getdata(i++, 0, genbuf, buf, 10, DOECHO, YEA);
 	if (atoi(buf) >0)
 		newinfo->numposts = atoi(buf);
 
-	sprintf(genbuf, "µÇÂ½×ÜÊ±¼ä [%d]: ", u->stay);
+	sprintf(genbuf, "ç™»é™†æ€»æ—¶é—´ [%d]: ", u->stay);
 	getdata(i++, 0, genbuf, buf, 10, DOECHO, YEA);
 	if (atoi(buf) > 0)
 		newinfo->stay = atoi(buf);
 	//add by eefree 06.6.29
-	sprintf(genbuf, "ÕæÊµ E-mail [%s]: ", u->reginfo);
+	sprintf(genbuf, "çœŸå® E-mail [%s]: ", u->reginfo);
 	getdata(i++, 0, genbuf, buf, STRLEN-16, DOECHO, YEA);
 	if (buf[0]) {
 		strncpy(newinfo->reginfo, buf, STRLEN-16);
@@ -216,34 +216,34 @@ void uinfo_change1(int i, struct userec *u, struct userec *newinfo) {
 		newinfo->firstlogin = atoi(buf);
 	//add end          				      	      	
 #ifdef ALLOWGAME
-	sprintf(genbuf, "ÒøĞĞ´æ¿î [%d]: ", u->money);
+	sprintf(genbuf, "é“¶è¡Œå­˜æ¬¾ [%d]: ", u->money);
 	getdata(i++, 0, genbuf, buf, 8, DOECHO, YEA);
 	if (atoi(buf)> 0)
 	newinfo->money = atoi(buf);
 
-	sprintf(genbuf, "ÒøĞĞ´û¿î [%d]: ", u->bet);
+	sprintf(genbuf, "é“¶è¡Œè´·æ¬¾ [%d]: ", u->bet);
 	getdata(i++, 0, genbuf, buf, 8, DOECHO, YEA);
 	if (atoi(buf)> 0)
 	newinfo->bet = atoi(buf);
 
-	sprintf(genbuf, "½±ÕÂÊı [%d]: ", u->nummedals);
+	sprintf(genbuf, "å¥–ç« æ•° [%d]: ", u->nummedals);
 	getdata(i++, 0, genbuf, buf, 10, DOECHO, YEA);
 	if (atoi(buf)> 0)
 	newinfo->nummedals = atoi(buf);
 #endif
 }
 
-// ¼ì²éÓÃ»§µÄ×ÊÁÏ,
+// æ£€æŸ¥ç”¨æˆ·çš„èµ„æ–™,
 void check_uinfo(struct userec *u, int MUST) {
 	int changeIT = 0, changed = 0, pos = 2;
-	int r = 0; // added by money 2003.10.24. for test ÈòÄê
+	int r = 0; // added by money 2003.10.24. for test é—°å¹´
 	char *ptr;// added by money 2003.10.29. for filter '0xff'
 	char ans[5];
 
-	while (1) { // ¼ì²éêÇ³Æ
+	while (1) { // æ£€æŸ¥æ˜µç§°
 		changeIT = MUST || (strlen(u->username) < 2) ||(strstr(
-				u->username, "  "))||(strstr(u->username, "¡¡"));
-		if (!changeIT) { //²»ĞèÒªÔÙ¸Ä±ä
+				u->username, "  "))||(strstr(u->username, "ã€€"));
+		if (!changeIT) { //ä¸éœ€è¦å†æ”¹å˜
 			if (changed) {
 				pos ++;
 				changed = 0;
@@ -253,16 +253,16 @@ void check_uinfo(struct userec *u, int MUST) {
 			MUST = 0;
 			changed = 1;
 		}
-		getdata(pos, 0, "ÇëÊäÈëÄúµÄêÇ³Æ (Enter nickname): ", u->username,
+		getdata(pos, 0, "è¯·è¾“å…¥æ‚¨çš„æ˜µç§° (Enter nickname): ", u->username,
 				NAMELEN, DOECHO, YEA);
 		strcpy(uinfo.username, u->username);
 		ptr = uinfo.username;
 		filter_ff(ptr);
 		update_utmp();
 	}
-	while (1) { // ¼ì²éÕæÊµĞÕÃû
+	while (1) { // æ£€æŸ¥çœŸå®å§“å
 		changeIT = MUST || (strlen(u->realname) < 4) ||(strstr(
-				u->realname, "  "))||(strstr(u->realname, "¡¡"));
+				u->realname, "  "))||(strstr(u->realname, "ã€€"));
 		if (!changeIT) {
 			if (changed) {
 				pos += 2;
@@ -274,14 +274,14 @@ void check_uinfo(struct userec *u, int MUST) {
 			changed = 1;
 		}
 		move(pos, 0);
-		prints("ÇëÊäÈëÄúµÄÕæÊµĞÕÃû (Enter realname):\n");
+		prints("è¯·è¾“å…¥æ‚¨çš„çœŸå®å§“å (Enter realname):\n");
 		getdata(pos+1, 0, "> ", u->realname, NAMELEN, DOECHO, YEA);
 		ptr = u->realname;
 		filter_ff(ptr);
 	}
-	while (1) { // ¼ì²éÍ¨Ñ¶µØÖ·
+	while (1) { // æ£€æŸ¥é€šè®¯åœ°å€
 		changeIT = MUST||(strlen(u->address)<10) ||(strstr(u->address,
-				"  "))||(strstr(u->address, "¡¡"));
+				"  "))||(strstr(u->address, "ã€€"));
 		if (!changeIT) {
 			if (changed) {
 				pos += 2;
@@ -293,13 +293,13 @@ void check_uinfo(struct userec *u, int MUST) {
 			changed = 1;
 		}
 		move(pos, 0);
-		prints("ÇëÊäÈëÄúµÄÍ¨Ñ¶µØÖ· (Enter home address)£º\n");
+		prints("è¯·è¾“å…¥æ‚¨çš„é€šè®¯åœ°å€ (Enter home address)ï¼š\n");
 		getdata(pos+1, 0, "> ", u->address, STRLEN - 10, DOECHO, YEA);
 		ptr = u->address;
 		filter_ff(ptr);
 	}
 	/*
-	 while(1){ // ¼ì²éĞÅ¼şµØÖ·
+	 while(1){ // æ£€æŸ¥ä¿¡ä»¶åœ°å€
 	 changeIT = MUST||(strchr(u->email, '@') == NULL);
 	 if(!changeIT) {
 	 #ifdef MAILCHECK      
@@ -319,11 +319,11 @@ void check_uinfo(struct userec *u, int MUST) {
 	 changed = 1;	 
 	 }
 	 move(pos, 0);
-	 prints("µç×ÓĞÅÏä¸ñÊ½Îª: [1;37muserid@your.domain.name[m\n");
+	 prints("ç”µå­ä¿¡ç®±æ ¼å¼ä¸º: [1;37muserid@your.domain.name[m\n");
 	 #ifdef MAILCHECK      
-	 prints( "[32m±¾Õ¾ÒÑ¾­Ìá¹©[33mµç×ÓÓÊ¼ş×¢²á[32m¹¦ÄÜ, Äú¿ÉÒÔÍ¨¹ıµç×ÓÓÊ¼ş¿ìËÙµØÍ¨¹ı×¢²áÈÏÖ¤.[m\n");
+	 prints( "[32mæœ¬ç«™å·²ç»æä¾›[33mç”µå­é‚®ä»¶æ³¨å†Œ[32måŠŸèƒ½, æ‚¨å¯ä»¥é€šè¿‡ç”µå­é‚®ä»¶å¿«é€Ÿåœ°é€šè¿‡æ³¨å†Œè®¤è¯.[m\n");
 	 #endif
-	 prints("ÇëÊäÈëµç×ÓĞÅÏä (²»ÄÜÌá¹©Õß°´ <Enter>)");
+	 prints("è¯·è¾“å…¥ç”µå­ä¿¡ç®± (ä¸èƒ½æä¾›è€…æŒ‰ <Enter>)");
 	 #ifdef MAILCHECK      
 	 getdata(pos+3,0,"> ",u->email,STRLEN-12,DOECHO, YEA);
 	 #else	 
@@ -335,18 +335,18 @@ void check_uinfo(struct userec *u, int MUST) {
 	 }
 	 }
 	 */
-	{ // ¼ì²éĞÔ±ğ
+	{ // æ£€æŸ¥æ€§åˆ«
 		changeIT = MUST||(strchr("MF", u->gender) == NULL);
 		if (changeIT) {
-			getdata(pos, 0, "ÇëÊäÈëÄúµÄĞÔ±ğ: M.ÄĞ F.Å® [M]: ", ans, 2, DOECHO, YEA);
-			if (ans[0]!='F'&& ans[0]!='f'||ans[0]=='m') //ºóÒ»¸öÅĞ¶Ï¿ÉÊ¡...
+			getdata(pos, 0, "è¯·è¾“å…¥æ‚¨çš„æ€§åˆ«: M.ç”· F.å¥³ [M]: ", ans, 2, DOECHO, YEA);
+			if (ans[0]!='F'&& ans[0]!='f'||ans[0]=='m') //åä¸€ä¸ªåˆ¤æ–­å¯çœ...
 				u->gender = 'M';
 			else
 				u->gender = 'F';
 			pos ++;
 		}
 	}
-	while (1) { // ¼ì²é³öÉúÄê
+	while (1) { // æ£€æŸ¥å‡ºç”Ÿå¹´
 		changeIT = MUST||(u->birthyear <20) ||(u->birthyear>98);
 		if (u->birthyear % 4 == 0) {
 			if (u->birthyear % 100 != 0)
@@ -364,13 +364,13 @@ void check_uinfo(struct userec *u, int MUST) {
 			MUST = 0;
 			changed = 1;
 		}
-		getdata(pos, 0, "ÇëÊäÈëÄúµÄÉúÈÕÄê·İ(ËÄÎ»Êı): ", ans, 5, DOECHO, YEA);
+		getdata(pos, 0, "è¯·è¾“å…¥æ‚¨çš„ç”Ÿæ—¥å¹´ä»½(å››ä½æ•°): ", ans, 5, DOECHO, YEA);
 		if (atoi(ans)<1920 || atoi(ans) > 1998) {
 			MUST = 1;
 			continue;
 		}
 		u->birthyear = atoi(ans) -1900;
-		/* add by money 2003.10.24. for test ÈòÄê */
+		/* add by money 2003.10.24. for test é—°å¹´ */
 		if ((atoi(ans) % 4) == 0) {
 			if ((atoi(ans) % 100) != 0)
 				r = 1;
@@ -379,7 +379,7 @@ void check_uinfo(struct userec *u, int MUST) {
 		}
 		/* add end */
 	}
-	while (1) { // ¼ì²é³öÉúÔÂ
+	while (1) { // æ£€æŸ¥å‡ºç”Ÿæœˆ
 		changeIT = MUST||(u->birthmonth <1) ||(u->birthmonth>12);
 		if (!changeIT) {
 			if (changed) {
@@ -391,10 +391,10 @@ void check_uinfo(struct userec *u, int MUST) {
 			MUST = 0;
 			changed = 1;
 		}
-		getdata(pos, 0, "ÇëÊäÈëÄúµÄÉúÈÕÔÂ·İ: ", ans, 3, DOECHO, YEA);
+		getdata(pos, 0, "è¯·è¾“å…¥æ‚¨çš„ç”Ÿæ—¥æœˆä»½: ", ans, 3, DOECHO, YEA);
 		u->birthmonth = atoi(ans);
 	}
-	while (1) { // ¼ì²é³öÉúÈÕ
+	while (1) { // æ£€æŸ¥å‡ºç”Ÿæ—¥
 		changeIT = MUST||(u->birthday <1) ||(u->birthday>31)
 				||(u->birthmonth<8&&!(u->birthmonth%2)&&(u->birthday>30)
 				||u->birthmonth>7&&(u->birthmonth%2))&&u->birthday>30
@@ -417,27 +417,27 @@ void check_uinfo(struct userec *u, int MUST) {
 			MUST = 0;
 			changed = 1;
 		}
-		getdata(pos, 0, "ÇëÊäÈëÄúµÄ³öÉúÈÕ: ", ans, 3, DOECHO, YEA);
+		getdata(pos, 0, "è¯·è¾“å…¥æ‚¨çš„å‡ºç”Ÿæ—¥: ", ans, 3, DOECHO, YEA);
 		u->birthday = atoi(ans);
 	}
 }
 
-//	²éÑ¯uËùÖ¸ÏòµÄÓÃ»§µÄ×ÊÁÏĞÅÏ¢
+//	æŸ¥è¯¢uæ‰€æŒ‡å‘çš„ç”¨æˆ·çš„èµ„æ–™ä¿¡æ¯
 int uinfo_query(struct userec *u, int real, int unum) {
 	struct userec newinfo;
 	char ans[3], buf[STRLEN], genbuf[128];
 	char src[STRLEN], dst[STRLEN];
 	int i, fail = 0;
 	unsigned char *ptr; //add by money 2003.10.29 for filter '0xff' in nick
-	int r = 0; //add by money 2003.10.14 for test ÈòÄê
+	int r = 0; //add by money 2003.10.14 for test é—°å¹´
 #ifdef MAILCHANGED
 	int netty_check = 0;
 #endif
 	time_t now;
 	struct tm *tmnow;
 	memcpy(&newinfo, u, sizeof(currentuser));
-	getdata(t_lines - 1, 0, real ? "ÇëÑ¡Ôñ (0)½áÊø (1)ĞŞ¸Ä×ÊÁÏ (2)Éè¶¨ÃÜÂë ==> [0]"
-			: "ÇëÑ¡Ôñ (0)½áÊø (1)ĞŞ¸Ä×ÊÁÏ (2)Éè¶¨ÃÜÂë (3) Ñ¡Ç©Ãûµµ ==> [0]", ans, 2,
+	getdata(t_lines - 1, 0, real ? "è¯·é€‰æ‹© (0)ç»“æŸ (1)ä¿®æ”¹èµ„æ–™ (2)è®¾å®šå¯†ç  ==> [0]"
+			: "è¯·é€‰æ‹© (0)ç»“æŸ (1)ä¿®æ”¹èµ„æ–™ (2)è®¾å®šå¯†ç  (3) é€‰ç­¾åæ¡£ ==> [0]", ans, 2,
 			DOECHO, YEA);
 	clear();
 
@@ -453,12 +453,12 @@ int uinfo_query(struct userec *u, int real, int unum) {
 	i = 3;
 	move(i++, 0);
 	if (ans[0] != '3' || real)
-		prints("Ê¹ÓÃÕß´úºÅ: %s\n", u->userid);
+		prints("ä½¿ç”¨è€…ä»£å·: %s\n", u->userid);
 	switch (ans[0]) {
 		case '1':
 			move(1, 0);
-			prints("ÇëÖğÏîĞŞ¸Ä,Ö±½Ó°´ <ENTER> ´ú±íÊ¹ÓÃ [] ÄÚµÄ×ÊÁÏ¡£\n");
-			sprintf(genbuf, "êÇ³Æ [%s]: ", u->username);
+			prints("è¯·é€é¡¹ä¿®æ”¹,ç›´æ¥æŒ‰ <ENTER> ä»£è¡¨ä½¿ç”¨ [] å†…çš„èµ„æ–™ã€‚\n");
+			sprintf(genbuf, "æ˜µç§° [%s]: ", u->username);
 			getdata(i++, 0, genbuf, buf, NAMELEN, DOECHO, YEA);
 			if (buf[0]) {
 				strncpy(newinfo.username, buf, NAMELEN);
@@ -467,7 +467,7 @@ int uinfo_query(struct userec *u, int real, int unum) {
 				filter_ff(ptr);
 				/* added end */
 			}
-			sprintf(genbuf, "ÕæÊµĞÕÃû [%s]: ", u->realname);
+			sprintf(genbuf, "çœŸå®å§“å [%s]: ", u->realname);
 			getdata(i++, 0, genbuf, buf, NAMELEN, DOECHO, YEA);
 			if (buf[0]) {
 				strncpy(newinfo.realname, buf, NAMELEN);
@@ -477,7 +477,7 @@ int uinfo_query(struct userec *u, int real, int unum) {
 				/* added end */
 			}
 
-			sprintf(genbuf, "¾Ó×¡µØÖ· [%s]: ", u->address);
+			sprintf(genbuf, "å±…ä½åœ°å€ [%s]: ", u->address);
 			getdata(i++, 0, genbuf, buf, STRLEN - 10, DOECHO, YEA);
 			if (buf[0]) {
 				strncpy(newinfo.address, buf, NAMELEN);
@@ -487,22 +487,22 @@ int uinfo_query(struct userec *u, int real, int unum) {
 				/* added end */
 			}
 
-			sprintf(genbuf, "ÖÕ¶Ë»úĞÎÌ¬ [%s]: ", u->termtype);
+			sprintf(genbuf, "ç»ˆç«¯æœºå½¢æ€ [%s]: ", u->termtype);
 			getdata(i++, 0, genbuf, buf, 16, DOECHO, YEA);
 			if (buf[0])
 				strncpy(newinfo.termtype, buf, 16);
 
-			sprintf(genbuf, "³öÉúÄê [%d]: ", u->birthyear + 1900);
+			sprintf(genbuf, "å‡ºç”Ÿå¹´ [%d]: ", u->birthyear + 1900);
 			getdata(i++, 0, genbuf, buf, 5, DOECHO, YEA);
 			if (buf[0] && atoi(buf) > 1920 && atoi(buf) < 1998)
 				newinfo.birthyear = atoi(buf) - 1900;
 
-			sprintf(genbuf, "³öÉúÔÂ [%d]: ", u->birthmonth);
+			sprintf(genbuf, "å‡ºç”Ÿæœˆ [%d]: ", u->birthmonth);
 			getdata(i++, 0, genbuf, buf, 3, DOECHO, YEA);
 			if (buf[0] && atoi(buf) >= 1 && atoi(buf) <= 12)
 				newinfo.birthmonth = atoi(buf);
 
-			sprintf(genbuf, "³öÉúÈÕ [%d]: ", u->birthday);
+			sprintf(genbuf, "å‡ºç”Ÿæ—¥ [%d]: ", u->birthday);
 			getdata(i++, 0, genbuf, buf, 3, DOECHO, YEA);
 			if (buf[0] && atoi(buf) >= 1 && atoi(buf) <= 31)
 				newinfo.birthday = atoi(buf);
@@ -532,7 +532,7 @@ int uinfo_query(struct userec *u, int real, int unum) {
 				newinfo.birthday = 30;
 			/* add end */
 
-			sprintf(genbuf, "ĞÔ±ğ(M.ÄĞ)(F.Å®) [%c]: ", u->gender);
+			sprintf(genbuf, "æ€§åˆ«(M.ç”·)(F.å¥³) [%c]: ", u->gender);
 			getdata(i++, 0, genbuf, buf, 2, DOECHO, YEA);
 			if (buf[0]) {
 				if (strchr("MmFf", buf[0]))
@@ -544,25 +544,25 @@ int uinfo_query(struct userec *u, int real, int unum) {
 			break;
 		case '2':
 			if (!real) {
-				getdata(i++, 0, "ÇëÊäÈëÔ­ÃÜÂë: ", buf, PASSLEN, NOECHO, YEA);
+				getdata(i++, 0, "è¯·è¾“å…¥åŸå¯†ç : ", buf, PASSLEN, NOECHO, YEA);
 				if (*buf == '\0' || !checkpasswd(u->passwd, buf)) {
-					prints("\n\nºÜ±§Ç¸, ÄúÊäÈëµÄÃÜÂë²»ÕıÈ·¡£\n");
+					prints("\n\nå¾ˆæŠ±æ­‰, æ‚¨è¾“å…¥çš„å¯†ç ä¸æ­£ç¡®ã€‚\n");
 					fail++;
 					break;
 				}
 			}
 			/*Modified by IAMFAT 2002-05-25*/
 			/*
-			 getdata(i++, 0, "ÇëÉè¶¨ĞÂÃÜÂë: ", buf, PASSLEN, NOECHO, YEA);
+			 getdata(i++, 0, "è¯·è®¾å®šæ–°å¯†ç : ", buf, PASSLEN, NOECHO, YEA);
 			 if (buf[0] == '\0') {
-			 prints("\n\nÃÜÂëÉè¶¨È¡Ïû, ¼ÌĞøÊ¹ÓÃ¾ÉÃÜÂë\n");
+			 prints("\n\nå¯†ç è®¾å®šå–æ¶ˆ, ç»§ç»­ä½¿ç”¨æ—§å¯†ç \n");
 			 fail++;
 			 break;
 			 }
 			 strncpy(genbuf, buf, PASSLEN); 
-			 getdata(i++, 0, "ÇëÖØĞÂÊäÈëĞÂÃÜÂë: ", buf, PASSLEN, NOECHO, YEA);
+			 getdata(i++, 0, "è¯·é‡æ–°è¾“å…¥æ–°å¯†ç : ", buf, PASSLEN, NOECHO, YEA);
 			 if (strncmp(buf, genbuf, PASSLEN)) {
-			 prints("\n\nĞÂÃÜÂëÈ·ÈÏÊ§°Ü, ÎŞ·¨Éè¶¨ĞÂÃÜÂë¡£\n");
+			 prints("\n\næ–°å¯†ç ç¡®è®¤å¤±è´¥, æ— æ³•è®¾å®šæ–°å¯†ç ã€‚\n");
 			 fail++;
 			 break;
 			 }
@@ -570,21 +570,21 @@ int uinfo_query(struct userec *u, int real, int unum) {
 			 strncpy(newinfo.passwd, genpasswd(buf), ENCPASSLEN);
 			 */
 			while (1) {
-				getdata(i++, 0, "ÇëÉè¶¨ĞÂÃÜÂë: ", buf, PASSLEN, NOECHO, YEA);
+				getdata(i++, 0, "è¯·è®¾å®šæ–°å¯†ç : ", buf, PASSLEN, NOECHO, YEA);
 				if (buf[0] == '\0') {
-					prints("\n\nÃÜÂëÉè¶¨È¡Ïû, ¼ÌĞøÊ¹ÓÃ¾ÉÃÜÂë\n");
+					prints("\n\nå¯†ç è®¾å®šå–æ¶ˆ, ç»§ç»­ä½¿ç”¨æ—§å¯†ç \n");
 					fail++;
 					break;
 				}
 				if (strlen(buf) < 4 || !strcmp(buf, u->userid)) {
-					prints("\n\nÃÜÂëÌ«¶Ì»òÓëÊ¹ÓÃÕß´úºÅÏàÍ¬, ÃÜÂëÉè¶¨È¡Ïû, ¼ÌĞøÊ¹ÓÃ¾ÉÃÜÂë\n");
+					prints("\n\nå¯†ç å¤ªçŸ­æˆ–ä¸ä½¿ç”¨è€…ä»£å·ç›¸åŒ, å¯†ç è®¾å®šå–æ¶ˆ, ç»§ç»­ä½¿ç”¨æ—§å¯†ç \n");
 					fail++;
 					break;
 				}
 				strncpy(genbuf, buf, PASSLEN);
-				getdata(i++, 0, "ÇëÖØĞÂÊäÈëĞÂÃÜÂë: ", buf, PASSLEN, NOECHO, YEA);
+				getdata(i++, 0, "è¯·é‡æ–°è¾“å…¥æ–°å¯†ç : ", buf, PASSLEN, NOECHO, YEA);
 				if (strncmp(buf, genbuf, PASSLEN)) {
-					prints("\n\nĞÂÃÜÂëÈ·ÈÏÊ§°Ü, ÎŞ·¨Éè¶¨ĞÂÃÜÂë¡£\n");
+					prints("\n\næ–°å¯†ç ç¡®è®¤å¤±è´¥, æ— æ³•è®¾å®šæ–°å¯†ç ã€‚\n");
 					fail++;
 					break;
 				}
@@ -596,7 +596,7 @@ int uinfo_query(struct userec *u, int real, int unum) {
 			break;
 		case '3':
 			if (!real) {
-				sprintf(genbuf, "Ä¿Ç°Ê¹ÓÃÇ©Ãûµµ [%d]: ", u->signature);
+				sprintf(genbuf, "ç›®å‰ä½¿ç”¨ç­¾åæ¡£ [%d]: ", u->signature);
 				getdata(i++, 0, genbuf, buf, 16, DOECHO, YEA);
 				if (atoi(buf) >= 0)
 					newinfo.signature = atoi(buf);
@@ -605,16 +605,16 @@ int uinfo_query(struct userec *u, int real, int unum) {
 				 struct user_info uin;
 				 extern int t_cmpuids();
 				 if(t_search_ulist(&uin, t_cmpuids, unum, NA, NA)!=0){
-				 prints("\n¶Ô²»Æğ£¬¸ÃÓÃ»§Ä¿Ç°ÕıÔÚÏßÉÏ¡£");
+				 prints("\nå¯¹ä¸èµ·ï¼Œè¯¥ç”¨æˆ·ç›®å‰æ­£åœ¨çº¿ä¸Šã€‚");
 				 fail++;
 				 } else if(!strcmp(lookupuser.userid,"SYSOP")) {
-				 prints("\n¶Ô²»Æğ£¬Äã²»¿ÉÒÔĞŞ¸Ä SYSOP µÄ ID¡£");
+				 prints("\nå¯¹ä¸èµ·ï¼Œä½ ä¸å¯ä»¥ä¿®æ”¹ SYSOP çš„ IDã€‚");
 				 fail++;
 				 } else {   
-				 getdata(i++,0,"ĞÂµÄÊ¹ÓÃÕß´úºÅ: ",genbuf,IDLEN+1,DOECHO, YEA);
+				 getdata(i++,0,"æ–°çš„ä½¿ç”¨è€…ä»£å·: ",genbuf,IDLEN+1,DOECHO, YEA);
 				 if (*genbuf != '\0') {
 				 if (getuser(genbuf)) {
-				 prints("\n¶Ô²»Æğ! ÒÑ¾­ÓĞÍ¬Ñù ID µÄÊ¹ÓÃÕß\n");
+				 prints("\nå¯¹ä¸èµ·! å·²ç»æœ‰åŒæ · ID çš„ä½¿ç”¨è€…\n");
 				 fail++;
 				 } else {
 				 strncpy(newinfo.userid, genbuf, IDLEN + 2);
@@ -632,10 +632,10 @@ int uinfo_query(struct userec *u, int real, int unum) {
 		clear();
 		return 0;
 	}
-	if (askyn("È·¶¨Òª¸Ä±äÂğ", NA, YEA) == YEA) {
+	if (askyn("ç¡®å®šè¦æ”¹å˜å—", NA, YEA) == YEA) {
 		if (real) {
 			char secu[STRLEN];
-			sprintf(secu, "ĞŞ¸Ä %s µÄ»ù±¾×ÊÁÏ»òÃÜÂë¡£", u->userid);
+			sprintf(secu, "ä¿®æ”¹ %s çš„åŸºæœ¬èµ„æ–™æˆ–å¯†ç ã€‚", u->userid);
 			securityreport(secu, 0, 0);
 		}
 		if (strcmp(u->userid, newinfo.userid)) {
@@ -668,9 +668,9 @@ int uinfo_query(struct userec *u, int real, int unum) {
 				send_regmail(u);
 			} else {
 				move(t_lines - 5, 0);
-				prints("\nÄúËùÌîµÄµç×ÓÓÊ¼şµØÖ· ¡¾[1;33m%s[m¡¿\n",
+				prints("\næ‚¨æ‰€å¡«çš„ç”µå­é‚®ä»¶åœ°å€ ã€[1;33m%s[mã€‘\n",
 						newinfo.email);
-				prints("Ë¡²»ÊÜ±¾Õ¾³ĞÈÏ£¬ÏµÍ³²»»áÍ¶µİ×¢²áĞÅ£¬Çë°ÑËüĞŞÕıºÃ...\n");
+				prints("æ•ä¸å—æœ¬ç«™æ‰¿è®¤ï¼Œç³»ç»Ÿä¸ä¼šæŠ•é€’æ³¨å†Œä¿¡ï¼Œè¯·æŠŠå®ƒä¿®æ­£å¥½...\n");
 				pressanykey();
 				return 0;
 			}
@@ -695,7 +695,7 @@ int uinfo_query(struct userec *u, int real, int unum) {
 	return 0;
 }
 
-//ÓëInformationÏà¹ØÁª.ÔÚcomm_list.cÀï,ÓÃÓÚÏÔÊ¾ºÍÉè¶¨¸öÈË×ÊÁÏ
+//ä¸Informationç›¸å…³è”.åœ¨comm_list.cé‡Œ,ç”¨äºæ˜¾ç¤ºå’Œè®¾å®šä¸ªäººèµ„æ–™
 void x_info() {
 	if (!strcmp("guest", currentuser.userid))
 		return;
@@ -704,11 +704,11 @@ void x_info() {
 	uinfo_query(&currentuser, 0, usernum);
 }
 
-//	¸ü¸ÄÓÃ»§×ÊÁÏÖĞÄ³ÓòËù¶ÔÓ¦Éè¶¨
+//	æ›´æ”¹ç”¨æˆ·èµ„æ–™ä¸­æŸåŸŸæ‰€å¯¹åº”è®¾å®š
 void getfield(int line, char *info, char *desc, char *buf, int len) {
 	char prompt[STRLEN];
-	sprintf(genbuf, "  Ô­ÏÈÉè¶¨: %-40.40s [1;32m(%s)[m",
-			(buf[0] == '\0') ? "(Î´Éè¶¨)" : buf, info);
+	sprintf(genbuf, "  åŸå…ˆè®¾å®š: %-40.40s [1;32m(%s)[m",
+			(buf[0] == '\0') ? "(æœªè®¾å®š)" : buf, info);
 	move(line, 0);
 	prints("%s", genbuf);
 	sprintf(prompt, "  %s: ", desc);
@@ -721,7 +721,7 @@ void getfield(int line, char *info, char *desc, char *buf, int len) {
 	clrtoeol();
 }
 
-//	ÌîĞ´ÓÃ»§×ÊÁÏ
+//	å¡«å†™ç”¨æˆ·èµ„æ–™
 void x_fillform() {
 	char ans[5], *mesg, *ptr;
 	REGINFO ri;
@@ -734,14 +734,14 @@ void x_fillform() {
 	move(2, 0);
 	clrtobot();
 	if (currentuser.userlevel & PERM_REGISTER) {
-		prints("ÄúÒÑ¾­Íê³É±¾Õ¾µÄÊ¹ÓÃÕß×¢²áÊÖĞø, »¶Ó­¼ÓÈë±¾Õ¾µÄĞĞÁĞ.");
+		prints("æ‚¨å·²ç»å®Œæˆæœ¬ç«™çš„ä½¿ç”¨è€…æ³¨å†Œæ‰‹ç»­, æ¬¢è¿åŠ å…¥æœ¬ç«™çš„è¡Œåˆ—.");
 		pressreturn();
 		return;
 	}
 #ifdef PASSAFTERTHREEDAYS
 	if (currentuser.lastlogin - currentuser.firstlogin < 3 * 86400) {
-		prints("ÄúÊ×´ÎµÇÈë±¾Õ¾Î´ÂúÈıÌì(72¸öĞ¡Ê±)...\n");
-		prints("ÇëÏÈËÄ´¦ÊìÏ¤Ò»ÏÂ£¬ÔÚÂúÈıÌìÒÔºóÔÙÌîĞ´×¢²áµ¥¡£");
+		prints("æ‚¨é¦–æ¬¡ç™»å…¥æœ¬ç«™æœªæ»¡ä¸‰å¤©(72ä¸ªå°æ—¶)...\n");
+		prints("è¯·å…ˆå››å¤„ç†Ÿæ‚‰ä¸€ä¸‹ï¼Œåœ¨æ»¡ä¸‰å¤©ä»¥åå†å¡«å†™æ³¨å†Œå•ã€‚");
 		pressreturn();
 		return;
 	}
@@ -750,7 +750,7 @@ void x_fillform() {
 		while (fread(&ri, sizeof(ri), 1, fn)) {
 			if (!strcasecmp(ri.userid, currentuser.userid)) {
 				fclose(fn);
-				prints("Õ¾³¤ÉĞÎ´´¦ÀíÄúµÄ×¢²áÉêÇëµ¥, ÄúÏÈµ½´¦¿´¿´°É.");
+				prints("ç«™é•¿å°šæœªå¤„ç†æ‚¨çš„æ³¨å†Œç”³è¯·å•, æ‚¨å…ˆåˆ°å¤„çœ‹çœ‹å§.");
 				pressreturn();
 				return;
 			}
@@ -766,25 +766,25 @@ void x_fillform() {
 	while (1) {
 		move(3, 0);
 		clrtoeol();
-		prints("%s ÄúºÃ, Çë¾İÊµÌîĞ´ÒÔÏÂµÄ×ÊÁÏ:\n", currentuser.userid);
+		prints("%s æ‚¨å¥½, è¯·æ®å®å¡«å†™ä»¥ä¸‹çš„èµ„æ–™:\n", currentuser.userid);
 		do {
-			getfield(6, "ÇëÓÃÖĞÎÄ", "ÕæÊµĞÕÃû", ri.realname, NAMELEN);
+			getfield(6, "è¯·ç”¨ä¸­æ–‡", "çœŸå®å§“å", ri.realname, NAMELEN);
 		} while (strlen(ri.realname)<4);
 
 		do {
-			getfield(8, "Ñ§Ğ£Ïµ¼¶»òËùÔÚµ¥Î»", "Ñ§Ğ£Ïµ¼¶", ri.dept, STRLEN);
+			getfield(8, "å­¦æ ¡ç³»çº§æˆ–æ‰€åœ¨å•ä½", "å­¦æ ¡ç³»çº§", ri.dept, STRLEN);
 		} while (strlen(ri.dept)< 6);
 
 		do {
-			getfield(10, "°üÀ¨ÇŞÊÒ»òÃÅÅÆºÅÂë", "Ä¿Ç°×¡Ö·", ri.addr, STRLEN);
+			getfield(10, "åŒ…æ‹¬å¯å®¤æˆ–é—¨ç‰Œå·ç ", "ç›®å‰ä½å€", ri.addr, STRLEN);
 		} while (strlen(ri.addr)<10);
 
 		do {
-			getfield(12, "°üÀ¨¿ÉÁªÂçÊ±¼ä", "ÁªÂçµç»°", ri.phone, STRLEN);
+			getfield(12, "åŒ…æ‹¬å¯è”ç»œæ—¶é—´", "è”ç»œç”µè¯", ri.phone, STRLEN);
 		} while (strlen(ri.phone)<8);
 
-		getfield(14, "Ğ£ÓÑ»á»ò±ÏÒµÑ§Ğ£", "Ğ£ ÓÑ »á", ri.assoc, STRLEN);
-		mesg = "ÒÔÉÏ×ÊÁÏÊÇ·ñÕıÈ·, °´ Q ·ÅÆú×¢²á (Y/N/Quit)? [Y]: ";
+		getfield(14, "æ ¡å‹ä¼šæˆ–æ¯•ä¸šå­¦æ ¡", "æ ¡ å‹ ä¼š", ri.assoc, STRLEN);
+		mesg = "ä»¥ä¸Šèµ„æ–™æ˜¯å¦æ­£ç¡®, æŒ‰ Q æ”¾å¼ƒæ³¨å†Œ (Y/N/Quit)? [Y]: ";
 		getdata(t_lines - 1, 0, mesg, ans, 3, DOECHO, YEA);
 		if (ans[0] == 'Q' || ans[0] == 'q')
 			return;

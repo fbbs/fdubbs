@@ -1,10 +1,10 @@
 /*
-         [ ÅäºÏBBSD·½Ê½Ê¹ÓÃµÄuptime    by Eric ]
-ÇëĞŞ¸Ä cron.bbs ÖĞµÄ£º
+         [ é…åˆBBSDæ–¹å¼ä½¿ç”¨çš„uptime    by Eric ]
+è¯·ä¿®æ”¹ cron.bbs ä¸­çš„ï¼š
 0,5,10,15,20,25,30,35,40,45,50,55 * * * * /usr/bin/uptime >> /home/HOPE/bbs/reclog/uptime.log
-Îª£º
+ä¸ºï¼š
 0,5,10,15,20,25,30,35,40,45,50,55 * * * * /home/bbs/bin/bbsuptime >> /home/HOPE/bbs/reclog/uptime.log
-²¢ÖØĞÂÓÃ bbs µÄÉí·İÖ´ĞĞ£º crontab cron.bbs
+å¹¶é‡æ–°ç”¨ bbs çš„èº«ä»½æ‰§è¡Œï¼š crontab cron.bbs
 */	 
 
 #include "bbs.h"

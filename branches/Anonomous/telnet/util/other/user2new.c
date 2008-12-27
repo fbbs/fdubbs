@@ -8,9 +8,9 @@ struct userec {				  /* Structure used to hold information in */
 	char			lasthost[16];
 	unsigned int    numlogins;
 	unsigned int    numposts;
-	int    			nummedals; /* ½±ÕÂÊı money modified u_int to int 2002.11.19*/
-	int    			money;   /* ´æ¿î */
-	int    			bet;     /* ´û¿î */
+	int    			nummedals; /* å¥–ç« æ•° money modified u_int to int 2002.11.19*/
+	int    			money;   /* å­˜æ¬¾ */
+	int    			bet;     /* è´·æ¬¾ */
 	time_t			dateforbet;
 	char		    flags[2];
 #ifdef ENCPASSLEN
@@ -24,18 +24,18 @@ struct userec {				  /* Structure used to hold information in */
 	char		    reginfo[STRLEN-16];
 	unsigned int    userlevel;
 	time_t			lastlogin;
-	time_t		  	lastlogout;/* ×î½üÀëÏßÊ±¼ä */
+	time_t		  	lastlogout;/* æœ€è¿‘ç¦»çº¿æ—¶é—´ */
 	time_t		  	stay;
 	char		    realname[NAMELEN];
 	char		    address[STRLEN];
 	char		    email[STRLEN-12];
 	unsigned int    nummails;
 	time_t		  	lastjustify;
-	char		    gender;				//ĞÔ±ğ
-	unsigned char   birthyear;			//³öÉúÄê
-	unsigned char   birthmonth;			//³öÉúÔÂ
-	unsigned char   birthday;			//³öÉúÈÕ
-	int		     	signature;			//Ç©ÃûµµÊıÄ¿
+	char		    gender;				//æ€§åˆ«
+	unsigned char   birthyear;			//å‡ºç”Ÿå¹´
+	unsigned char   birthmonth;			//å‡ºç”Ÿæœˆ
+	unsigned char   birthday;			//å‡ºç”Ÿæ—¥
+	int		     	signature;			//ç­¾åæ¡£æ•°ç›®
 	unsigned int    userdefine;			
 	time_t		  	notedate;			
 	int		     	noteline;			

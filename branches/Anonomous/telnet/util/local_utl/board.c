@@ -1,18 +1,18 @@
-#define VOTE_FLAG    	0x1			//Í¶Æ±Ä£Ê½
+#define VOTE_FLAG    	0x1			//æŠ•ç¥¨æ¨¡å¼
 #define NOZAP_FLAG   	0x2			//
 #define OUT_FLAG     	0x4			//
-#define ANONY_FLAG   	0x8			//ÄäÃûÄ£Ê½
+#define ANONY_FLAG   	0x8			//åŒ¿åæ¨¡å¼
 #define NOREPLY_FLAG 	0x10 		/* No reply board */
 #define BOARDJUNK_FLAG	0x20		//
 
-#define BOARD_VOTE_FLAG         0x1             //Í¶Æ±Ä£Ê½
+#define BOARD_VOTE_FLAG         0x1             //æŠ•ç¥¨æ¨¡å¼
 #define BOARD_NOZAP_FLAG        0x2             //no zap
-#define BOARD_OUT_FLAG          0x4             //×ªĞÅ
-#define BOARD_ANONY_FLAG        0x8             //ÄäÃûÄ£Ê½
+#define BOARD_OUT_FLAG          0x4             //è½¬ä¿¡
+#define BOARD_ANONY_FLAG        0x8             //åŒ¿åæ¨¡å¼
 #define BOARD_NOREPLY_FLAG      0x10            //No reply board
-#define BOARD_JUNK_FLAG         0x20            //²»¼ÇÎÄÕÂÊı
-#define BOARD_CLUB_FLAG         0x40            //¾ãÀÖ²¿°æÃæ
-#define BOARD_READ_FLAG         0x80            //Òş²Ø°æÃæ
+#define BOARD_JUNK_FLAG         0x20            //ä¸è®°æ–‡ç« æ•°
+#define BOARD_CLUB_FLAG         0x40            //ä¿±ä¹éƒ¨ç‰ˆé¢
+#define BOARD_READ_FLAG         0x80            //éšè—ç‰ˆé¢
 #define BOARD_POST_FLAG         0x100           //postmask
 
 #define PERM_POSTMASK  0100000     

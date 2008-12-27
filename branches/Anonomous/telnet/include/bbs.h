@@ -45,10 +45,10 @@
 #endif
 
 #ifdef XINU
-extern int errno; //³ö´íĞÅÏ¢±àºÅ
+extern int errno; //å‡ºé”™ä¿¡æ¯ç¼–å·
 #endif
 
-#define randomize() srand((unsigned)time(NULL))	//Ëæ»úº¯Êı³õÊ¼»¯
+#define randomize() srand((unsigned)time(NULL))	//éšæœºå‡½æ•°åˆå§‹åŒ–
 #define YEA (1)        /* Booleans  (Yep, for true and false) */
 #define NA  (0) 
 
@@ -65,10 +65,10 @@ extern int errno; //³ö´íĞÅÏ¢±àºÅ
 #define MAXFRIENDS (300)
 #define MAXREJECTS (32)
 #define NUMPERMS   (32)
-#define REG_EXPIRED	3600    	/* ÖØ×öÉí·İÈ·ÈÏÆÚÏŞ */
+#define REG_EXPIRED	3600    	/* é‡åšèº«ä»½ç¡®è®¤æœŸé™ */
 #ifdef FDQUAN
-#define MAXGUEST	80	   	/* ×î¶à guest ÕÊºÅÉÏÕ¾¸öÊı */
-#define QUERY_REALNAMES		//Õ¾Îñ²éÑ¯Ê±,ÊÇ·ñÏÔÊ¾ÕæÊµĞÕÃû
+#define MAXGUEST	80	   	/* æœ€å¤š guest å¸å·ä¸Šç«™ä¸ªæ•° */
+#define QUERY_REALNAMES		//ç«™åŠ¡æŸ¥è¯¢æ—¶,æ˜¯å¦æ˜¾ç¤ºçœŸå®å§“å
 #else
 #define MAXGUEST	500
 #endif
@@ -76,19 +76,19 @@ extern int errno; //³ö´íĞÅÏ¢±àºÅ
 #ifdef FDQUAN
 #define MAX_ANON    300
 #else
-#define MAX_ANON	2500	//×î´óWWWÄäÃûÊı
+#define MAX_ANON	2500	//æœ€å¤§WWWåŒ¿åæ•°
 #endif
 
 #define FILE_BUFSIZE        200    /* max. length of a file in SHM*/
 #define FILE_MAXLINE         25    /* max. line of a file in SHM */
-#define MAX_WELCOME          15    /* »¶Ó­»­ÃæÊı */
-#define MAX_GOODBYE          15    /* ÀëÕ¾»­ÃæÊı */
-#define MAX_ISSUE            15    /* ×î´ó½øÕ¾»­ÃæÊı */
-#define MAX_DIGEST         1000    /* ×î´óÎÄÕªÊı */
+#define MAX_WELCOME          15    /* æ¬¢è¿ç”»é¢æ•° */
+#define MAX_GOODBYE          15    /* ç¦»ç«™ç”»é¢æ•° */
+#define MAX_ISSUE            15    /* æœ€å¤§è¿›ç«™ç”»é¢æ•° */
+#define MAX_DIGEST         1000    /* æœ€å¤§æ–‡æ‘˜æ•° */
 #define MAX_POSTRETRY       100
-#define MAX_PREFIX			  9    /* ×î´ó°æÃæÇ°×ºÊı*/
+#define MAX_PREFIX			  9    /* æœ€å¤§ç‰ˆé¢å‰ç¼€æ•°*/
 #define MORE_BUFSIZE       4096
-#define GOOD_BRC_NUM	70	//ÊÕ²Ø¼Ğ×î´ó¿ÉÊÕ²Ø°æÃæÊı 2007-04-23 ´Óboards.cÒÆÖÁ´Ë
+#define GOOD_BRC_NUM	70	//æ”¶è—å¤¹æœ€å¤§å¯æ”¶è—ç‰ˆé¢æ•° 2007-04-23 ä»boards.cç§»è‡³æ­¤
 #ifdef BIGGER_MOVIE
 #define MAXMOVIE		8
 #else
@@ -111,7 +111,7 @@ extern int errno; //³ö´íĞÅÏ¢±àºÅ
 #define PASSLEN		 	14    /* User's password length (13 chars) */
 
 //#ifdef CODE_VALID
-#define RNDPASSLEN             10        /* °µÂëÈÏÖ¤µÄ°µÂë³¤¶È (ÊÊÒË·¶Î§ 4~10)*/
+#define RNDPASSLEN             10        /* æš—ç è®¤è¯çš„æš—ç é•¿åº¦ (é€‚å®œèŒƒå›´ 4~10)*/
 //#endif
 
 #define MAXGOPHERITEMS     9999    /* max of gopher items */
@@ -133,16 +133,16 @@ extern char ULIST[];
 #define JUNK_DIR    ".JUNK"
 
 //digest mode
-#define NORMAL_MODE       0		//Ò»°ãÄ£Ê½
-#define DIGIST_MODE       1		//ÎÄÕªÄ£Ê½£¨GÎÄ£©
-#define THREAD_MODE       2		//Í¬Ö÷ÌâÄ£Ê½
-#define MARK_MODE         3		//mÎÄÄ£Ê½
-#define ORIGIN_MODE       4		//Ô­×÷Ä£Ê½
-#define AUTHOR1_MODE      5             //Í¬×÷ÕßÄ£ºıËÑË÷Ä£Ê½
-#define AUTHOR2_MODE      6             //Í¬×÷Õß¾«È·ËÑË÷Ä£Ê½
-#define KEYWORD_MODE      7		//±êÌâËÑË÷Ä£Ê½
-#define TRASH_MODE       10		//°æÖ÷À¬»øÏäÄ£Ê½
-#define JUNK_MODE	     11		//Õ¾ÎñÀ¬»øÏäÄ£Ê½
+#define NORMAL_MODE       0		//ä¸€èˆ¬æ¨¡å¼
+#define DIGIST_MODE       1		//æ–‡æ‘˜æ¨¡å¼ï¼ˆGæ–‡ï¼‰
+#define THREAD_MODE       2		//åŒä¸»é¢˜æ¨¡å¼
+#define MARK_MODE         3		//mæ–‡æ¨¡å¼
+#define ORIGIN_MODE       4		//åŸä½œæ¨¡å¼
+#define AUTHOR1_MODE      5             //åŒä½œè€…æ¨¡ç³Šæœç´¢æ¨¡å¼
+#define AUTHOR2_MODE      6             //åŒä½œè€…ç²¾ç¡®æœç´¢æ¨¡å¼
+#define KEYWORD_MODE      7		//æ ‡é¢˜æœç´¢æ¨¡å¼
+#define TRASH_MODE       10		//ç‰ˆä¸»åƒåœ¾ç®±æ¨¡å¼
+#define JUNK_MODE	     11		//ç«™åŠ¡åƒåœ¾ç®±æ¨¡å¼
 #define BOTTOM_MODE	     12		//??
 #define ATTACH_MODE          13         //??
 #define ANNPATH_SETMODE	0
@@ -175,19 +175,19 @@ extern char ULIST[];
 #define FILE_LASTONE	0x04
 #define FILE_IMPORTED   0x08
 
-/*	°æÃæµÄ±êÖ¾		*/
-#define BOARD_VOTE_FLAG    	0x1		//Í¶Æ±Ä£Ê½
+/*	ç‰ˆé¢çš„æ ‡å¿—		*/
+#define BOARD_VOTE_FLAG    	0x1		//æŠ•ç¥¨æ¨¡å¼
 #define BOARD_NOZAP_FLAG   	0x2		//no zap
-#define BOARD_OUT_FLAG     	0x4		//×ªĞÅ
-#define BOARD_ANONY_FLAG   	0x8		//ÄäÃûÄ£Ê½
+#define BOARD_OUT_FLAG     	0x4		//è½¬ä¿¡
+#define BOARD_ANONY_FLAG   	0x8		//åŒ¿åæ¨¡å¼
 #define BOARD_NOREPLY_FLAG 	0x10		//No reply board
-#define BOARD_JUNK_FLAG	        0x20		//²»¼ÇÎÄÕÂÊı
-#define BOARD_CLUB_FLAG         0x40		//¾ãÀÖ²¿°æÃæ
-#define BOARD_READ_FLAG		0x80		//¶ÁÏŞÖÆ°æÃæ
+#define BOARD_JUNK_FLAG	        0x20		//ä¸è®°æ–‡ç« æ•°
+#define BOARD_CLUB_FLAG         0x40		//ä¿±ä¹éƒ¨ç‰ˆé¢
+#define BOARD_READ_FLAG		0x80		//è¯»é™åˆ¶ç‰ˆé¢
 #define BOARD_POST_FLAG         0x100		//postmask
-#define BOARD_DIR_FLAG		0x200		//Ä¿Â¼
-#define BOARD_PREFIX_FLAG	0x400	//Ç°×º
-#define BOARD_CUSTOM_FLAG	0x80000000		//ÊÕ²Ø¼Ğ×Ô¶¨ÒåÄ¿Â¼ defined by cometcaptor 2007-04-16 ÒòÎªÊÇÄ¿Â¼ÊÇ×Ô¶¨Òå£¬¹ÊÑ¡ÓÃ±êÖ¾µÄ×î¸ßÎ»£¬ºÍ±ê×¼µÄÊôĞÔ·Ö¿ª
+#define BOARD_DIR_FLAG		0x200		//ç›®å½•
+#define BOARD_PREFIX_FLAG	0x400	//å‰ç¼€
+#define BOARD_CUSTOM_FLAG	0x80000000		//æ”¶è—å¤¹è‡ªå®šä¹‰ç›®å½• defined by cometcaptor 2007-04-16 å› ä¸ºæ˜¯ç›®å½•æ˜¯è‡ªå®šä¹‰ï¼Œæ•…é€‰ç”¨æ ‡å¿—çš„æœ€é«˜ä½ï¼Œå’Œæ ‡å‡†çš„å±æ€§åˆ†å¼€
 #define ZAPPED  		0x1         /* For boards...tells if board is Zapped */
 
 /* these are flags in userec.flags[0] */
@@ -199,11 +199,11 @@ extern char ULIST[];
 #define GIVEUPBBS_FLAG  0x80  /* true if the user give up BBs now (2003.04.22 stephen)*/
 #define ACTIVE_BOARD 	0x200 /* true if user toggled active movie board on */
 
-#define MULTI_LOGINS	2	/* Í¬Ê±¿ÉÉÏÕ¾ ID Êı */
+#define MULTI_LOGINS	2	/* åŒæ—¶å¯ä¸Šç«™ ID æ•° */
 #ifndef FDQUAN
-#define IPMAXLOGINS		5	// Í¬IPÍ¬Ê±ÉÏÕ¾IDÊı
+#define IPMAXLOGINS		5	// åŒIPåŒæ—¶ä¸Šç«™IDæ•°
 #endif
-#define DEF_VALUE		"¡ï¡ï »¶Ó­¹âÁÙÈÕÔÂ¹â»ªÕ¾! ¡ï¡ï"
+#define DEF_VALUE		"â˜…â˜… æ¬¢è¿å…‰ä¸´æ—¥æœˆå…‰åç«™! â˜…â˜…"
 #define DEF_FILE		"etc/whatdate"
 
 #define ALL_PAGER       0x1
@@ -241,29 +241,29 @@ extern char ULIST[];
 #define SCREEN_SIZE (23)         /* Used by read menu  */
 
 #define BMLOGLEN			32
-#define BMLOG_STAYTIME		0			//Í£ÁôÊ±¼ä
-#define BMLOG_INBOARD		1			//½ø°æ
-#define BMLOG_POST			2			//°æÄÚ·¢ÎÄ
-#define BMLOG_DIGIST		3			//ÊÕÈëÎÄÕª
-#define BMLOG_UNDIGIST		4			//È¥µôÎÄÕª
-#define BMLOG_MARK          5           //±ê¼ÇmÎÄ 
-#define BMLOG_UNMARK        6           //È¥µôm±ê¼Ç
-#define BMLOG_WATER         7           //±ê¼ÇË®ÎÄ
-#define BMLOG_UNWATER       8           //È¥µôË®ÎÄ
-#define BMLOG_CANNOTRE		9           //±ê¼Ç²»¿Ére
-#define BMLOG_UNCANNOTRE	10          //È¥µô²»¿Ére
-#define BMLOG_DELETE        11          //É¾³ıÎÄÕÂ(d/B/L/D)
-#define BMLOG_UNDELETE      12          //»Ö¸´É¾³ı(y/B/L)
-#define BMLOG_DENYPOST      13          //·â½û
-#define BMLOG_UNDENY        14          //½â·â
-#define BMLOG_ADDCLUB       15          //¼ÓÈë¾ãÀÖ²¿
-#define BMLOG_DELCLUB       16          //È¡Ïû¾ãÀÖ²¿
-#define BMLOG_ANNOUNCE      17          //ÊÕÈë¾«»ª
-#define BMLOG_DOANN         18          //ÕûÀí¾«»ª
-#define BMLOG_COMBINE       19          //ºÏ¼¯ÎÄÕÂ
-#define BMLOG_RANGEANN		20          //L»òÕßBÊÕÈë¾«»ª
-#define BMLOG_RANGEDEL      21          //L»òÕßBÉ¾³ı
-#define BMLOG_RANGEOTHER    23          //L»òÕßBÆäËû²Ù×÷
+#define BMLOG_STAYTIME		0			//åœç•™æ—¶é—´
+#define BMLOG_INBOARD		1			//è¿›ç‰ˆ
+#define BMLOG_POST			2			//ç‰ˆå†…å‘æ–‡
+#define BMLOG_DIGIST		3			//æ”¶å…¥æ–‡æ‘˜
+#define BMLOG_UNDIGIST		4			//å»æ‰æ–‡æ‘˜
+#define BMLOG_MARK          5           //æ ‡è®°mæ–‡ 
+#define BMLOG_UNMARK        6           //å»æ‰mæ ‡è®°
+#define BMLOG_WATER         7           //æ ‡è®°æ°´æ–‡
+#define BMLOG_UNWATER       8           //å»æ‰æ°´æ–‡
+#define BMLOG_CANNOTRE		9           //æ ‡è®°ä¸å¯re
+#define BMLOG_UNCANNOTRE	10          //å»æ‰ä¸å¯re
+#define BMLOG_DELETE        11          //åˆ é™¤æ–‡ç« (d/B/L/D)
+#define BMLOG_UNDELETE      12          //æ¢å¤åˆ é™¤(y/B/L)
+#define BMLOG_DENYPOST      13          //å°ç¦
+#define BMLOG_UNDENY        14          //è§£å°
+#define BMLOG_ADDCLUB       15          //åŠ å…¥ä¿±ä¹éƒ¨
+#define BMLOG_DELCLUB       16          //å–æ¶ˆä¿±ä¹éƒ¨
+#define BMLOG_ANNOUNCE      17          //æ”¶å…¥ç²¾å
+#define BMLOG_DOANN         18          //æ•´ç†ç²¾å
+#define BMLOG_COMBINE       19          //åˆé›†æ–‡ç« 
+#define BMLOG_RANGEANN		20          //Læˆ–è€…Bæ”¶å…¥ç²¾å
+#define BMLOG_RANGEDEL      21          //Læˆ–è€…Båˆ é™¤
+#define BMLOG_RANGEOTHER    23          //Læˆ–è€…Bå…¶ä»–æ“ä½œ
 extern int scrint; /* Set when screen has been initialized */
 /* Used by namecomplete *only* */
 
@@ -332,10 +332,10 @@ extern time_t uptime; /* save user last key-in time, up every 1min */
 #define KEY_END         0x0204
 #define KEY_PGUP        0x0205
 #define KEY_PGDN        0x0206
-#endif	//EXTEND_KEY	À©Õ¹¼ü
+#endif	//EXTEND_KEY	æ‰©å±•é”®
 /* edwardc.990706 move shmkeys from sysconf.ini */
 
-struct _shmkey { //¹²ÏíÄÚ´æ¼üÃûÓë¼üÖµ
+struct _shmkey { //å…±äº«å†…å­˜é”®åä¸é”®å€¼
 	char key[16];
 	int value;
 };
@@ -355,11 +355,11 @@ const static struct _shmkey shmkeys[] = { { "BCACHE_SHMKEY", 30000 }, {
 
 #define SEM_COUNTONLINE 30000
 
-#define Ctrl(c)         ( c & 037 )		//¿ÉÒÔ¿¼ÂÇ½«º¯Êıºê¸ÄĞ´³Éinlineº¯Êı
-#define isprint2(c)     ( (c & 0x80) || isprint(c) )	//À©³äµÄ¿É´òÓ¡×Ö·û
-//°üÀ¨ASCIIÖĞËùÓĞ¿É´òÓ¡×Ö·ûºÍµÚÒ»Î»Îª1µÄ×Ö·û
+#define Ctrl(c)         ( c & 037 )		//å¯ä»¥è€ƒè™‘å°†å‡½æ•°å®æ”¹å†™æˆinlineå‡½æ•°
+#define isprint2(c)     ( (c & 0x80) || isprint(c) )	//æ‰©å……çš„å¯æ‰“å°å­—ç¬¦
+//åŒ…æ‹¬ASCIIä¸­æ‰€æœ‰å¯æ‰“å°å­—ç¬¦å’Œç¬¬ä¸€ä½ä¸º1çš„å­—ç¬¦
 
-#ifdef  SYSV						//SYSVÖĞÃ»ÓĞ¶¨ÒåÒÔÏÂº¯Êı
+#ifdef  SYSV						//SYSVä¸­æ²¡æœ‰å®šä¹‰ä»¥ä¸‹å‡½æ•°
 //#define bzero(tgt, len)         memset( tgt, 0, len )
 #define bcopy(src, tgt, len)    memcpy( tgt, src, len)
 
@@ -382,7 +382,7 @@ extern int KEY_ESC_arg;
 extern char datestring[];
 
 //added by iamfat 2003.02.27
-#define DEBUG(x) {file_append("debug", #x"\n");x;}	//µ÷ÊÔÄ£Ê½
+#define DEBUG(x) {file_append("debug", #x"\n");x;}	//è°ƒè¯•æ¨¡å¼
 #endif /* of _BBS_H_ */
 
 #define FLOCK(x,y) flock(x,y)
@@ -390,9 +390,9 @@ extern char datestring[];
 #define SHM_HOMEDIR "tmp"
 
 //add by infotech,supporting for 5 BMS
-#define BMMAXNUM		(5)				//Ã¿¸ö°æÃæµÄ×î´ó°æÖ÷Êı
-#define BMNAMELISTLIMIT					//ÏÔÊ¾³¬¹ı²¿·ÖÊ±Ê¹ÓÃ...
-#define BMNAMELISTLEN	(56)		//ÏÔÊ¾°æÃæ°æÖ÷ÁĞ±íµÄ×î´óÊı
-#define BMNAMEMAXLEN	(56)		//Ã¿¸ö°æ°æÖ÷Ãû³ÆÊ±×î´óÊı
-//Èç¹ûBMNAMELISTLENÓëBMNAMEMAXLEN²»Í¬,ÏÔÊ¾°æÖ÷ÁĞ±íÊ±,½«ÓÃ...À´±íÊ¾³¬¹ı²¿·Ö
-//BMNAMELISTLENÒ»¶¨ÒªĞ¡ÓÚBMNAMEMAXLEN,ÇÒ¾ùĞ¡ÓÚ56,·ñÔòÄÚ´æÔ½½ç
+#define BMMAXNUM		(5)				//æ¯ä¸ªç‰ˆé¢çš„æœ€å¤§ç‰ˆä¸»æ•°
+#define BMNAMELISTLIMIT					//æ˜¾ç¤ºè¶…è¿‡éƒ¨åˆ†æ—¶ä½¿ç”¨...
+#define BMNAMELISTLEN	(56)		//æ˜¾ç¤ºç‰ˆé¢ç‰ˆä¸»åˆ—è¡¨çš„æœ€å¤§æ•°
+#define BMNAMEMAXLEN	(56)		//æ¯ä¸ªç‰ˆç‰ˆä¸»åç§°æ—¶æœ€å¤§æ•°
+//å¦‚æœBMNAMELISTLENä¸BMNAMEMAXLENä¸åŒ,æ˜¾ç¤ºç‰ˆä¸»åˆ—è¡¨æ—¶,å°†ç”¨...æ¥è¡¨ç¤ºè¶…è¿‡éƒ¨åˆ†
+//BMNAMELISTLENä¸€å®šè¦å°äºBMNAMEMAXLEN,ä¸”å‡å°äº56,å¦åˆ™å†…å­˜è¶Šç•Œ

@@ -52,13 +52,13 @@ void set_rec();
 struct user_info * t_search();
 #define b_lines t_lines-1
 #define cuser currentuser
-char *msg_seperator = "¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ªCtrl+C ÍË³ö  /h ²é¿´°ïÖú¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª";
+char *msg_seperator = "â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”Ctrl+C é€€å‡º  /h æŸ¥çœ‹å¸®åŠ©â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”";
 char
 		*msg_shortulist =
 				"[1;33;44m\
-                         Ê¹ÓÃÕß´úºÅ    Ä¿Ç°×´Ì¬  ©¦ Ê¹ÓÃÕß´úºÅ    Ä¿Ç°×´Ì¬  ©¦ Ê¹ÓÃÕß´úºÅ    Ä¿Ç°×´Ì¬ [m";
+                         ä½¿ç”¨è€…ä»£å·    ç›®å‰çŠ¶æ€  â”‚ ä½¿ç”¨è€…ä»£å·    ç›®å‰çŠ¶æ€  â”‚ ä½¿ç”¨è€…ä»£å·    ç›®å‰çŠ¶æ€ [m";
 
-struct chat_command { //ÃüÁîÃû¼°Æä¶ÔÓ¦º¯Êı
+struct chat_command { //å‘½ä»¤ååŠå…¶å¯¹åº”å‡½æ•°
 	char *cmdname; /* Char-room command length */
 	void (*cmdfunc)(); /* Pointer to function */
 };
@@ -71,7 +71,7 @@ struct chatalias {
 struct chatalias * chat_aliases;
 int chat_alias_count;
 
-// µ¼ÈëÁÄÌìÊ± Ò»Ğ©ÊôĞÔ(¿ì½İ)
+// å¯¼å…¥èŠå¤©æ—¶ ä¸€äº›å±æ€§(å¿«æ·)
 void chat_load_alias() {
 	char buf[256];
 	int i;
@@ -172,7 +172,7 @@ void printchatline(char *str) {
 	}
 	move(chatline, 0);
 	clrtoeol();
-	outs("¡ú");
+	outs("â†’");
 }
 
 void chat_clear() {
@@ -235,9 +235,9 @@ int chat_recv(int fd, char * chatid) {
 					}
 					transPERstr(buftopic, tmptopic);
 					sprintf(genbuf,
-							"[1;44;33m ·¿¼ä£º [32m%-12.12s  [5;31;44m%6.6s"
-								"[0;1;44;33m»°Ìâ£º[36m%-49.49s[m",
-							chatname, (recflag == 1) ? "[Â¼Òô]" : "      ",
+							"[1;44;33m æˆ¿é—´ï¼š [32m%-12.12s  [5;31;44m%6.6s"
+								"[0;1;44;33mè¯é¢˜ï¼š[36m%-49.49s[m",
+							chatname, (recflag == 1) ? "[å½•éŸ³]" : "      ",
 							tmptopic);
 					move(0, 0);
 					clrtoeol();
@@ -335,13 +335,13 @@ int ent_chat(char *chatbuf) {
 		fclose(stationrec);
 		move(1, 0);
 		clrtobot();
-		prints("\n\nĞò Á¬ÏßÕ¾Ãû³Æ             Á¬ÏßÕ¾Î»Ö·\n");
+		prints("\n\nåº è¿çº¿ç«™åç§°             è¿çº¿ç«™ä½å€\n");
 		prints("== =====================  ==============================\n");
 		for (j = 0; j <= i - 1; j++) {
 			move(5 + j, 0);
 			prints("%2d %-22s %-32s", j+1, stnname[j], stnaddr[j]);
 		}
-		getdata(23, 0, "ÇëÊäÈëÕ¾Ì¨ĞòºÅ(ÍË³ö£º0)", temp, 3, DOECHO, YEA);
+		getdata(23, 0, "è¯·è¾“å…¥ç«™å°åºå·(é€€å‡ºï¼š0)", temp, 3, DOECHO, YEA);
 		i = 0;
 		i = atoi(temp);
 		if (i == 0)
@@ -350,7 +350,7 @@ int ent_chat(char *chatbuf) {
 		if ((i > j - 1) || (i < 0))
 			i = 0;
 		clear();
-		prints("Á¬Íù¡º%s¡»£¬ÇëÉÔºò...\n", stnname[i]);
+		prints("è¿å¾€ã€%sã€ï¼Œè¯·ç¨å€™...\n", stnname[i]);
 		if (!(h = gethostbyname(stnaddr[i])))
 			return -1;
 		memset(&sin, 0, sizeof sin);
@@ -371,7 +371,7 @@ int ent_chat(char *chatbuf) {
 			close(cfd);
 			move(1, 0);
 			clrtoeol();
-			prints("¶Ô·½ÁÄÌìÊÒÃ»¿ª£¬Á¬½ø±¾Õ¾µÄ¹ú¼Ê»áÒéÌü...");
+			prints("å¯¹æ–¹èŠå¤©å®¤æ²¡å¼€ï¼Œè¿è¿›æœ¬ç«™çš„å›½é™…ä¼šè®®å…...");
 			sprintf(runchatbuf, "bin/chatd %d", chatroom);
 			system(runchatbuf);
 			cfd = socket(sin.sin_family, SOCK_STREAM, 0);
@@ -392,7 +392,7 @@ int ent_chat(char *chatbuf) {
 			close(cfd);
 			move(1, 0);
 			clrtoeol();
-			prints("¿ªÆôÁÄÌìÊÒ...");
+			prints("å¼€å¯èŠå¤©å®¤...");
 			sprintf(runchatbuf, "bin/chatd %d", chatroom);
 			system(runchatbuf);
 			sleep(1);
@@ -402,7 +402,7 @@ int ent_chat(char *chatbuf) {
 		}
 	}
 	while (1) {
-		getdata(2, 0, "ÇëÊäÈëÁÄÌì´úºÅ(ÍË³ö: *)£º", inbuf, CHAT_IDLEN, DOECHO, YEA);
+		getdata(2, 0, "è¯·è¾“å…¥èŠå¤©ä»£å·(é€€å‡º: *)ï¼š", inbuf, CHAT_IDLEN, DOECHO, YEA);
 		if (inbuf[0] == '*')
 			return;
 		sprintf(chatid, "%.8s",
@@ -420,11 +420,11 @@ int ent_chat(char *chatbuf) {
 		if (!strcmp(inbuf, CHAT_LOGIN_OK)) {
 			break;
 		} else if (!strcmp(inbuf, CHAT_LOGIN_EXISTS)) {
-			prints("Õâ¸ö´úºÅÒÑ¾­ÓĞÈËÓÃÁË");
+			prints("è¿™ä¸ªä»£å·å·²ç»æœ‰äººç”¨äº†");
 		} else if (!strcmp(inbuf, CHAT_LOGIN_INVALID)) {
-			prints("Õâ¸ö´úºÅÊÇ´íÎóµÄ");
+			prints("è¿™ä¸ªä»£å·æ˜¯é”™è¯¯çš„");
 		} else {
-			prints("ÄúÒÑ¾­ÓĞÁíÒ»¸öÊÓ´°½øÈë´ËÁÄÌìÊÒ¡£");
+			prints("æ‚¨å·²ç»æœ‰å¦ä¸€ä¸ªè§†çª—è¿›å…¥æ­¤èŠå¤©å®¤ã€‚");
 		}
 		clrtoeol();
 		refresh();
@@ -464,7 +464,7 @@ int ent_chat(char *chatbuf) {
 		if (page_pending)
 			page_pending = servicepage(0, NULL);
 		switch (ch) {
-			case KEY_UP: //ÕâÀïÓĞÎÊÌâ?
+			case KEY_UP: //è¿™é‡Œæœ‰é—®é¢˜?
 				cmdpos += MAXLASTCMD - 2;
 			case KEY_DOWN:
 				cmdpos++;
@@ -488,7 +488,7 @@ int ent_chat(char *chatbuf) {
 		} //switch
 		if (!newmail && chkmail(0)) {
 			newmail = 1;
-			printchatline("[1;32m¡ô [31mµ±£¡ÓÊ²îËÍĞÅÀ´ÁË...[m");
+			printchatline("[1;32mâ—† [31må½“ï¼é‚®å·®é€ä¿¡æ¥äº†...[m");
 		}
 		if (ch == I_OTHERDATA) { /* incoming */
 			if (chat_recv(cfd, chatid) == -1)
@@ -553,7 +553,7 @@ int ent_chat(char *chatbuf) {
 					} else {
 						patch = 0;
 					}
-				} // µ½´Ë  1009
+				} // åˆ°æ­¤  1009
 
 				currchar--;
 				if (currchar && patch)
@@ -624,7 +624,7 @@ int printuserent(struct user_info *uentp) {
 			uentp->invisible ? '#' : ' ', ModeType(uentp->mode) );
 	//modestring(uentp->mode, uentp->destuid, 0, NULL));
 	if (cnt < 2)
-		strcat(pline, "©¦");
+		strcat(pline, "â”‚");
 	strcat(uline, pline);
 	if (++cnt == 3) {
 		printchatline(uline);
@@ -669,13 +669,13 @@ void query_user(char *arg) {
 
 	userid = strrchr(arg, ' ');
 	if (userid == NULL) {
-		printchatline("[1;37m¡ï [33mÇëÊäÈëÄúÒª²éÑ°µÄ ID [37m¡ï[m");
+		printchatline("[1;37mâ˜… [33mè¯·è¾“å…¥æ‚¨è¦æŸ¥å¯»çš„ ID [37mâ˜…[m");
 		return;
 	}
 	userid++;
 	tuid = getuser(userid);
 	if (!tuid) {
-		printchatline("[1;31m²»ÕıÈ·µÄÊ¹ÓÃÕß´úºÅ[m");
+		printchatline("[1;31mä¸æ­£ç¡®çš„ä½¿ç”¨è€…ä»£å·[m");
 		return;
 	}
 	online = t_search_ulist(&uin, t_cmpuids, tuid, NA, NA);
@@ -683,14 +683,14 @@ void query_user(char *arg) {
 			lookupuser.userid, DOT_DIR);
 	exp = countexp(&lookupuser);
 	perf = countperf(&lookupuser);
-	sprintf(msg, "[1;37m%s[m ([1;33m%s[m) ¹²ÉÏÕ¾ [1;32m%d[m ´Î, ·¢±í"
-		"¹ı [1;32m%d[m ÆªÎÄÕÂ", lookupuser.userid, lookupuser.username,
+	sprintf(msg, "[1;37m%s[m ([1;33m%s[m) å…±ä¸Šç«™ [1;32m%d[m æ¬¡, å‘è¡¨"
+		"è¿‡ [1;32m%d[m ç¯‡æ–‡ç« ", lookupuser.userid, lookupuser.username,
 			lookupuser.numlogins, lookupuser.numposts);
 	printchatline(msg);
 	if (HAS_DEFINE(lookupuser.userdefine, DEF_COLOREDSEX) )
 		clr = (lookupuser.gender == 'F') ? 5 : 6;
 	else
-		clr = 2; /* °²ÄÜ±æÎÒÊÇĞÛ´Æ ?! :D */
+		clr = 2; /* å®‰èƒ½è¾¨æˆ‘æ˜¯é›„é›Œ ?! :D */
 	if (strcasecmp(lookupuser.userid, "guest") != 0) {
 		sprintf(buf, "[[1;3%dm%s[m] ", clr, horoscope(
 				lookupuser.birthmonth, lookupuser.birthday) );
@@ -698,40 +698,40 @@ void query_user(char *arg) {
 		sprintf(buf, "");
 	}
 	getdatestring(lookupuser.lastlogin, NA);
-	sprintf(msg, "%sÉÏ´ÎÔÚ [[1;32m%s[m] ÓÉ [[1;32m%s[m] µ½±¾Õ¾Ò»ÓÎ",
+	sprintf(msg, "%sä¸Šæ¬¡åœ¨ [[1;32m%s[m] ç”± [[1;32m%s[m] åˆ°æœ¬ç«™ä¸€æ¸¸",
 			(HAS_DEFINE(lookupuser.userdefine, DEF_S_HOROSCOPE) ) ? buf
 					: "", datestring,
-			(lookupuser.lasthost[0]=='\0' ? "(²»Ïê)" : lookupuser.lasthost));
+			(lookupuser.lasthost[0]=='\0' ? "(ä¸è¯¦)" : lookupuser.lasthost));
 	printchatline(msg);
 	/*
 	 sprintf(msg, 
-	 "ĞÅÏä£º[[1;5;32m%2s[m]£¬¾­ÑéÖµ£º[[1;32m%d[m]([1;36m%s[m)"
-	 " ±íÏÖÖµ£º[[1;32m%d[m]([1;36m%s[m) ÉúÃüÁ¦£º[[1;32m%d[m]",
-	 (check_query_mail(qry_mail_dir) == 1) ? "ĞÅ" : "  ", exp, cexp(exp),
+	 "ä¿¡ç®±ï¼š[[1;5;32m%2s[m]ï¼Œç»éªŒå€¼ï¼š[[1;32m%d[m]([1;36m%s[m)"
+	 " è¡¨ç°å€¼ï¼š[[1;32m%d[m]([1;36m%s[m) ç”Ÿå‘½åŠ›ï¼š[[1;32m%d[m]",
+	 (check_query_mail(qry_mail_dir) == 1) ? "ä¿¡" : "  ", exp, cexp(exp),
 	 perf, cperf(perf), compute_user_value(&lookupuser));
 	 *///modified by roly 02.03.24
 	/*
 	 sprintf(msg, 
-	 "ĞÅÏä£º[[1;5;32m%2s[m]£¬¾­ÑéÖµ£º([1;36m%s[m)"
-	 " ±íÏÖÖµ£º[[1;32m%d[m]([1;36m%s[m) ÉúÃüÁ¦£º[[1;32m%d[m]",
-	 (check_query_mail(qry_mail_dir) == 1) ? "ĞÅ" : "  ", cexp(exp),
+	 "ä¿¡ç®±ï¼š[[1;5;32m%2s[m]ï¼Œç»éªŒå€¼ï¼š([1;36m%s[m)"
+	 " è¡¨ç°å€¼ï¼š[[1;32m%d[m]([1;36m%s[m) ç”Ÿå‘½åŠ›ï¼š[[1;32m%d[m]",
+	 (check_query_mail(qry_mail_dir) == 1) ? "ä¿¡" : "  ", cexp(exp),
 	 perf, cperf(perf), compute_user_value(&lookupuser));
 	 */
 	sprintf(msg, 
-	"ĞÅÏä:[[1;5;32m%2s[m] ¾­ÑéÖµ:"
+	"ä¿¡ç®±:[[1;5;32m%2s[m] ç»éªŒå€¼:"
 #ifdef SHOWEXP
 			"%d([1;36m%-10s[m)"
 #else
 			"[[1;36m%-10s[m]"
 #endif
-			" ±íÏÖÖµ:"
+			" è¡¨ç°å€¼:"
 #ifdef SHOWPERF
 			"%d([1;36m%s[m)"
 #else
 			"[[1;36m%s[m]"
 #endif
-			" ÉúÃüÁ¦:[[1;32m%d[m]",
-			(check_query_mail(qry_mail_dir) == 1) ? "ĞÅ" : "  "
+			" ç”Ÿå‘½åŠ›:[[1;32m%d[m]",
+			(check_query_mail(qry_mail_dir) == 1) ? "ä¿¡" : "  "
 #ifdef SHOWEXP
 			,exp
 #endif
@@ -743,7 +743,7 @@ void query_user(char *arg) {
 
 	printchatline(msg);
 	if (online) {
-		sprintf(msg, "[1;37mÄ¿Ç°ÔÚÕ¾ÉÏ[m");
+		sprintf(msg, "[1;37mç›®å‰åœ¨ç«™ä¸Š[m");
 	} else {
 		if (lookupuser.lastlogout < lookupuser.lastlogin) {
 			now = ((time(0)-lookupuser.lastlogin)/120)%47+1
@@ -752,7 +752,7 @@ void query_user(char *arg) {
 			now = lookupuser.lastlogout;
 		}
 		getdatestring(now, NA);
-		sprintf(msg, "[1;37mÀëÕ¾Ê±¼ä£º[[1;32m%s[1;37m][m", datestring);
+		sprintf(msg, "[1;37mç¦»ç«™æ—¶é—´ï¼š[[1;32m%s[1;37m][m", datestring);
 	}
 	printchatline(msg);
 }
@@ -763,7 +763,7 @@ void call_user(char *arg) {
 	int good_id;
 	userid = strrchr(arg, ' ');
 	if (userid == NULL) {
-		printchatline("[1;37m¡ï [32mÇëÊäÈëÄúÒªÑûÇëµÄ ID[37m ¡ï[m");
+		printchatline("[1;37mâ˜… [32mè¯·è¾“å…¥æ‚¨è¦é‚€è¯·çš„ ID[37m â˜…[m");
 		return;
 	} else {
 		userid += 1;
@@ -779,12 +779,12 @@ void call_user(char *arg) {
 		}
 	}
 	if (good_id == YEA && canmsg(uin)) {
-		sprintf(msg, "µ½ %s µÄ %s °üÏáÁÄÁÄÌì", chat_station, chatname);
+		sprintf(msg, "åˆ° %s çš„ %s åŒ…å¢èŠèŠå¤©", chat_station, chatname);
 		do_sendmsg(uin, msg, 1, uin->pid);
-		sprintf(msg, "[1;37mÒÑ¾­°ïÄúÑûÇë [32m%s[37m ÁË[m", uin->userid);
+		sprintf(msg, "[1;37må·²ç»å¸®æ‚¨é‚€è¯· [32m%s[37m äº†[m", uin->userid);
 	} else {
 		sprintf(msg, "[1;32m%s[37m %s[m", userid, uin
-				&& !uin->invisible ? "ÎŞ·¨ºô½Ğ" : "²¢Ã»ÓĞÉÏÕ¾");
+				&& !uin->invisible ? "æ— æ³•å‘¼å«" : "å¹¶æ²¡æœ‰ä¸Šç«™");
 	}
 	printchatline(msg);
 }
@@ -793,19 +793,19 @@ void chat_date() {
 	time_t thetime;
 	time(&thetime);
 	getdatestring(thetime, 4);
-	sprintf(genbuf, "\033[1m %s±ê×¼Ê±¼ä: \033[32m%s\033[m", 
+	sprintf(genbuf, "\033[1m %sæ ‡å‡†æ—¶é—´: \033[32m%s\033[m", 
 		BoardName, datestring);
 	printchatline(genbuf);
 }
 
 void chat_users() {
 	printchatline("");
-	sprintf(genbuf, "[1m¡¾ [36m%s [37mµÄ·Ã¿ÍÁĞ±í ¡¿[m", BoardName);
+	sprintf(genbuf, "[1mã€ [36m%s [37mçš„è®¿å®¢åˆ—è¡¨ ã€‘[m", BoardName);
 	printchatline(genbuf);
 	printchatline(msg_shortulist);
 
 	if (apply_ulist(printuserent) == -1) {
-		printchatline("[1m¿ÕÎŞÒ»ÈË[m");
+		printchatline("[1mç©ºæ— ä¸€äºº[m");
 	}
 	printuserent(NULL);
 }
@@ -844,7 +844,7 @@ int print_friend_ent(struct user_info * uentp)//print one user & status if he is
 			: ' ', ModeType(uentp->mode) );
 	//modestring(uentp->mode, uentp->destuid, 0, NULL));
 	if (cnt < 2)
-		strcat(pline, "©¦");
+		strcat(pline, "â”‚");
 	strcat(uline, pline);
 	if (++cnt == 3) {
 		printchatline(uline);
@@ -856,12 +856,12 @@ int print_friend_ent(struct user_info * uentp)//print one user & status if he is
 
 void chat_friends() {
 	printchatline("");
-	sprintf(genbuf, "[1m¡¾ µ±Ç°ÏßÉÏµÄºÃÓÑÁĞ±í ¡¿[m");
+	sprintf(genbuf, "[1mã€ å½“å‰çº¿ä¸Šçš„å¥½å‹åˆ—è¡¨ ã€‘[m");
 	printchatline(genbuf);
 	printchatline(msg_shortulist);
 
 	if (apply_ulist(print_friend_ent) == -1) {
-		printchatline("[1mÃ»ÓĞÅóÓÑÔÚÏßÉÏ[m");
+		printchatline("[1mæ²¡æœ‰æœ‹å‹åœ¨çº¿ä¸Š[m");
 	}
 	print_friend_ent(NULL);
 }
@@ -876,45 +876,45 @@ void set_rec() {
 		if ((rec = fopen(fname, "w")) == NULL)
 			return;
 
-		printchatline("[1;5;32m¿ªÊ¼Â¼Òô...[m");
+		printchatline("[1;5;32må¼€å§‹å½•éŸ³...[m");
 		recflag = 1;
 		move(0, 0);
 		clrtoeol();
 		transPERstr(buftopic, tmptopic);
 		sprintf(genbuf,
-				"[1;44;33m ·¿¼ä£º [32m%-12.12s  [5;31;44m%6.6s[0;1;44;33m"
-					"»°Ìâ£º[36m%-49.49s[m", chatname,
-				(recflag == 1) ? "[Â¼Òô]" : "      ", tmptopic);
+				"[1;44;33m æˆ¿é—´ï¼š [32m%-12.12s  [5;31;44m%6.6s[0;1;44;33m"
+					"è¯é¢˜ï¼š[36m%-49.49s[m", chatname,
+				(recflag == 1) ? "[å½•éŸ³]" : "      ", tmptopic);
 		prints("%s", genbuf);
-		fprintf(rec, "±¾¶ÎÓÉ %s", currentuser.userid);
+		fprintf(rec, "æœ¬æ®µç”± %s", currentuser.userid);
 		getdatestring(now, NA);
-		fprintf(rec, "ËùÂ¼ÏÂ£¬Ê±¼ä£º %s\n", datestring);
+		fprintf(rec, "æ‰€å½•ä¸‹ï¼Œæ—¶é—´ï¼š %s\n", datestring);
 	} else {
 		recflag = 0;
 		move(0, 0);
 		clrtoeol();
 		transPERstr(buftopic, tmptopic);
 		sprintf(genbuf,
-				"[1;44;33m ·¿¼ä£º [32m%-12.12s  [5;31;44m%6.6s[0;1;44;33m"
-					"»°Ìâ£º[36m%-49.49s[m", chatname,
-				(recflag == 1) ? "[Â¼Òô]" : "      ", tmptopic);
+				"[1;44;33m æˆ¿é—´ï¼š [32m%-12.12s  [5;31;44m%6.6s[0;1;44;33m"
+					"è¯é¢˜ï¼š[36m%-49.49s[m", chatname,
+				(recflag == 1) ? "[å½•éŸ³]" : "      ", tmptopic);
 		prints("%s", genbuf);
-		printchatline("[1;5;32mÂ¼Òô½áÊø...[m");
+		printchatline("[1;5;32må½•éŸ³ç»“æŸ...[m");
 		getdatestring(now, NA);
-		fprintf(rec, "½áÊøÊ±¼ä£º%s\n\n", datestring);
+		fprintf(rec, "ç»“æŸæ—¶é—´ï¼š%s\n\n", datestring);
 		fclose(rec);
-		mail_file(fname, currentuser.userid, "Â¼Òô½á¹û");
-		/*  Postfile(fname,"syssecurity","Â¼Òô½á¹û",2); */
+		mail_file(fname, currentuser.userid, "å½•éŸ³ç»“æœ");
+		/*  Postfile(fname,"syssecurity","å½•éŸ³ç»“æœ",2); */
 		unlink(fname);
 	}
 }
 
-//ÉèÖÃºô½ĞÆ÷ÊôĞÔ
+//è®¾ç½®å‘¼å«å™¨å±æ€§
 void setpager() {
 	char buf[STRLEN];
 	t_pager();
-	sprintf(buf, "[1;32m¡ô [31mºô½ĞÆ÷ %s ÁË[m",
-			(uinfo.pager & ALL_PAGER) ? "´ò¿ª" : "¹Ø±Õ");
+	sprintf(buf, "[1;32mâ—† [31må‘¼å«å™¨ %s äº†[m",
+			(uinfo.pager & ALL_PAGER) ? "æ‰“å¼€" : "å…³é—­");
 	printchatline(buf);
 
 }
@@ -930,7 +930,7 @@ void chat_sendmsg(char *arg) {
 			;
 	}
 	if (uident==NULL || *uident == 0) {
-		printchatline("[1;32mÇëÊäÈëÄúÒª·¢ÏûÏ¢µÄ ID[m");
+		printchatline("[1;32mè¯·è¾“å…¥æ‚¨è¦å‘æ¶ˆæ¯çš„ ID[m");
 		return;
 	}
 
@@ -942,28 +942,28 @@ void chat_sendmsg(char *arg) {
 			;
 	}
 	if (msgstr==NULL || *msgstr == 0) {
-		printchatline("[1;32mÇëÊäÈëÄúÒª·¢µÄÏûÏ¢[m");
+		printchatline("[1;32mè¯·è¾“å…¥æ‚¨è¦å‘çš„æ¶ˆæ¯[m");
 		return;
 	}
 
 	uentp=t_search(uident, NA);
 	if (uentp==NULL || uentp->invisible&&(!HAS_PERM(PERM_SEECLOAK))) {
-		printchatline("[1mÏßÉÏÃ»ÓĞÕâ¸öID[m");
+		printchatline("[1mçº¿ä¸Šæ²¡æœ‰è¿™ä¸ªID[m");
 		return;
 	}
 	/*	02.11.05 added by stephen to fix the char mode can send message to
 	 the person who close msger*/
 	if (!canmsg(uentp)) {
-		printchatline("[1m¶Ô·½²»Ô¸½ÓÊÜÄãµÄÑ¶Ï¢[m");
+		printchatline("[1må¯¹æ–¹ä¸æ„¿æ¥å—ä½ çš„è®¯æ¯[m");
 		return;
 	}
 	/*	02.11.05 add end*/
 	if (do_sendmsg(uentp, msgstr, 2, 0)!=1) {
-		sprintf(showstr, "[1mÎŞ·¨·¢ÏûÏ¢¸ø %s [m", uentp->userid);
+		sprintf(showstr, "[1mæ— æ³•å‘æ¶ˆæ¯ç»™ %s [m", uentp->userid);
 		printchatline(showstr);
 		return;
 	}
-	sprintf(showstr, "[1mÒÑ¾­¸ø %s ·¢³öÏûÏ¢[m", uentp->userid);
+	sprintf(showstr, "[1må·²ç»ç»™ %s å‘å‡ºæ¶ˆæ¯[m", uentp->userid);
 	printchatline(showstr);
 }
 
@@ -987,7 +987,7 @@ void chat_showmail() {
 		base=1;
 
 	lines = get_records(currmaildir, ents, ssize, base, lines);
-	printchatline("[1;32mµ±Ç°ĞÅ¼şÁĞ±í[0m");
+	printchatline("[1;32må½“å‰ä¿¡ä»¶åˆ—è¡¨[0m");
 	printchatline("[1;36m----------------------------------------------[0m");
 
 	for (i=0; i<lines; i++) {
@@ -1008,7 +1008,7 @@ void define_alias(char *arg) {
 
 	if (arg[i]==0) {
 		if (chat_alias_count!=0) {
-			printchatline("ÒÑ¶¨ÒåµÄalias:\n");
+			printchatline("å·²å®šä¹‰çš„alias:\n");
 			for (i=0; i<chat_alias_count; i++) {
 				if (chat_aliases[i].cmd[0]!=0) {
 					sprintf(buf, "%-9s %s\n", chat_aliases[i].cmd,
@@ -1018,7 +1018,7 @@ void define_alias(char *arg) {
 			}
 			return;
 		} else {
-			printchatline("Î´¶¨Òåalias\n");
+			printchatline("æœªå®šä¹‰alias\n");
 		}
 	}
 
@@ -1026,7 +1026,7 @@ void define_alias(char *arg) {
 	for (i=0; (i<9)&&(arg[i]!=0)&&!isspace(arg[i]); i++)
 		;
 	if (i>=9) {
-		printchatline("aliasÌ«³¤!\n");
+		printchatline("aliaså¤ªé•¿!\n");
 		return;
 	}
 
@@ -1039,7 +1039,7 @@ void define_alias(char *arg) {
 
 	if (!del) {
 		if (chat_alias_count==MAXDEFINEALIAS) {
-			printchatline("×Ô¶¨ÒåaliasÒÑ¾­ÂúÁË\n");
+			printchatline("è‡ªå®šä¹‰aliaså·²ç»æ»¡äº†\n");
 			return;
 		}
 	}
@@ -1063,11 +1063,11 @@ void define_alias(char *arg) {
 				}
 				substitute_record(buf, &chat_aliases[i],
 						sizeof(chat_aliases[i]), i+1);
-				sprintf(buf, "×Ô¶¨ÒåaliasÒÑ¾­É¾³ı\n");
+				sprintf(buf, "è‡ªå®šä¹‰aliaså·²ç»åˆ é™¤\n");
 				printchatline(buf);
 				return;
 			} else {
-				sprintf(buf, "×Ô¶¨Òåalias-%sÒÑ¾­´æÔÚ\n", chat_aliases[i].cmd);
+				sprintf(buf, "è‡ªå®šä¹‰alias-%så·²ç»å­˜åœ¨\n", chat_aliases[i].cmd);
 				printchatline(buf);
 				return;
 			}
@@ -1077,12 +1077,12 @@ void define_alias(char *arg) {
 		chat_aliases[chat_alias_count].cmd[8]=0;
 		strncpy(chat_aliases[chat_alias_count].action, action, 80);
 		chat_aliases[chat_alias_count].action[81]=0;
-		sprintf(buf, "×Ô¶¨Òåalias-%sÒÑ¾­´´½¨\n", arg);
+		sprintf(buf, "è‡ªå®šä¹‰alias-%så·²ç»åˆ›å»º\n", arg);
 		printchatline(buf);
 		i=chat_alias_count;
 		chat_alias_count++;
 	} else {
-		printchatline("Ã»ÕÒµ½×Ô¶¨Òåalias\n");
+		printchatline("æ²¡æ‰¾åˆ°è‡ªå®šä¹‰alias\n");
 		return;
 	}
 	setuserfile(buf, "chatalias");
@@ -1113,7 +1113,7 @@ int use_alias(char *arg, int cfd) {
 		} else
 			args[arg_count+1]++;
 	for (i=arg_count+1; i<10; i++)
-		args[i]="´ó¼Ò";
+		args[i]="å¤§å®¶";
 
 	for (i=0; i<chat_alias_count; i++) {
 		if (!strncasecmp(chat_aliases[i].cmd, args[0], 8)) {

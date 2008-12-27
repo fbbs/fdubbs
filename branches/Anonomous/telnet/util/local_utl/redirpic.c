@@ -27,15 +27,15 @@ int rebuild(char* board,char *id){
 	DIR *dp;
 	
 	sprintf(pathname, "%s/upload/%s",BBSHOME,board);
-	printf("1. ½øÈëÄ¿Â¼ %s\n",pathname);
+	printf("1. è¿›å…¥ç›®å½• %s\n",pathname);
 	if( (dp = opendir(pathname))==NULL){
 		printf("OpenDir error for %s\n",pathname);
 		return;
 	}
 	
-	printf("2. Éú³É .DIR\n");
+	printf("2. ç”Ÿæˆ .DIR\n");
 	all = build_dir( pathname,id);
-	printf("¹²µÃµ½%dÆª¸½¼ş\n",all);
+	printf("å…±å¾—åˆ°%dç¯‡é™„ä»¶\n",all);
     sprintf(buf,"chown bbs:bbs -R %s",pathname);
     system(buf);
 }

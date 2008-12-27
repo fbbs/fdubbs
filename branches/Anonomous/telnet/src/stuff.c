@@ -45,7 +45,7 @@ int presskeyfor(char *msg, int x) {
 }
 int pressanykey() {
 	presskeyfor(
-			"[m                                [5;1;33m°´ÈÎºÎ¼ü¼ÌĞø...[m",
+			"[m                                [5;1;33mæŒ‰ä»»ä½•é”®ç»§ç»­...[m",
 			t_lines-1);
 }
 
@@ -58,7 +58,7 @@ int pressreturn() {
 	getdata(
 			t_lines - 1,
 			0,
-			"                              [1;33mÇë°´ ¡ô[5;36mEnter[m[1;33m¡ô ¼ÌĞø\033[m",
+			"                              [1;33mè¯·æŒ‰ â—†[5;36mEnter[m[1;33mâ—† ç»§ç»­\033[m",
 			buf, 2, NOECHO, YEA);
 	move(t_lines - 1, 0);
 	clrtoeol();
@@ -75,20 +75,20 @@ int msgmorebar(char *filename) {
 	move(t_lines - 1, 0);
 	clrtoeol();
 
-	prints("[0m[1;44;32mÑ¶Ï¢ä¯ÀÀÆ÷   ±£Áô <[1;37mr[32m>    Çå³ı <[1;37mc[1;32m>   ¼Ä»ØĞÅÏä<[1;37mm[1;32m>                                [m");
+	prints("[0m[1;44;32mè®¯æ¯æµè§ˆå™¨   ä¿ç•™ <[1;37mr[32m>    æ¸…é™¤ <[1;37mc[1;32m>   å¯„å›ä¿¡ç®±<[1;37mm[1;32m>                                [m");
 	move(t_lines - 1, 0);
 
 	ch = morekey();
 	if (ch == 'C') {
-		if (askyn("È·¶¨ÒªÇå³ıÂğ£¿", NA, YEA) == YEA) {
+		if (askyn("ç¡®å®šè¦æ¸…é™¤å—ï¼Ÿ", NA, YEA) == YEA) {
 			unlink(filename);
 		}
 		return ch;
 	} else if (ch == 'M') {
-		if (askyn("È·¶¨Òª¼Ä»ØÂğ£¿", NA, YEA) == YEA) {
+		if (askyn("ç¡®å®šè¦å¯„å›å—ï¼Ÿ", NA, YEA) == YEA) {
 			now = time(0);
 			getdatestring(now, NA);
-			sprintf(title, "[%s] ËùÓĞÑ¶Ï¢±¸·İ", datestring);
+			sprintf(title, "[%s] æ‰€æœ‰è®¯æ¯å¤‡ä»½", datestring);
 			mail_file(filename, currentuser.userid, title);
 			unlink(filename);
 		}
@@ -169,13 +169,13 @@ void touchnew() {
 #define MAXENVS (20)
 #define BINDIR "/bin/"
 
-//ÓÃÓÚ´æ´¢BBS»·¾³±äÁ¿
+//ç”¨äºå­˜å‚¨BBSç¯å¢ƒå˜é‡
 char *bbsenv[MAXENVS];
 int numbbsenvs = 0;
 
-//ÈôdstÎªÄ¿Â¼,ÇÒ²¢·Ç.,..,×îºóÒ»¸ö×Ö·û²»Îª/,
-//			½«ÆäÉ¾³ı,³É¹¦·µ»Ø	1
-//					 ·ñÔò·µ»Ø	0
+//è‹¥dstä¸ºç›®å½•,ä¸”å¹¶é.,..,æœ€åä¸€ä¸ªå­—ç¬¦ä¸ä¸º/,
+//			å°†å…¶åˆ é™¤,æˆåŠŸè¿”å›	1
+//					 å¦åˆ™è¿”å›	0
 int deltree(char *dst) {
 	if (strstr(dst, "//") || strstr(dst, "..") || strchr(dst, ' '))
 		return 0; /* precaution */
@@ -189,7 +189,7 @@ int deltree(char *dst) {
 		return 0;
 }
 
-//ÉèÖÃBBS»·¾³ env=val
+//è®¾ç½®BBSç¯å¢ƒ env=val
 /*
  Commented by Erebus 2004-11-04
  char * bbsenv[MAXENVS];
@@ -324,8 +324,8 @@ char *com, *wd;
 	}
 
 char* horoscope(char month, char day) {
-	static char *name[12] = { "Ä¦ôÉ", "Ë®Æ¿", "Ë«Óã", "ÄµÑò", "½ğÅ£", "Ë«×Ó", "¾ŞĞ·",
-			"Ê¨×Ó", "´¦Å®", "Ìì³Ó", "ÌìĞ«", "ÉäÊÖ" };
+	static char *name[12] = { "æ‘©ç¾¯", "æ°´ç“¶", "åŒé±¼", "ç‰¡ç¾Š", "é‡‘ç‰›", "åŒå­", "å·¨èŸ¹",
+			"ç‹®å­", "å¤„å¥³", "å¤©ç§¤", "å¤©è", "å°„æ‰‹" };
 	switch (month) {
 		case 1:
 			if (day < 21)
@@ -388,7 +388,7 @@ char* horoscope(char month, char day) {
 			else
 				return (name[0]);
 	}
-	return ("²»Ïê");
+	return ("ä¸è¯¦");
 }
 
 sigjmp_buf bus_jump;
@@ -423,30 +423,30 @@ int safe_mmapfile_handle(int fd, int openflag, int prot, int flag,
 	*size = st.st_size;
 	return 1;
 }
-//	½«ÎÄ¼şfilenameÓ³Éäµ½ÄÚ´æÖĞ,
-//	Èôret_fdÎª¿Õ,½«ÆäÖ¸Ïò´ò¿ªfilenameµÄÃèÊö·û,²¢Ëø×¡ÎÄ¼ş,½«*sizeÖÃÎªÎÄ¼ş´óĞ¡
-//	³É¹¦Ê±·µ»Ø1,·ñÔò0
+//	å°†æ–‡ä»¶filenameæ˜ å°„åˆ°å†…å­˜ä¸­,
+//	è‹¥ret_fdä¸ºç©º,å°†å…¶æŒ‡å‘æ‰“å¼€filenameçš„æè¿°ç¬¦,å¹¶é”ä½æ–‡ä»¶,å°†*sizeç½®ä¸ºæ–‡ä»¶å¤§å°
+//	æˆåŠŸæ—¶è¿”å›1,å¦åˆ™0
 int safe_mmapfile(char *filename, int openflag, int prot, int flag,
 		void **ret_ptr, size_t * size, int *ret_fd) {
 	int fd;
 	struct stat st;
 
 	fd = open(filename, openflag, 0600);
-	if (fd < 0)//Î´³É¹¦´ò¿ª 
+	if (fd < 0)//æœªæˆåŠŸæ‰“å¼€ 
 		return 0;
-	if (fstat(fd, &st) < 0) { //Î´³É¹¦¼ì²âÎÄ¼ş×´Ì¬
+	if (fstat(fd, &st) < 0) { //æœªæˆåŠŸæ£€æµ‹æ–‡ä»¶çŠ¶æ€
 		close(fd);
 		return 0;
 	}
-	if (!S_ISREG(st.st_mode)) { //·Ç³£¹æÎÄ¼ş,·ûºÅÎÄ¼ş¿´ÆäËùÖ¸ÏòµÄÎÄ¼şÊôĞÔ
+	if (!S_ISREG(st.st_mode)) { //éå¸¸è§„æ–‡ä»¶,ç¬¦å·æ–‡ä»¶çœ‹å…¶æ‰€æŒ‡å‘çš„æ–‡ä»¶å±æ€§
 		close(fd);
 		return 0;
 	}
-	if (st.st_size <= 0) { //ÎÄ¼ş´óĞ¡Îª0
+	if (st.st_size <= 0) { //æ–‡ä»¶å¤§å°ä¸º0
 		close(fd);
 		return 0;
 	}
-	*ret_ptr = mmap(NULL, st.st_size, prot, flag, fd, 0);//Ó³ÉäÕû¸öÎÄ¼şµ½ÄÚ´æÖĞ
+	*ret_ptr = mmap(NULL, st.st_size, prot, flag, fd, 0);//æ˜ å°„æ•´ä¸ªæ–‡ä»¶åˆ°å†…å­˜ä¸­
 	if (!ret_fd) {
 		close(fd);
 	} else {
@@ -458,7 +458,7 @@ int safe_mmapfile(char *filename, int openflag, int prot, int flag,
 	*size = st.st_size;
 	return 1;
 }
-//ÖĞÖ¹ÄÚ´æÓ³Éä,ÈôfdÓĞĞ§,½«Æä½âËø
+//ä¸­æ­¢å†…å­˜æ˜ å°„,è‹¥fdæœ‰æ•ˆ,å°†å…¶è§£é”
 void end_mmapfile(void *ptr, int size, int fd) {
 	munmap(ptr, size);
 	/*
@@ -506,7 +506,7 @@ void v(int semid) {
 }
 
 /* Added by IAMFAT 2002-05-25 */
-//	Ïû³ıÓÒ±ßµÄĞ¡ÓÚ0x20(¿Õ¸ñ)µÄ×Ö·û
+//	æ¶ˆé™¤å³è¾¹çš„å°äº0x20(ç©ºæ ¼)çš„å­—ç¬¦
 void trimright(char *str) {
 	unsigned char *ustr=(unsigned char *)str;
 	int i=strlen(str)-1;
@@ -517,7 +517,7 @@ void trimright(char *str) {
 	str[i+1]='\0';
 }
 /* End */
-//Ïû³ıtitleËùÖ¸ÏòµÄ×Ö·û´®Á½±ßµÄ¿Õ¸ñ×Ö·û
+//æ¶ˆé™¤titleæ‰€æŒ‡å‘çš„å­—ç¬¦ä¸²ä¸¤è¾¹çš„ç©ºæ ¼å­—ç¬¦
 void trimboth(char *title) {
 	char *begin=title;
 	int len=strlen(title);
@@ -540,7 +540,7 @@ void trimboth(char *title) {
 	}
 }
 
-//	Ïû³ıtitleËùÖ¸ÏòµÄ×Ö·û´®×ó±ßµÄ¿Õ¸ñ
+//	æ¶ˆé™¤titleæ‰€æŒ‡å‘çš„å­—ç¬¦ä¸²å·¦è¾¹çš„ç©ºæ ¼
 void trimleft(char *title) {
 	char *begin=title;
 	int len=strlen(title);
@@ -560,7 +560,7 @@ void trimleft(char *title) {
 }
 
 //Added by IAMFAT 2002-05-27
-// ³¬¹ıÒ»¶¨³¤¶ÈµÄ×Ö·û´®ÓàÏÂ²¿·ÖÒÔ...ÏÔÊ¾
+// è¶…è¿‡ä¸€å®šé•¿åº¦çš„å­—ç¬¦ä¸²ä½™ä¸‹éƒ¨åˆ†ä»¥...æ˜¾ç¤º
 void ellipsis(char *str, int len) {
 	register int l = 0;
 	register int hz=0, ohz=0;

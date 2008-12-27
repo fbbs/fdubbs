@@ -24,23 +24,23 @@ CVS: $Id: config.h 323 2006-10-27 14:13:52Z danielfree $
 */
 /* FIREBIRD BBS 3.0 CONFIGURATION VARIABLES */
 
-#define BBSVERSION      "¡²FB2000 v-Distribution¡³"
+#define BBSVERSION      "ã€”FB2000 v-Distributionã€•"
 
 //#define USE_SHMFS
-#define FDQUAN	//¶¨Òå¸´µ©ÈªÓÃ
-//#define SPARC	//SPARC»úÆ÷×¨ÓÃ
-#define USE_METALOG //¶¨ÒåÏµÍ³ÈÕÖ¾Ê¹ÓÃMetalog Daemon
+#define FDQUAN	//å®šä¹‰å¤æ—¦æ³‰ç”¨
+//#define SPARC	//SPARCæœºå™¨ä¸“ç”¨
+#define USE_METALOG //å®šä¹‰ç³»ç»Ÿæ—¥å¿—ä½¿ç”¨Metalog Daemon
 
 /*
-   °åÖ÷ÈÎÃüÊ±£¬ Èç¹ûÏ£ÍûÈÎÃüÎÄÕÂ²»½ö½ö·¢ËÍµ½±»ÈÎÃü°æÃæ£¬¶øÇÒÍ¬Ê±·¢ËÍµ½
-   sysop °å£¬»òÆäËû°æÃæ£¬Äã¿ÉÒÔ´ò¿ªÏÂÃæµÄ¶¨Òå¡£ÆäÖĞµÄ sysop ¿ÉÒÔ¸Ä³ÉÄã
-   Ï£Íû·¢±íµÄ°æÃæ¡£×¢Òâ£ºÕâ¸ö°æÃæÒ»¶¨ÒªÊÇ´æÔÚµÄ¡£
+   æ¿ä¸»ä»»å‘½æ—¶ï¼Œ å¦‚æœå¸Œæœ›ä»»å‘½æ–‡ç« ä¸ä»…ä»…å‘é€åˆ°è¢«ä»»å‘½ç‰ˆé¢ï¼Œè€Œä¸”åŒæ—¶å‘é€åˆ°
+   sysop æ¿ï¼Œæˆ–å…¶ä»–ç‰ˆé¢ï¼Œä½ å¯ä»¥æ‰“å¼€ä¸‹é¢çš„å®šä¹‰ã€‚å…¶ä¸­çš„ sysop å¯ä»¥æ”¹æˆä½ 
+   å¸Œæœ›å‘è¡¨çš„ç‰ˆé¢ã€‚æ³¨æ„ï¼šè¿™ä¸ªç‰ˆé¢ä¸€å®šè¦æ˜¯å­˜åœ¨çš„ã€‚
 
 //#define ORDAINBM_POST_BOARDNAME "SysOp"
 */
 
 /*  
-   ÔÊĞí¿ªÆôÍâ²¿³ÌĞòµÄÓÃ»§ÊıÄ¿¡£ ±ÈÈç£ºBBSNET¡¢WINMINE¡¢SHOWUSER µÈ
+   å…è®¸å¼€å¯å¤–éƒ¨ç¨‹åºçš„ç”¨æˆ·æ•°ç›®ã€‚ æ¯”å¦‚ï¼šBBSNETã€WINMINEã€SHOWUSER ç­‰
 */
 #ifdef FDQUAN
 	#define MAX_USESHELL    700
@@ -120,8 +120,8 @@ hog or anything, but if you don't want it...
 /* 
    These are moot if DOTIMEOUT is commented; leave them defined anyway. 
 */
-#define IDLE_TIMEOUT    (60*15) 	//¿ÕÏĞÊ±¼ä,Ê®Îå·ÖÖÓ
-#define LOGIN_TIMEOUT   (60*3)		//µÇÂ½Ê±¿ÕÏĞ,Èı·ÖÖÓ
+#define IDLE_TIMEOUT    (60*15) 	//ç©ºé—²æ—¶é—´,åäº”åˆ†é’Ÿ
+#define LOGIN_TIMEOUT   (60*3)		//ç™»é™†æ—¶ç©ºé—²,ä¸‰åˆ†é’Ÿ
 
 /* 
    By default, users with post permission can reply to a post right after
@@ -230,7 +230,7 @@ so we don't need define this by passing make argument to the complier
 	#define BBSUID   9999
 	#define BBSGID   9999
 	#define BBSHOME "/home/bbs"
-	#define BBSNAME "¸´µ©Èª"
+	#define BBSNAME "å¤æ—¦æ³‰"
 	#define BBSID   "FDQuanBBS"
 	#define BBSHOST "10.8.225.9"
 	#define BBSIP	"10.8.225.9"
@@ -238,7 +238,7 @@ so we don't need define this by passing make argument to the complier
 	#define BBSUID  9999 
 	#define BBSGID  9999
 	#define BBSHOME "/home/bbs"
-	#define BBSNAME "ÈÕÔÂ¹â»ª"
+	#define BBSNAME "æ—¥æœˆå…‰å"
 	#define BBSID   "Fudan BBS"
 	#define BBSHOST "bbs.fudan.edu.cn"
 	#define BBSIP	"61.129.42.9"

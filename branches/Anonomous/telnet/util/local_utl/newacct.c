@@ -8,8 +8,8 @@
 
 struct
 {
-  int no[24];                   /* ´ÎÊý */
-  int sum[24];                  /* ×ÜºÏ */
+  int no[24];                   /* æ¬¡æ•° */
+  int sum[24];                  /* æ€»åˆ */
 }      st;
 
 /* Added by deardragon 1999.12.2 */
@@ -17,10 +17,10 @@ char	datestring[30];
 void getdatestring( time_t now)
 {
         struct tm *tm;
-        char weeknum[7][3]={"Ìì","Ò»","¶þ","Èý","ËÄ","Îå","Áù"};
+        char weeknum[7][3]={"å¤©","ä¸€","äºŒ","ä¸‰","å››","äº”","å…­"};
 
         tm = localtime(&now);
-        sprintf(datestring,"%4dÄê%02dÔÂ%02dÈÕ%02d:%02d:%02d ÐÇÆÚ%2s",
+        sprintf(datestring,"%4då¹´%02dæœˆ%02dæ—¥%02d:%02d:%02d æ˜ŸæœŸ%2s",
                 tm->tm_year+1900,tm->tm_mon+1,tm->tm_mday,
                 tm->tm_hour,tm->tm_min,tm->tm_sec,
                 weeknum[tm->tm_wday]);
@@ -38,8 +38,8 @@ main(argc, argv)
   int i, j;
   char    *blk[10] =
   {
-                "  ", "  ", "¨x", "¨y", "¨z",
-                "¨{", "¨|", "¨}", "¨~", "¨€",
+                "  ", "  ", "â–", "â–‚", "â–ƒ",
+                "â–„", "â–…", "â–†", "â–‡", "â–ˆ",
   };
 
   sprintf(buf,"%s/usies", BBSHOME);
@@ -90,10 +90,10 @@ main(argc, argv)
     return 1;
   }
 
-  fprintf(fp,"\n[1;36m   ©°©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©´\n");
+  fprintf(fp,"\n[1;36m   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”\n");
   for (i = MAX_LINE ; i >= 0; i--)
   {
-    fprintf(fp, "[1;37m%3.d[36m©¦[31m",(i+1)*item);
+    fprintf(fp, "[1;37m%3.d[36mâ”‚[31m",(i+1)*item);
     for (j = 0; j < 24; j++)
     {
       if ((item * (i) > st.no[j]) && (item * (i-1) <= st.no[j]) && st.no[j])
@@ -108,12 +108,12 @@ main(argc, argv)
       else
            fprintf(fp,"   ");
     }
-    fprintf(fp, "[1;36m©¦\n");
+    fprintf(fp, "[1;36mâ”‚\n");
   }
   getdatestring(now);
-  fprintf(fp,"  [37m0[36m©¸©¤©¤©¤[37m %s ±¾ÈÕÐÂÔöÈË¿ÚÍ³¼Æ [36m©¤©¤©¤©¤[37m%s[36m©¤©¼\n"
+  fprintf(fp,"  [37m0[36mâ””â”€â”€â”€[37m %s æœ¬æ—¥æ–°å¢žäººå£ç»Ÿè®¡ [36mâ”€â”€â”€â”€[37m%s[36mâ”€â”˜\n"
        "   [;36m  00 01 02 03 04 05 06 07 08 09 10 11 [1;32m12 13 14 15 16 17 18 19 20 21 22 23\n\n"
-       "                     [33m1 [31m¡ö [33m= [37m%-5d [33m±¾ÈÕÉêÇëÐÂÕÊºÅÈËÊý£º[37m%-9d[m\n"
+       "                     [33m1 [31mâ–  [33m= [37m%-5d [33mæœ¬æ—¥ç”³è¯·æ–°å¸å·äººæ•°ï¼š[37m%-9d[m\n"
     ,BBSNAME, datestring,item,total);
   fclose(fp);
 }

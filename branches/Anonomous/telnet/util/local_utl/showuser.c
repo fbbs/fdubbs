@@ -1,10 +1,10 @@
 /*
-    ¹¦ÄÜ     :  ÁĞ³öÕ¾ÄÚÊ¹ÓÃÕß×ÊÁÏ
-    ×¢ÒâÊÂÏî :  ĞëÒªÄ¿Ç°µÄ bbs.h
+    åŠŸèƒ½     :  åˆ—å‡ºç«™å†…ä½¿ç”¨è€…èµ„æ–™
+    æ³¨æ„äº‹é¡¹ :  é¡»è¦ç›®å‰çš„ bbs.h
     Compile  :  gcc -o showuser showuser.c
-    Ê¹ÓÃ·½Ê½ :  showuser i10 l5 e25
-                (ÁĞ³öÊ¹ÓÃÕßµÄ ID, login ´ÎÊı, email µØÖ·)
-    ²é¿´½á¹û £º ÔÚ ~bbs/tmp/showuser.result ÖĞ		
+    ä½¿ç”¨æ–¹å¼ :  showuser i10 l5 e25
+                (åˆ—å‡ºä½¿ç”¨è€…çš„ ID, login æ¬¡æ•°, email åœ°å€)
+    æŸ¥çœ‹ç»“æœ ï¼š åœ¨ ~bbs/tmp/showuser.result ä¸­		
  */
 
 /* Modify by deardraogn 2000.10.28 */

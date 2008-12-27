@@ -35,7 +35,7 @@
 //modified by money 2002.11.15
 #define MAX_PERF (1000)
 //#define MAX_LUCKY (20)
-//added by iamfat 2002.08.29 for ¸¡¶¯±íÏÖÖµ
+//added by iamfat 2002.08.29 for æµ®åŠ¨è¡¨ç°å€¼
 
 extern char BoardName[];
 typedef struct {
@@ -94,9 +94,9 @@ int number, mode;
 	fclose(fp);
 	return;
 }
-//	½«¾­ÑéÖµ×ª»»³ÉÏÔÊ¾×Ö·û,Èç [---      ]µÈ,[]²»°üÀ¨ÔÚÄÚ
-//  ÏÔÊ¾µÄ×Ö·ûÒÔ2000Îªµ¥Î»,·Ö±ğÊÇ-=+*#A
-//	ÏÔÊ¾µÄ¸öÊıÊÇ½«³¬³ö2000±¶ÊıµÄ¸öÊıÒÔ200Îªµ¥Î»ÔÙ´Î»®·Ö,×î¶à10¸ö
+//	å°†ç»éªŒå€¼è½¬æ¢æˆæ˜¾ç¤ºå­—ç¬¦,å¦‚ [---      ]ç­‰,[]ä¸åŒ…æ‹¬åœ¨å†…
+//  æ˜¾ç¤ºçš„å­—ç¬¦ä»¥2000ä¸ºå•ä½,åˆ†åˆ«æ˜¯-=+*#A
+//	æ˜¾ç¤ºçš„ä¸ªæ•°æ˜¯å°†è¶…å‡º2000å€æ•°çš„ä¸ªæ•°ä»¥200ä¸ºå•ä½å†æ¬¡åˆ’åˆ†,æœ€å¤š10ä¸ª
 char *cexpstr(int exp) {
 	static char ce[11];
 	char* c= "-=+*#A";
@@ -217,14 +217,14 @@ int num;
 }
 #endif
 
-//	¸ù¾İ±íÏÖÖµperf¼ÆËã±íÏÖÖµÏÔÊ¾ĞÎÊ½
-//	¿ÉÒÔÏÈ½«perf/100,ÔÙÓÃenumÃ¶¾ÙGLYÀ´Ö±½ÓÌø×ª
+//	æ ¹æ®è¡¨ç°å€¼perfè®¡ç®—è¡¨ç°å€¼æ˜¾ç¤ºå½¢å¼
+//	å¯ä»¥å…ˆå°†perf/100,å†ç”¨enumæšä¸¾GLYæ¥ç›´æ¥è·³è½¬
 char * cperf(int perf) {
 
 	/* Commented by Amigo 2002.06.16. Change exp description. */
 	/* Add by shun .1999.6.6 1999.6.19*/
-	//    if (perf==100) return "ºÃÑùµÄ";
-	//    return "¼ÓÓÍ¼ÓÓÍ";
+	//    if (perf==100) return "å¥½æ ·çš„";
+	//    return "åŠ æ²¹åŠ æ²¹";
 	/* End */
 
 	/* Following if criterias modified by Amigo 2002.06.16. */
@@ -244,7 +244,7 @@ char * cperf(int perf) {
 	 if (perf <= 900) return GLY_CPERF9;
 	 if (perf < 1000) return GLY_CPERFA;
 	 if (perf >= 1000)return GLY_CPERFB;
-	 return "»úÆ÷ÈË£¡";
+	 return "æœºå™¨äººï¼";
 	 */
 	if (perf <= 100)
 		return GLY_CPERF0;
@@ -271,8 +271,8 @@ char * cperf(int perf) {
 	return GLY_CPERFB;
 }
 
-//¼ÆËã¾­ÑéÖµ,ÎÄÕÂÊı+µÇÂ½ÊıµÄ1/5+ÒÑ×¢²áµÄÌìÊı+Í£ÁôµÄÊ±Êı
-//	×î´óÖµÊÇ12000
+//è®¡ç®—ç»éªŒå€¼,æ–‡ç« æ•°+ç™»é™†æ•°çš„1/5+å·²æ³¨å†Œçš„å¤©æ•°+åœç•™çš„æ—¶æ•°
+//	æœ€å¤§å€¼æ˜¯12000
 int countexp(struct userec *udata) {
 	int exp;
 	if (!strcmp(udata->userid, "guest"))
@@ -285,14 +285,14 @@ int countexp(struct userec *udata) {
 	return exp > 0 ? exp : 0;
 }
 
-//	¼ÆËã ±íÏÖÖµ
+//	è®¡ç®— è¡¨ç°å€¼
 //
 int countperf(struct userec *udata) {
 	int perf;
 	int reg_days;
-	if (!strcmp(udata->userid, "guest"))//guestµÄ±íÏÖÖµÎª-9999
+	if (!strcmp(udata->userid, "guest"))//guestçš„è¡¨ç°å€¼ä¸º-9999
 		return -9999;
-	reg_days = (time(0) - udata->firstlogin) / 86400 + 1;//ÒÑ×¢²áÌìÊı
+	reg_days = (time(0) - udata->firstlogin) / 86400 + 1;//å·²æ³¨å†Œå¤©æ•°
 
 	/* Add by shun  1999.6.19 */
 	/*
@@ -301,13 +301,13 @@ int countperf(struct userec *udata) {
 	 perf=perf+(udata->stay/(36*reg_days)>50?50:(udata->stay/(36*reg_days)));
 	 */
 	/* Modified by Amigo 2002.06.07. Change exp formula. */
-	perf=(reg_days/4>250 ? 250 : reg_days/4);//ÒÑ×¢²áÌìÊıËùµÃµÄ±íÏÖÖµ×î¶àÎª250,Ã¿ËÄÌì
-	//±íÏÖÖµ¼ÓÒ»µã
+	perf=(reg_days/4>250 ? 250 : reg_days/4);//å·²æ³¨å†Œå¤©æ•°æ‰€å¾—çš„è¡¨ç°å€¼æœ€å¤šä¸º250,æ¯å››å¤©
+	//è¡¨ç°å€¼åŠ ä¸€ç‚¹
 	perf=perf+(udata->stay/14400>250 ? 250 : (udata->stay/14400));
 	perf=perf+(udata->stay/(36*reg_days)>500 ? 500 : (udata->stay/(36
 			*reg_days)));
 
-	//added by iamfat 2002.08.29 for ¸¡¶¯±íÏÖÖµ
+	//added by iamfat 2002.08.29 for æµ®åŠ¨è¡¨ç°å€¼
 	/*
 	 randomize();
 	 perf=perf + rand()%(MAX_LUCKY*2)-MAX_LUCKY;
@@ -320,8 +320,8 @@ int countperf(struct userec *udata) {
 	/* End */
 
 	/*
-	 * 990530.edwardc ×¢²áÃ»³É¹¦»ò»¹ÔÚ×¢²áµÄÈËµÄÈË»áµ¼ÖÂ reg_days = 0,
-	 * È»ááÔÚÏÂÃæ»á²úÉú SIGFPE, ³ıÊıÎªÁãµÄ´íÎó ..
+	 * 990530.edwardc æ³¨å†Œæ²¡æˆåŠŸæˆ–è¿˜åœ¨æ³¨å†Œçš„äººçš„äººä¼šå¯¼è‡´ reg_days = 0,
+	 * ç„¶å¾Œåœ¨ä¸‹é¢ä¼šäº§ç”Ÿ SIGFPE, é™¤æ•°ä¸ºé›¶çš„é”™è¯¯ ..
 	 */
 
 	/*
@@ -332,8 +332,8 @@ int countperf(struct userec *udata) {
 	 return perf > 0 ? perf : 0;*/
 }
 
-//	·µ»ØÄêÔÂÈÕÎª*year,*month,*dayµÄÈÕ×ÓÓënowËù´ú±íµÄÈÕ×ÓÖ®¼ä
-//		Ïà²îµÄÌìÊı
+//	è¿”å›å¹´æœˆæ—¥ä¸º*year,*month,*dayçš„æ—¥å­ä¸nowæ‰€ä»£è¡¨çš„æ—¥å­ä¹‹é—´
+//		ç›¸å·®çš„å¤©æ•°
 void countdays(int *year, int *month, int *day, time_t now) {
 	struct tm *GoodTime;
 	time_t tmptime;
@@ -344,8 +344,8 @@ void countdays(int *year, int *month, int *day, time_t now) {
 	GoodTime->tm_mday = *day;
 	GoodTime->tm_hour = 0;
 	GoodTime->tm_min = 0;
-	/* mktimeº¯ÊıÔÚtm_year<70Ê±£¬·µ»Ø-1 */
-	/* Òò´ËĞèÒªÅĞ¶ÏÄê·İĞ¡ÓÚ70ÄêµÄÇé¿ö modified by money 04.02.18*/
+	/* mktimeå‡½æ•°åœ¨tm_year<70æ—¶ï¼Œè¿”å›-1 */
+	/* å› æ­¤éœ€è¦åˆ¤æ–­å¹´ä»½å°äº70å¹´çš„æƒ…å†µ modified by money 04.02.18*/
 	if (GoodTime->tm_year < 70) {
 		t = 70 - GoodTime->tm_year;
 		GoodTime->tm_year = 70;
@@ -414,7 +414,7 @@ void showstuff(char *buf) {
 		tmpnum = countperf(&currentuser);
 		sprintf(perf, "%d", tmpnum);
 		strcpy(ccperf, cperf(tmpnum));
-		sprintf(alltime, "%dĞ¡Ê±%d·ÖÖÓ", currentuser.stay / 3600,
+		sprintf(alltime, "%då°æ—¶%dåˆ†é’Ÿ", currentuser.stay / 3600,
 				(currentuser.stay / 60) % 60);
 		getdatestring(currentuser.firstlogin, NA);
 		sprintf(rgtday, "%s", datestring);

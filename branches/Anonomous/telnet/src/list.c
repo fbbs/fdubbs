@@ -142,14 +142,14 @@ struct user_info *uentp;
 	return friend_search(uinfo.uid, uentp, uentp->fnum);
 }
 
-//	ÓÃ»§uentp.uidÓëÓÃ»§uinfo.uidÊÇ·ñ±»¶Ô·½Éè½øÁËºÚÃûµ¥
+//	ç”¨æˆ·uentp.uidä¸ç”¨æˆ·uinfo.uidæ˜¯å¦è¢«å¯¹æ–¹è®¾è¿›äº†é»‘åå•
 int isreject(struct user_info *uentp) {
 	int i;
 
 	if (uentp->uid != uinfo.uid) {
 		for (i = 0; i<MAXREJECTS&&(uentp->reject[i]||uinfo.reject[i]); i++) {
 			if (uentp->reject[i]==uinfo.uid||uentp->uid==uinfo.reject[i])
-				return YEA; /* ±»ÉèÎªºÚÃûµ¥ */
+				return YEA; /* è¢«è®¾ä¸ºé»‘åå• */
 		}
 	}
 	return NA;
@@ -157,15 +157,15 @@ int isreject(struct user_info *uentp) {
 void print_title() {
 
 	docmdtitle(
-			(friendmode) ? "[ºÃÅóÓÑÁĞ±í]" : "[Ê¹ÓÃÕßÁĞ±í]",
-			" ÁÄÌì[[1;32mt[m] ¼ÄĞÅ[[1;32mm[m] ËÍÑ¶Ï¢[[1;32ms[m] ¼Ó,¼õÅóÓÑ[[1;32mo[m,[1;32md[m] ¿´ËµÃ÷µµ[[1;32m¡ú[m,[1;32mRtn[m] ÇĞ»»Ä£Ê½ [[1;32mf[m] Çó¾È[[1;32mh[m]");
+			(friendmode) ? "[å¥½æœ‹å‹åˆ—è¡¨]" : "[ä½¿ç”¨è€…åˆ—è¡¨]",
+			" èŠå¤©[[1;32mt[m] å¯„ä¿¡[[1;32mm[m] é€è®¯æ¯[[1;32ms[m] åŠ ,å‡æœ‹å‹[[1;32mo[m,[1;32md[m] çœ‹è¯´æ˜æ¡£[[1;32mâ†’[m,[1;32mRtn[m] åˆ‡æ¢æ¨¡å¼ [[1;32mf[m] æ±‚æ•‘[[1;32mh[m]");
 	update_endline();
 }
 print_title2() {
 
 	docmdtitle(
-			(friendmode) ? "[ºÃÅóÓÑÁĞ±í]" : "[Ê¹ÓÃÕßÁĞ±í]",
-			"        ¼ÄĞÅ[[1;32mm[m] ¼Ó,¼õÅóÓÑ[[1;32mo[m,[1;32md[m] ¿´ËµÃ÷µµ[[1;32m¡ú[m,[1;32mRtn[m] Ñ¡Ôñ[[1;32m¡ü[m,[1;32m¡ı[m] Çó¾È[[1;32mh[m]");
+			(friendmode) ? "[å¥½æœ‹å‹åˆ—è¡¨]" : "[ä½¿ç”¨è€…åˆ—è¡¨]",
+			"        å¯„ä¿¡[[1;32mm[m] åŠ ,å‡æœ‹å‹[[1;32mo[m,[1;32md[m] çœ‹è¯´æ˜æ¡£[[1;32mâ†’[m,[1;32mRtn[m] é€‰æ‹©[[1;32mâ†‘[m,[1;32mâ†“[m] æ±‚æ•‘[[1;32mh[m]");
 	update_endline();
 }
 
@@ -186,18 +186,18 @@ int print_user_info_title() {
 
 	move(2, 0);
 	clrtoeol();
-	field_2 = "Ê¹ÓÃÕßêÇ³Æ";
+	field_2 = "ä½¿ç”¨è€…æ˜µç§°";
 	if (real_user_names)
-		field_2 = "ÕæÊµĞÕÃû  ";
+		field_2 = "çœŸå®å§“å  ";
 	if (showexplain)
-		field_2 = "ºÃÓÑËµÃ÷  ";
+		field_2 = "å¥½å‹è¯´æ˜  ";
 	//modified by IAMFAT 2002-05-26
-	//   sprintf(title_str,"[1;44m±àºÅ %sÊ¹ÓÃÕß´úºÅ%s %s%s%s%8.8s %sÉÏÕ¾µÄÎ»ÖÃ%s      P M %c%sÄ¿Ç°¶¯Ì¬%s %5s[m\n",
-	//   sprintf(title_str,"[1;44m±àºÅ %sÊ¹ÓÃÕß´úºÅ%s %s%s%s%8.8s %sÉÏÕ¾µÄÎ»ÖÃ%s      P M %c %sÄ¿Ç°¶¯Ì¬%s %5s [m\n",
+	//   sprintf(title_str,"[1;44mç¼–å· %sä½¿ç”¨è€…ä»£å·%s %s%s%s%8.8s %sä¸Šç«™çš„ä½ç½®%s      P M %c%sç›®å‰åŠ¨æ€%s %5s[m\n",
+	//   sprintf(title_str,"[1;44mç¼–å· %sä½¿ç”¨è€…ä»£å·%s %s%s%s%8.8s %sä¸Šç«™çš„ä½ç½®%s      P M %c %sç›®å‰åŠ¨æ€%s %5s [m\n",
 	//Modified by IAMFAT 2002-05-29
 	sprintf(
 			title_str,
-			"[1;44m ±àºÅ %sÊ¹ÓÃÕß´úºÅ%s %s%s%s%8.8s %sÉÏÕ¾µÄÎ»ÖÃ%s     P M %c%sÄ¿Ç°¶¯Ì¬%s  %5s[m\n",
+			"[1;44m ç¼–å· %sä½¿ç”¨è€…ä»£å·%s %s%s%s%8.8s %sä¸Šç«™çš„ä½ç½®%s     P M %c%sç›®å‰åŠ¨æ€%s  %5s[m\n",
 			(st==stUserID) ? "[32m{" : " ", (st==stUserID) ? "}[37m"
 					: " ", (st==stUserName) ? "[32m{" : " ", field_2, (st
 					==stUserName) ? "}[37m" : " ", " ",
@@ -205,7 +205,7 @@ int print_user_info_title() {
 			((HAS_PERM(PERM_CLOAK)) ? 'C' : ' '), (st==stState) ? "[32m{"
 					: " ", (st==stState) ? "}[37m" : " ",
 #ifdef SHOW_IDLE_TIME 
-			"Ê±:·Ö");
+			"æ—¶:åˆ†");
 #else
 			"");
 #endif
@@ -344,9 +344,9 @@ int do_userlist() {
 		if (readplan == YEA)
 			return 0;
 		if (uentp == NULL || !uentp->active || !uentp->pid) { //by sunner
-			continue; /* Ä³ÈËÕıÇÉÀë¿ª */
+			continue; /* æŸäººæ­£å·§ç¦»å¼€ */
 		}
-		if (uentp != NULL) { // by wujian Ôö¼ÓÊÇ·ñÎª¶Ô·½ºÃÓÑµÄÏÔÊ¾
+		if (uentp != NULL) { // by wujian å¢åŠ æ˜¯å¦ä¸ºå¯¹æ–¹å¥½å‹çš„æ˜¾ç¤º
 			//Added IAMFAT 2002-05-27
 			char userid[STRLEN];
 			strcpy(userid,
@@ -360,11 +360,11 @@ int do_userlist() {
 					i + 1 + page,
 					//Modified by IAMFAT 2002-05-27
 #ifdef SHOWMETOFRIEND	 
-					(override) ? ((hisfriend(uentp))? "[32m¡Ì":"¡Ì[32m"):((hisfriend(uentp))?"[33m  ":"  "),
+					(override) ? ((hisfriend(uentp))? "[32mâˆš":"âˆš[32m"):((hisfriend(uentp))?"[33m  ":"  "),
 					uentp->userid,userid,
 					(HAS_PERM(PERM_OCHAT)||(uentp->from[22] != 'H')||hisfriend(uentp))?uentp->from:"......",
 #else
-					(override) ? "[32m¡Ì" : "  ",
+					(override) ? "[32mâˆš" : "  ",
 					uentp->userid,
 					userid,
 					(HAS_PERM(PERM_OCHAT)||(uentp->from[22] != 'H')) ? uentp->from
@@ -402,11 +402,11 @@ int show_userlist() {
 	}
 	if (range == 0) {
 		move(2, 0);
-		prints("Ã»ÓĞÊ¹ÓÃÕß£¨ÅóÓÑ£©ÔÚÁĞ±íÖĞ...\n");
+		prints("æ²¡æœ‰ä½¿ç”¨è€…ï¼ˆæœ‹å‹ï¼‰åœ¨åˆ—è¡¨ä¸­...\n");
 		clrtobot();
 		if (friendmode) {
 			move(BBS_PAGESIZE + 3, 0);
-			if (askyn("ÊÇ·ñ×ª»»³ÉÊ¹ÓÃÕßÄ£Ê½", YEA, NA) == YEA) {
+			if (askyn("æ˜¯å¦è½¬æ¢æˆä½¿ç”¨è€…æ¨¡å¼", YEA, NA) == YEA) {
 				range = num_visible_users();
 				page = -1;
 				friendmode = NA;
@@ -421,7 +421,7 @@ int show_userlist() {
 	return 1;
 }
 
-int deal_key(char ch, int allnum, int pagenum) //»·¹ËËÄ·½´¦Àí°´¼ü
+int deal_key(char ch, int allnum, int pagenum) //ç¯é¡¾å››æ–¹å¤„ç†æŒ‰é”®
 {
 	char buf[STRLEN], desc[5];
 	static int msgflag;
@@ -445,9 +445,9 @@ int deal_key(char ch, int allnum, int pagenum) //»·¹ËËÄ·½´¦Àí°´¼ü
 			if ( !strcmp(currentuser.userid, "guest") )
 				return 1;
 			if (ch == 'C') {
-				strcpy(genbuf, "±ä»»êÇ³Æ(²»ÊÇÁÙÊ±±ä»»)Îª: ");
+				strcpy(genbuf, "å˜æ¢æ˜µç§°(ä¸æ˜¯ä¸´æ—¶å˜æ¢)ä¸º: ");
 			} else {
-				strcpy(genbuf, "ÔİÊ±±ä»»êÇ³Æ(×î¶à10¸öºº×Ö): ");
+				strcpy(genbuf, "æš‚æ—¶å˜æ¢æ˜µç§°(æœ€å¤š10ä¸ªæ±‰å­—): ");
 			}
 			strcpy(buf, "");
 			getdata(BBS_PAGESIZE+3,0,genbuf,buf,(ch=='C')?NAMELEN:21,DOECHO,NA);
@@ -469,16 +469,16 @@ int deal_key(char ch, int allnum, int pagenum) //»·¹ËËÄ·½´¦Àí°´¼ü
 			if ( !strcmp(currentuser.userid, "guest") )
 				return 1;
 			if (user_record[allnum]->pid == uinfo.pid)
-				strcpy(buf, "Äú×Ô¼ºÒª°Ñ¡¾×Ô¼º¡¿Ìß³öÈ¥Âğ");
+				strcpy(buf, "æ‚¨è‡ªå·±è¦æŠŠã€è‡ªå·±ã€‘è¸¢å‡ºå»å—");
 			else
-				sprintf(buf, "ÄãÒª°Ñ %s Ìß³öÕ¾ÍâÂğ", user_record[allnum]->userid);
+				sprintf(buf, "ä½ è¦æŠŠ %s è¸¢å‡ºç«™å¤–å—", user_record[allnum]->userid);
 			move(BBS_PAGESIZE + 2, 0);
 			if (askyn(buf, NA, NA) == NA)
 				break;
 			if (kick_user(user_record[allnum]) == 1) {
-				sprintf(buf, "%s ÒÑ±»Ìß³öÕ¾Íâ", user_record[allnum]->userid);
+				sprintf(buf, "%s å·²è¢«è¸¢å‡ºç«™å¤–", user_record[allnum]->userid);
 			} else {
-				sprintf(buf, "%s ÎŞ·¨Ìß³öÕ¾Íâ", user_record[allnum]->userid);
+				sprintf(buf, "%s æ— æ³•è¸¢å‡ºç«™å¤–", user_record[allnum]->userid);
 			}
 			msgflag = YEA;
 			break;
@@ -529,7 +529,7 @@ int deal_key(char ch, int allnum, int pagenum) //»·¹ËËÄ·½´¦Àí°´¼ü
 			/*      case 'x':
 			 case 'X':
 			 if(!Personal(user_record[allnum]->userid)){
-			 sprintf(buf,"%s »¹Ã»ÓĞÉêÇë¸öÈËÎÄ¼¯", user_record[allnum]->userid);
+			 sprintf(buf,"%s è¿˜æ²¡æœ‰ç”³è¯·ä¸ªäººæ–‡é›†", user_record[allnum]->userid);
 			 msgflag = YEA;
 			 }
 			 break;*///Commented by Amigo 2002.06.07
@@ -540,7 +540,7 @@ int deal_key(char ch, int allnum, int pagenum) //»·¹ËËÄ·½´¦Àí°´¼ü
 			if (!HAS_PERM(PERM_TALK))
 				return 1;
 			if (!canmsg(user_record[allnum])) {
-				sprintf(buf, "%s ÒÑ¾­¹Ø±ÕÑ¶Ï¢ºô½ĞÆ÷", user_record[allnum]->userid);
+				sprintf(buf, "%s å·²ç»å…³é—­è®¯æ¯å‘¼å«å™¨", user_record[allnum]->userid);
 				msgflag = YEA;
 				break;
 			}
@@ -555,21 +555,21 @@ int deal_key(char ch, int allnum, int pagenum) //»·¹ËËÄ·½´¦Àí°´¼ü
 				return 0;
 			if (ch == 'o' || ch == 'O') {
 				friendflag = YEA;
-				strcpy(desc, "ºÃÓÑ");
+				strcpy(desc, "å¥½å‹");
 			} else {
 				friendflag = NA;
-				strcpy(desc, "»µÈË");
+				strcpy(desc, "åäºº");
 			}
-			sprintf(buf, "È·¶¨Òª°Ñ %s ¼ÓÈë%sÃûµ¥Âğ", user_record[allnum]->userid,
+			sprintf(buf, "ç¡®å®šè¦æŠŠ %s åŠ å…¥%såå•å—", user_record[allnum]->userid,
 					desc);
 			move(BBS_PAGESIZE + 2, 0);
 			if (askyn(buf, NA, NA) == NA)
 				break;
 			if (addtooverride(user_record[allnum]->userid) == -1) {
-				sprintf(buf, "%s ÒÑÔÚ%sÃûµ¥", user_record[allnum]->userid,
+				sprintf(buf, "%s å·²åœ¨%såå•", user_record[allnum]->userid,
 						desc);
 			} else {
-				sprintf(buf, "%s ÁĞÈë%sÃûµ¥", user_record[allnum]->userid,
+				sprintf(buf, "%s åˆ—å…¥%såå•", user_record[allnum]->userid,
 						desc);
 			}
 			msgflag = YEA;
@@ -578,15 +578,15 @@ int deal_key(char ch, int allnum, int pagenum) //»·¹ËËÄ·½´¦Àí°´¼ü
 		case 'D':
 			if (!strcmp("guest", currentuser.userid))
 				return 0;
-			sprintf(buf, "È·¶¨Òª°Ñ %s ´ÓºÃÓÑÃûµ¥É¾³ıÂğ", user_record[allnum]->userid);
+			sprintf(buf, "ç¡®å®šè¦æŠŠ %s ä»å¥½å‹åå•åˆ é™¤å—", user_record[allnum]->userid);
 			move(BBS_PAGESIZE + 2, 0);
 			if (askyn(buf, NA, NA) == NA)
 				break;
 			if (deleteoverride(user_record[allnum]->userid, "friends")
 					== -1) {
-				sprintf(buf, "%s ±¾À´¾Í²»ÔÚÅóÓÑÃûµ¥ÖĞ", user_record[allnum]->userid);
+				sprintf(buf, "%s æœ¬æ¥å°±ä¸åœ¨æœ‹å‹åå•ä¸­", user_record[allnum]->userid);
 			} else {
-				sprintf(buf, "%s ÒÑ´ÓÅóÓÑÃûµ¥ÒÆ³ı", user_record[allnum]->userid);
+				sprintf(buf, "%s å·²ä»æœ‹å‹åå•ç§»é™¤", user_record[allnum]->userid);
 			}
 			msgflag = YEA;
 			break;
@@ -616,7 +616,7 @@ int deal_key(char ch, int allnum, int pagenum) //»·¹ËËÄ·½´¦Àí°´¼ü
 	return 1;
 }
 
-int deal_key2(char ch, int allnum, int pagenum) //Ì½ÊÓÍøÓÑ´¦Àí°´¼ü
+int deal_key2(char ch, int allnum, int pagenum) //æ¢è§†ç½‘å‹å¤„ç†æŒ‰é”®
 {
 	char buf[STRLEN];
 	static int msgflag;
@@ -642,16 +642,16 @@ int deal_key2(char ch, int allnum, int pagenum) //Ì½ÊÓÍøÓÑ´¦Àí°´¼ü
 		case 'O':
 			if (!strcmp("guest", currentuser.userid))
 				return 0;
-			sprintf(buf, "È·¶¨Òª°Ñ %s ¼ÓÈëºÃÓÑÃûµ¥Âğ",
+			sprintf(buf, "ç¡®å®šè¦æŠŠ %s åŠ å…¥å¥½å‹åå•å—",
 					user_data[allnum - pagenum].userid);
 			move(BBS_PAGESIZE + 2, 0);
 			if (askyn(buf, NA, NA) == NA)
 				break;
 			if (addtooverride(user_data[allnum - pagenum].userid) == -1) {
-				sprintf(buf, "%s ÒÑÔÚÅóÓÑÃûµ¥", user_data[allnum-pagenum].userid);
+				sprintf(buf, "%s å·²åœ¨æœ‹å‹åå•", user_data[allnum-pagenum].userid);
 				show_message(buf);
 			} else {
-				sprintf(buf, "%s ÁĞÈëÅóÓÑÃûµ¥",
+				sprintf(buf, "%s åˆ—å…¥æœ‹å‹åå•",
 						user_data[allnum - pagenum].userid);
 				show_message(buf);
 			}
@@ -686,18 +686,18 @@ int deal_key2(char ch, int allnum, int pagenum) //Ì½ÊÓÍøÓÑ´¦Àí°´¼ü
 		case 'D':
 			if (!strcmp("guest", currentuser.userid))
 				return 0;
-			sprintf(buf, "È·¶¨Òª°Ñ %s ´ÓºÃÓÑÃûµ¥É¾³ıÂğ",
+			sprintf(buf, "ç¡®å®šè¦æŠŠ %s ä»å¥½å‹åå•åˆ é™¤å—",
 					user_data[allnum - pagenum].userid);
 			move(BBS_PAGESIZE + 2, 0);
 			if (askyn(buf, NA, NA) == NA)
 				break;
 			if (deleteoverride(user_data[allnum-pagenum].userid, "friends")
 					==-1) {
-				sprintf(buf, "%s ±¾À´¾Í²»ÔÚÅóÓÑÃûµ¥ÖĞ",
+				sprintf(buf, "%s æœ¬æ¥å°±ä¸åœ¨æœ‹å‹åå•ä¸­",
 						user_data[allnum - pagenum].userid);
 				show_message(buf);
 			} else {
-				sprintf(buf, "%s ÒÑ´ÓÅóÓÑÃûµ¥ÒÆ³ı",
+				sprintf(buf, "%s å·²ä»æœ‹å‹åå•ç§»é™¤",
 						user_data[allnum - pagenum].userid);
 				show_message(buf);
 			}
@@ -780,7 +780,7 @@ struct userec *uentp;
 	user_data[i - page] = *uentp;
 	override = myfriend(searchuser(uentp->userid));
 	prints(" %5d%2s%s%-12s%s %-17s %6d %4d %10s %-16s\n", i + 1,
-			(override) ? "¡Ì" : "",
+			(override) ? "âˆš" : "",
 			(override) ? "[1;32m" : "", uentp->userid, (override) ? "[m" : "",
 #if defined(ACTS_REALNAMES)
 			HAS_PERM(PERM_USER) ? uentp->realname : uentp->username,
@@ -810,7 +810,7 @@ int allusers() {
 }
 
 /*******************Modify following two functions to support Type 2 mailall by Ashinmarch 2008.3.30*******************/
-/*******************ÏêÏ¸ËµÃ÷¼ûmail.cµÄmailtoallº¯Êı********************************************************************/
+/*******************è¯¦ç»†è¯´æ˜è§mail.cçš„mailtoallå‡½æ•°********************************************************************/
 int mailto(struct userec *uentp, int index, char *args) {
 	char filename[STRLEN];
 	sprintf(filename, "tmp/mailall.%s", currentuser.userid);
@@ -833,7 +833,7 @@ int mailto(struct userec *uentp, int index, char *args) {
 		update_utmp();
 		//added end.
 	}
-	/***************°Ñtype2¶ÀÁ¢³öÀ´×öÅĞ¶Ï£¬µ÷ÓÃsharedmail_fileº¯Êı************************/
+	/***************æŠŠtype2ç‹¬ç«‹å‡ºæ¥åšåˆ¤æ–­ï¼Œè°ƒç”¨sharedmail_fileå‡½æ•°************************/
 	else if (uentp->userlevel & PERM_POST && mailmode == 2) {
 		sharedmail_file(args, uentp->userid, save_title);
 		uinfo.idle_time = time(0);
@@ -843,7 +843,7 @@ int mailto(struct userec *uentp, int index, char *args) {
 	return 1;
 }
 mailtoall(int mode, char *fname) {
-	/********Ê¹ÓÃapply_recordº¯ÊıÖĞµÄvoid *args²ÎÊı´«µİ¹²ÏíÎÄ¼şµÄÎÄ¼şÃû*********/
+	/********ä½¿ç”¨apply_recordå‡½æ•°ä¸­çš„void *argså‚æ•°ä¼ é€’å…±äº«æ–‡ä»¶çš„æ–‡ä»¶å*********/
 	mailmode = mode;
 	if (apply_record(PASSFILE, mailto, sizeof(struct userec),
 			(char*)fname , 0, 0) == -1) {
@@ -880,7 +880,7 @@ int star, curr;
 		clear();
 		t_query(user_record[curr]->userid);
 		move(t_lines - 1, 0);
-		prints("[0;1;37;44mÁÄÌì[[1;32mt[37m] ¼ÄĞÅ[[1;32mm[37m] ËÍÑ¶Ï¢[[1;32ms[37m] ¼Ó,¼õÅóÓÑ[[1;32mo[37m,[1;32md[37m] Ñ¡ÔñÊ¹ÓÃÕß[[1;32m¡ü[37m,[1;32m¡ı[37m] ÇĞ»»Ä£Ê½ [[1;32mf[37m] Çó¾È[[1;32mh[37m][m");
+		prints("[0;1;37;44mèŠå¤©[[1;32mt[37m] å¯„ä¿¡[[1;32mm[37m] é€è®¯æ¯[[1;32ms[37m] åŠ ,å‡æœ‹å‹[[1;32mo[37m,[1;32md[37m] é€‰æ‹©ä½¿ç”¨è€…[[1;32mâ†‘[37m,[1;32mâ†“[37m] åˆ‡æ¢æ¨¡å¼ [[1;32mf[37m] æ±‚æ•‘[[1;32mh[37m][m");
 	}
 }
 do_query2(star, curr)
@@ -889,7 +889,7 @@ int star, curr;
 	if (user_data[curr - star].userid != NULL) {
 		t_query(user_data[curr - star].userid);
 		move(t_lines - 1, 0);
-		prints("[0;1;37;44m          ¼ÄĞÅ[[1;32mm[37m] ¼Ó,¼õÅóÓÑ[[1;32mo[37m,[1;32md[37m] ¿´ËµÃ÷µµ[[1;32m¡ú[37m,[1;32mRtn[37m] Ñ¡Ôñ[[1;32m¡ü[37m,[1;32m¡ı[37m] Çó¾È[[1;32mh[37m]          [m");
+		prints("[0;1;37;44m          å¯„ä¿¡[[1;32mm[37m] åŠ ,å‡æœ‹å‹[[1;32mo[37m,[1;32md[37m] çœ‹è¯´æ˜æ¡£[[1;32mâ†’[37m,[1;32mRtn[37m] é€‰æ‹©[[1;32mâ†‘[37m,[1;32mâ†“[37m] æ±‚æ•‘[[1;32mh[37m]          [m");
 	}
 }
 
@@ -915,7 +915,7 @@ int t_friends() {
 	if (!dashf(buf)) {
 		move(1, 0);
 		clrtobot();
-		prints("ÄúÉĞÎ´ÀûÓÃ Info -> Override Éè¶¨ºÃÓÑÃûµ¥£¬ËùÒÔ...\n");
+		prints("æ‚¨å°šæœªåˆ©ç”¨ Info -> Override è®¾å®šå¥½å‹åå•ï¼Œæ‰€ä»¥...\n");
 		range = 0;
 	} else {
 		num_alcounter();
@@ -924,9 +924,9 @@ int t_friends() {
 	if (range == 0) {
 		move(2, 0);
 		clrtobot();
-		prints("Ä¿Ç°ÎŞºÃÓÑÉÏÏß\n");
+		prints("ç›®å‰æ— å¥½å‹ä¸Šçº¿\n");
 		move(BBS_PAGESIZE + 3, 0);
-		if (askyn("ÊÇ·ñ×ª»»³ÉÊ¹ÓÃÕßÄ£Ê½", YEA, NA) == YEA) {
+		if (askyn("æ˜¯å¦è½¬æ¢æˆä½¿ç”¨è€…æ¨¡å¼", YEA, NA) == YEA) {
 			range = num_visible_users();
 			if (range>0) {
 				freshmode = 1;
@@ -956,7 +956,7 @@ int t_users() {
 	if (range == 0) {
 		move(3, 0);
 		clrtobot();
-		prints("Ä¿Ç°ÎŞÊ¹ÓÃÕßÉÏÏß\n");
+		prints("ç›®å‰æ— ä½¿ç”¨è€…ä¸Šçº¿\n");
 	}
 	update_time = 0;
 	choose(YEA, 0, print_title, deal_key, show_userlist, do_query);

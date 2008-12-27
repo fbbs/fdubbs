@@ -55,74 +55,39 @@ int main(int argc,char ** argv) {
 	}
 	if (argv[1][0] == 's')
 	{
-		printf("ËùÓÐÌØÊâÈ¨ÏÞÁÐ±í\n");
-		printf("±¾ÁÐ±íÉæ¼°È¨ÏÞÈçÏÂ£º·²¾ßÓÐÆäÖÐÈ¨ÏÞÖ®Ò»£¬¼´±»ÁÐÈë¡£\n");
-		printf("ÌÖÂÛÇø×Ü¹Ü  ¾ãÀÖ²¿×Ü¹Ü  ¾«»ªÇø×Ü¹Ü  »î¶¯¿´°æ¹ÜÀíÔ±  ÕËºÅ¹ÜÀíÔ±\n");
-		printf("ÁÄÌìÊÒ¹ÜÀíÔ±  ÏµÍ³Î¬»¤¹ÜÀíÔ±  ÒþÉí  ¿´ÒþÉí  ÖÙ²Ã×é  ·þÎñ×é  ¼¼Êõ×é  ÄÚ²¿°æ0/9\n");
-		printf("×¢£ºÌØÊâÉúÃüÁ¦¡¢´óÐÅÏä¡¢°æÖ÷È¨ÏÞÎ´±»ÁÐÈë¼ì²é·¶Î§\n");
+		printf("æ‰€æœ‰ç‰¹æ®Šæƒé™åˆ—è¡¨\n");
+		printf("æœ¬åˆ—è¡¨æ¶‰åŠæƒé™å¦‚ä¸‹ï¼šå‡¡å…·æœ‰å…¶ä¸­æƒé™ä¹‹ä¸€ï¼Œå³è¢«åˆ—å…¥ã€‚\n");
+		printf("è®¨è®ºåŒºæ€»ç®¡  ä¿±ä¹éƒ¨æ€»ç®¡  ç²¾åŽåŒºæ€»ç®¡  æ´»åŠ¨çœ‹ç‰ˆç®¡ç†å‘˜  è´¦å·ç®¡ç†å‘˜\n");
+		printf("èŠå¤©å®¤ç®¡ç†å‘˜  ç³»ç»Ÿç»´æŠ¤ç®¡ç†å‘˜  éšèº«  çœ‹éšèº«  ä»²è£ç»„  æœåŠ¡ç»„  æŠ€æœ¯ç»„  å†…éƒ¨ç‰ˆ0/9\n");
+		printf("æ³¨ï¼šç‰¹æ®Šç”Ÿå‘½åŠ›ã€å¤§ä¿¡ç®±ã€ç‰ˆä¸»æƒé™æœªè¢«åˆ—å…¥æ£€æŸ¥èŒƒå›´\n");
 		
 		perm = perm_special;
 	}
 	else if (argv[1][0] == 'l')
 	{
-		printf("³¤ÉúÃüÁ¦ÁÐ±í\n");
+		printf("é•¿ç”Ÿå‘½åŠ›åˆ—è¡¨\n");
 		perm = perm_long;
 	}
     else if (argv[1][0] == 'b')
 	{
-		printf("°æÖ÷È¨ÏÞÁÐ±í\n");
+		printf("ç‰ˆä¸»æƒé™åˆ—è¡¨\n");
 		perm = perm_bm;
 	}							
 	else if (argv[1][0] == 'a')
 	{
-		printf("±¾ÁÐ±íÉæ¼°È¨ÏÞÈçÏÂ£º·²¾ßÓÐÆäÖÐÈ¨ÏÞÖ®Ò»£¬¼´±»ÁÐÈë¡£\n");
-		printf("ÌÖÂÛÇø×Ü¹Ü  ¾ãÀÖ²¿×Ü¹Ü  ¾«»ªÇø×Ü¹Ü  »î¶¯¿´°æ¹ÜÀíÔ±\n");
-		printf("ÕËºÅ¹ÜÀíÔ±  ÁÄÌìÊÒ¹ÜÀíÔ±  ÏµÍ³Î¬»¤¹ÜÀíÔ±\n");	
+		printf("æœ¬åˆ—è¡¨æ¶‰åŠæƒé™å¦‚ä¸‹ï¼šå‡¡å…·æœ‰å…¶ä¸­æƒé™ä¹‹ä¸€ï¼Œå³è¢«åˆ—å…¥ã€‚\n");
+		printf("è®¨è®ºåŒºæ€»ç®¡  ä¿±ä¹éƒ¨æ€»ç®¡  ç²¾åŽåŒºæ€»ç®¡  æ´»åŠ¨çœ‹ç‰ˆç®¡ç†å‘˜\n");
+		printf("è´¦å·ç®¡ç†å‘˜  èŠå¤©å®¤ç®¡ç†å‘˜  ç³»ç»Ÿç»´æŠ¤ç®¡ç†å‘˜\n");	
 		perm = perm_admin;
 	}
 	else if (argv[1][0] == 'i')
 	{
-	    printf("±¾ÁÐ±íÉæ¼°È¨ÏÞÈçÏÂ£º·²¾ßÓÐÆäÖÐÖ®Ò»£¬¼´±»ÁÐÈë¡£\n");
-	    printf("ÒþÉíÊõ  ¿´ÒþÉíÊõ  ÖÙ²Ã×é  ·þÎñ×é  ¼¼Êõ×é  ÄÚ²¿°æ0/9\n");
-	    printf("×¢£ºÉúÃüÁ¦È¨ÏÞ¡¢´óÐÅÏäÎ´±»ÁÐÈë¼ì²é·¶Î§\n");
+	    printf("æœ¬åˆ—è¡¨æ¶‰åŠæƒé™å¦‚ä¸‹ï¼šå‡¡å…·æœ‰å…¶ä¸­ä¹‹ä¸€ï¼Œå³è¢«åˆ—å…¥ã€‚\n");
+	    printf("éšèº«æœ¯  çœ‹éšèº«æœ¯  ä»²è£ç»„  æœåŠ¡ç»„  æŠ€æœ¯ç»„  å†…éƒ¨ç‰ˆ0/9\n");
+	    printf("æ³¨ï¼šç”Ÿå‘½åŠ›æƒé™ã€å¤§ä¿¡ç®±æœªè¢«åˆ—å…¥æ£€æŸ¥èŒƒå›´\n");
 		
 		perm = perm_inner;
 	}
 	else if (argv[1][0] == 'h')
 	{
-		printf("check_perm N (0<N<31)    ¼ì²éÈ¨ÏÞ2^N£\n");
-		printf("check_perm a/admin       ¼ì²é×Ü¹ÜÈ¨ÏÞ£\n");
-		printf("check_perm b/bm          ¼ì²é°æÖ÷È¨ÏÞ£\n");
-		printf("check_perm i/inner       ¼ì²éÄÚ²¿°æÈ¨ÏÞ£\n");
-		printf("check_perm l/long        ¼ì²éÌØÊâÉúÃüÁ¦£\n");
-		printf("check_perm s/special     ¼ì²éËùÓÐÌØÊâÈ¨ÏÞ£\n");
-		return(-1);
-	}
-	else
-	{
-		num = atoi(argv[1]);	
-		if (num >= 0 && num < 32)
-			perm = 1<< num;
-		else
-			return (-1);
-	}
-		
-	fread(&u,sizeof(struct userec),1,fp);
-	while(!feof(fp)){
-		if ( (u.userlevel & perm) != 0)
-			print = true;
-			
-		if(print==true){
-			strcpy(genbuf, "ltmprbBOCAMURS#@XLEast0123456789\0");
-		 	for (num = 0; num < strlen(genbuf) ; num++)
-				if (!(u.userlevel & (1 << num)))
-					genbuf[num] = '-';
-			printf("%-14s: %s\n",u.userid,genbuf);
-			print=false;
-		}
-		
-		//printf("%s\n",u.userid);//½«ËùÓÐÓÃ»§µÄIDÊä³ö
-		fread(&u,sizeof(struct userec),1,fp);		
-	}
-	return 0;
-}
+		printf("check_perm N (0<N<31)    æ£€æŸ¥æƒé™2^N

@@ -40,7 +40,7 @@ char* crypt();
 static unsigned char itoa64[] = /* 0 ... 63 => ascii - 64 */
 "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-//	È¡vµÄ¸÷6Î»,²¢°´È¡Öµ½á¹ûÔÚitoa64Êı×éÖĞÕÒµ½
+//	å–vçš„å„6ä½,å¹¶æŒ‰å–å€¼ç»“æœåœ¨itoa64æ•°ç»„ä¸­æ‰¾åˆ°
 void to64(char *s, long v, int n) {
 	while (--n >= 0) {
 		*s++ = itoa64[v & 0x3f];
@@ -48,7 +48,7 @@ void to64(char *s, long v, int n) {
 	}
 }
 
-// ¶Ôpw½øĞĞ¼ÓÃÜ²¢·µ»ØÃÜÎÄ
+// å¯¹pwè¿›è¡ŒåŠ å¯†å¹¶è¿”å›å¯†æ–‡
 char * genpasswd(char *pw) {
 	char salt[10];
 	static char pwbuf[PASSLEN];
@@ -75,12 +75,12 @@ char * genpasswd(char *pw) {
 #endif
 
 	strcpy(pwbuf, pw);
-	return crypt(pwbuf, salt);//·µ»ØpwbufÓÃsalt½øĞĞDES¼ÓÃÜµÄ½á¹û
+	return crypt(pwbuf, salt);//è¿”å›pwbufç”¨saltè¿›è¡ŒDESåŠ å¯†çš„ç»“æœ
 }
 
 #ifdef CHKPASSWDFORK
-int checkpasswd(char *passwd, char *test) //Éú³ÉĞÂ½ø³Ì¼ì²éÃÜÂë,±ÜÃâ±»¼àÌı?
-{ // test ÎªÊäÈëµÄÃÜÂë,passwdÎªsaltÖµ
+int checkpasswd(char *passwd, char *test) //ç”Ÿæˆæ–°è¿›ç¨‹æ£€æŸ¥å¯†ç ,é¿å…è¢«ç›‘å¬?
+{ // test ä¸ºè¾“å…¥çš„å¯†ç ,passwdä¸ºsaltå€¼
 	int pfds[2], pid;
 	char value = 'f';
 	if( pipe(pfds) < 0) {
@@ -107,9 +107,9 @@ int checkpasswd(char *passwd, char *test) //Éú³ÉĞÂ½ø³Ì¼ì²éÃÜÂë,±ÜÃâ±»¼àÌı?
 
 int checkpasswd0(char *passwd, char *test)
 #else
-int checkpasswd(char *passwd, char *test) //¼ì²éÃÜÂë
-#endif											// test ÎªÓÃ»§ÊäÈëÃÜÂë×Ö·û´®
-{ // passwd ÎªsaltÖµ
+int checkpasswd(char *passwd, char *test) //æ£€æŸ¥å¯†ç 
+#endif											// test ä¸ºç”¨æˆ·è¾“å…¥å¯†ç å­—ç¬¦ä¸²
+{ // passwd ä¸ºsaltå€¼
 	char *pw;
 	static char pwbuf[PASSLEN];
 

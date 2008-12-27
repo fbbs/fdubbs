@@ -4,7 +4,7 @@ This file is generate by configure $Revision: 2 $
 PERL=/usr/bin/perl
 BBS_ID=AddWaterBBS
 DOMAIN=fb2000.dhs.org
-CNAME=¿ìÒâ¹àË®Õ¾
+CNAME=å¿«æ„çŒæ°´ç«™
 DEFAULTBD=SysOp
 BUILD_PLATFORM=linux
 LIBCRYPT=DES

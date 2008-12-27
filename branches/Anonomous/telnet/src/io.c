@@ -37,7 +37,7 @@
 
 extern int dumb_term;
 
-//	¶¨ÒåÊä³ö»º³åÇø,¼°ÆäÒÑ±»Ê¹ÓÃµÄ×Ö½ÚÊı
+//	å®šä¹‰è¾“å‡ºç¼“å†²åŒº,åŠå…¶å·²è¢«ä½¿ç”¨çš„å­—èŠ‚æ•°
 static char outbuf[OBUFSIZE];
 static int obufsize = 0;
 
@@ -64,7 +64,7 @@ unsigned char* GtoB,* BtoG;
 extern int convcode;
 extern void redoscr();
 
-//	½«×ÖÂë×ª»»×´Ì¬È¡Äæ, ²¢ÖØ»æÆÁÄ»
+//	å°†å­—ç è½¬æ¢çŠ¶æ€å–é€†, å¹¶é‡ç»˜å±å¹•
 int switch_code() {
 	convcode=!convcode;
 	redoscr();
@@ -100,7 +100,7 @@ void resolve_GbBig5Files(void)
 	GtoB = BtoG + BtoG_count*2;
 }
 
-//	½«str×Ö·û´®ÖĞµÄGBÂëºº×Ö×ª»»³ÉÏàÓ¦µÄBIG5Âëºº×Ö,²¢µ÷ÓÃwriteº¯ÊıÊä³ö
+//	å°†strå­—ç¬¦ä¸²ä¸­çš„GBç æ±‰å­—è½¬æ¢æˆç›¸åº”çš„BIG5ç æ±‰å­—,å¹¶è°ƒç”¨writeå‡½æ•°è¾“å‡º
 int write2(int port, char *str, int len) // write gb to big
 {
 	register int i, locate;
@@ -114,9 +114,9 @@ int write2(int port, char *str, int len) // write gb to big
 		i ++;
 		if(ch2 < 0xA0 || ch2 == 0xFF )
 		continue;
-		if((ch1> 0xA0) && (ch1 < 0xAA)) //01¡«09ÇøÎª·ûºÅÊı×Ö
+		if((ch1> 0xA0) && (ch1 < 0xAA)) //01ï½09åŒºä¸ºç¬¦å·æ•°å­—
 		locate = ((ch1 - 0xA1)*94 + (ch2 - 0xA1))*2;
-		else //if((buf > 0xAF) && (buf < 0xF8)){ //16¡«87ÇøÎªºº×Ö
+		else //if((buf > 0xAF) && (buf < 0xF8)){ //16ï½87åŒºä¸ºæ±‰å­—
 		locate = ((ch1 - 0xB0 + 9)*94 + (ch2 - 0xA1))*2;
 		(ptr+i-1)[0] = GtoB[locate++];
 		(ptr+i-1)[1] = GtoB[locate];
@@ -127,10 +127,10 @@ int write2(int port, char *str, int len) // write gb to big
 int read2(int port, char *str, int len) // read big from gb 
 {
 	/*
-	 * Big-5 ÊÇÒ»¸öË«×Ö½Ú±àÂë·½°¸£¬ÆäµÚÒ»×Ö½ÚµÄÖµÔÚ 16 ½ø
-	 * ÖÆµÄ A0¡«FE Ö®¼ä£¬µÚ¶ş×Ö½ÚÔÚ 40¡«7E ºÍ A1¡«FE Ö®¼ä¡£
-	 * Òò´Ë£¬ÆäµÚÒ»×Ö½ÚµÄ×î¸ßÎ»ÊÇ 1£¬µÚ¶ş×Ö½ÚµÄ×î¸ßÎ»Ôò¿É
-	 * ÄÜÊÇ 1£¬Ò²¿ÉÄÜÊÇ 0¡£
+	 * Big-5 æ˜¯ä¸€ä¸ªåŒå­—èŠ‚ç¼–ç æ–¹æ¡ˆï¼Œå…¶ç¬¬ä¸€å­—èŠ‚çš„å€¼åœ¨ 16 è¿›
+	 * åˆ¶çš„ A0ï½FE ä¹‹é—´ï¼Œç¬¬äºŒå­—èŠ‚åœ¨ 40ï½7E å’Œ A1ï½FE ä¹‹é—´ã€‚
+	 * å› æ­¤ï¼Œå…¶ç¬¬ä¸€å­—èŠ‚çš„æœ€é«˜ä½æ˜¯ 1ï¼Œç¬¬äºŒå­—èŠ‚çš„æœ€é«˜ä½åˆ™å¯
+	 * èƒ½æ˜¯ 1ï¼Œä¹Ÿå¯èƒ½æ˜¯ 0ã€‚
 	 */
 	register unsigned char ch1,ch2, *ptr;
 	register int locate, i=0;
@@ -158,7 +158,7 @@ int read2(int port, char *str, int len) // read big from gb
 }
 #endif
 
-//	³¬Ê±´¦Àíº¯Êı,½«·ÇÌØÈ¨ID³¬Ê±Ê±Ìß³öbbs
+//	è¶…æ—¶å¤„ç†å‡½æ•°,å°†éç‰¹æƒIDè¶…æ—¶æ—¶è¸¢å‡ºbbs
 void hit_alarm_clock() {
 	if (HAS_PERM(PERM_NOTIMEOUT))
 		return;
@@ -174,13 +174,13 @@ void hit_alarm_clock() {
 		alarm(IDLE_TIMEOUT);
 }
 
-//³õÊ¼»¯³¬Ê±Ê±ÖÓĞÅºÅ,½«hit_alarm_clockº¯Êı¹ÒÔÚ´ËĞÅºÅ´¦Àí¾ä±úÉÏ
+//åˆå§‹åŒ–è¶…æ—¶æ—¶é’Ÿä¿¡å·,å°†hit_alarm_clockå‡½æ•°æŒ‚åœ¨æ­¤ä¿¡å·å¤„ç†å¥æŸ„ä¸Š
 void init_alarm() {
 	signal(SIGALRM, hit_alarm_clock);
 	alarm(IDLE_TIMEOUT);
 }
 #ifdef BBSD
-//Ë¢ĞÂÊä³ö»º³åÇø
+//åˆ·æ–°è¾“å‡ºç¼“å†²åŒº
 void oflush()
 {
 	register int size;
@@ -194,11 +194,11 @@ void oflush()
 	}
 }
 
-//	°Ñ³¤¶ÈÎªlenµÄ×Ö·û´®s·ÅÈë»º³åÇøÖĞ,Èô»º³åÇø´æ·Å¹ı¶à×Ö½ÚÊ±,ÔòË¢ĞÂ»º³åÇø
-//		1) ÈôÔÊĞíGBÓëBIG5×ª»»,ÇÒÓÃ»§Ê¹ÓÃµÄÊÇBIG5Âë,Ê¹ÓÃwrite2º¯ÊıÊä³ö
-//		2)	·ñÔò,Ê¹ÓÃ writeº¯ÊıÖ±½ÓÊä³ö
-//		3)	½«ĞÂ¼ÓµÄ×Ö·û´®·Åµ½»º³åÇøÖĞ
-//	ÆäÖĞ0ÊÇÎÄ¼şÃèÊö·û,ÒÑ¾­±»Ó³Éäµ½socket¹ÜµÀµÄÊä³ö
+//	æŠŠé•¿åº¦ä¸ºlençš„å­—ç¬¦ä¸²sæ”¾å…¥ç¼“å†²åŒºä¸­,è‹¥ç¼“å†²åŒºå­˜æ”¾è¿‡å¤šå­—èŠ‚æ—¶,åˆ™åˆ·æ–°ç¼“å†²åŒº
+//		1) è‹¥å…è®¸GBä¸BIG5è½¬æ¢,ä¸”ç”¨æˆ·ä½¿ç”¨çš„æ˜¯BIG5ç ,ä½¿ç”¨write2å‡½æ•°è¾“å‡º
+//		2)	å¦åˆ™,ä½¿ç”¨ writeå‡½æ•°ç›´æ¥è¾“å‡º
+//		3)	å°†æ–°åŠ çš„å­—ç¬¦ä¸²æ”¾åˆ°ç¼“å†²åŒºä¸­
+//	å…¶ä¸­0æ˜¯æ–‡ä»¶æè¿°ç¬¦,å·²ç»è¢«æ˜ å°„åˆ°socketç®¡é“çš„è¾“å‡º
 void output(char *s,int len)
 {
 	/* Invalid if len >= OBUFSIZE */
@@ -223,7 +223,7 @@ void output(char *s,int len)
 	obufsize = size;
 }
 
-// Êä³öÒ»¸ö×Ö·û?
+// è¾“å‡ºä¸€ä¸ªå­—ç¬¦?
 void ochar(register int c)
 {
 	register char *data;
@@ -245,7 +245,7 @@ void ochar(register int c)
 	obufsize = size;
 }
 #else
-//Êä³ö»º³åÇøÖĞµÄ×Ö·û
+//è¾“å‡ºç¼“å†²åŒºä¸­çš„å­—ç¬¦
 void oflush() {
 	if (obufsize)
 #ifdef ALLOWSWITCHCODE
@@ -256,13 +256,13 @@ void oflush() {
 	obufsize = 0;
 }
 
-//Êä³ö×Ö·û´®,»º³åÇøÂúÊ±ÏÈË¢ĞÂ»º³åÇø,ÔÙ°ÑÕâ¸ö×Ö·û´®·Åµ½»º³åÇøÖĞ
+//è¾“å‡ºå­—ç¬¦ä¸²,ç¼“å†²åŒºæ»¡æ—¶å…ˆåˆ·æ–°ç¼“å†²åŒº,å†æŠŠè¿™ä¸ªå­—ç¬¦ä¸²æ”¾åˆ°ç¼“å†²åŒºä¸­
 void output(char *s, int len) {
 	/* Invalid if len >= OBUFSIZE */
 
 	if (obufsize + len > OBUFSIZE) { /* doin a oflush */
 #ifdef ALLOWSWITCHCODE
-		if(convcode) write2(1, outbuf, obufsize);//×ªÂëÊä³ö
+		if(convcode) write2(1, outbuf, obufsize);//è½¬ç è¾“å‡º
 		else
 #endif
 		write(1, outbuf, obufsize);
@@ -272,7 +272,7 @@ void output(char *s, int len) {
 	obufsize += len;
 }
 
-//Êä³öÒ»¸ö×Ö·û,»º³åÇøÂúÊ±ÏÈË¢ĞÂ»º³åÇø,ÔÙ°ÑÕâ¸ö×Ö·û·Åµ½»º³åÇøÀï
+//è¾“å‡ºä¸€ä¸ªå­—ç¬¦,ç¼“å†²åŒºæ»¡æ—¶å…ˆåˆ·æ–°ç¼“å†²åŒº,å†æŠŠè¿™ä¸ªå­—ç¬¦æ”¾åˆ°ç¼“å†²åŒºé‡Œ
 void ochar(int c) {
 	if (obufsize > OBUFSIZE - 1) { /* doin a oflush */
 #ifdef ALLOWSWITCHCODE
@@ -300,7 +300,7 @@ void add_io(int fd, int timeout) {
 		i_top = NULL;
 }
 
-//	½«flushfº¯ÊıÖ¸ÕëÖ¸Ïòº¯Êıflushfunc
+//	å°†flushfå‡½æ•°æŒ‡é’ˆæŒ‡å‘å‡½æ•°flushfunc
 void add_flush(int (*flushfunc)()) {
 	flushf = flushfunc;
 }
@@ -312,7 +312,7 @@ void add_flush(int (*flushfunc)()) {
  return icurrchar - ibufsize;
  }
  */
-//	·µ»Ø»º³åÖĞµÄ×Ö·ûÊı
+//	è¿”å›ç¼“å†²ä¸­çš„å­—ç¬¦æ•°
 int num_in_buf() {
 	int n;
 	if ((n = icurrchar - ibufsize) < 0)
@@ -371,7 +371,7 @@ int igetch()
 			igetnext:
 
 			uinfo.idle_time = time(0);
-			update_utmp(); /* Ó¦¸ÃÊÇĞèÒª update Ò»ÏÂ :X */
+			update_utmp(); /* åº”è¯¥æ˜¯éœ€è¦ update ä¸€ä¸‹ :X */
 
 			FD_ZERO(rx);
 			FD_SET(0, rx);
@@ -417,7 +417,7 @@ int igetch()
 				if ((ch < 0) && (errno == EINTR))
 				continue;
 				//longjmp(byebye, -1);
-				abort_bbs();/* ·ÇÕı³£¶ÏÏßµÄ´¦Àí */
+				abort_bbs();/* éæ­£å¸¸æ–­çº¿çš„å¤„ç† */
 			}
 			icurrchar = (*data & 0xff) == IAC ? iac_count(data) : 0;
 			if (icurrchar >= ch)
@@ -432,7 +432,7 @@ int igetch()
 			continue;
 		}
 		//Modified by iamfat 2002.08.21
-		//·ÀÖ¹¹ÒÕ¾
+		//é˜²æ­¢æŒ‚ç«™
 		/*
 		 if(repeats==0)timestart=time(0);
 		 else if(time(0)-timestart>900)

@@ -30,33 +30,33 @@ extern cmpbnames();
 extern int page, range;
 extern struct boardheader *bcache;
 extern struct BCACHE *brdshm;
-static char *vote_type[] = { "ÊÇ·Ç", "µ¥Ñ¡", "¸´Ñ¡", "Êı×Ö", "ÎÊ´ğ" };
-struct votebal currvote; //µ±Ç°Í¶Æ±
+static char *vote_type[] = { "æ˜¯é", "å•é€‰", "å¤é€‰", "æ•°å­—", "é—®ç­”" };
+struct votebal currvote; //å½“å‰æŠ•ç¥¨
 char controlfile[STRLEN];
-unsigned int result[33]; //Í¶Æ±½á¹ûÊı×é
+unsigned int result[33]; //æŠ•ç¥¨ç»“æœæ•°ç»„
 int vnum;
 int voted_flag;
-FILE *sug; //Í¶Æ±½á¹ûµÄÎÄ¼şÖ¸Õë
-int makevote(struct votebal *ball, char *bname); //ÉèÖÃÍ¶Æ±Ïä
+FILE *sug; //æŠ•ç¥¨ç»“æœçš„æ–‡ä»¶æŒ‡é’ˆ
+int makevote(struct votebal *ball, char *bname); //è®¾ç½®æŠ•ç¥¨ç®±
 
 //Added by IAMFAT 2002.06.13
-extern void ellipsis(char *str, int len); //¼ÓÊ¡ÂÔºÅ
+extern void ellipsis(char *str, int len); //åŠ çœç•¥å·
 
 //Added End
 //commented by jacobson
 
-//±¾ÎÄ¼şÖ÷Òª´¦ÀíÍ¶Æ±¹¦ÄÜ
+//æœ¬æ–‡ä»¶ä¸»è¦å¤„ç†æŠ•ç¥¨åŠŸèƒ½
 
-//±È½Ï×Ö·û´®useridºÍÍ¶Æ±Õßuv 
-//userid:ÓÃ»§Ãû uv:Í¶Æ±Õß 
-//·µ»ØÖµ:0²»µÈ£¬ 1ÏàµÈ
+//æ¯”è¾ƒå­—ç¬¦ä¸²useridå’ŒæŠ•ç¥¨è€…uv 
+//userid:ç”¨æˆ·å uv:æŠ•ç¥¨è€… 
+//è¿”å›å€¼:0ä¸ç­‰ï¼Œ 1ç›¸ç­‰
 int cmpvuid(char *userid, struct ballot *uv) {
 	return !strcmp(userid, uv->uid);
 }
 
-//ÉèÖÃ°æÃæÍ¶Æ±µÄ±êÖ¾,           
-//bname:°æÃæÃû,flag°æÃæ±êÖ¾
-//1:¿ªÆôÍ¶Æ±,0:¹Ø±ÕÍ¶Æ± ·µ»ØÖµ:ÎŞ..
+//è®¾ç½®ç‰ˆé¢æŠ•ç¥¨çš„æ ‡å¿—,           
+//bname:ç‰ˆé¢å,flagç‰ˆé¢æ ‡å¿—
+//1:å¼€å¯æŠ•ç¥¨,0:å…³é—­æŠ•ç¥¨ è¿”å›å€¼:æ— ..
 int setvoteflag(char *bname, int flag) {
 	int pos;
 	struct boardheader fh;
@@ -70,8 +70,8 @@ int setvoteflag(char *bname, int flag) {
 		prints("Error updating BOARDS file...\n");
 }
 
-//ÏÔÊ¾bug±¨¸æ(Ä¿Ç°ºÃÏñÃ»ÓĞÊµÏÖ)
-//str:´íÎóĞÅÏ¢×Ö·û´®
+//æ˜¾ç¤ºbugæŠ¥å‘Š(ç›®å‰å¥½åƒæ²¡æœ‰å®ç°)
+//str:é”™è¯¯ä¿¡æ¯å­—ç¬¦ä¸²
 void b_report(char *str) {
 	char buf[STRLEN];
 
@@ -79,8 +79,8 @@ void b_report(char *str) {
 	report(buf);
 }
 
-//½¨Á¢Ä¿Â¼,Ä¿Â¼Îª vote/°æÃû,È¨ÏŞÎª755
-//bname:°æÃæÃû×Ö
+//å»ºç«‹ç›®å½•,ç›®å½•ä¸º vote/ç‰ˆå,æƒé™ä¸º755
+//bname:ç‰ˆé¢åå­—
 void makevdir(char *bname) {
 	struct stat st;
 	char buf[STRLEN];
@@ -90,21 +90,21 @@ void makevdir(char *bname) {
 		mkdir(buf, 0755);
 }
 
-//ÉèÖÃÎÄ¼şÃû
-//bname£º°æÃæÃû
-//filename:ÎÄ¼şÃû
-//buf:·µ»ØµÄÎÄ¼şÃû
+//è®¾ç½®æ–‡ä»¶å
+//bnameï¼šç‰ˆé¢å
+//filename:æ–‡ä»¶å
+//buf:è¿”å›çš„æ–‡ä»¶å
 void setvfile(char *buf, char *bname, char *filename) {
 	sprintf(buf, "vote/%s/%s", bname, filename);
 }
 
-//ÉèÖÃ¿ØÖÆcontrolfileÎÄ¼şÃûÎª vote\°æÃæÃû\control
+//è®¾ç½®æ§åˆ¶controlfileæ–‡ä»¶åä¸º vote\ç‰ˆé¢å\control
 void setcontrolfile() {
 	setvfile(controlfile, currboard, "control");
 }
 
-//±à¼­»òÉ¾³ı°æÃæ±¸ÍüÂ¼
-//·µ»ØÖµ:FULLUPDATE
+//ç¼–è¾‘æˆ–åˆ é™¤ç‰ˆé¢å¤‡å¿˜å½•
+//è¿”å›å€¼:FULLUPDATE
 #ifdef ENABLE_PREFIX
 int b_notes_edit()
 {
@@ -113,15 +113,15 @@ int b_notes_edit()
 	int aborted;
 	int notetype;
 
-	if (!chk_currBM(currBM, 0)) { //¼ì²éÊÇ·ñ°æÖ÷
+	if (!chk_currBM(currBM, 0)) { //æ£€æŸ¥æ˜¯å¦ç‰ˆä¸»
 		return 0;
 	}
 	clear();
 	move(0, 0);
-	prints("Éè¶¨£º\n\n  (1)Ò»°ã±¸ÍüÂ¼\n  (2)ÃØÃÜ±¸ÍüÂ¼\n");
-	prints("  (3)°æÃæÇ°×º±í\n  (4)ÊÇ·ñÇ¿ÖÆÊ¹ÓÃÇ°×º\n");
+	prints("è®¾å®šï¼š\n\n  (1)ä¸€èˆ¬å¤‡å¿˜å½•\n  (2)ç§˜å¯†å¤‡å¿˜å½•\n");
+	prints("  (3)ç‰ˆé¢å‰ç¼€è¡¨\n  (4)æ˜¯å¦å¼ºåˆ¶ä½¿ç”¨å‰ç¼€\n");
 	while (1) {
-		getdata(7, 0,"µ±Ç°Ñ¡Ôñ[1](0~4): ", ans, 2, DOECHO, YEA);
+		getdata(7, 0,"å½“å‰é€‰æ‹©[1](0~4): ", ans, 2, DOECHO, YEA);
 		if (ans[0] == '0')
 		return FULLUPDATE;
 		if (ans[0] == '\0')
@@ -129,7 +129,7 @@ int b_notes_edit()
 		if (ans[0] >= '1' && ans[0] <= '4' )
 		break;
 	}
-	makevdir(currboard); //½¨Á¢±¸ÍüÂ¼Ä¿Â¼
+	makevdir(currboard); //å»ºç«‹å¤‡å¿˜å½•ç›®å½•
 	notetype = ans[0] - '0';
 	if (notetype == 2) {
 		setvfile(buf, currboard, "secnotes");
@@ -142,7 +142,7 @@ int b_notes_edit()
 		struct boardheader fh;
 		pos = search_record(BOARDS, &fh, sizeof(fh), cmpbnames, currboard);
 
-		if (askyn("ÊÇ·ñÇ¿ÖÆÊ¹ÓÃÇ°×º£¿", (fh.flag & BOARD_PREFIX_FLAG)?YEA:NA,NA)) {
+		if (askyn("æ˜¯å¦å¼ºåˆ¶ä½¿ç”¨å‰ç¼€ï¼Ÿ", (fh.flag & BOARD_PREFIX_FLAG)?YEA:NA,NA)) {
 			fh.flag |= BOARD_PREFIX_FLAG;
 		} else {
 			fh.flag &= ~BOARD_PREFIX_FLAG;
@@ -150,22 +150,22 @@ int b_notes_edit()
 		substitute_record(BOARDS, &fh, sizeof(fh), pos);
 		return FULLUPDATE;
 	}
-	sprintf(buf2, "(E)±à¼­ (D)É¾³ı %4s? [E]: ",
-			(notetype == 3)?"°æÃæÇ°×º±í":(notetype == 1) ? "Ò»°ã±¸ÍüÂ¼" : "ÃØÃÜ±¸ÍüÂ¼");
-	getdata(8, 0, buf2, ans, 2, DOECHO, YEA); //Ñ¯ÎÊ±à¼­»òÕßÉ¾³ı
-	if (ans[0] == 'D' || ans[0] == 'd') { //É¾³ı±¸ÍüÂ¼
+	sprintf(buf2, "(E)ç¼–è¾‘ (D)åˆ é™¤ %4s? [E]: ",
+			(notetype == 3)?"ç‰ˆé¢å‰ç¼€è¡¨":(notetype == 1) ? "ä¸€èˆ¬å¤‡å¿˜å½•" : "ç§˜å¯†å¤‡å¿˜å½•");
+	getdata(8, 0, buf2, ans, 2, DOECHO, YEA); //è¯¢é—®ç¼–è¾‘æˆ–è€…åˆ é™¤
+	if (ans[0] == 'D' || ans[0] == 'd') { //åˆ é™¤å¤‡å¿˜å½•
 		move(9, 0);
-		sprintf(buf2, "ÕæµÄÒªÉ¾³ıÃ´£¿");
+		sprintf(buf2, "çœŸçš„è¦åˆ é™¤ä¹ˆï¼Ÿ");
 		if (askyn(buf2, NA, NA)) {
 			move(10, 0);
-			prints("ÒÑ¾­É¾³ı...\n");
+			prints("å·²ç»åˆ é™¤...\n");
 			pressanykey();
 			unlink(buf);
 			aborted = 1;
 		} else
 		aborted = -1;
 	} else
-	aborted = vedit(buf, NA, YEA); //±à¼­±¸ÍüÂ¼
+	aborted = vedit(buf, NA, YEA); //ç¼–è¾‘å¤‡å¿˜å½•
 	if (aborted == -1) {
 		pressreturn();
 	} else {
@@ -184,14 +184,14 @@ int b_notes_edit() {
 	char ans[4];
 	int aborted;
 	int notetype;
-	if (!chk_currBM(currBM, 0)) { //¼ì²éÊÇ·ñ°æÖ÷
+	if (!chk_currBM(currBM, 0)) { //æ£€æŸ¥æ˜¯å¦ç‰ˆä¸»
 		return 0;
 	}
 	clear();
 	move(1, 0);
-	prints("±à¼­/É¾³ı±¸ÍüÂ¼"); //Ñ¯ÎÊ±à¼­ÄÄÖÖ±¸ÍüÂ¼
+	prints("ç¼–è¾‘/åˆ é™¤å¤‡å¿˜å½•"); //è¯¢é—®ç¼–è¾‘å“ªç§å¤‡å¿˜å½•
 	while (1) {
-		getdata(3, 0, "±à¼­»òÉ¾³ı±¾ÌÖÂÛÇøµÄ (0) Àë¿ª  (1) Ò»°ã±¸ÍüÂ¼  (2) ÃØÃÜ±¸ÍüÂ¼? [1] ",
+		getdata(3, 0, "ç¼–è¾‘æˆ–åˆ é™¤æœ¬è®¨è®ºåŒºçš„ (0) ç¦»å¼€  (1) ä¸€èˆ¬å¤‡å¿˜å½•  (2) ç§˜å¯†å¤‡å¿˜å½•? [1] ",
 				ans, 2, DOECHO, YEA);
 		if (ans[0] == '0')
 			return FULLUPDATE;
@@ -200,7 +200,7 @@ int b_notes_edit() {
 		if (ans[0] == '1' || ans[0] == '2')
 			break;
 	}
-	makevdir(currboard); //½¨Á¢±¸ÍüÂ¼Ä¿Â¼
+	makevdir(currboard); //å»ºç«‹å¤‡å¿˜å½•ç›®å½•
 	if (ans[0] == '2') {
 		setvfile(buf, currboard, "secnotes");
 		notetype = 2;
@@ -208,22 +208,22 @@ int b_notes_edit() {
 		setvfile(buf, currboard, "notes");
 		notetype = 1;
 	}
-	sprintf(buf2, "(E)±à¼­ (D)É¾³ı %4s±¸ÍüÂ¼? [E]: ", (notetype == 1) ? "Ò»°ã"
-			: "ÃØÃÜ");
-	getdata(5, 0, buf2, ans, 2, DOECHO, YEA); //Ñ¯ÎÊ±à¼­»òÕßÉ¾³ı
-	if (ans[0] == 'D' || ans[0] == 'd') { //É¾³ı±¸ÍüÂ¼
+	sprintf(buf2, "(E)ç¼–è¾‘ (D)åˆ é™¤ %4så¤‡å¿˜å½•? [E]: ", (notetype == 1) ? "ä¸€èˆ¬"
+			: "ç§˜å¯†");
+	getdata(5, 0, buf2, ans, 2, DOECHO, YEA); //è¯¢é—®ç¼–è¾‘æˆ–è€…åˆ é™¤
+	if (ans[0] == 'D' || ans[0] == 'd') { //åˆ é™¤å¤‡å¿˜å½•
 		move(6, 0);
-		sprintf(buf2, "ÕæµÄÒªÉ¾³ı%4s±¸ÍüÂ¼", (notetype == 1) ? "Ò»°ã" : "ÃØÃÜ");
+		sprintf(buf2, "çœŸçš„è¦åˆ é™¤%4så¤‡å¿˜å½•", (notetype == 1) ? "ä¸€èˆ¬" : "ç§˜å¯†");
 		if (askyn(buf2, NA, NA)) {
 			move(7, 0);
-			prints("±¸ÍüÂ¼ÒÑ¾­É¾³ı...\n");
+			prints("å¤‡å¿˜å½•å·²ç»åˆ é™¤...\n");
 			pressanykey();
 			unlink(buf);
 			aborted = 1;
 		} else
 			aborted = -1;
 	} else
-		aborted = vedit(buf, NA, YEA); //±à¼­±¸ÍüÂ¼
+		aborted = vedit(buf, NA, YEA); //ç¼–è¾‘å¤‡å¿˜å½•
 	if (aborted == -1) {
 		pressreturn();
 	} else {
@@ -237,60 +237,60 @@ int b_notes_edit() {
 	return FULLUPDATE;
 }
 #endif 
-//ÉèÖÃÃØÃÜ±¸ÍüÂ¼ÃÜÂë
+//è®¾ç½®ç§˜å¯†å¤‡å¿˜å½•å¯†ç 
 int b_notes_passwd() {
 	FILE *pass;
 	char passbuf[20], prepass[20];
 	char buf[STRLEN];
 
-	if (!chk_currBM(currBM, 0)) { //¼ì²éÊÇ·ñ°æÖ÷
+	if (!chk_currBM(currBM, 0)) { //æ£€æŸ¥æ˜¯å¦ç‰ˆä¸»
 		return 0;
 	}
 	clear();
 	move(1, 0);
-	prints("Éè¶¨/¸ü¸Ä/È¡Ïû¡¸ÃØÃÜ±¸ÍüÂ¼¡¹ÃÜÂë...");
+	prints("è®¾å®š/æ›´æ”¹/å–æ¶ˆã€Œç§˜å¯†å¤‡å¿˜å½•ã€å¯†ç ...");
 	setvfile(buf, currboard, "secnotes");
 	if (!dashf(buf)) {
 		move(3, 0);
-		prints("±¾ÌÖÂÛÇøÉĞÎŞ¡¸ÃØÃÜ±¸ÍüÂ¼¡¹¡£\n\n");
-		prints("ÇëÏÈÓÃ W ±àºÃ¡¸ÃØÃÜ±¸ÍüÂ¼¡¹ÔÙÀ´Éè¶¨ÃÜÂë...");
+		prints("æœ¬è®¨è®ºåŒºå°šæ— ã€Œç§˜å¯†å¤‡å¿˜å½•ã€ã€‚\n\n");
+		prints("è¯·å…ˆç”¨ W ç¼–å¥½ã€Œç§˜å¯†å¤‡å¿˜å½•ã€å†æ¥è®¾å®šå¯†ç ...");
 		pressanykey();
 		return FULLUPDATE;
 	}
 	if (!check_notespasswd())
 		return FULLUPDATE;
-	getdata(3, 0, "ÇëÊäÈëĞÂµÄÃØÃÜ±¸ÍüÂ¼ÃÜÂë(Enter È¡ÏûÃÜÂë): ", passbuf, 19, NOECHO, YEA);
+	getdata(3, 0, "è¯·è¾“å…¥æ–°çš„ç§˜å¯†å¤‡å¿˜å½•å¯†ç (Enter å–æ¶ˆå¯†ç ): ", passbuf, 19, NOECHO, YEA);
 	if (passbuf[0] == '\0') {
 		setvfile(buf, currboard, "notespasswd");
 		unlink(buf);
-		prints("ÒÑ¾­È¡Ïû±¸ÍüÂ¼ÃÜÂë¡£");
+		prints("å·²ç»å–æ¶ˆå¤‡å¿˜å½•å¯†ç ã€‚");
 		pressanykey();
 		return FULLUPDATE;
 	}
-	getdata(4, 0, "È·ÈÏĞÂµÄÃØÃÜ±¸ÍüÂ¼ÃÜÂë: ", prepass, 19, NOECHO, YEA);
+	getdata(4, 0, "ç¡®è®¤æ–°çš„ç§˜å¯†å¤‡å¿˜å½•å¯†ç : ", prepass, 19, NOECHO, YEA);
 	if (strcmp(passbuf, prepass)) {
-		prints("\nÃÜÂë²»Ïà·û, ÎŞ·¨Éè¶¨»ò¸ü¸Ä....");
+		prints("\nå¯†ç ä¸ç›¸ç¬¦, æ— æ³•è®¾å®šæˆ–æ›´æ”¹....");
 		pressanykey();
 		return FULLUPDATE;
 	}
 	setvfile(buf, currboard, "notespasswd");
 	if ((pass = fopen(buf, "w")) == NULL) {
 		move(5, 0);
-		prints("±¸ÍüÂ¼ÃÜÂëÎŞ·¨Éè¶¨....");
+		prints("å¤‡å¿˜å½•å¯†ç æ— æ³•è®¾å®š....");
 		pressanykey();
 		return FULLUPDATE;
 	}
 	fprintf(pass, "%s\n", genpasswd(passbuf));
 	fclose(pass);
 	move(5, 0);
-	prints("ÃØÃÜ±¸ÍüÂ¼ÃÜÂëÉè¶¨Íê³É...");
+	prints("ç§˜å¯†å¤‡å¿˜å½•å¯†ç è®¾å®šå®Œæˆ...");
 	pressanykey();
 	return FULLUPDATE;
 }
 
-//½«Ò»¸öÎÄ¼şÈ«²¿ÄÚÈİĞ´ÈëÒÑ¾­´ò¿ªµÄÁíÒ»¸öÎÄ¼ş
-//fp: ÒÑ¾­´ò¿ªµÄÎÄ¼şÖ¸Õë,£¨±»Ğ´ÈëÎÄ¼ş£©
-//fname: ĞèÒªĞ´ÈëµÄÎÄ¼şµÄÂ·¾¶
+//å°†ä¸€ä¸ªæ–‡ä»¶å…¨éƒ¨å†…å®¹å†™å…¥å·²ç»æ‰“å¼€çš„å¦ä¸€ä¸ªæ–‡ä»¶
+//fp: å·²ç»æ‰“å¼€çš„æ–‡ä»¶æŒ‡é’ˆ,ï¼ˆè¢«å†™å…¥æ–‡ä»¶ï¼‰
+//fname: éœ€è¦å†™å…¥çš„æ–‡ä»¶çš„è·¯å¾„
 int b_suckinfile(FILE * fp, char *fname) {
 	char inbuf[256];
 	FILE *sfp;
@@ -303,10 +303,10 @@ int b_suckinfile(FILE * fp, char *fname) {
 	return 0;
 }
 
-//½«Ò»¸öÎÄ¼şÈ«²¿ÄÚÈİĞ´ÈëÒÑ¾­´ò¿ªµÄÁíÒ»¸öÎÄ¼ş,(ÓÃÓÚ¶ÁÁôÑÔ°å)
-//Èç¹û²»ÄÜ´ò¿ªĞ´ÈëÒ»ÌõºáÏß
-//fp: ÒÑ¾­´ò¿ªµÄÎÄ¼şÖ¸Õë,£¨±»Ğ´ÈëÎÄ¼ş£©
-//fname: ĞèÒªĞ´ÈëµÄÎÄ¼şµÄÂ·¾¶
+//å°†ä¸€ä¸ªæ–‡ä»¶å…¨éƒ¨å†…å®¹å†™å…¥å·²ç»æ‰“å¼€çš„å¦ä¸€ä¸ªæ–‡ä»¶,(ç”¨äºè¯»ç•™è¨€æ¿)
+//å¦‚æœä¸èƒ½æ‰“å¼€å†™å…¥ä¸€æ¡æ¨ªçº¿
+//fp: å·²ç»æ‰“å¼€çš„æ–‡ä»¶æŒ‡é’ˆ,ï¼ˆè¢«å†™å…¥æ–‡ä»¶ï¼‰
+//fname: éœ€è¦å†™å…¥çš„æ–‡ä»¶çš„è·¯å¾„
 /*Add by SmallPig*/
 int catnotepad(fp, fname)
 FILE *fp;
@@ -319,7 +319,7 @@ char *fname;
 	count = 0;
 	if ((sfp = fopen(fname, "r")) == NULL) {
 		fprintf(fp,
-				"[1;34m  ¡õ[44m__________________________________________________________________________[m \n\n");
+				"[1;34m  â–¡[44m__________________________________________________________________________[m \n\n");
 		return -1;
 	}
 	while (fgets(inbuf, sizeof(inbuf), sfp) != NULL) {
@@ -332,8 +332,8 @@ char *fname;
 	return 0;
 }
 
-//¹Ø±ÕÍ¶Æ±
-//·µ»ØÖµ:¹Ì¶¨Îª0
+//å…³é—­æŠ•ç¥¨
+//è¿”å›å€¼:å›ºå®šä¸º0
 int b_closepolls() {
 	char buf[80];
 	time_t now, nextpoll;
@@ -342,13 +342,13 @@ int b_closepolls() {
 	now = time(0);
 	resolve_boards();
 
-	if (now < brdshm->pollvote) { //ÏÖÔÚÊ±¼äĞ¡ÓÚÏÂ´Î¿ÉÍ¶Æ±Ê±¼äÔò·µ»Ø£¿
+	if (now < brdshm->pollvote) { //ç°åœ¨æ—¶é—´å°äºä¸‹æ¬¡å¯æŠ•ç¥¨æ—¶é—´åˆ™è¿”å›ï¼Ÿ
 		return;
 	}
-	//¹Ø±ÕÏÔÊ¾ º¯Êıµ÷ÓÃÒÆµ½miscd
+	//å…³é—­æ˜¾ç¤º å‡½æ•°è°ƒç”¨ç§»åˆ°miscd
 	/*
 	 move(t_lines - 1, 0);
-	 prints("¶Ô²»Æğ£¬ÏµÍ³¹Ø±ÕÍ¶Æ±ÖĞ£¬ÇëÉÔºò...");
+	 prints("å¯¹ä¸èµ·ï¼Œç³»ç»Ÿå…³é—­æŠ•ç¥¨ä¸­ï¼Œè¯·ç¨å€™...");
 	 refresh();
 	 */
 
@@ -365,21 +365,21 @@ int b_closepolls() {
 			get_record(controlfile, &currvote, sizeof(currvote), vnum);
 			closetime = currvote.opendate + currvote.maxdays * 86400;
 			if (now > closetime)
-				mk_result(vnum); //ÈôÍ¶Æ±ÆÚÏŞÒÑ¹ıĞ´ÈëÍ¶Æ±½á¹û
+				mk_result(vnum); //è‹¥æŠ•ç¥¨æœŸé™å·²è¿‡å†™å…¥æŠ•ç¥¨ç»“æœ
 			else if (nextpoll > closetime)
 				nextpoll = closetime + 300;
 		}
 	}
 	strcpy(currboard, buf);
 
-	brdshm->pollvote = nextpoll; //ÏÂ´Î¿ÉÍ¶Æ±Ê±¼ä£¿
+	brdshm->pollvote = nextpoll; //ä¸‹æ¬¡å¯æŠ•ç¥¨æ—¶é—´ï¼Ÿ
 	return 0;
 }
 
-//¼ÆËãÒ»´ÎµÄÍ¶Æ±½á¹û,²¢·ÅÈëresultÊı×éÖĞ,ÓÃÓÚmk_resultÖĞµÄapply_recordº¯ÊıÖĞµÄ»Øµ÷º¯Êı -.-!
-//result[32]¼ÇÂ¼µ÷ÓÃ´ÎÊı
-//²ÎÊıptr:Ò»´ÎµÄÍ¶Æ±½á¹û
-//·µ»ØÖµ:¹Ì¶¨Îª0
+//è®¡ç®—ä¸€æ¬¡çš„æŠ•ç¥¨ç»“æœ,å¹¶æ”¾å…¥resultæ•°ç»„ä¸­,ç”¨äºmk_resultä¸­çš„apply_recordå‡½æ•°ä¸­çš„å›è°ƒå‡½æ•° -.-!
+//result[32]è®°å½•è°ƒç”¨æ¬¡æ•°
+//å‚æ•°ptr:ä¸€æ¬¡çš„æŠ•ç¥¨ç»“æœ
+//è¿”å›å€¼:å›ºå®šä¸º0
 int count_result(struct ballot *ptr) {
 	int i;
 
@@ -392,9 +392,9 @@ int count_result(struct ballot *ptr) {
 	 }
 	 */if (ptr->msg[0][0] != '\0') {
 		if (currvote.type == VOTE_ASKING) {
-			fprintf(sug, "[1m%s [mµÄ×÷´ğÈçÏÂ£º\n", ptr->uid);
+			fprintf(sug, "[1m%s [mçš„ä½œç­”å¦‚ä¸‹ï¼š\n", ptr->uid);
 		} else
-			fprintf(sug, "[1m%s [mµÄ½¨ÒéÈçÏÂ£º\n", ptr->uid);
+			fprintf(sug, "[1m%s [mçš„å»ºè®®å¦‚ä¸‹ï¼š\n", ptr->uid);
 		for (i = 0; i < 3; i++)
 			fprintf(sug, "%s\n", ptr->msg[i]);
 	}
@@ -415,104 +415,128 @@ int count_result(struct ballot *ptr) {
 	return 0;
 }
 
-//½«Í¶Æ±µÄÌ§Í·Ğ´ÈësugÍ¶Æ±½á¹ûÎÄ¼ş
+//å°†æŠ•ç¥¨çš„æŠ¬å¤´å†™å…¥sugæŠ•ç¥¨ç»“æœæ–‡ä»¶
 get_result_title() {
 	char buf[STRLEN];
 
 	getdatestring(currvote.opendate, NA);
-	fprintf(sug, "¡Ñ Í¶Æ±¿ªÆôì¶£º[1m%s[m  Àà±ğ£º[1m%s[m\n", datestring,
+	fprintf(sug, "âŠ™ æŠ•ç¥¨å¼€å¯æ–¼ï¼š[1m%s[m  ç±»åˆ«ï¼š[1m%s[m\n", datestring,
 			vote_type[currvote.type - 1]);
-	fprintf(sug, "¡Ñ Ö÷Ìâ£º[1m%s[m\n", currvote.title);
+	fprintf(sug, "âŠ™ ä¸»é¢˜ï¼š[1m%s[m\n", currvote.title);
 	if (currvote.type == VOTE_VALUE)
-		fprintf(sug, "¡Ñ ´Ë´ÎÍ¶Æ±µÄÖµ²»¿É³¬¹ı£º[1m%d[m\n\n", currvote.maxtkt);
-	fprintf(sug, "¡Ñ Æ±Ñ¡ÌâÄ¿ÃèÊö£º\n\n");
+		fprintf(sug, "âŠ™ æ­¤æ¬¡æŠ•ç¥¨çš„å€¼ä¸å¯è¶…è¿‡ï¼š[1m%d[m\n\n", currvote.maxtkt);
+	fprintf(sug, "âŠ™ ç¥¨é€‰é¢˜ç›®æè¿°ï¼š\n\n");
 	sprintf(buf, "vote/%s/desc.%d", currboard, currvote.opendate);
 	b_suckinfile(sug, buf);
 }
 
-//½áÊøÍ¶Æ±,¼ÆËãÍ¶Æ±½á¹û
-//num:Í¶Æ±controlÎÄ¼şÖĞµÚ¼¸¸ö¼ÇÂ¼
+//ç»“æŸæŠ•ç¥¨,è®¡ç®—æŠ•ç¥¨ç»“æœ
+//num:æŠ•ç¥¨controlæ–‡ä»¶ä¸­ç¬¬å‡ ä¸ªè®°å½•
 int mk_result(int num) {
 	char fname[STRLEN], nname[STRLEN];
 	char sugname[STRLEN];
 	char title[STRLEN];
-	int i;
+	int i, j;
 	unsigned int total = 0;
+    unsigned int sorted_index[33];
 
 	setcontrolfile();
-	sprintf(fname, "vote/%s/flag.%d", currboard, currvote.opendate); //Í¶Æ±¼ÇÂ¼ÎÄ¼şÂ·¾¶Îª vote/°æÃû/flag.¿ªÆôÍ¶Æ±ÈÕ
+	sprintf(fname, "vote/%s/flag.%d", currboard, currvote.opendate); //æŠ•ç¥¨è®°å½•æ–‡ä»¶è·¯å¾„ä¸º vote/ç‰ˆå/flag.å¼€å¯æŠ•ç¥¨æ—¥
 	/*	count_result(NULL); */
 	sug = NULL;
-	sprintf(sugname, "vote/%s/tmp.%d", currboard, uinfo.pid); //Í¶Æ±ÁÙÊ±ÎÄ¼şÂ·¾¶Îª vote/°æÃû/tmp.ÓÃ»§id
+	sprintf(sugname, "vote/%s/tmp.%d", currboard, uinfo.pid); //æŠ•ç¥¨ä¸´æ—¶æ–‡ä»¶è·¯å¾„ä¸º vote/ç‰ˆå/tmp.ç”¨æˆ·id
 	if ((sug = fopen(sugname, "w")) == NULL) {
 		report("open vote tmp file error");
-		//prints("Error: ½áÊøÍ¶Æ±´íÎó...\n");
+		//prints("Error: ç»“æŸæŠ•ç¥¨é”™è¯¯...\n");
 		pressanykey();
 	}
 	(void) memset(result, 0, sizeof(result));
+    for (i = 0; i < 33; i++) sorted_index[i] = i;
 	if (apply_record(fname, count_result, sizeof(struct ballot), 0, 0, 0)
 			== -1) {
 		report("Vote apply flag error");
 	}
-	fprintf(sug, "[1;44;36m¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª©ÈÊ¹ÓÃÕß%s©À¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª[m\n\n\n",
-			(currvote.type != VOTE_ASKING) ? "½¨Òé»òÒâ¼û" : "´Ë´ÎµÄ×÷´ğ");
+	fprintf(sug, "[1;44;36mâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â”¤ä½¿ç”¨è€…%sâ”œâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”[m\n\n\n",
+			(currvote.type != VOTE_ASKING) ? "å»ºè®®æˆ–æ„è§" : "æ­¤æ¬¡çš„ä½œç­”");
 	fclose(sug);
-	sprintf(nname, "vote/%s/results", currboard); //Í¶Æ±½á¹ûÎÄ¼şÂ·¾¶Îª vote/°æÃû/results
+	sprintf(nname, "vote/%s/results", currboard); //æŠ•ç¥¨ç»“æœæ–‡ä»¶è·¯å¾„ä¸º vote/ç‰ˆå/results
 	if ((sug = fopen(nname, "w")) == NULL) {
 		report("open vote newresult file error");
-		//prints("Error: ½áÊøÍ¶Æ±´íÎó...\n");
+		//prints("Error: ç»“æŸæŠ•ç¥¨é”™è¯¯...\n");
 	}
 	get_result_title(sug);
-	//¼ÆËãÍ¶Æ±½á¹û
-	fprintf(sug, "** Í¶Æ±½á¹û:\n\n");
+	//è®¡ç®—æŠ•ç¥¨ç»“æœ
+	fprintf(sug, "** æŠ•ç¥¨ç»“æœ:\n\n");
 	if (currvote.type == VOTE_VALUE) {
+        /* Sorting vote result. Bubble sort. */
+        for (i = 0; i < 10; i++) {
+            for (j = 0; j < 10 - i - 1; j++) {
+                if (result[sorted_index[j]] < result[sorted_index[j+1]]) {
+                    total = sorted_index[j];
+                    sorted_index[j] = sorted_index[j+1];
+                    sorted_index[j+1] = total;
+                }
+            }
+        }
+        /* Output vote results.*/
 		total = result[32];
 		for (i = 0; i < 10; i++) {
 			fprintf(
 					sug,
-					"[1m  %4d[m µ½ [1m%4d[m Ö®¼äÓĞ [1m%4d[m Æ±  Ô¼Õ¼ [1m%d%%[m\n",
-					(i * currvote.maxtkt) / 10 + ((i == 0) ? 0 : 1), ((i
-							+ 1) * currvote.maxtkt) / 10, result[i],
-					(result[i] * 100) / ((total <= 0) ? 1 : total));
+					"[1m  %4d[m åˆ° [1m%4d[m ä¹‹é—´æœ‰ [1m%4d[m ç¥¨  çº¦å  [1m%d%%[m\n",
+					(sorted_index[i] * currvote.maxtkt) / 10 + ((sorted_index[i] == 0) ? 0 : 1), ((sorted_index[i]
+							+ 1) * currvote.maxtkt) / 10, result[sorted_index[i]],
+					(result[sorted_index[i]] * 100) / ((total <= 0) ? 1 : total));
 		}
-		fprintf(sug, "´Ë´ÎÍ¶Æ±½á¹ûÆ½¾ùÖµÊÇ: [1m%d[m\n", result[31]
+		fprintf(sug, "æ­¤æ¬¡æŠ•ç¥¨ç»“æœå¹³å‡å€¼æ˜¯: [1m%d[m\n", result[31]
 				/ ((total <= 0) ? 1 : total));
 	} else if (currvote.type == VOTE_ASKING) {
 		total = result[32];
 	} else {
+        /* Sorting vote result. Bubble sort. */
+        for (i = 0; i < currvote.totalitems; i++) {
+            for (j = 0; j < currvote.totalitems - i - 1; j++) {
+                if (result[sorted_index[j]] < result[sorted_index[j+1]]) {
+                    total = sorted_index[j];
+                    sorted_index[j] = sorted_index[j+1];
+                    sorted_index[j+1] = total;
+                }
+            }
+        }
+        total = 0;
 		for (i = 0; i < currvote.totalitems; i++) {
 			total += result[i];
 		}
 		for (i = 0; i < currvote.totalitems; i++) {
-			fprintf(sug, "(%c) %-40s  %4d Æ±  Ô¼Õ¼ [1m%d%%[m\n", 'A' + i,
-					currvote.items[i], result[i], (result[i] * 100)
+			fprintf(sug, "(%c) %-40s  %4d ç¥¨  çº¦å  [1m%d%%[m\n", 'A' + i,
+					currvote.items[sorted_index[i]], result[sorted_index[i]], (result[sorted_index[i]] * 100)
 							/ ((total <= 0) ? 1 : total));
 		}
 	}
-	fprintf(sug, "\nÍ¶Æ±×ÜÈËÊı = [1m%d[m ÈË\n", result[32]);
-	fprintf(sug, "Í¶Æ±×ÜÆ±Êı =[1m %d[m Æ±\n\n", total);
-	fprintf(sug, "[1;44;36m¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª©ÈÊ¹ÓÃÕß%s©À¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª[m\n\n\n",
-			(currvote.type != VOTE_ASKING) ? "½¨Òé»òÒâ¼û" : "´Ë´ÎµÄ×÷´ğ");
+	fprintf(sug, "\næŠ•ç¥¨æ€»äººæ•° = [1m%d[m äºº\n", result[32]);
+	fprintf(sug, "æŠ•ç¥¨æ€»ç¥¨æ•° =[1m %d[m ç¥¨\n\n", total);
+	fprintf(sug, "[1;44;36mâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â”¤ä½¿ç”¨è€…%sâ”œâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”[m\n\n\n",
+			(currvote.type != VOTE_ASKING) ? "å»ºè®®æˆ–æ„è§" : "æ­¤æ¬¡çš„ä½œç­”");
 	b_suckinfile(sug, sugname);
-	unlink(sugname); //É¾³ıÍ¶Æ±ÁÙÊ±ÎÄ¼ş,²¢½«Í¶Æ±ÎÄ¼şĞ´ÈësugÍ¶Æ±½á¹ûÎÄ¼ş
+	unlink(sugname); //åˆ é™¤æŠ•ç¥¨ä¸´æ—¶æ–‡ä»¶,å¹¶å°†æŠ•ç¥¨æ–‡ä»¶å†™å…¥sugæŠ•ç¥¨ç»“æœæ–‡ä»¶
 	fclose(sug);
 
-	sprintf(title, "[¹«¸æ] %s °æµÄÍ¶Æ±½á¹û", currboard);
-	Postfile(nname, "vote", title, 1); //Í¶Æ±½á¹ûÌùÈëvote°æ
+	sprintf(title, "[å…¬å‘Š] %s ç‰ˆçš„æŠ•ç¥¨ç»“æœ", currboard);
+	Postfile(nname, "vote", title, 1); //æŠ•ç¥¨ç»“æœè´´å…¥voteç‰ˆ
 	if (currboard != "vote")
-		Postfile(nname, currboard, title, 1); //Í¶Æ±½á¹ûÌùÈëµ±Ç°°æ
-	dele_vote(num); //¹Ø±ÕÍ¶Æ±,É¾³ıÁÙÊ±ÎÄ¼ş
+		Postfile(nname, currboard, title, 1); //æŠ•ç¥¨ç»“æœè´´å…¥å½“å‰ç‰ˆ
+	dele_vote(num); //å…³é—­æŠ•ç¥¨,åˆ é™¤ä¸´æ—¶æ–‡ä»¶
 	return;
 }
 
-//È¡µÃÑ¡ÔñÌâ¿ÉÑ¡ÏîÄ¿,·ÅÈëbalÖĞ
-//·µ»ØÖµ num£º¿ÉÑ¡ÏîÄ¿Êı
+//å–å¾—é€‰æ‹©é¢˜å¯é€‰é¡¹ç›®,æ”¾å…¥balä¸­
+//è¿”å›å€¼ numï¼šå¯é€‰é¡¹ç›®æ•°
 int get_vitems(struct votebal *bal) {
 	int num;
 	char buf[STRLEN];
 
 	move(3, 0);
-	prints("ÇëÒÀĞòÊäÈë¿ÉÑ¡ÔñÏî, °´ ENTER Íê³ÉÉè¶¨.\n");
+	prints("è¯·ä¾åºè¾“å…¥å¯é€‰æ‹©é¡¹, æŒ‰ ENTER å®Œæˆè®¾å®š.\n");
 	num = 0;
 	for (num = 0; num < 32; num++) {
 		sprintf(buf, "%c) ", num + 'A');
@@ -528,9 +552,9 @@ int get_vitems(struct votebal *bal) {
 	return num;
 }
 
-//¿ªÆôÍ¶Æ±Ïä²¢ÉèÖÃÍ¶Æ±Ïä
-//bname:°æÃû
-//·µ»ØÖµ:¹Ì¶¨Îª FULLUPDATE
+//å¼€å¯æŠ•ç¥¨ç®±å¹¶è®¾ç½®æŠ•ç¥¨ç®±
+//bname:ç‰ˆå
+//è¿”å›å€¼:å›ºå®šä¸º FULLUPDATE
 int vote_maintain(char *bname) {
 	char buf[STRLEN];
 	struct votebal *ball = &currvote;
@@ -539,14 +563,14 @@ int vote_maintain(char *bname) {
 	if (!chk_currBM(currBM, 0)) {
 		return 0;
 	}
-	stand_title("¿ªÆôÍ¶Æ±Ïä");
+	stand_title("å¼€å¯æŠ•ç¥¨ç®±");
 	makevdir(bname);
 	for (;;) {
-		getdata(2, 0, "(1)ÊÇ·Ç, (2)µ¥Ñ¡, (3)¸´Ñ¡, (4)ÊıÖµ (5)ÎÊ´ğ (6)È¡Ïû ? : ",
+		getdata(2, 0, "(1)æ˜¯é, (2)å•é€‰, (3)å¤é€‰, (4)æ•°å€¼ (5)é—®ç­” (6)å–æ¶ˆ ? : ",
 				genbuf, 2, DOECHO, YEA);
 		genbuf[0] -= '0';
 		if (genbuf[0] < 1 || genbuf[0] > 5) {
-			prints("È¡Ïû´Ë´ÎÍ¶Æ±\n");
+			prints("å–æ¶ˆæ­¤æ¬¡æŠ•ç¥¨\n");
 			return FULLUPDATE;
 		}
 		ball->type = (int) genbuf[0];
@@ -554,31 +578,31 @@ int vote_maintain(char *bname) {
 	}
 	ball->opendate = time(NULL);
 	if (makevote(ball, bname))
-		return FULLUPDATE; //ÉèÖÃÍ¶Æ±Ïä
+		return FULLUPDATE; //è®¾ç½®æŠ•ç¥¨ç®±
 	setvoteflag(currboard, 1);
 	clear();
 	strcpy(ball->userid, currentuser.userid);
 	if (append_record(controlfile, ball, sizeof(*ball)) == -1) {
-		prints("·¢ÉúÑÏÖØµÄ´íÎó£¬ÎŞ·¨¿ªÆôÍ¶Æ±£¬ÇëÍ¨¸æÕ¾³¤");
+		prints("å‘ç”Ÿä¸¥é‡çš„é”™è¯¯ï¼Œæ— æ³•å¼€å¯æŠ•ç¥¨ï¼Œè¯·é€šå‘Šç«™é•¿");
 		b_report("Append Control file Error!!");
 	} else {
 		char votename[STRLEN];
 		int i;
 
 		b_report("OPEN");
-		prints("Í¶Æ±Ïä¿ªÆôÁË£¡\n");
+		prints("æŠ•ç¥¨ç®±å¼€å¯äº†ï¼\n");
 		range++;;
 		sprintf(votename, "tmp/votetmp.%s.%05d", currentuser.userid,
 				uinfo.pid);
 		if ((sug = fopen(votename, "w")) != NULL) {
 			//Modified by IAMFAT 2002.06.13
-			//sprintf(buf, "[Í¨Öª] %s ¾Ù°ìÍ¶Æ±£º%s", currboard, ball->title);
+			//sprintf(buf, "[é€šçŸ¥] %s ä¸¾åŠæŠ•ç¥¨ï¼š%s", currboard, ball->title);
 			strcpy(genbuf, ball->title);
 			ellipsis(genbuf, 31 - strlen(currboard));
-			sprintf(buf, "[Í¨Öª] %s ¾Ù°ìÍ¶Æ±: %s", currboard, ball->title);
+			sprintf(buf, "[é€šçŸ¥] %s ä¸¾åŠæŠ•ç¥¨: %s", currboard, ball->title);
 			get_result_title(sug);
 			if (ball->type != VOTE_ASKING && ball->type != VOTE_VALUE) {
-				fprintf(sug, "\n¡¾[1mÑ¡ÏîÈçÏÂ[m¡¿\n");
+				fprintf(sug, "\nã€[1mé€‰é¡¹å¦‚ä¸‹[mã€‘\n");
 				for (i = 0; i < ball->totalitems; i++) {
 					fprintf(sug, "([1m%c[m) %-40s\n", 'A' + i,
 							ball->items[i]);
@@ -593,27 +617,27 @@ int vote_maintain(char *bname) {
 	return FULLUPDATE;
 }
 
-//ÉèÖÃÍ¶Æ±Ïä
-//ball: Í¶Æ±Ïä
-//bname£º°æÃû
-//·µ»ØÖµ0£º Õı³£ÍË³ö 1£ºÓÃ»§È¡Ïû
+//è®¾ç½®æŠ•ç¥¨ç®±
+//ball: æŠ•ç¥¨ç®±
+//bnameï¼šç‰ˆå
+//è¿”å›å€¼0ï¼š æ­£å¸¸é€€å‡º 1ï¼šç”¨æˆ·å–æ¶ˆ
 int makevote(struct votebal *ball, char *bname) {
 	char buf[STRLEN];
 	int aborted;
 
-	prints("Çë°´ÈÎºÎ¼ü¿ªÊ¼±à¼­´Ë´Î [Í¶Æ±µÄÃèÊö]: \n");
+	prints("è¯·æŒ‰ä»»ä½•é”®å¼€å§‹ç¼–è¾‘æ­¤æ¬¡ [æŠ•ç¥¨çš„æè¿°]: \n");
 	igetkey();
 	setvfile(genbuf, bname, "desc");
 	sprintf(buf, "%s.%d", genbuf, ball->opendate);
 	aborted = vedit(buf, NA, YEA);
 	if (aborted) {
 		clear();
-		prints("È¡Ïû´Ë´ÎÍ¶Æ±Éè¶¨\n");
+		prints("å–æ¶ˆæ­¤æ¬¡æŠ•ç¥¨è®¾å®š\n");
 		pressreturn();
 		return 1;
 	}
 	clear();
-	getdata(0, 0, "´Ë´ÎÍ¶Æ±ËùĞëÌìÊı (²»¿É£°Ìì): ", buf, 3, DOECHO, YEA);
+	getdata(0, 0, "æ­¤æ¬¡æŠ•ç¥¨æ‰€é¡»å¤©æ•° (ä¸å¯ï¼å¤©): ", buf, 3, DOECHO, YEA);
 
 	if (*buf == '\n' || atoi(buf) == 0 || *buf == '\0')
 		strcpy(buf, "1");
@@ -621,8 +645,8 @@ int makevote(struct votebal *ball, char *bname) {
 	ball->maxdays = atoi(buf);
 	for (;;) {
 		//Modified by IAMFAT 2002.06.13
-		//getdata(1, 0, "Í¶Æ±ÏäµÄ±êÌâ: ", ball->title, 61, DOECHO, YEA);
-		getdata(1, 0, "Í¶Æ±ÏäµÄ±êÌâ: ", ball->title, 50, DOECHO, YEA);
+		//getdata(1, 0, "æŠ•ç¥¨ç®±çš„æ ‡é¢˜: ", ball->title, 61, DOECHO, YEA);
+		getdata(1, 0, "æŠ•ç¥¨ç®±çš„æ ‡é¢˜: ", ball->title, 50, DOECHO, YEA);
 		if (strlen(ball->title) > 0)
 			break;
 		bell();
@@ -630,9 +654,9 @@ int makevote(struct votebal *ball, char *bname) {
 	switch (ball->type) {
 		case VOTE_YN:
 			ball->maxtkt = 0;
-			strcpy(ball->items[0], "ÔŞ³É  £¨ÊÇµÄ£©");
-			strcpy(ball->items[1], "²»ÔŞ³É£¨²»ÊÇ£©");
-			strcpy(ball->items[2], "Ã»Òâ¼û£¨²»Çå³ş£©");
+			strcpy(ball->items[0], "èµæˆ  ï¼ˆæ˜¯çš„ï¼‰");
+			strcpy(ball->items[1], "ä¸èµæˆï¼ˆä¸æ˜¯ï¼‰");
+			strcpy(ball->items[2], "æ²¡æ„è§ï¼ˆä¸æ¸…æ¥šï¼‰");
 			ball->maxtkt = 1;
 			ball->totalitems = 3;
 			break;
@@ -643,7 +667,7 @@ int makevote(struct votebal *ball, char *bname) {
 		case VOTE_MULTI:
 			get_vitems(ball);
 			for (;;) {
-				getdata(21, 0, "Ò»¸öÈË×î¶à¼¸Æ±? [1]: ", buf, 5, DOECHO, YEA);
+				getdata(21, 0, "ä¸€ä¸ªäººæœ€å¤šå‡ ç¥¨? [1]: ", buf, 5, DOECHO, YEA);
 				ball->maxtkt = atoi(buf);
 				if (ball->maxtkt <= 0)
 					ball->maxtkt = 1;
@@ -654,7 +678,7 @@ int makevote(struct votebal *ball, char *bname) {
 			break;
 		case VOTE_VALUE:
 			for (;;) {
-				getdata(3, 0, "ÊäÈëÊıÖµ×î´ó²»µÃ³¬¹ı [100] : ", buf, 4, DOECHO, YEA);
+				getdata(3, 0, "è¾“å…¥æ•°å€¼æœ€å¤§ä¸å¾—è¶…è¿‡ [100] : ", buf, 4, DOECHO, YEA);
 				ball->maxtkt = atoi(buf);
 				if (ball->maxtkt <= 0)
 					ball->maxtkt = 100;
@@ -662,7 +686,7 @@ int makevote(struct votebal *ball, char *bname) {
 			}
 			break;
 		case VOTE_ASKING:
-			/*                    getdata(3,0,"´ËÎÊ´ğÌâ×÷´ğĞĞÊıÖ®ÏŞÖÆ :",buf,3,DOECHO,YEA) ;
+			/*                    getdata(3,0,"æ­¤é—®ç­”é¢˜ä½œç­”è¡Œæ•°ä¹‹é™åˆ¶ :",buf,3,DOECHO,YEA) ;
 			 ball->maxtkt = atof(buf) ;
 			 if(ball->maxtkt <= 0) ball->maxtkt = 10;*/
 			ball->maxtkt = 0;
@@ -675,11 +699,11 @@ int makevote(struct votebal *ball, char *bname) {
 	return 0;
 }
 
-// ¼ì²éÊÇ·ñ¶Á¹ıĞÂµÄ±¸ÍüÂ¼»òÕß½øÕ¾welcome »òÕßĞ´Èë
-// bname:°æÃû, mode =2Ê±ÉèÎªNULL
-// val:  0£º¼ì²éÄ£Ê½    ²»µÈÓÚ0:Ğ´ÈëÄ£Ê½
-// mode: 1:¼ì²é±¸ÍüÂ¼   2:¼ì²é½øÕ¾Welcome
-// ·µ»ØÖµ 0:Î´¶Á 1:ÒÑ¶Á
+// æ£€æŸ¥æ˜¯å¦è¯»è¿‡æ–°çš„å¤‡å¿˜å½•æˆ–è€…è¿›ç«™welcome æˆ–è€…å†™å…¥
+// bname:ç‰ˆå, mode =2æ—¶è®¾ä¸ºNULL
+// val:  0ï¼šæ£€æŸ¥æ¨¡å¼    ä¸ç­‰äº0:å†™å…¥æ¨¡å¼
+// mode: 1:æ£€æŸ¥å¤‡å¿˜å½•   2:æ£€æŸ¥è¿›ç«™Welcome
+// è¿”å›å€¼ 0:æœªè¯» 1:å·²è¯»
 int vote_flag(char *bname, char val, int mode) {
 	char buf[STRLEN], flag;
 	int fd, num, size;
@@ -688,10 +712,10 @@ int vote_flag(char *bname, char val, int mode) {
 
 	switch (mode) {
 		case 2:
-			sprintf(buf, "Welcome.rec"); /* ½øÕ¾µÄ Welcome »­Ãæ */
+			sprintf(buf, "Welcome.rec"); /* è¿›ç«™çš„ Welcome ç”»é¢ */
 			break;
 		case 1:
-			setvfile(buf, bname, "noterec"); /* ÌÖÂÛÇø±¸ÍüÂ¼µÄÆì±ê */
+			setvfile(buf, bname, "noterec"); /* è®¨è®ºåŒºå¤‡å¿˜å½•çš„æ——æ ‡ */
 			break;
 		default:
 			return -1;
@@ -714,7 +738,7 @@ int vote_flag(char *bname, char val, int mode) {
 		size += sizeof(buf);
 	}
 	lseek(fd, (off_t) num, SEEK_SET);
-	read(fd, &flag, 1); //¶ÁÊÇ·ñÒÑ¾­¶Á¹ıµÄ±êÖ¾flag
+	read(fd, &flag, 1); //è¯»æ˜¯å¦å·²ç»è¯»è¿‡çš„æ ‡å¿—flag
 	if ((flag == 0 && val != 0)) {
 		lseek(fd, (off_t) num, SEEK_SET);
 		write(fd, &val, 1);
@@ -725,9 +749,9 @@ int vote_flag(char *bname, char val, int mode) {
 	return flag;
 }
 
-//¼ì²éÍ¶ÁË¼¸Æ±
-//bits: 32Î»µÄÖµ
-//·µ»ØÖµ ¶ş½øÖÆ32Î»bitsÖĞ µÈÓÚ1µÄÎ»ÊıµÄÊıÁ¿
+//æ£€æŸ¥æŠ•äº†å‡ ç¥¨
+//bits: 32ä½çš„å€¼
+//è¿”å›å€¼ äºŒè¿›åˆ¶32ä½bitsä¸­ ç­‰äº1çš„ä½æ•°çš„æ•°é‡
 int vote_check(int bits) {
 	int i, count;
 
@@ -738,9 +762,9 @@ int vote_check(int bits) {
 	return count;
 }
 
-//ÏÔÊ¾ÓÃ»§Í¶¹ıµÄÆ±£¬ÒÔ¼°¿ÉÑ¡Ïî
-//pbits:Æ±Êı×Ö¶Î i:ÏÔÊ¾Î»ÖÃ flag:ÊÇ·ñÏÔÊ¾ÄãÒÑ¾­Í¶ÁË¼¸Æ± YEA:ÏÔÊ¾ NO:²»ÏÔÊ¾
-//·µ»ØÖµ:¹Ì¶¨ÎªYEA
+//æ˜¾ç¤ºç”¨æˆ·æŠ•è¿‡çš„ç¥¨ï¼Œä»¥åŠå¯é€‰é¡¹
+//pbits:ç¥¨æ•°å­—æ®µ i:æ˜¾ç¤ºä½ç½® flag:æ˜¯å¦æ˜¾ç¤ºä½ å·²ç»æŠ•äº†å‡ ç¥¨ YEA:æ˜¾ç¤º NO:ä¸æ˜¾ç¤º
+//è¿”å›å€¼:å›ºå®šä¸ºYEA
 int showvoteitems(unsigned int pbits, int i, int flag) {
 	char buf[STRLEN];
 	int count;
@@ -751,9 +775,9 @@ int showvoteitems(unsigned int pbits, int i, int flag) {
 			return NA;
 		move(2, 0);
 		clrtoeol();
-		prints("ÄúÒÑ¾­Í¶ÁË [1m%d[m Æ±", count);
+		prints("æ‚¨å·²ç»æŠ•äº† [1m%d[m ç¥¨", count);
 	}
-	sprintf(buf, "%c.%2.2s%-36.36s", 'A' + i, ((pbits >> i) & 1 ? "¡Ì"
+	sprintf(buf, "%c.%2.2s%-36.36s", 'A' + i, ((pbits >> i) & 1 ? "âˆš"
 			: "  "), currvote.items[i]);
 	move(i + 6 - ((i > 15) ? 16 : 0), 0 + ((i > 15) ? 40 : 0));
 	prints(buf);
@@ -761,26 +785,26 @@ int showvoteitems(unsigned int pbits, int i, int flag) {
 	return YEA;
 }
 
-//ÏÔÊ¾Í¶Æ±ÄÚÈİ
+//æ˜¾ç¤ºæŠ•ç¥¨å†…å®¹
 void show_voteing_title() {
 	time_t closedate;
 	char buf[STRLEN];
 
 	if (currvote.type != VOTE_VALUE && currvote.type != VOTE_ASKING)
-		sprintf(buf, "¿ÉÍ¶Æ±Êı: [1m%d[m Æ±", currvote.maxtkt);
+		sprintf(buf, "å¯æŠ•ç¥¨æ•°: [1m%d[m ç¥¨", currvote.maxtkt);
 	else
 		buf[0] = '\0';
 	closedate = currvote.opendate + currvote.maxdays * 86400;
 	getdatestring(closedate, NA);
-	prints("Í¶Æ±½«½áÊøì¶: [1m%s[m  %s  %s\n", datestring, buf,
-			(voted_flag) ? "([5;1mĞŞ¸ÄÇ°´ÎÍ¶Æ±[m)" : "");
-	prints("Í¶Æ±Ö÷ÌâÊÇ: [1m%-50s[mÀàĞÍ: [1m%s[m \n", currvote.title,
+	prints("æŠ•ç¥¨å°†ç»“æŸæ–¼: [1m%s[m  %s  %s\n", datestring, buf,
+			(voted_flag) ? "([5;1mä¿®æ”¹å‰æ¬¡æŠ•ç¥¨[m)" : "");
+	prints("æŠ•ç¥¨ä¸»é¢˜æ˜¯: [1m%-50s[mç±»å‹: [1m%s[m \n", currvote.title,
 			vote_type[currvote.type - 1]);
 }
 
-//È¡µÃÌáÎÊĞÍÍ¶Æ±´ğ°¸
-//uv:ÓÃ»§Í¶Æ±µÄÊı¾İ,·µ»ØºóÓÃ»§ÊäÈëµÄ´ğ°¸·ÅÔÚ uv->msgÀï,×î¶à3ĞĞ
-//·µ»ØÖµ: ÓÃ»§ÊäÈëµÄ´ğ°¸ĞĞÊı
+//å–å¾—æé—®å‹æŠ•ç¥¨ç­”æ¡ˆ
+//uv:ç”¨æˆ·æŠ•ç¥¨çš„æ•°æ®,è¿”å›åç”¨æˆ·è¾“å…¥çš„ç­”æ¡ˆæ”¾åœ¨ uv->msgé‡Œ,æœ€å¤š3è¡Œ
+//è¿”å›å€¼: ç”¨æˆ·è¾“å…¥çš„ç­”æ¡ˆè¡Œæ•°
 int getsug(struct ballot *uv) {
 	int i, line;
 
@@ -789,10 +813,10 @@ int getsug(struct ballot *uv) {
 	if (currvote.type == VOTE_ASKING) {
 		show_voteing_title();
 		line = 3;
-		prints("ÇëÌîÈëÄúµÄ×÷´ğ(ÈıĞĞ):\n");
+		prints("è¯·å¡«å…¥æ‚¨çš„ä½œç­”(ä¸‰è¡Œ):\n");
 	} else {
 		line = 1;
-		prints("ÇëÌîÈëÄú±¦¹óµÄÒâ¼û(ÈıĞĞ):\n");
+		prints("è¯·å¡«å…¥æ‚¨å®è´µçš„æ„è§(ä¸‰è¡Œ):\n");
 	}
 	move(line, 0);
 	for (i = 0; i < 3; i++) {
@@ -806,25 +830,25 @@ int getsug(struct ballot *uv) {
 	return i;
 }
 
-//ÊäÈë¶àÑ¡/µ¥Ñ¡/ÊÇ·ÇµÄ´ğ°¸
-//uv:ÓÃ»§Í¶Æ±µÄÊı¾İ,·µ»ØºóÓÃ»§ÊäÈëµÄ´ğ°¸·ÅÔÚ uv->msgÀï
-//·µ»ØÖµ: ³É¹¦1 ÓÃ»§È¡Ïû-1
+//è¾“å…¥å¤šé€‰/å•é€‰/æ˜¯éçš„ç­”æ¡ˆ
+//uv:ç”¨æˆ·æŠ•ç¥¨çš„æ•°æ®,è¿”å›åç”¨æˆ·è¾“å…¥çš„ç­”æ¡ˆæ”¾åœ¨ uv->msgé‡Œ
+//è¿”å›å€¼: æˆåŠŸ1 ç”¨æˆ·å–æ¶ˆ-1
 int multivote(struct ballot *uv) {
 	unsigned int i;
 
 	i = uv->voted;
 	move(0, 0);
 	show_voteing_title();
-	uv->voted = setperms(uv->voted, "Ñ¡Æ±", currvote.totalitems,
+	uv->voted = setperms(uv->voted, "é€‰ç¥¨", currvote.totalitems,
 			showvoteitems);
 	if (uv->voted == i)
 		return -1;
 	return 1;
 }
 
-//ÊäÈëÖµĞÍÑ¡ÏîµÄ´ğ°¸
-//uv:ÓÃ»§Í¶Æ±µÄÊı¾İ,·µ»ØºóÓÃ»§ÊäÈëµÄ´ğ°¸·ÅÔÚ uv->msgÀï
-//·µ»ØÖµ: ³É¹¦1 ÓÃ»§È¡Ïû-1
+//è¾“å…¥å€¼å‹é€‰é¡¹çš„ç­”æ¡ˆ
+//uv:ç”¨æˆ·æŠ•ç¥¨çš„æ•°æ®,è¿”å›åç”¨æˆ·è¾“å…¥çš„ç­”æ¡ˆæ”¾åœ¨ uv->msgé‡Œ
+//è¿”å›å€¼: æˆåŠŸ1 ç”¨æˆ·å–æ¶ˆ-1
 int valuevote(struct ballot *uv) {
 	unsigned int chs;
 	char buf[10];
@@ -832,13 +856,13 @@ int valuevote(struct ballot *uv) {
 	chs = uv->voted;
 	move(0, 0);
 	show_voteing_title();
-	prints("´Ë´Î×÷´ğµÄÖµ²»ÄÜ³¬¹ı [1m%d[m", currvote.maxtkt);
+	prints("æ­¤æ¬¡ä½œç­”çš„å€¼ä¸èƒ½è¶…è¿‡ [1m%d[m", currvote.maxtkt);
 	if (uv->voted != 0)
 		sprintf(buf, "%d", uv->voted);
 	else
 		memset(buf, 0, sizeof(buf));
 	do {
-		getdata(3, 0, "ÇëÊäÈëÒ»¸öÖµ? [0]: ", buf, 5, DOECHO, NA);
+		getdata(3, 0, "è¯·è¾“å…¥ä¸€ä¸ªå€¼? [0]: ", buf, 5, DOECHO, NA);
 		uv->voted = abs(atoi(buf));
 	} while (uv->voted > currvote.maxtkt && buf[0] != '\n' && buf[0]
 			!= '\0');
@@ -847,9 +871,9 @@ int valuevote(struct ballot *uv) {
 	return 1;
 }
 
-//ÓÃ»§½øĞĞÍ¶Æ±,ÓÉvote_key,b_voteº¯Êıµ÷ÓÃ
-//num:Í¶Æ±controlfileÖĞµÚ¼¸¸ö¼ÇÂ¼
-//·µ»ØÖµ:ÎŞ
+//ç”¨æˆ·è¿›è¡ŒæŠ•ç¥¨,ç”±vote_key,b_voteå‡½æ•°è°ƒç”¨
+//num:æŠ•ç¥¨controlfileä¸­ç¬¬å‡ ä¸ªè®°å½•
+//è¿”å›å€¼:æ— 
 int user_vote(int num) {
 	char fname[STRLEN], bname[STRLEN];
 	char buf[STRLEN];
@@ -859,8 +883,8 @@ int user_vote(int num) {
 
 	move(t_lines - 2, 0);
 	get_record(controlfile, &currvote, sizeof(struct votebal), num);
-	if (currentuser.firstlogin > currvote.opendate) { //×¢²áÈÕÔÚÍ¶Æ±¿ªÆôÈÕÇ°²»ÄÜÍ¶Æ±
-		prints("¶Ô²»Æğ, Í¶Æ±Ãû²áÉÏÕÒ²»µ½ÄúµÄ´óÃû\n");
+	if (currentuser.firstlogin > currvote.opendate) { //æ³¨å†Œæ—¥åœ¨æŠ•ç¥¨å¼€å¯æ—¥å‰ä¸èƒ½æŠ•ç¥¨
+		prints("å¯¹ä¸èµ·, æŠ•ç¥¨åå†Œä¸Šæ‰¾ä¸åˆ°æ‚¨çš„å¤§å\n");
 		pressanykey();
 		return;
 	}
@@ -898,7 +922,7 @@ int user_vote(int num) {
 	}
 	clear();
 	if (aborted == YEA) {
-		prints("±£Áô ¡¾[1m%s[m¡¿Ô­À´µÄµÄÍ¶Æ±¡£\n", currvote.title);
+		prints("ä¿ç•™ ã€[1m%s[mã€‘åŸæ¥çš„çš„æŠ•ç¥¨ã€‚\n", currvote.title);
 	} else {
 		if (currvote.type != VOTE_ASKING)
 			getsug(&uservote);
@@ -909,23 +933,23 @@ int user_vote(int num) {
 		} else if (append_record(fname, &uservote, sizeof(uservote)) == -1) {
 			move(2, 0);
 			clrtoeol();
-			prints("Í¶Æ±Ê§°Ü! ÇëÍ¨ÖªÕ¾³¤²Î¼ÓÄÇÒ»¸öÑ¡ÏîÍ¶Æ±\n");
+			prints("æŠ•ç¥¨å¤±è´¥! è¯·é€šçŸ¥ç«™é•¿å‚åŠ é‚£ä¸€ä¸ªé€‰é¡¹æŠ•ç¥¨\n");
 			pressreturn();
 		}
-		prints("\nÒÑ¾­°ïÄúÍ¶ÈëÆ±ÏäÖĞ...\n");
+		prints("\nå·²ç»å¸®æ‚¨æŠ•å…¥ç¥¨ç®±ä¸­...\n");
 	}
 	pressanykey();
 	return;
 }
 
-//ÏÔÊ¾Í¶Æ±ÏäĞÅÏ¢µÄÍ·²¿
+//æ˜¾ç¤ºæŠ•ç¥¨ç®±ä¿¡æ¯çš„å¤´éƒ¨
 void voteexp() {
 	clrtoeol();
-	prints("[1;44m±àºÅ ¿ªÆôÍ¶Æ±ÏäÕß ¿ªÆôÈÕ %-39s Àà±ğ ÌìÊı ÈËÊı[m\n", "Í¶Æ±Ö÷Ìâ");
+	prints("[1;44mç¼–å· å¼€å¯æŠ•ç¥¨ç®±è€… å¼€å¯æ—¥ %-39s ç±»åˆ« å¤©æ•° äººæ•°[m\n", "æŠ•ç¥¨ä¸»é¢˜");
 }
 
-//ÏÔÊ¾Í¶Æ±ÏäĞÅÏ¢
-//ent Í¶Æ±ĞÅÏ¢
+//æ˜¾ç¤ºæŠ•ç¥¨ç®±ä¿¡æ¯
+//ent æŠ•ç¥¨ä¿¡æ¯
 int printvote(struct votebal *ent) {
 	static int i;
 	struct ballot uservote;
@@ -973,9 +997,9 @@ int printvote(struct votebal *ent) {
 	prints("%s", buf);
 }
 
-//É¾³ıÍ¶Æ±ÎÄ¼ş
-//num Í¶Æ±controlfileÖĞµÚ¼¸¸ö¼ÇÂ¼
-//·µ»ØÖµ ÎŞ
+//åˆ é™¤æŠ•ç¥¨æ–‡ä»¶
+//num æŠ•ç¥¨controlfileä¸­ç¬¬å‡ ä¸ªè®°å½•
+//è¿”å›å€¼ æ— 
 int dele_vote(num)
 int num;
 {
@@ -986,7 +1010,7 @@ int num;
 	sprintf(buf, "vote/%s/desc.%d", currboard, currvote.opendate);
 	unlink(buf);
 	if (delete_record(controlfile, sizeof(currvote), num, NULL, NULL) == -1) {
-		prints("·¢Éú´íÎó£¬ÇëÍ¨ÖªÕ¾³¤....");
+		prints("å‘ç”Ÿé”™è¯¯ï¼Œè¯·é€šçŸ¥ç«™é•¿....");
 		pressanykey();
 	}
 	range--;
@@ -995,16 +1019,16 @@ int num;
 	}
 }
 
-//ÏÔÊ¾Í¶Æ±½á¹û
-//bname:°æÃû
-//·µ»ØÖµ:¹Ì¶¨ÎªFULLUPDATE
+//æ˜¾ç¤ºæŠ•ç¥¨ç»“æœ
+//bname:ç‰ˆå
+//è¿”å›å€¼:å›ºå®šä¸ºFULLUPDATE
 int vote_results(char *bname) {
 	char buf[STRLEN];
 
 	setvfile(buf, bname, "results");
 	if (ansimore(buf, YEA) == -1) {
 		move(3, 0);
-		prints("Ä¿Ç°Ã»ÓĞÈÎºÎÍ¶Æ±µÄ½á¹û¡£\n");
+		prints("ç›®å‰æ²¡æœ‰ä»»ä½•æŠ•ç¥¨çš„ç»“æœã€‚\n");
 		clrtobot();
 		pressreturn();
 	} else
@@ -1012,25 +1036,25 @@ int vote_results(char *bname) {
 	return FULLUPDATE;
 }
 
-//¿ªÆôÍ¶Æ±Ïä²¢ÉèÖÃÍ¶Æ±Ïä
+//å¼€å¯æŠ•ç¥¨ç®±å¹¶è®¾ç½®æŠ•ç¥¨ç®±
 int b_vote_maintain() {
 	return vote_maintain(currboard);
 }
 
-//ÏÔÊ¾Í¶Æ±ÏäÑ¡Ïî
+//æ˜¾ç¤ºæŠ•ç¥¨ç®±é€‰é¡¹
 void vote_title() {
 
 	docmdtitle(
-			"[Í¶Æ±ÏäÁĞ±í]",
-			"[[1;32m¡û[m,[1;32me[m] Àë¿ª [[1;32mh[m] ÇóÖú [[1;32m¡ú[m,[1;32mr <cr>[m] ½øĞĞÍ¶Æ± [[1;32m¡ü[m,[1;32m¡ı[m] ÉÏ,ÏÂÑ¡Ôñ [1m¸ßÁÁ¶È[m±íÊ¾ÉĞÎ´Í¶Æ±");
+			"[æŠ•ç¥¨ç®±åˆ—è¡¨]",
+			"[[1;32mâ†[m,[1;32me[m] ç¦»å¼€ [[1;32mh[m] æ±‚åŠ© [[1;32mâ†’[m,[1;32mr <cr>[m] è¿›è¡ŒæŠ•ç¥¨ [[1;32mâ†‘[m,[1;32mâ†“[m] ä¸Š,ä¸‹é€‰æ‹© [1mé«˜äº®åº¦[mè¡¨ç¤ºå°šæœªæŠ•ç¥¨");
 	update_endline();
 }
 
-//¸ù¾İÓÃ»§µÄ°´¼ü¶ÔÍ¶Æ±Ïä½øĞĞ²Ù×÷,¿ÉÒÔ½áÊø/ĞŞ¸Ä/Ç¿ÖÆ¹Ø±Õ/ÏÔÊ¾Í¶Æ±½á¹û
-//ch: ÓÃ»§µÄ°´¼ü
-//allnum:Í¶Æ±controlfileµÄµÚ¼¸¸ö¼ÇÂ¼
-//pagenum:Î´Ê¹ÓÃ
-//·µ»ØÖµ 0:Ê§°Ü 1:³É¹¦
+//æ ¹æ®ç”¨æˆ·çš„æŒ‰é”®å¯¹æŠ•ç¥¨ç®±è¿›è¡Œæ“ä½œ,å¯ä»¥ç»“æŸ/ä¿®æ”¹/å¼ºåˆ¶å…³é—­/æ˜¾ç¤ºæŠ•ç¥¨ç»“æœ
+//ch: ç”¨æˆ·çš„æŒ‰é”®
+//allnum:æŠ•ç¥¨controlfileçš„ç¬¬å‡ ä¸ªè®°å½•
+//pagenum:æœªä½¿ç”¨
+//è¿”å›å€¼ 0:å¤±è´¥ 1:æˆåŠŸ
 int vote_key(int ch, int allnum, int pagenum) {
 	int deal = 0, ans;
 	char buf[STRLEN];
@@ -1069,19 +1093,19 @@ int vote_key(int ch, int allnum, int pagenum) {
 			deal = 1;
 			get_record(controlfile, &currvote, sizeof(struct votebal),
 					allnum + 1);
-			prints("[5;1;31m¾¯¸æ!![m\n");
-			prints("Í¶Æ±Ïä±êÌâ£º[1m%s[m\n", currvote.title);
-			ans = askyn("ÄúÈ·¶¨ÒªÌáÔç½áÊøÕâ¸öÍ¶Æ±Âğ", NA, NA);
+			prints("[5;1;31mè­¦å‘Š!![m\n");
+			prints("æŠ•ç¥¨ç®±æ ‡é¢˜ï¼š[1m%s[m\n", currvote.title);
+			ans = askyn("æ‚¨ç¡®å®šè¦ææ—©ç»“æŸè¿™ä¸ªæŠ•ç¥¨å—", NA, NA);
 
 			if (ans != 1) {
 				move(2, 0);
-				prints("È¡ÏûÉ¾³ıĞĞ¶¯\n");
+				prints("å–æ¶ˆåˆ é™¤è¡ŒåŠ¨\n");
 				pressreturn();
 				clear();
 				break;
 			}
 			mk_result(allnum + 1);
-			sprintf(buf, "[½áÊø] ÌáÔç½áÊøÍ¶Æ± %s", currvote.title);
+			sprintf(buf, "[ç»“æŸ] ææ—©ç»“æŸæŠ•ç¥¨ %s", currvote.title);
 			securityreport(buf, 0, 4);
 			break;
 		case 'M':
@@ -1092,13 +1116,13 @@ int vote_key(int ch, int allnum, int pagenum) {
 			deal = 1;
 			get_record(controlfile, &currvote, sizeof(struct votebal),
 					allnum + 1);
-			prints("[5;1;31m¾¯¸æ!![m\n");
-			prints("Í¶Æ±Ïä±êÌâ£º[1m%s[m\n", currvote.title);
-			ans = askyn("ÄúÈ·¶¨ÒªĞŞ¸ÄÕâ¸öÍ¶Æ±µÄÉè¶¨Âğ", NA, NA);
+			prints("[5;1;31mè­¦å‘Š!![m\n");
+			prints("æŠ•ç¥¨ç®±æ ‡é¢˜ï¼š[1m%s[m\n", currvote.title);
+			ans = askyn("æ‚¨ç¡®å®šè¦ä¿®æ”¹è¿™ä¸ªæŠ•ç¥¨çš„è®¾å®šå—", NA, NA);
 
 			if (ans != 1) {
 				move(2, 0);
-				prints("È¡ÏûĞŞ¸ÄĞĞ¶¯\n");
+				prints("å–æ¶ˆä¿®æ”¹è¡ŒåŠ¨\n");
 				pressreturn();
 				clear();
 				break;
@@ -1106,7 +1130,7 @@ int vote_key(int ch, int allnum, int pagenum) {
 			makevote(&currvote, currboard);
 			substitute_record(controlfile, &currvote,
 					sizeof(struct votebal), allnum + 1);
-			sprintf(buf, "[ĞŞ¸Ä] ĞŞ¸ÄÍ¶Æ±Éè¶¨ %s", currvote.title);
+			sprintf(buf, "[ä¿®æ”¹] ä¿®æ”¹æŠ•ç¥¨è®¾å®š %s", currvote.title);
 			securityreport(buf, 0, 4);
 			break;
 		case 'D':
@@ -1118,18 +1142,18 @@ int vote_key(int ch, int allnum, int pagenum) {
 			get_record(controlfile, &currvote, sizeof(struct votebal),
 					allnum + 1);
 			clear();
-			prints("[5;1;31m¾¯¸æ!![m\n");
-			prints("Í¶Æ±Ïä±êÌâ£º[1m%s[m\n", currvote.title);
-			ans = askyn("ÄúÈ·¶¨ÒªÇ¿ÖÆ¹Ø±ÕÕâ¸öÍ¶Æ±Âğ", NA, NA);
+			prints("[5;1;31mè­¦å‘Š!![m\n");
+			prints("æŠ•ç¥¨ç®±æ ‡é¢˜ï¼š[1m%s[m\n", currvote.title);
+			ans = askyn("æ‚¨ç¡®å®šè¦å¼ºåˆ¶å…³é—­è¿™ä¸ªæŠ•ç¥¨å—", NA, NA);
 
 			if (ans != 1) {
 				move(2, 0);
-				prints("È¡ÏûÉ¾³ıĞĞ¶¯\n");
+				prints("å–æ¶ˆåˆ é™¤è¡ŒåŠ¨\n");
 				pressreturn();
 				clear();
 				break;
 			}
-			sprintf(buf, "[¹Ø±Õ] Ç¿ÖÆ¹Ø±ÕÍ¶Æ± %s", currvote.title);
+			sprintf(buf, "[å…³é—­] å¼ºåˆ¶å…³é—­æŠ•ç¥¨ %s", currvote.title);
 			securityreport(buf, 0, 4);
 			dele_vote(allnum + 1);
 			break;
@@ -1143,7 +1167,7 @@ int vote_key(int ch, int allnum, int pagenum) {
 	return 1;
 }
 
-//ÏÔÊ¾Í¶Æ±ÏäĞÅÏ¢
+//æ˜¾ç¤ºæŠ•ç¥¨ç®±ä¿¡æ¯
 int Show_Votes() {
 
 	move(3, 0);
@@ -1152,7 +1176,7 @@ int Show_Votes() {
 	setcontrolfile();
 	if (apply_record(controlfile, printvote, sizeof(struct votebal), 0, 0,
 			0) == -1) {
-		prints("´íÎó£¬Ã»ÓĞÍ¶Æ±Ïä¿ªÆô....");
+		prints("é”™è¯¯ï¼Œæ²¡æœ‰æŠ•ç¥¨ç®±å¼€å¯....");
 		pressreturn();
 		return 0;
 	}
@@ -1160,8 +1184,8 @@ int Show_Votes() {
 	return 0;
 }
 
-//ÓÃ»§¶Ô±¾°æ½øĞĞÍ¶Æ±£¬bbs.cµ÷ÓÃ
-//·µ»ØÖµ:¹Ì¶¨ÎªFULLUPDATE
+//ç”¨æˆ·å¯¹æœ¬ç‰ˆè¿›è¡ŒæŠ•ç¥¨ï¼Œbbs.cè°ƒç”¨
+//è¿”å›å€¼:å›ºå®šä¸ºFULLUPDATE
 int b_vote() {
 	int num_of_vote;
 	int voting;
@@ -1174,7 +1198,7 @@ int b_vote() {
 	if (num_of_vote == 0) {
 		move(2, 0);
 		clrtobot();
-		prints("\n±§Ç¸, Ä¿Ç°²¢Ã»ÓĞÈÎºÎÍ¶Æ±¾ÙĞĞ¡£\n");
+		prints("\næŠ±æ­‰, ç›®å‰å¹¶æ²¡æœ‰ä»»ä½•æŠ•ç¥¨ä¸¾è¡Œã€‚\n");
 		pressreturn();
 		setvoteflag(currboard, 0);
 		return FULLUPDATE;
@@ -1186,12 +1210,12 @@ int b_vote() {
 	return /* user_vote( currboard ) */FULLUPDATE;
 }
 
-//ÏÔÊ¾Í¶Æ±½á¹û  bbs.cµ÷ÓÃ
+//æ˜¾ç¤ºæŠ•ç¥¨ç»“æœ  bbs.cè°ƒç”¨
 int b_results() {
 	return vote_results(currboard);
 }
 
-//SYSOP°æ¿ªÆôÍ¶Æ±Ïä
+//SYSOPç‰ˆå¼€å¯æŠ•ç¥¨ç®±
 int m_vote() {
 	char buf[STRLEN];
 
@@ -1203,7 +1227,7 @@ int m_vote() {
 	return;
 }
 
-//¶ÔSYSOP°æ½øĞĞÍ¶Æ±
+//å¯¹SYSOPç‰ˆè¿›è¡ŒæŠ•ç¥¨
 int x_vote() {
 	char buf[STRLEN];
 
@@ -1215,8 +1239,8 @@ int x_vote() {
 	return;
 }
 
-//ÏÔÊ¾sysop°æÍ¶Æ±½á¹û
+//æ˜¾ç¤ºsysopç‰ˆæŠ•ç¥¨ç»“æœ
 int x_results() {
-	modify_user_mode(XMENU); //¸ü¸ÄÓÃ»§ Ä£Ê½×´Ì¬ÖÁ??
-	return vote_results(DEFAULTBOARD); //ÏÔÊ¾sysop°æÍ¶Æ±½á¹û
+	modify_user_mode(XMENU); //æ›´æ”¹ç”¨æˆ· æ¨¡å¼çŠ¶æ€è‡³??
+	return vote_results(DEFAULTBOARD); //æ˜¾ç¤ºsysopç‰ˆæŠ•ç¥¨ç»“æœ
 }

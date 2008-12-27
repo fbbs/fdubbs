@@ -388,7 +388,7 @@ int apply_boards(int (*func) ()) {
 	return 0;
 }
 
-//	·µ»Ø°æÃæµÄ»º´æ
+//	è¿”å›ç‰ˆé¢çš„ç¼“å­˜
 struct boardheader * getbcache(char *bname) {
 	register int i;
 	resolve_boards();
@@ -406,16 +406,16 @@ struct bstat *getbstat(char *bname) {
 	}
 	return NULL;
 }
-//	¸ù¾İ°æÃû,·µ»ØÆäÔÚbcacheÖĞµÄ¼ÇÂ¼Î»ÖÃ
+//	æ ¹æ®ç‰ˆå,è¿”å›å…¶åœ¨bcacheä¸­çš„è®°å½•ä½ç½®
 int getbnum(char *bname) {
 	register int i;
 	resolve_boards();
 
 	for (i = 0; i < numboards; i++) {
-		if (bcache[i].flag & BOARD_POST_FLAG //pÏŞÖÆ°æÃæ
-				|| HAS_PERM(bcache[i].level) //È¨ÏŞ×ã¹»
-		||(bcache[i].flag & BOARD_NOZAP_FLAG)) {//²»¿Ézap
-			if (!strncasecmp(bname, bcache[i].filename, STRLEN)) //ÕÒµ½°æÃû
+		if (bcache[i].flag & BOARD_POST_FLAG //pé™åˆ¶ç‰ˆé¢
+				|| HAS_PERM(bcache[i].level) //æƒé™è¶³å¤Ÿ
+		||(bcache[i].flag & BOARD_NOZAP_FLAG)) {//ä¸å¯zap
+			if (!strncasecmp(bname, bcache[i].filename, STRLEN)) //æ‰¾åˆ°ç‰ˆå
 				return i + 1;
 		}
 	}
@@ -491,7 +491,7 @@ char *bname;
 	register int i;
 	if (strcmp(bname, DEFAULTBOARD) == 0)
 	return 1;
-	if ((i = getbnum(bname)) == 0)//°æÃæ²»¿É¼û
+	if ((i = getbnum(bname)) == 0)//ç‰ˆé¢ä¸å¯è§
 	return 0;
 	if (bcache[i - 1].flag & BOARD_NOZAP_FLAG)
 	return 1;
@@ -500,7 +500,7 @@ char *bname;
 	return 1;
 }
 
-/* add by stiger, µÃµ½hashkey */
+/* add by stiger, å¾—åˆ°hashkey */
 int uhashkey(char *userid, char *a1, char *a2) {
 	char *c=userid;
 	int key=0;
@@ -530,7 +530,7 @@ int uhashkey(char *userid, char *a1, char *a2) {
 	}
 	return key%256;
 }
-/* hashkey ¼ÆËã over */
+/* hashkey è®¡ç®— over */
 
 int apply_users(int (*fptr) (struct userec *)) {
 	int i;
@@ -565,7 +565,7 @@ void *arg;
 		uidshm->userid[usernumber++][IDLEN] = '\0';
 
 		if(uentp->userid[0]) {
-			/* hash Ìî³ä */
+			/* hash å¡«å…… */
 			key = uhashkey (uentp->userid, &a1, &a2);
 
 			if( uidshm->hash[a1][a2][key] == 0 ) {
@@ -576,13 +576,13 @@ void *arg;
 				uidshm->next[i-1] = usernumber;
 				uidshm->prev[usernumber-1] = i;
 			}
-			/* end of hash Ìî³ä */
+			/* end of hash å¡«å…… */
 		}
 	}
 	return 0;
 }
 
-/* hash É¾³ı */
+/* hash åˆ é™¤ */
 int del_uidshm(int num, char *userid) {
 	char a1, a2;
 	int key;
@@ -619,7 +619,7 @@ int del_uidshm(int num, char *userid) {
 	uidshm->userid[i-1][0]='\0';
 
 }
-/* endof hashÉ¾³ı */
+/* endof hashåˆ é™¤ */
 
 static int shm_lock(char *lockname) {
 	int lockfd;
@@ -677,11 +677,11 @@ int load_ucache(int reload) {
 	}
 
 	memset(uidshm->userid, 0, sizeof(uidshm->userid));
-	/* ³õÊ¼?uhash */
+	/* åˆå§‹?uhash */
 	memset(uidshm->hash, 0, sizeof(uidshm->hash));
 	memset(uidshm->next, 0, sizeof(uidshm->next));
 	memset(uidshm->prev, 0, sizeof(uidshm->prev));
-	/* endof ³õÊ¼»¯ */
+	/* endof åˆå§‹åŒ– */
 	usernumber = 0;
 
 	for (i=0; i<MAXUSERS; i++)
@@ -744,7 +744,7 @@ void setuserid(int num, char *userid) {
 		if (num > uidshm->number)
 			uidshm->number = num;
 		strncpy(uidshm->userid[num - 1], userid, IDLEN + 1);
-		/* hash Ìî³ä */
+		/* hash å¡«å…… */
 		if (strcmp(userid, "new") ) {
 			char a1, a2;
 			int key;
@@ -758,14 +758,14 @@ void setuserid(int num, char *userid) {
 				int i;
 				for (i=uidshm->hash[a1][a2][key]; uidshm->next[i-1]; i
 						=uidshm->next[i-1])
-					;//ÕÒµ½Ò»¸ö¿ÕÎ»ÖÃ
+					;//æ‰¾åˆ°ä¸€ä¸ªç©ºä½ç½®
 
 				uidshm->next[i-1] = num;
 				uidshm->prev[num-1] = i;
 				uidshm->next[num-1] = 0;
 			}
 		}
-		/* end of hash Ìî³ä */
+		/* end of hash å¡«å…… */
 	}
 }
 
@@ -789,16 +789,16 @@ int uid;
 	resolve_ucache();
 	strcpy(userid, uidshm->userid[uid - 1]);
 }
-//Ê¹ÓÃhashº¯ÊıÀ´ËÑË÷ÓÃ»§
-//		·µ»ØuseridÔÚ¹²ÏíÄÚ´æÖĞµÄÎ»ÖÃ
+//ä½¿ç”¨hashå‡½æ•°æ¥æœç´¢ç”¨æˆ·
+//		è¿”å›useridåœ¨å…±äº«å†…å­˜ä¸­çš„ä½ç½®
 int searchuser(char *userid) {
 	register int i;
 	char a1, a2;
 	int key;
 	resolve_ucache();
-	if (0) { //²»Ö´ĞĞ´Ë¾ä
+	if (0) { //ä¸æ‰§è¡Œæ­¤å¥
 		for (i = 0; i < uidshm->number; i++)
-			//µÍĞ§µÄÏßĞÔËÑË÷,¿ÉÒÔ¿¼ÂÇÌá¸ßĞ§ÂÊ
+			//ä½æ•ˆçš„çº¿æ€§æœç´¢,å¯ä»¥è€ƒè™‘æé«˜æ•ˆç‡
 			if (!strncasecmp(userid, uidshm->userid[i], IDLEN + 1))
 				return i + 1;
 		return 0;
@@ -838,7 +838,7 @@ int getuserec(char *userid, struct userec *u) {
 	return uid;
 }
 
-//  È¡µÃÓÃ»§IDÎªuseridµÄÓÃ»§ĞÅÏ¢,±£´æÔÚcurrentuserÖĞ
+//  å–å¾—ç”¨æˆ·IDä¸ºuseridçš„ç”¨æˆ·ä¿¡æ¯,ä¿å­˜åœ¨currentuserä¸­
 int getcurrentuser(char *userid) {
 	int uid = searchuser(userid);
 	if (uid == 0)
@@ -893,7 +893,7 @@ int *pnum;
 	return buf[0];
 }
 
-//Ó³ÉäÓÃ»§Êı¾İµ½ÄÚ´æ
+//æ˜ å°„ç”¨æˆ·æ•°æ®åˆ°å†…å­˜
 void resolve_utmp() {
 	if (utmpshm == NULL) {
 		utmpshm = attach_shm("UTMP_SHMKEY", 3699, sizeof(*utmpshm));
@@ -902,7 +902,7 @@ void resolve_utmp() {
 int get_nextid(char* boardname) {
 	register int i, ret;
 	for (i = 0; i < numboards; i++) {
-		if (!strncasecmp(boardname, bcache[i].filename, STRLEN)) { //ÕÒµ½°æÃû
+		if (!strncasecmp(boardname, bcache[i].filename, STRLEN)) { //æ‰¾åˆ°ç‰ˆå
 			ret = i;
 			int fd;
 			fd = bcache_lock();
@@ -937,9 +937,9 @@ int get_total() {
 
 int get_status(int uid) {
 	resolve_ucache();
-	if ( !HAS_PERM(PERM_SEECLOAK) && //µ±Ç°Ê¹ÓÃÕßÃ»ÓĞÕ¾Îñ»ò¿´ÒşÉíÈ¨ÏŞ
-			(uidshm->passwd[uid-1].userlevel&PERM_LOGINCLOAK) && //Ëù²ì¿´µÄÓÃ»§ÓµÓĞÒşÉíÈ¨ÏŞ
-			(uidshm->passwd[uid-1].flags[0] & CLOAK_FLAG)//Ëù²ì¿´µÄÓÃ»§¿ªÆôÁËÒşÉíÈ¨ÏŞ
+	if ( !HAS_PERM(PERM_SEECLOAK) && //å½“å‰ä½¿ç”¨è€…æ²¡æœ‰ç«™åŠ¡æˆ–çœ‹éšèº«æƒé™
+			(uidshm->passwd[uid-1].userlevel&PERM_LOGINCLOAK) && //æ‰€å¯Ÿçœ‹çš„ç”¨æˆ·æ‹¥æœ‰éšèº«æƒé™
+			(uidshm->passwd[uid-1].flags[0] & CLOAK_FLAG)//æ‰€å¯Ÿçœ‹çš„ç”¨æˆ·å¼€å¯äº†éšèº«æƒé™
 	)
 		return 0;
 	return uidshm->status[uid-1];
@@ -1183,9 +1183,9 @@ int t_search_ulist(struct user_info *uentp, int (*fptr) (), int farg, int show, 
 			if (!show)
 				continue;
 			if (num == 1)
-				prints("Ä¿Ç° %s ×´Ì¬ÈçÏÂ£º\n", uentp->userid);
+				prints("ç›®å‰ %s çŠ¶æ€å¦‚ä¸‹ï¼š\n", uentp->userid);
 			if (uentp->invisible)
-				strcpy(col, "[Òş][1;36m");
+				strcpy(col, "[éš][1;36m");
 			else if (uentp->mode == POSTING || uentp->mode == MARKET)
 				strcpy(col, "[1;32m");
 			else if (uentp->mode == FIVE || uentp->mode == BBSNET)
@@ -1194,17 +1194,17 @@ int t_search_ulist(struct user_info *uentp, int (*fptr) (), int farg, int show, 
 				strcpy(col, "[1m");
 			if (doTalk) {
 				prints(
-						"(%d) ×´Ì¬£º%s%-10s[m£¬À´×Ô£º%.20s\n",
+						"(%d) çŠ¶æ€ï¼š%s%-10s[mï¼Œæ¥è‡ªï¼š%.20s\n",
 						num,
 						col,
 						ModeType(uentp->mode),
 #ifdef SHOWMETOFRIEND		    
-						/* The following line is modified by Amigo 2002.04.02. Let sysop view fromhost at »·¹ËËÄ·½. */
+						/* The following line is modified by Amigo 2002.04.02. Let sysop view fromhost at ç¯é¡¾å››æ–¹. */
 						((uentp->from[22] != 'H')||hisfriend(uentp)
 								||HAS_PERM(PERM_USER))?uentp->from:"......"
 						);
 #else
-						/* The following line is modified by Amigo 2002.04.02. Let sysop view fromhost at »·¹ËËÄ·½. */
+						/* The following line is modified by Amigo 2002.04.02. Let sysop view fromhost at ç¯é¡¾å››æ–¹. */
 						((uentp->from[22] != 'H')|| HAS_PERM(PERM_USER)) ? uentp->from
 								: "......");
 #endif
@@ -1219,7 +1219,7 @@ int t_search_ulist(struct user_info *uentp, int (*fptr) (), int farg, int show, 
 		outc('\n');
 	return num;
 }
-//¸ü¸ÄµÚuent¸öÓÃ»§µÄĞÅÏ¢,½«ÆäÉèÖÃÎªuentp
+//æ›´æ”¹ç¬¬uentä¸ªç”¨æˆ·çš„ä¿¡æ¯,å°†å…¶è®¾ç½®ä¸ºuentp
 void update_ulist(struct user_info *uentp, int uent) {
 	resolve_utmp();
 	if (uent > 0 && uent <= USHM_SIZE) {

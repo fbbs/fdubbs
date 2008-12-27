@@ -27,13 +27,13 @@ int rebuild(char* board){
 	DIR *dp;
 	
 	sprintf(pathname, "%s/boards/%s",BBSHOME,board);
-	printf("1. 进入目录 %s\n",pathname);
+	printf("1. 杩涘叆鐩綍 %s\n",pathname);
 	if( (dp = opendir(pathname))==NULL){
 		printf("OpenDir error for %s\n",pathname);
 		return;
 	}
 	
-	printf("2. 生成 .DIR\n");
+	printf("2. 鐢熸垚 .DIR\n");
 	all = build_dir( pathname);
 }
 

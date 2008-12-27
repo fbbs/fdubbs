@@ -33,9 +33,9 @@
 #ifdef TERMIOS
 #include <termios.h>
 #define stty(fd, data) tcsetattr( fd, TCSANOW, data )
-//ÉèÖÃfdËù¹ØÁªµÄÖÕ¶ËÊôĞÔÎªtermios½á¹¹µÄÖ¸Õëdata,ÇÒÁ¢¿ÌÉúĞ§(TCSANOW)
+//è®¾ç½®fdæ‰€å…³è”çš„ç»ˆç«¯å±æ€§ä¸ºtermiosç»“æ„çš„æŒ‡é’ˆdata,ä¸”ç«‹åˆ»ç”Ÿæ•ˆ(TCSANOW)
 #define gtty(fd, data) tcgetattr( fd, data )
-//È¡µÃfdËù¹ØÁªµÄÖÕ¶ËµÄÊôĞÔ,²¢´æ·ÅÔÚdataËùÖ¸ÏòµÄ½á¹¹ÖĞ
+//å–å¾—fdæ‰€å…³è”çš„ç»ˆç«¯çš„å±æ€§,å¹¶å­˜æ”¾åœ¨dataæ‰€æŒ‡å‘çš„ç»“æ„ä¸­
 struct termios tty_state, tty_new;
 #else
 struct sgttyb tty_state, tty_new;
@@ -49,7 +49,7 @@ struct sgttyb tty_state, tty_new;
 #define CBREAK  0x00000002
 #endif
 
-//  »ñÈ¡ttyÊôĞÔ,²»³É¹¦ÔòÍË³öº¯Êı
+//  è·å–ttyå±æ€§,ä¸æˆåŠŸåˆ™é€€å‡ºå‡½æ•°
 int get_tty() {
 	if (gtty(1, &tty_state) < 0) {
 		prints("gtty failed\n");
@@ -60,7 +60,7 @@ int get_tty() {
 	return 1;
 }
 #ifdef TERMIOS
-//	³õÊ¼»¯ttyÉèÖÃ
+//	åˆå§‹åŒ–ttyè®¾ç½®
 void init_tty()
 {
 	long vdisable;
@@ -71,17 +71,17 @@ void init_tty()
 	tty_new.c_cc[VMIN] = 1;
 	tty_new.c_cc[VTIME] = 0;
 	if ((vdisable = fpathconf(STDIN_FILENO, _PC_VDISABLE)) >= 0) {
-		//fpathconf(fd,name) È¡µÃÏà¶ÔÓÚÎÄ¼şÃèÊö·ûfdµÄÉèÖÃÑ¡ÏînameµÄÖµ
+		//fpathconf(fd,name) å–å¾—ç›¸å¯¹äºæ–‡ä»¶æè¿°ç¬¦fdçš„è®¾ç½®é€‰é¡¹nameçš„å€¼
 		//_PC_VDISABLE returns nonzero if special character processing can be disabled
 		tty_new.c_cc[VSTART] = vdisable;
 		tty_new.c_cc[VSTOP] = vdisable;
 		tty_new.c_cc[VLNEXT] = vdisable;
 	}
 	tcsetattr(1, TCSANOW, &tty_new);
-	//Ïàµ±ÓÚstty(1,&tty_new);
+	//ç›¸å½“äºstty(1,&tty_new);
 }
 #else
-//³õÊ¼»¯ÖÕ¶Ë,Éè¶¨ÖÕ¶ËµÄÊôĞÔ
+//åˆå§‹åŒ–ç»ˆç«¯,è®¾å®šç»ˆç«¯çš„å±æ€§
 void init_tty() {
 	memcpy(&tty_new, &tty_state, sizeof(tty_new));
 	tty_new.sg_flags |= RAW;
@@ -96,19 +96,19 @@ void init_tty() {
 }
 #endif
 
-//ÒÔÊôĞÔtty_stateÉè¶¨ÖØĞÂÉè¶¨
+//ä»¥å±æ€§tty_stateè®¾å®šé‡æ–°è®¾å®š
 void reset_tty() {
 	stty(1, &tty_state);
 }
 
-//ÒÔÊôĞÔtty_newÀ´»Ö¸´ÖÕ¶ËÉè¶¨
+//ä»¥å±æ€§tty_newæ¥æ¢å¤ç»ˆç«¯è®¾å®š
 void restore_tty() {
 	stty(1, &tty_new);
 }
 
 #define TERMCOMSIZE (1024)
 
-int dumb_term = YEA; //ÑÆÖÕ¶ËÉèÖÃ³ÉÕæ
+int dumb_term = YEA; //å“‘ç»ˆç«¯è®¾ç½®æˆçœŸ
 
 char clearbuf[TERMCOMSIZE];
 int clearbuflen;
@@ -128,15 +128,15 @@ int strtstandoutlen;
 char endstandout[TERMCOMSIZE];
 int endstandoutlen;
 
-int t_lines = 24; //ÖÕ¶ËµÄĞĞÊı
-int t_columns = 255; //ÖÕ¶ËµÄÁĞÊı
+int t_lines = 24; //ç»ˆç«¯çš„è¡Œæ•°
+int t_columns = 255; //ç»ˆç«¯çš„åˆ—æ•°
 
-int automargins; //Èç¹ûµ½´ï±ß½ç,ÊÇ·ñ×Ô¶¯×ªµ½ÏÂÒ»ĞĞ
+int automargins; //å¦‚æœåˆ°è¾¾è¾¹ç•Œ,æ˜¯å¦è‡ªåŠ¨è½¬åˆ°ä¸‹ä¸€è¡Œ
 
 char *outp;
-int *outlp; //Êä³öµÄÖ¸Õë
+int *outlp; //è¾“å‡ºçš„æŒ‡é’ˆ
 
-//½«ch·ÅÈëoutlpËùÖ¸ÏòµÄ×Ö·ûÊı×éÖĞ
+//å°†chæ”¾å…¥outlpæ‰€æŒ‡å‘çš„å­—ç¬¦æ•°ç»„ä¸­
 static outcf(char ch) {
 	if (*outlp < TERMCOMSIZE) {
 		(*outlp)++;
@@ -144,7 +144,7 @@ static outcf(char ch) {
 	}
 }
 
-//ÖÕ¶Ë³õÊ¼»¯¹¤×÷,³É¹¦»ñµÃtermµÄÈë¿ÚÊ±,½øĞĞÉÆºó´¦Àí²¢·µ»ØYEA,Ê§°Ü·µ»ØNA
+//ç»ˆç«¯åˆå§‹åŒ–å·¥ä½œ,æˆåŠŸè·å¾—termçš„å…¥å£æ—¶,è¿›è¡Œå–„åå¤„ç†å¹¶è¿”å›YEA,å¤±è´¥è¿”å›NA
 int term_init(char *term) {
 	extern char PC, *UP, *BC;
 	extern short ospeed;
@@ -155,24 +155,24 @@ int term_init(char *term) {
 	char *sbp, *s;
 	char *tgetstr();
 #ifdef TERMIOS
-	ospeed = cfgetospeed(&tty_state); //·µ»Øtty_stateÊôĞÔµÄÖÕ¶Ë´«ÊäËÙÂÊ
+	ospeed = cfgetospeed(&tty_state); //è¿”å›tty_stateå±æ€§çš„ç»ˆç«¯ä¼ è¾“é€Ÿç‡
 #else
 	ospeed = tty_state.sg_ospeed;
 #endif
 
-	if (tgetent(buf, term) != 1) //»ñµÃtermµÄÈë¿Ú,³É¹¦·µ»Ø1,Ê§°ÜÔò0,ÈôÎŞÊı¾İ¿â
-		//	·µ»Ø-1;	bufËÆºõ²»Æğ×÷ÓÃ
+	if (tgetent(buf, term) != 1) //è·å¾—termçš„å…¥å£,æˆåŠŸè¿”å›1,å¤±è´¥åˆ™0,è‹¥æ— æ•°æ®åº“
+		//	è¿”å›-1;	bufä¼¼ä¹ä¸èµ·ä½œç”¨
 		return NA;
 
 	sbp = sbuf;
 	s = tgetstr("pc", &sbp);/* get pad character */
-	//·µ»Ø"pc"µÄ×Ö·û´®Èë¿Ú,Èô·µ»Ø0±íÊ¾²»¿ÉÓÃ
-	//×Ö·û´®½á¹ûÒ²±£´æÔÚsbpÖĞ,ÒÔnull½áÊø
+	//è¿”å›"pc"çš„å­—ç¬¦ä¸²å…¥å£,è‹¥è¿”å›0è¡¨ç¤ºä¸å¯ç”¨
+	//å­—ç¬¦ä¸²ç»“æœä¹Ÿä¿å­˜åœ¨sbpä¸­,ä»¥nullç»“æŸ
 	if (s)
 		PC = *s; //PC is set by tgetent to the terminfo entry's data for pad_char
-	t_lines = tgetnum("li"); //tgetnum·µ»Ø"li"µÄÊıÖµÈë¿Ú,·µ»ØÖµÎª-1±íÊ¾²»¿ÉÓÃ
+	t_lines = tgetnum("li"); //tgetnumè¿”å›"li"çš„æ•°å€¼å…¥å£,è¿”å›å€¼ä¸º-1è¡¨ç¤ºä¸å¯ç”¨
 	t_columns = tgetnum("co");
-	automargins = tgetflag("am");//tgetflag·µ»Ø"am"µÄ²¼¶ûÖµÈë¿Ú,0±íÊ¾²»¿ÉÓÃ
+	automargins = tgetflag("am");//tgetflagè¿”å›"am"çš„å¸ƒå°”å€¼å…¥å£,0è¡¨ç¤ºä¸å¯ç”¨
 	outp = clearbuf; /* fill clearbuf with clear screen command */
 	outlp = &clearbuflen;
 	clearbuflen = 0;
@@ -181,7 +181,7 @@ int term_init(char *term) {
 	//the rerurned string.The return value will also be copied
 	//to the buffer pointed to by "sbp".
 	if (s)
-		tputs(s, t_lines, outcf); //Êä³ö·µ»ØµÄ×Ö·ûÖµ
+		tputs(s, t_lines, outcf); //è¾“å‡ºè¿”å›çš„å­—ç¬¦å€¼
 	outp = cleolbuf; /* fill cleolbuf with clear to eol command */
 	outlp = &cleolbuflen;
 	cleolbuflen = 0;
@@ -228,10 +228,10 @@ int term_init(char *term) {
 	return YEA;
 }
 
-//ÒÆ¶¯µ½Î»ÖÃ(destline,destcol),Í¬Ê±ÓÃoutcÊä³ö
+//ç§»åŠ¨åˆ°ä½ç½®(destline,destcol),åŒæ—¶ç”¨outcè¾“å‡º
 void do_move(int destcol, int destline, int (*outc)()) {
 	tputs(tgoto(cm, destcol, destline), 0, outc);
-	//tgoto¶Ô´«µİ½øÀ´µÄ²ÎÊıÊµÏÖ¶ÔÓ¦µÄÄÜÁ¦,²¢°Ñ½á¹û¸øtputsµ÷ÓÃ
-	//tputsÀûÓÃoutcº¯ÊıÊä³ötgoto´«½øÀ´µÄ²ÎÊı
+	//tgotoå¯¹ä¼ é€’è¿›æ¥çš„å‚æ•°å®ç°å¯¹åº”çš„èƒ½åŠ›,å¹¶æŠŠç»“æœç»™tputsè°ƒç”¨
+	//tputsåˆ©ç”¨outcå‡½æ•°è¾“å‡ºtgotoä¼ è¿›æ¥çš„å‚æ•°
 }
 

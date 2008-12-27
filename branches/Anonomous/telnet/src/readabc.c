@@ -6,12 +6,12 @@ char fname[STRLEN];
 extern char currboard[STRLEN];
 extern char someoneID[31];
 
-//	ĞÅÏ¢²é¿´,
-//		type = 	0Ê±,¿´MÎÄ
-//				1Ê±,¿´Ô­×÷
-//				2Ê±,Í¬×÷Õß
-//				3Ê±,Í¬×÷Õß,Ä£ºı²éÕÒ
-//				4Ê±,±êÌâ¹Ø¼ü×Ö
+//	ä¿¡æ¯æŸ¥çœ‹,
+//		type = 	0æ—¶,çœ‹Mæ–‡
+//				1æ—¶,çœ‹åŸä½œ
+//				2æ—¶,åŒä½œè€…
+//				3æ—¶,åŒä½œè€…,æ¨¡ç³ŠæŸ¥æ‰¾
+//				4æ—¶,æ ‡é¢˜å…³é”®å­—
 int marked_all(int type) {
 	struct fileheader post;
 	register num=0;
@@ -23,18 +23,18 @@ int marked_all(int type) {
 	sprintf(dname, "boards/%s/%s", currboard, DOT_DIR);
 	sprintf(fname, "boards/%s/%s2", currboard, DOT_DIR);
 	switch (type) {
-		case 0: // Éú³ÉMÎÄË÷ÒıÎÄ¼ş
+		case 0: // ç”ŸæˆMæ–‡ç´¢å¼•æ–‡ä»¶
 			sprintf(tname, "boards/%s/%s", currboard, MARKED_DIR);
 			break;
-		case 1: // Éú³ÉÔ­×÷Ë÷ÒıÎÄ¼ş
+		case 1: // ç”ŸæˆåŸä½œç´¢å¼•æ–‡ä»¶
 			sprintf(tname, "boards/%s/%s", currboard, AUTHOR_DIR);
 			break;
 		case 2:
-		case 3: // Í¬×÷ÕßË÷ÒıÎÄ¼ş
+		case 3: // åŒä½œè€…ç´¢å¼•æ–‡ä»¶
 			sprintf(tname, "boards/%s/SOMEONE.%s.DIR.%d", currboard,
 					someoneID, type-2);
 			break;
-		case 4: // ±êÌâ¹Ø¼ü×ÖË÷Òı
+		case 4: // æ ‡é¢˜å…³é”®å­—ç´¢å¼•
 			sprintf(tname, "boards/%s/KEY.%s.DIR", currboard,
 					currentuser.userid);
 			break;
@@ -51,7 +51,7 @@ int marked_all(int type) {
 		}
 	}
 	unlink(tname);
-	sprintf(buf, "cp %s %s", dname, fname); //Ê¹ÓÃÍâ²¿ÃüÁî
+	sprintf(buf, "cp %s %s", dname, fname); //ä½¿ç”¨å¤–éƒ¨å‘½ä»¤
 	system(buf);
 
 	if ((fd = open(fname, O_RDONLY, 0)) == -1) {

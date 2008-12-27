@@ -55,7 +55,7 @@ init_data() {
 	fclose(fp);
 }
 
-#ifdef FDQUAN	//¸´µ©ÈªµÄ´©Ëó³ÌĞò
+#ifdef FDQUAN	//å¤æ—¦æ³‰çš„ç©¿æ¢­ç¨‹åº
 char str[]= "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
 sh(int n) {
 	static oldn= -1;
@@ -65,8 +65,8 @@ sh(int n) {
 		printf("[1;32m %c.[m%s", str[oldn], host2[oldn]);
 	}
 	oldn= n;
-	printf("[22;3H[1;37mµ¥Î»: [1;33m%s                   [22;32H[1;37m Õ¾Ãû: [1;33m%s              \r\n", host1[n], host2[n]);
-	printf("[1;37m[23;3HÁ¬Íù: [1;33m%s                   [21;1H", ip[n]);
+	printf("[22;3H[1;37må•ä½: [1;33m%s                   [22;32H[1;37m ç«™å: [1;33m%s              \r\n", host1[n], host2[n]);
+	printf("[1;37m[23;3Hè¿å¾€: [1;33m%s                   [21;1H", ip[n]);
 	locate(n);
 	printf("[%c][1;42m%s[m", str[n], host2[n]);
 }
@@ -74,12 +74,12 @@ sh(int n) {
 show_all() {
 	int n;
 	printf("[H[2J[m");
-	printf("©³©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥[1;35m ´©  Ëó  Òø  ºÓ [m©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©·\r\n");
+	printf("â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”[1;35m ç©¿  æ¢­  é“¶  æ²³ [mâ”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”“\r\n");
 	for(n= 1; n< 22; n++)
-	printf("©§                                                                            ©§\r\n");
-	printf("©§                                                               [1;36m°´[1;33mCtrl+C[1;36mÍË³ö[m ©§\r\n");
-	printf("©»©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¥©¿");
-	printf("[21;3H©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤");
+	printf("â”ƒ                                                                            â”ƒ\r\n");
+	printf("â”ƒ                                                               [1;36mæŒ‰[1;33mCtrl+C[1;36mé€€å‡º[m â”ƒ\r\n");
+	printf("â”—â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”â”›");
+	printf("[21;3Hâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€");
 	for(n= 0; n< counts; n++) {
 		locate(n);
 		printf("[1;32m %c.[m%s", str[n], host2[n]);
@@ -129,24 +129,24 @@ void main_loop()
 		c= getch();
 		alarm(60);
 		if(c== 3|| c== 4|| c== 27|| c< 0) break;
-		if(c== 257) //ÏòÉÏ
+		if(c== 257) //å‘ä¸Š
 		{
 			if (p < 3) {
 				p += 3 * ( (counts -1)/3 - (p> ((counts -1)%3)));
 			} else p -= 3;
 		}
-		if(c== 258) //ÏòÏÂ
+		if(c== 258) //å‘ä¸‹
 		{
 			if (p+3> counts - 1)
 			p %= 3;
 			else p += 3;
 		}
-		if(c== 259) //ÏòÓÒ
+		if(c== 259) //å‘å³
 		{
 			p ++;
 			if(p> counts - 1) p = 0;
 		}
-		if(c== 260) //Ïò×ó
+		if(c== 260) //å‘å·¦
 		{
 			p --;
 			if(p<0)p = counts -1;
@@ -167,8 +167,8 @@ void main_loop()
 int bbsnet(int n) {
 	if (n>= counts)
 		return -1;
-	printf("[H[2J[1;32mo Á¬Íù: %s (%s)\r\n", host2[n], ip[n]);
-	printf("%s\r\n\r\n[m", "o Á¬²»ÉÏÊ±ÇëÉÔºò£¬30 Ãëºó½«×Ô¶¯ÍË³ö");
+	printf("[H[2J[1;32mo è¿å¾€: %s (%s)\r\n", host2[n], ip[n]);
+	printf("%s\r\n\r\n[m", "o è¿ä¸ä¸Šæ—¶è¯·ç¨å€™ï¼Œ30 ç§’åå°†è‡ªåŠ¨é€€å‡º");
 	fflush(stdout);
 	proc(host2[n], ip[n], port[n]);
 	return 0;
@@ -275,7 +275,7 @@ proc(char *hostname, char *server, int port) {
 		return;
 
 	signal(SIGALRM, SIG_IGN);
-	printf("ÒÑ¾­Á¬½ÓÉÏÖ÷»ú£¬°´'ctrl+]'¿ìËÙÍË³ö¡£\n");
+	printf("å·²ç»è¿æ¥ä¸Šä¸»æœºï¼ŒæŒ‰'ctrl+]'å¿«é€Ÿé€€å‡ºã€‚\n");
 	sprintf(buf, "%s (%s)", hostname, server);
 	bbs_syslog(buf);//rename by money for conflict with syslog() 2004.01.07
 

@@ -18,10 +18,10 @@ char	datestring[30];
 void getdatestring( time_t now)
 {
         struct tm *tm;
-        char weeknum[7][3]={"Ìì","Ò»","¶þ","Èý","ËÄ","Îå","Áù"};
+        char weeknum[7][3]={"å¤©","ä¸€","äºŒ","ä¸‰","å››","äº”","å…­"};
 
         tm = localtime(&now);
-        sprintf(datestring,"%4dÄê%02dÔÂ%02dÈÕ%02d:%02d:%02d ÐÇÆÚ%2s",
+        sprintf(datestring,"%4då¹´%02dæœˆ%02dæ—¥%02d:%02d:%02d æ˜ŸæœŸ%2s",
                 tm->tm_year+1900,tm->tm_mon+1,tm->tm_mday,
                 tm->tm_hour,tm->tm_min,tm->tm_sec,
                 weeknum[tm->tm_wday]);
@@ -32,8 +32,8 @@ int     draw_pic()
 {
         char    *blk[10] =
         {
-                "  ", "  ", "¨x", "¨y", "¨z",
-                "¨{", "¨|", "¨}", "¨~", "¨€"
+                "  ", "  ", "â–", "â–‚", "â–ƒ",
+                "â–„", "â–…", "â–†", "â–‡", "â–ˆ"
         };
         FILE    *fp;
         int     max = 0,
@@ -71,11 +71,11 @@ int     draw_pic()
 
         item=(max/MAX_LINE)+1;
 
-        fprintf(fp,"\n [1;36m   ©°©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©´[m\n");
+        fprintf(fp,"\n [1;36m   â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”[m\n");
 
         for (i = MAX_LINE; i >= 0; i--)
         {
-                fprintf(fp, "[1;37m%4.d[36m©¦[32m", (i+1)*item);
+                fprintf(fp, "[1;37m%4.d[36mâ”‚[32m", (i+1)*item);
                 for (j = 0; j < 24; j++)
                 {
 		  /*
@@ -91,14 +91,14 @@ int     draw_pic()
                   else
                            fprintf(fp,"   ");
                 }
-                fprintf(fp,"[1;36m©¦[m");
+                fprintf(fp,"[1;36mâ”‚[m");
                 fprintf(fp, "\n");
         }
         time(&now);
-        fprintf(fp, "[1;37m   0[36m©¸©¤©¤ [37m%s Æ½¾ù¸ºÔØÈËÊýÍ³¼Æ[36m ©¤©¤©¤ [37m%s[36m ©¤©¤©¼[m\n", BBSNAME,datestring);
+        fprintf(fp, "[1;37m   0[36mâ””â”€â”€ [37m%s å¹³å‡è´Ÿè½½äººæ•°ç»Ÿè®¡[36m â”€â”€â”€ [37m%s[36m â”€â”€â”˜[m\n", BBSNAME,datestring);
         fprintf(fp, "[1;36m       00 01 02 03 04 05 06 07 08 09 10 11 [31m12 13 14");
         fprintf(fp, " 15 16 17 18 19 20 21 22 23[m\n\n");
-        fprintf(fp, "                         [1;36m    1 [32m¡ö[36m = [37m%3d     [36m Æ½¾ùÉÏÕ¾ÈËÊý£º[37m%3d[m\n",item,aver);
+        fprintf(fp, "                         [1;36m    1 [32mâ– [36m = [37m%3d     [36m å¹³å‡ä¸Šç«™äººæ•°ï¼š[37m%3d[m\n",item,aver);
         fclose(fp);
 }
 

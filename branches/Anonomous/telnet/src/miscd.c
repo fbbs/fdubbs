@@ -6,50 +6,50 @@ extern int resolve_ucache();
 extern int load_ucache();
 extern void flush_bcache();
 extern void resolve_boards();
-//ÍË³öÊ±Ö´ĞĞµÄº¯Êı
+//é€€å‡ºæ—¶æ‰§è¡Œçš„å‡½æ•°
 void do_exit() {
 	flush_ucache();
 	flush_bcache();
 }
 
 int main(int argc, char *argv[]) {
-	chdir(BBSHOME); //½øÈëBBSÓÃ»§Ö÷Ä¿Â¼
-	setuid(BBSUID); //½«½ø³ÌµÄ ÓÃ»§ID
-	setgid(BBSGID); //×éIDÉèÖÃ³ÉBBS
-	setreuid(BBSUID, BBSUID); //ÉèÖÃÓĞĞ§ÓÃ»§ID	
-	setregid(BBSGID, BBSGID); //ÓĞĞ§×éIDÎªBBS
+	chdir(BBSHOME); //è¿›å…¥BBSç”¨æˆ·ä¸»ç›®å½•
+	setuid(BBSUID); //å°†è¿›ç¨‹çš„ ç”¨æˆ·ID
+	setgid(BBSGID); //ç»„IDè®¾ç½®æˆBBS
+	setreuid(BBSUID, BBSUID); //è®¾ç½®æœ‰æ•ˆç”¨æˆ·ID	
+	setregid(BBSGID, BBSGID); //æœ‰æ•ˆç»„IDä¸ºBBS
 
 	if (argc <= 1) {
 		printf("usage: daemon | flushed | reload\n");
 		exit(0);
 	}
 	if ( !strcasecmp(argv[1], "daemon") ) { // miscd daemon
-		switch (fork()) { //ºóÌ¨³ÌĞò:ĞèÒª´´½¨Ò»¸ö×Ó½ø³Ì,ÓÉ×Ó½ø³ÌÉ±ËÀ¸¸½ø³Ì
+		switch (fork()) { //åå°ç¨‹åº:éœ€è¦åˆ›å»ºä¸€ä¸ªå­è¿›ç¨‹,ç”±å­è¿›ç¨‹æ€æ­»çˆ¶è¿›ç¨‹
 			case -1: //
 				printf("cannot fork\n");
 				exit(0);
 				break;
-			case 0: // ×Ó½ø³Ì
+			case 0: // å­è¿›ç¨‹
 				break;
 			default:
-				exit(0); //¸¸½ø³Ì
+				exit(0); //çˆ¶è¿›ç¨‹
 				break;
 		}
 
-		if (load_ucache(0) != 0) { //½«ÓÃ»§µÄÊı¾İÓ³Éäµ½ÄÚ´æ
+		if (load_ucache(0) != 0) { //å°†ç”¨æˆ·çš„æ•°æ®æ˜ å°„åˆ°å†…å­˜
 			printf("load ucache error\n");
 			exit(-1);
 		}
 
 		resolve_boards();
-		atexit(do_exit); //×¢²áÍË³öÇ°ÔËĞĞµÄº¯Êı.Õı³£ÍË³öÇ°ĞëÖ´ĞĞ´Ëº¯Êı
+		atexit(do_exit); //æ³¨å†Œé€€å‡ºå‰è¿è¡Œçš„å‡½æ•°.æ­£å¸¸é€€å‡ºå‰é¡»æ‰§è¡Œæ­¤å‡½æ•°
 
-		while (1) { //Ñ­»·
-			refresh_utmp(); //Ë¢ĞÂÓÃ»§ÁÙÊ±Êı¾İ
-			b_closepolls(); //¹Ø±ÕÍ¶Æ±
-			flush_ucache(); //½«ÓÃ»§ÔÚÄÚ´æÖĞµÄÊı¾İĞ´»Ø.PASSWDS
+		while (1) { //å¾ªç¯
+			refresh_utmp(); //åˆ·æ–°ç”¨æˆ·ä¸´æ—¶æ•°æ®
+			b_closepolls(); //å…³é—­æŠ•ç¥¨
+			flush_ucache(); //å°†ç”¨æˆ·åœ¨å†…å­˜ä¸­çš„æ•°æ®å†™å›.PASSWDS
 			flush_bcache();
-			sleep(60 * 15); //Ë¯ÃßÊ®·ÖÖÓ,¼´Ã¿Ê®Îå·ÖÖÓÍ¬²½Ò»´Î.        
+			sleep(60 * 15); //ç¡çœ ååˆ†é’Ÿ,å³æ¯åäº”åˆ†é’ŸåŒæ­¥ä¸€æ¬¡.        
 		}
 	} else if ( !strcasecmp(argv[1], "flushed") ) { //miscd flushed
 		resolve_ucache();

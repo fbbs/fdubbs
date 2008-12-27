@@ -1,4 +1,4 @@
-/* ÆßÌìÎ´ÉÏÕ¾µÄ°æÖ÷Í³¼Æ by soff of bitbbs.org */
+/* ä¸ƒå¤©æœªä¸Šç«™çš„ç‰ˆä¸»ç»Ÿè®¡ by soff of bitbbs.org */
 
 #include <time.h>
 #include <stdio.h>
@@ -25,7 +25,7 @@ int main (int argc, char *argv[])
       	printf ("Can't write to badbms file.\n");
       	return 1;
     }
-  	fprintf (fout, "\n%sÆßÌìÎ´ÉÏÕ¾µÄ°æÖ÷Ãûµ¥\n\n", BBSNAME);
+  	fprintf (fout, "\n%sä¸ƒå¤©æœªä¸Šç«™çš„ç‰ˆä¸»åå•\n\n", BBSNAME);
   	for (i = 0;; i++)  {
     	if (fread (&aman, sizeof (struct userec), 1, fp) <= 0)
 			break;
@@ -43,7 +43,7 @@ int main (int argc, char *argv[])
 					break;
 		     	fscanf (bmfp, "%s\n", which);
 		      	fprintf (	fout,
-		    		  " ** [1;33m%-16s[m°æÖ÷ [1;32m%-15.15s[m [ %-20.20s ]%6dÌì\n",
+		    		  " ** [1;33m%-16s[mç‰ˆä¸» [1;32m%-15.15s[m [ %-20.20s ]%6då¤©\n",
 		       			which, aman.userid, aman.username,(now - aman.lastlogin) / 86400);
 	   		}
 	 		fclose (bmfp);
@@ -52,11 +52,11 @@ int main (int argc, char *argv[])
 	}
 	fclose (fp);
 	if (j)  {
-    	fprintf (fout, "\n\n×Ü¹²ÓĞ %d Î»ÆßÌìÎ´ÉÏÕ¾µÄ°æÖ÷¡£\n", j);
-      	fprintf (fout, "\n[1;31m    ÇëÒÔÉÏ°æÖ÷×¢Òâ¡£[m\n");
-      	fprintf (fout, "\n\n³¬¹ıÒ»¸öÔÂÁ¬Ğø²»ÉÏÏß½«È¡Ïû°æÖ÷×Ê¸ñ¡£\n", j);
+    	fprintf (fout, "\n\næ€»å…±æœ‰ %d ä½ä¸ƒå¤©æœªä¸Šç«™çš„ç‰ˆä¸»ã€‚\n", j);
+      	fprintf (fout, "\n[1;31m    è¯·ä»¥ä¸Šç‰ˆä¸»æ³¨æ„ã€‚[m\n");
+      	fprintf (fout, "\n\nè¶…è¿‡ä¸€ä¸ªæœˆè¿ç»­ä¸ä¸Šçº¿å°†å–æ¶ˆç‰ˆä¸»èµ„æ ¼ã€‚\n", j);
     }  else    {
-    	fprintf (fout, "\n\n±¾Õ¾Ä¿Ç°ÉĞÎŞÆßÌìÎ´ÉÏÕ¾µÄ°åÖ÷¡£\n");
+    	fprintf (fout, "\n\næœ¬ç«™ç›®å‰å°šæ— ä¸ƒå¤©æœªä¸Šç«™çš„æ¿ä¸»ã€‚\n");
     }
   	fclose (fout);
 }

@@ -24,7 +24,7 @@
  */
 
 #include "bbs.h"
-//ÏÔÊ¾°ïÖúÎÄ¼şfnameµÄÄÚÈİ
+//æ˜¾ç¤ºå¸®åŠ©æ–‡ä»¶fnameçš„å†…å®¹
 void show_help(char *fname) {
 	ansimore(fname, YEA);
 	clear();
@@ -38,13 +38,13 @@ void show_help(char *fname) {
  prints("[m");
  }*/
 
-//ÏÔÊ¾¶à¹¦ÄÜÔÄ¶ÁÑ¡µ¥ËµÃ÷
+//æ˜¾ç¤ºå¤šåŠŸèƒ½é˜…è¯»é€‰å•è¯´æ˜
 int mainreadhelp() {
 	show_help("help/mainreadhelp");
 	return FULLUPDATE;
 }
 
-//ÏÔÊ¾ĞÅ¼şµÄ°ïÖú
+//æ˜¾ç¤ºä¿¡ä»¶çš„å¸®åŠ©
 int mailreadhelp() {
 	show_help("help/mailreadhelp");
 	return FULLUPDATE;

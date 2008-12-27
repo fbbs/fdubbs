@@ -22,156 +22,156 @@
 #include "config.h"
 #include "modes.h"
 
-// ·µ»ØÄ£Ê½modeËù¶ÔÓ¦µÄÖĞÎÄÃû³Æ
+// è¿”å›æ¨¡å¼modeæ‰€å¯¹åº”çš„ä¸­æ–‡åç§°
 char *ModeType(int mode) {
 	switch (mode) {
 		case IDLE:
-			return "ÎŞËùÊÂÊÂ";
+			return "æ— æ‰€äº‹äº‹";
 		case NEW:
-			return "ĞÂÕ¾ÓÑ×¢²á";
+			return "æ–°ç«™å‹æ³¨å†Œ";
 		case LOGIN:
-			return "½øÈë±¾Õ¾";
+			return "è¿›å…¥æœ¬ç«™";
 		case DIGEST:
-			return "¼³È¡¾«»ª";
+			return "æ±²å–ç²¾å";
 		case MMENU:
-			return "ÓÎ´ó½Ö";
+			return "æ¸¸å¤§è¡—";
 		case ADMIN:
-			return "ĞŞÂ·ÆÌÇÅ";
+			return "ä¿®è·¯é“ºæ¡¥";
 		case SELECT:
-			return "Ñ¡ÔñÌÖÂÛÇø";
+			return "é€‰æ‹©è®¨è®ºåŒº";
 		case READBRD:
-			return "ÀÀ±éÌìÏÂ";
+			return "è§ˆéå¤©ä¸‹";
 		case READNEW:
-			return "ÀÀĞÂÎÄÕÂ";
+			return "è§ˆæ–°æ–‡ç« ";
 		case READING:
-			return "Æ·Î¶ÎÄÕÂ";
+			return "å“å‘³æ–‡ç« ";
 		case POSTING:
-			return "ÎÄºÀ»Ó±Ê";
+			return "æ–‡è±ªæŒ¥ç¬”";
 		case MAIL:
-			return "´¦ÀíĞÅ¼ã";
+			return "å¤„ç†ä¿¡ç¬º";
 		case SMAIL:
-			return "¼ÄÓïĞÅ¸ë";
+			return "å¯„è¯­ä¿¡é¸½";
 		case RMAIL:
-			return "ÔÄÀÀĞÅ¼ã";
+			return "é˜…è§ˆä¿¡ç¬º";
 		case TMENU:
-			return "ÉÏÈµÇÅ";
+			return "ä¸Šé¹Šæ¡¥";
 		case LUSERS:
-			return "»·¹ËËÄ·½";
+			return "ç¯é¡¾å››æ–¹";
 		case FRIEND:
-			return "Ò¹Ì½ºÃÓÑ";
+			return "å¤œæ¢å¥½å‹";
 		case MONITOR:
-			return "Ì½ÊÓÃñÇé";
+			return "æ¢è§†æ°‘æƒ…";
 		case QUERY:
-			return "²éÑ¯ÍøÓÑ";
+			return "æŸ¥è¯¢ç½‘å‹";
 		case TALK:
-			return "ÈµÇÅÏ¸Óï";
+			return "é¹Šæ¡¥ç»†è¯­";
 		case PAGE:
-			return "°ÍÏ¿Ô³Ìä";
+			return "å·´å³¡çŒ¿å•¼";
 		case CHAT2:
-			return "ÑàÔ°Ò¹»°";
+			return "ç‡•å›­å¤œè¯";
 		case CHAT1:
-			return "ÑàÔ²Ò¹»°";
+			return "ç‡•åœ†å¤œè¯";
 		case CHAT3:
-			return "°æÖ÷¹¤×÷ÊÒ";
+			return "ç‰ˆä¸»å·¥ä½œå®¤";
 		case CHAT4:
-			return "ÈºÁú¾ÛÊ×Ìü";
+			return "ç¾¤é¾™èšé¦–å…";
 		case IRCCHAT:
-			return "»áÌ¸IRC";
+			return "ä¼šè°ˆIRC";
 		case LAUSERS:
-			return "Ì½ÊÓÍøÓÑ";
+			return "æ¢è§†ç½‘å‹";
 		case XMENU:
-			return "ÏµÍ³×ÊÑ¶";
+			return "ç³»ç»Ÿèµ„è®¯";
 		case VOTING:
-			return "Í¶Æ±";
+			return "æŠ•ç¥¨";
 		case BBSNET:
 #ifdef FDQUAN
-			return "ÓĞÈª´©Ëó";
+			return "æœ‰æ³‰ç©¿æ¢­";
 #else
-			return "Òû¸´µ©Èª";
+			return "é¥®å¤æ—¦æ³‰";
 #endif
 		case EDITWELC:
-			return "±à¼­Welc";
+			return "ç¼–è¾‘Welc";
 		case EDITUFILE:
-			return "±à¼­¸öÈËµµ";
+			return "ç¼–è¾‘ä¸ªäººæ¡£";
 		case EDITSFILE:
-			return "¶¯ÊÖ¶¯½Å";
+			return "åŠ¨æ‰‹åŠ¨è„š";
 		case ZAP:
-			return "¶©ÔÄÌÖÂÛÇø";
+			return "è®¢é˜…è®¨è®ºåŒº";
 		case GAME:
-			return "ÄÔÁ¦¼¤ÌÀ";
+			return "è„‘åŠ›æ¿€æ±¤";
 		case SYSINFO:
-			return "¼ì²éÏµÍ³";
+			return "æ£€æŸ¥ç³»ç»Ÿ";
 		case ARCHIE:
 			return "ARCHIE";
 		case DICT:
-			return "·­²é×Öµä";
+			return "ç¿»æŸ¥å­—å…¸";
 		case LOCKSCREEN:
-			return "ÆÁÄ»Ëø¶¨";
+			return "å±å¹•é”å®š";
 		case NOTEPAD:
-			return "ÁôÑÔ°å";
+			return "ç•™è¨€æ¿";
 		case GMENU:
-			return "¹¤¾ßÏä";
+			return "å·¥å…·ç®±";
 		case MSG:
-			return "ËÍÑ¶Ï¢";
+			return "é€è®¯æ¯";
 		case USERDEF:
-			return "×Ô¶©²ÎÊı";
+			return "è‡ªè®¢å‚æ•°";
 		case EDIT:
-			return "ĞŞ¸ÄÎÄÕÂ";
+			return "ä¿®æ”¹æ–‡ç« ";
 		case OFFLINE:
-			return "×ÔÉ±ÖĞ..";
+			return "è‡ªæ€ä¸­..";
 		case EDITANN:
-			return "±àĞŞ¾«»ª";
+			return "ç¼–ä¿®ç²¾å";
 		case HYTELNET:
 			return "Hytelnet";
 		case CCUGOPHER:
-			return "ËûÕ¾¾«»ª";
+			return "ä»–ç«™ç²¾å";
 		case LOOKMSGS:
-			return "²ì¿´Ñ¶Ï¢";
+			return "å¯Ÿçœ‹è®¯æ¯";
 		case WFRIEND:
-			return "Ñ°ÈËÃû²á";
+			return "å¯»äººåå†Œ";
 		case WNOTEPAD:
-			return "Óû×ß»¹Áô";
+			return "æ¬²èµ°è¿˜ç•™";
 		case BBSPAGER:
-			return "ÍøÂ·´«ºô";
+			return "ç½‘è·¯ä¼ å‘¼";
 		case M_BLACKJACK:
-			return "¡ïºÚ¼×¿Ë¡ï";
+			return "â˜…é»‘ç”²å…‹â˜…";
 		case M_XAXB:
-			return "¡ï²ÂÊı×Ö¡ï";
+			return "â˜…çŒœæ•°å­—â˜…";
 		case M_DICE:
-			return "¡ïÎ÷°ËÀ­¡ï";
+			return "â˜…è¥¿å…«æ‹‰â˜…";
 		case M_GP:
-			return "½ğÆË¿ËËó¹ş";
+			return "é‡‘æ‰‘å…‹æ¢­å“ˆ";
 		case M_NINE:
-			return "ÌìµØ¾Å¾Å";
+			return "å¤©åœ°ä¹ä¹";
 		case WINMINE:
-			return "¼üÅÌÉ¨À×";
+			return "é”®ç›˜æ‰«é›·";
 		case M_BINGO:
-			return "±ö¹û±ö¹û";
+			return "å®¾æœå®¾æœ";
 		case FIVE:
-			return "¾öÕ½Îå×ÓÆå";
+			return "å†³æˆ˜äº”å­æ£‹";
 		case MARKET:
-			return "½»Ò×ÊĞ³¡";
+			return "äº¤æ˜“å¸‚åœº";
 		case PAGE_FIVE:
-			return "ÑûÇëÏÂÆå";
+			return "é‚€è¯·ä¸‹æ£‹";
 		case CHICK:
-			return "µç×ÓĞ¡¼¦";
+			return "ç”µå­å°é¸¡";
 		case MARY:
-			return "³¬¼¶ÂêÀö";
+			return "è¶…çº§ç›ä¸½";
 		case CHICKEN:
-			return "ĞÇ¿ÕÕ½¶·¼¦";
+			return "æ˜Ÿç©ºæˆ˜æ–—é¸¡";
 		case GOODWISH:
-			return "¸øÅóÓÑ×£¸£";
+			return "ç»™æœ‹å‹ç¥ç¦";
 			/*2003.04.22 added by stephen*/
 		case GIVEUPBBS:
-			return "½äÍøÖĞ";
+			return "æˆ’ç½‘ä¸­";
 			/*2003.04.22 stephen add end*/
 			/* added by roly */
 		case 10001:
-			return "WWWä¯ÀÀ";
+			return "WWWæµè§ˆ";
 		case 10002:
 			return "JABBER";
 			/* added end */
 		default:
-			return "È¥ÁËÄÇÀï!?";
+			return "å»äº†é‚£é‡Œ!?";
 	}
 }

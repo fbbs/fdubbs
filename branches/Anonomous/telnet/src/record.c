@@ -32,8 +32,8 @@
 
 USE_TRY;
 
-//	Ñ­»·Ğ´×Ö·ûµ½ÎÄ¼ş£¬Ö±µ½Ğ´Èësize¸ö×Ö½Ú
-//	origsz,bpÊÇ¶àÓàµÄ£¿
+//	å¾ªç¯å†™å­—ç¬¦åˆ°æ–‡ä»¶ï¼Œç›´åˆ°å†™å…¥sizeä¸ªå­—èŠ‚
+//	origsz,bpæ˜¯å¤šä½™çš„ï¼Ÿ
 int safewrite(int fd, char *const buf, int size) {
 	int cc, sz = size, origsz = size;
 	char *bp = buf;
@@ -52,8 +52,8 @@ int safewrite(int fd, char *const buf, int size) {
 	return origsz;
 }
 
-//	ÈôÎÄ¼şfilename²»´æÔÚ,·µ»Ø-1
-//	·ñÔò·µ»ØfilenameÖĞ´æ·ÅµÄ¼ÇÂ¼Êı
+//	è‹¥æ–‡ä»¶filenameä¸å­˜åœ¨,è¿”å›-1
+//	å¦åˆ™è¿”å›filenameä¸­å­˜æ”¾çš„è®°å½•æ•°
 long get_num_records(const char *filename, const int size) {
 	struct stat st;
 	if (stat(filename, &st) == -1)
@@ -61,8 +61,8 @@ long get_num_records(const char *filename, const int size) {
 	return (st.st_size / size);
 }
 
-//Ôö¼ÓÒ»¸ö¼ÇÂ¼£¬´óĞ¡Îªsize,Ê×µØÖ·Îªrecord
-//	ÎÄ¼şÃûÎªfilename
+//å¢åŠ ä¸€ä¸ªè®°å½•ï¼Œå¤§å°ä¸ºsize,é¦–åœ°å€ä¸ºrecord
+//	æ–‡ä»¶åä¸ºfilename
 int append_record(char *filename, char *record, int size) {
 	int fd;
 	if ((fd = open(filename, O_WRONLY | O_CREAT, 0644)) == -1) {
@@ -85,9 +85,9 @@ void toobigmesg() {
 	 */
 }
 
-//È¡µÃ¼ÇÂ¼µÄ¾ä±ú,²¢´æ·ÅÔÚrptrÖĞ
-//	fdÊÇÎÄ¼şµÄÃèÊö·û,size±íÊ¾¼ÇÂ¼µÄ´óĞ¡,id±íÊ¾¼ÇÂ¼µÄÎ»ÖÃ
-//	²»³É¹¦Ê±,·µ»Ø-1 ; ³É¹¦Ê±,·µ»Ø0
+//å–å¾—è®°å½•çš„å¥æŸ„,å¹¶å­˜æ”¾åœ¨rpträ¸­
+//	fdæ˜¯æ–‡ä»¶çš„æè¿°ç¬¦,sizeè¡¨ç¤ºè®°å½•çš„å¤§å°,idè¡¨ç¤ºè®°å½•çš„ä½ç½®
+//	ä¸æˆåŠŸæ—¶,è¿”å›-1 ; æˆåŠŸæ—¶,è¿”å›0
 int get_record_handle(int fd, void *rptr, int size, int id) {
 	if (lseek(fd, size * (id - 1), SEEK_SET) == -1)
 		return -1;
@@ -95,7 +95,7 @@ int get_record_handle(int fd, void *rptr, int size, int id) {
 		return -1;
 	return 0;
 }
-//È¡µÃ¼ÇÂ¼,filename±íÊ¾ÎÄ¼şÃû,ÆäËü²ÎÊı¼ûget_record_handle
+//å–å¾—è®°å½•,filenameè¡¨ç¤ºæ–‡ä»¶å,å…¶å®ƒå‚æ•°è§get_record_handle
 int get_record(char *filename, void *rptr, int size, int id) {
 	int fd;
 	int ret;
@@ -107,8 +107,8 @@ int get_record(char *filename, void *rptr, int size, int id) {
 	return ret;
 }
 
-//ÔÚÎÄ¼şfilenameÖĞµÄµÚid-1¸ö¼ÇÂ¼´¦¶ÁÈ¡´óĞ¡Îªsize,ÊıÁ¿ÎªnumberµÄ¼ÇÂ¼¼¯
-//	Èç¹ûÊ§°Ü,·µ»Ø-1,Èç¹ûÎ´ÄÜ¶ÁÈ¡number¸ö¼ÇÂ¼,Ôò·µ»Ø¶ÁÈ¡µÄ¼ÇÂ¼Êı
+//åœ¨æ–‡ä»¶filenameä¸­çš„ç¬¬id-1ä¸ªè®°å½•å¤„è¯»å–å¤§å°ä¸ºsize,æ•°é‡ä¸ºnumberçš„è®°å½•é›†
+//	å¦‚æœå¤±è´¥,è¿”å›-1,å¦‚æœæœªèƒ½è¯»å–numberä¸ªè®°å½•,åˆ™è¿”å›è¯»å–çš„è®°å½•æ•°
 int get_records(const char *filename, char *rptr, int size, int id,
 		int number) {
 	int fd;
@@ -129,7 +129,7 @@ int get_records(const char *filename, char *rptr, int size, int id,
 
 #ifndef THREAD_C
 
-//	¶ÔÃûÎªfilenameµÄ¼ÇÂ¼ÎÄ¼şÖ´ĞĞfptrº¯Êı
+//	å¯¹åä¸ºfilenameçš„è®°å½•æ–‡ä»¶æ‰§è¡Œfptrå‡½æ•°
 int apply_record(char *filename, APPLY_FUNC_ARG fptr, int size, void *arg,
 		int applycopy, int reverse) {
 	char *buf, *buf1, *buf2;
@@ -142,14 +142,14 @@ int apply_record(char *filename, APPLY_FUNC_ARG fptr, int size, void *arg,
 						O_RDONLY,
 						PROT_READ,
 						MAP_SHARED,
-						(void **) &buf,//ÆğÊ¼µØÖ··ÅÔÚbufÖĞ 
-						&file_size, //±£´æÓ³ÉäµÄÎÄ¼ş´óĞ¡ 
-						NULL //ÒÔ·Ç»¥³â·½Ê½Ó³ÉäÎÄ¼şÖÁÄÚ´æ
+						(void **) &buf,//èµ·å§‹åœ°å€æ”¾åœ¨bufä¸­ 
+						&file_size, //ä¿å­˜æ˜ å°„çš„æ–‡ä»¶å¤§å° 
+						NULL //ä»¥éäº’æ–¥æ–¹å¼æ˜ å°„æ–‡ä»¶è‡³å†…å­˜
 				)== 0
 		) {
 			BBS_RETURN(0);
 		}
-		count = file_size / size; //¼ÇÂ¼µÄÊıÄ¿
+		count = file_size / size; //è®°å½•çš„æ•°ç›®
 		if (reverse)
 		buf1 = buf + (count - 1) * size;
 		else
@@ -162,9 +162,9 @@ int apply_record(char *filename, APPLY_FUNC_ARG fptr, int size, void *arg,
 				buf2 = buf1;
 			}
 			if ((*fptr) (buf2, reverse ? count - i : i + 1, arg) == QUIT) {
-				//Ö´ĞĞº¯Êıfptr,bufÎª»º³åÇøÊ×µØÖ·,argÎªµÚÈı²ÎÊı
-				end_mmapfile((void *) buf, file_size, -1); //ÖÕÖ¹ÄÚ´æÓ³Éä,±¾À´Ã»¼ÓËø,
-				//ÏÖÔÚ²»ĞèÒª½âËø
+				//æ‰§è¡Œå‡½æ•°fptr,bufä¸ºç¼“å†²åŒºé¦–åœ°å€,argä¸ºç¬¬ä¸‰å‚æ•°
+				end_mmapfile((void *) buf, file_size, -1); //ç»ˆæ­¢å†…å­˜æ˜ å°„,æœ¬æ¥æ²¡åŠ é”,
+				//ç°åœ¨ä¸éœ€è¦è§£é”
 				if (applycopy)
 				free(buf2);
 				BBS_RETURN(QUIT);
@@ -206,7 +206,7 @@ int sorted) { /* if records in file are sorted */
 				) == 0
 		)
 		BBS_RETURN(0);
-		if (start> filesize / size) //³¬¹ı¼ÇÂ¼ÎÄ¼şÖĞµÄ¼ÇÂ¼ÊıÄ¿
+		if (start> filesize / size) //è¶…è¿‡è®°å½•æ–‡ä»¶ä¸­çš„è®°å½•æ•°ç›®
 		start = filesize / size;
 		for (i = start, buf1 = buf + size * (start - 1); i> 0; i--, buf1 -= size) {
 			if ((*fptr) (farg, buf1)) {
@@ -225,10 +225,10 @@ int sorted) { /* if records in file are sorted */
 }
 
 /*---   End of Addition     ---*/
-/* search_record½øĞĞÁËÔ¤¶ÁÓÅ»¯,ÒÔ¼õÉÙÏµÍ³µ÷ÓÃ´ÎÊı,Ìá¸ßËÙ¶È. ylsdd, 2001.4.24 */
+/* search_recordè¿›è¡Œäº†é¢„è¯»ä¼˜åŒ–,ä»¥å‡å°‘ç³»ç»Ÿè°ƒç”¨æ¬¡æ•°,æé«˜é€Ÿåº¦. ylsdd, 2001.4.24 */
 /* COMMAN : use mmap to improve search speed */
-//	ÔÚfilenameÎÄ¼şÖĞËÑË÷ ±È½Ïº¯ÊıÎªfptr,ÓûËÑË÷¼ÇÂ¼Îªfarg
-//	ËÑË÷³¤¶ÈÎªO(n)¿ÉÒÔ¿¼ÂÇ¸Ä½ø
+//	åœ¨filenameæ–‡ä»¶ä¸­æœç´¢ æ¯”è¾ƒå‡½æ•°ä¸ºfptr,æ¬²æœç´¢è®°å½•ä¸ºfarg
+//	æœç´¢é•¿åº¦ä¸ºO(n)å¯ä»¥è€ƒè™‘æ”¹è¿›
 int search_record(char *filename, void *rptr, int size,
 		RECORD_FUNC_ARG fptr, void *farg) {
 	int i;
@@ -257,7 +257,7 @@ int search_record(char *filename, void *rptr, int size,
 	return 0;
 }
 
-//	½«filenameÎÄ¼şµÚid¸ö¼ÇÂ¼Ìæ»»ÎªrptrËùÖ¸ÏòµÄÊı¾İ
+//	å°†filenameæ–‡ä»¶ç¬¬idä¸ªè®°å½•æ›¿æ¢ä¸ºrptræ‰€æŒ‡å‘çš„æ•°æ®
 int substitute_record(char *filename, void *rptr, int size, int id) {
 	/*     * add by KCN      */
 	struct flock ldata;
@@ -274,13 +274,13 @@ int substitute_record(char *filename, void *rptr, int size, int id) {
 	ldata.l_whence = 0;
 	ldata.l_len = size;
 	ldata.l_start = size * (id - 1);
-	if ((retval = fcntl(fd, F_SETLKW, &ldata)) == -1) {//ÒÔ»¥³â·½Ê½ËøÎÄ¼ş
+	if ((retval = fcntl(fd, F_SETLKW, &ldata)) == -1) {//ä»¥äº’æ–¥æ–¹å¼é”æ–‡ä»¶
 		//bbslog("user", "%s", "reclock error");
 		close(fd);
 		/*---	period	2000-10-20	file should be closed	---*/
 		return -1;
 	}
-	if (lseek(fd, size * (id - 1), SEEK_SET) == -1) { //ÎŞ·¨µ½ÎÄ¼şµÄÖ¸¶¨Î»ÖÃ
+	if (lseek(fd, size * (id - 1), SEEK_SET) == -1) { //æ— æ³•åˆ°æ–‡ä»¶çš„æŒ‡å®šä½ç½®
 		// bbslog("user", "%s", "subrec seek err");
 		/*---	period	2000-10-24	---*/
 		ldata.l_type = F_UNLCK;
@@ -288,7 +288,7 @@ int substitute_record(char *filename, void *rptr, int size, int id) {
 		close(fd);
 		return -1;
 	}
-	//ÓÉinfotechĞŞ¸Ä,È¥µôsafewriteµÄÅĞ¶Ï,ÒÔºóµ÷ÊÔÊ±¿ÉÒÔÔÙÔö¼Ó
+	//ç”±infotechä¿®æ”¹,å»æ‰safewriteçš„åˆ¤æ–­,ä»¥åè°ƒè¯•æ—¶å¯ä»¥å†å¢åŠ 
 	//if (safewrite(fd, rptr, size) != size)
 	safewrite(fd, rptr, size);
 	//bbslog("user", "%s", "subrec write err");
@@ -324,7 +324,7 @@ int delete_record(char *filename, int size, int id,
 		if (id * size> filesize) {
 			ret = -2;
 		} else {
-			if (filecheck) { //¼ì²éfilecheckº¯ÊıÊÇ·ñ´æÔÚ?
+			if (filecheck) { //æ£€æŸ¥filecheckå‡½æ•°æ˜¯å¦å­˜åœ¨?
 				if (!(*filecheck) (ptr + (id - 1) * size, arg)) {
 					for (id = 0; id * size < filesize; id++)
 					if ((*filecheck) (ptr + (id - 1) * size, arg))
@@ -336,9 +336,9 @@ int delete_record(char *filename, int size, int id,
 		}
 		if (ret == 0) {
 			memcpy(ptr + (id - 1) * size, ptr + id * size, filesize - size * id);
-			// ½«±»É¾³ı¼ÇÂ¼ºóËùÓĞ¼ÇÂ¼ÏòÇ°ÒÆ¶¯Ò»¸öÎ»ÖÃ,
+			// å°†è¢«åˆ é™¤è®°å½•åæ‰€æœ‰è®°å½•å‘å‰ç§»åŠ¨ä¸€ä¸ªä½ç½®,
 			ftruncate(fdr, filesize - size);
-			// ½«ÎÄ¼ş½Ø¶ÌÒ»¸ö¼ÇÂ¼
+			// å°†æ–‡ä»¶æˆªçŸ­ä¸€ä¸ªè®°å½•
 		}
 	}
 	BBS_CATCH {
@@ -349,7 +349,7 @@ int delete_record(char *filename, int size, int id,
 	return ret;
 }
 
-//ÈÃ×Ö·û´®tmpfileÖµ¸Ä³É.tmpfile,deleted¸Ä³É.deleted
+//è®©å­—ç¬¦ä¸²tmpfileå€¼æ”¹æˆ.tmpfile,deletedæ”¹æˆ.deleted
 void tmpfilename(char *filename, char *tmpfile, char *deleted) {
 	char *ptr, *delfname, *tmpfname;
 
@@ -366,7 +366,7 @@ void tmpfilename(char *filename, char *tmpfile, char *deleted) {
 	}
 }
 
-// Çø¶ÎÉ¾³ı,´Óid1µ½id2;°æÃæÎÄ¼şÓë¾«»ªÇøÓĞÇø±ğ
+// åŒºæ®µåˆ é™¤,ä»id1åˆ°id2;ç‰ˆé¢æ–‡ä»¶ä¸ç²¾ååŒºæœ‰åŒºåˆ«
 int delete_range(char *filename, int id1, int id2) {
 	struct fileheader *ptr;
 	struct fileheader *wptr, *rptr;
@@ -393,7 +393,7 @@ int delete_range(char *filename, int id1, int id2) {
 		BBS_RETURN(-1);
 		ret = 0;
 		if (id2 * sizeof(struct fileheader)> filesize) {
-			ret = -2; //Çø¶Î·¶Î§³¬¹ıÎÄ¼ş´óĞ¡
+			ret = -2; //åŒºæ®µèŒƒå›´è¶…è¿‡æ–‡ä»¶å¤§å°
 		} else if(id1>id2) {
 			ret = -2;
 		} else {
@@ -460,7 +460,7 @@ int delete_range(char *filename, int id1, int id2) {
 	return ret;
 }
 
-//²åÈë¼ÇÂ¼
+//æ’å…¥è®°å½•
 int insert_record(char *filename, int size, RECORD_FUNC_ARG filecheck,
 		void *arg) {
 	char *ptr, *rptr;

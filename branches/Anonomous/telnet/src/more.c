@@ -28,7 +28,7 @@ void ActiveBoard_Init( void )
    char    buf[1024], buf2[1024];
    struct stat st;
    int     max = 0, i = 0, j = 0, x, y = 0;
-   int     flag; /* flag = 1 ¼´Îª¹ıÂÇµô "--\n" ÒÔááÖ®ÈÎºÎÄÚÈİ */ 
+   int     flag; /* flag = 1 å³ä¸ºè¿‡è™‘æ‰ "--\n" ä»¥å¾Œä¹‹ä»»ä½•å†…å®¹ */ 
    
    if( movieshm == NULL )
       movieshm = (void *) attach_shm("ACBOARD_SHMKEY", 4123, sizeof(*movieshm));
@@ -57,7 +57,7 @@ void ActiveBoard_Init( void )
 
       if (fh.title[0] == '$') flag = (int) (fh.title[1] - '0');
       else flag = 4;
-      for (x = 0; x < flag; x++)  // Ìø¹ıÍ·²¿ĞÅÏ¢
+      for (x = 0; x < flag; x++)  // è·³è¿‡å¤´éƒ¨ä¿¡æ¯
          fgets(buf, 1024, fp); 
 	 
       flag = 0;
@@ -90,7 +90,7 @@ void ActiveBoard_Init( void )
    movieshm->movieitems = y;
    movieshm->update = time(0); 
    
-   sprintf(buf, "»î¶¯¿´°å¸üĞÂ, ¹² %d ĞĞ, %d ²¿·İ.", j, y);
+   sprintf(buf, "æ´»åŠ¨çœ‹æ¿æ›´æ–°, å…± %d è¡Œ, %d éƒ¨ä»½.", j, y);
    report(buf); 
    return ;
 }
@@ -100,9 +100,9 @@ int empty_movie(int x)
    sprintf(genbuf, "Empty Movie!!! (error = %d)", x);
    report(genbuf); 
    
-   strcpy(movieshm->data[2], "[K      ** ÉĞÎ´Éè¶¨»î¶¯¿´°å ** ");
-   strcpy(movieshm->data[3], "[K         ÇëÏê¼û°²×°ËµÃ÷Êé Firebird-2000 ");
-   strcpy(movieshm->data[4], "[K         Éè¶¨ notepad °æ"); 
+   strcpy(movieshm->data[2], "[K      ** å°šæœªè®¾å®šæ´»åŠ¨çœ‹æ¿ ** ");
+   strcpy(movieshm->data[3], "[K         è¯·è¯¦è§å®‰è£…è¯´æ˜ä¹¦ Firebird-2000 ");
+   strcpy(movieshm->data[4], "[K         è®¾å®š notepad ç‰ˆ"); 
    
    movieshm->movielines = MAXMOVIE;
    movieshm->movieitems = 1;
@@ -116,7 +116,7 @@ void setcalltime( void )
    int     ttt;
    move(1, 0);
    clrtoeol();
-   getdata(1, 0, "¼¸·ÖÖÓºóÒªÏµÍ³ÌáĞÑÄú: ", ans, 3, DOECHO, YEA);
+   getdata(1, 0, "å‡ åˆ†é’Ÿåè¦ç³»ç»Ÿæé†’æ‚¨: ", ans, 3, DOECHO, YEA);
    ttt = atoi(ans);
    if (ttt <= 0) return;
    calltime = time(0) + ttt * 60;
@@ -203,7 +203,7 @@ int morekey( void )
    }
 }
 
-int seek_nth_line(int fd, int no)  // ´ÓÎÄ¼şÍ·¶Áµ½µÚ no ĞĞ( ¶¨Î»µ½ no ĞĞ )
+int seek_nth_line(int fd, int no)  // ä»æ–‡ä»¶å¤´è¯»åˆ°ç¬¬ no è¡Œ( å®šä½åˆ° no è¡Œ )
 {
    int     n_read, line_count, viewed;
    char   *p, *end;
@@ -291,10 +291,10 @@ printacbar()
     getyx(&y,&x);
     bp = getbcache(DEFAULTBOARD);
    move(2,0);
-    if(bp->flag&VOTE_FLAG) prints(" [1;36m©°¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª©È[37mÏµÍ³Í¶Æ±ÖĞ [ Config->Vote ] [36m©À¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª©´ [m\n");
-    else prints(" [1;36m©°¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª©È[37m»î  ¶¯  ¿´  °å[36m©À¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª©´ [m\n");
+    if(bp->flag&VOTE_FLAG) prints(" [1;36mâ”Œâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â”¤[37mç³»ç»ŸæŠ•ç¥¨ä¸­ [ Config->Vote ] [36mâ”œâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â” [m\n");
+    else prints(" [1;36mâ”Œâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â”¤[37mæ´»  åŠ¨  çœ‹  æ¿[36mâ”œâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â” [m\n");
     move(2+MAXMOVIE,0);
-     prints(" [1;36m©¸¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª©¼[m\n");
+     prints(" [1;36mâ””â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â”˜[m\n");
     move (y,x);
 #endif
 	refresh();
@@ -315,7 +315,7 @@ int check_calltime()
       	bell();
       	move(line, 0);
       	clrtoeol();
-      	prints("[1;44;32mÏµÍ³Í¨¸æ: [37m%-65s[m", "ÏµÍ³ÄÖÖÓ Áå¡«¡«¡«¡«¡«¡«");
+      	prints("[1;44;32mç³»ç»Ÿé€šå‘Š: [37m%-65s[m", "ç³»ç»Ÿé—¹é’Ÿ é“ƒï½ï½ï½ï½ï½ï½");
       	igetkey();
       	move(line, 0);
       	clrtoeol();
@@ -388,10 +388,10 @@ int rawmore(char *filename, int promptend, int row, int numlines, int stuffmode)
 #ifdef BELL_DELAY_FILTER
          bell_delay_filter(buf);
 #endif
-         if (     !titleshow && (!strncmp(buf, "¡õ ÒıÓÃ", 7))
+         if (     !titleshow && (!strncmp(buf, "â–¡ å¼•ç”¨", 7))
 	            ||(!strncmp(buf, "==>", 3)) 
-		    || (!strncmp(buf, "¡¾ ÔÚ", 5))
-		    ||(!strncmp(buf, "¡ù ÒıÊö", 7))) {
+		    || (!strncmp(buf, "ã€ åœ¨", 5))
+		    ||(!strncmp(buf, "â€» å¼•è¿°", 7))) {
 	    prints("[1;33m%s[m", buf);
 	    titleshow = YEA;
 	 } else if (buf[0] != ':' && buf[0] != '>') {
@@ -445,7 +445,7 @@ int rawmore(char *filename, int promptend, int row, int numlines, int stuffmode)
 	    }
 	    move(t_lines - 1, 0);
 	    clrtoeol();
-	    prints("[1;44;32mÏÂÃæ»¹ÓĞà¸ (%d%%)[33m   ©¦ ½áÊø ¡û <q> ©¦ ¡ü/¡ı/PgUp/PgDn ÒÆ¶¯ ©¦ ? ¸¨ÖúËµÃ÷ ©¦     [m", (viewed * 100) / tsize);
+	    prints("[1;44;32mä¸‹é¢è¿˜æœ‰å–” (%d%%)[33m   â”‚ ç»“æŸ â† <q> â”‚ â†‘/â†“/PgUp/PgDn ç§»åŠ¨ â”‚ ? è¾…åŠ©è¯´æ˜ â”‚     [m", (viewed * 100) / tsize);
 	    ch = morekey();
 	    move(t_lines - 1, 0);
 	    clrtoeol();
@@ -560,7 +560,7 @@ int mesgmore(char *filename, int promptend, int row, int numlines)
 	    }
 	    move(t_lines - 1, 0);
 	    clrtoeol();
-	    prints("[0m[1;44;32m(%d%%) ÊÇ·ñ¼ÌĞø [[1;37mY/n[1;32m]   ±£Áô <[1;37mr[32m>    Çå³ı <[1;37mc[1;32m>   ¼Ä»ØĞÅÏä <[1;37mm[1;32m>                      [m", (viewed * 100) / tsize);
+	    prints("[0m[1;44;32m(%d%%) æ˜¯å¦ç»§ç»­ [[1;37mY/n[1;32m]   ä¿ç•™ <[1;37mr[32m>    æ¸…é™¤ <[1;37mc[1;32m>   å¯„å›ä¿¡ç®± <[1;37mm[1;32m>                      [m", (viewed * 100) / tsize);
             ch = morekey();
 	    move(t_lines - 1, 0);
 	    clrtoeol();
@@ -603,17 +603,17 @@ int mesgmore(char *filename, int promptend, int row, int numlines)
 	       numbytes = readln(fd, buf);
 	       curr_row++;
 	    } else if (ch == 'C') {
-			if (askyn("È·¶¨ÒªÇå³ıÂğ£¿", NA, YEA) == YEA) {
+			if (askyn("ç¡®å®šè¦æ¸…é™¤å—ï¼Ÿ", NA, YEA) == YEA) {
 				close(fd);
 				unlink(filename);
 			}
 			return ch;
 	    } else if (ch == 'M') {
-			if (askyn("È·¶¨Òª¼Ä»ØÂğ£¿", NA, YEA) == YEA) {
+			if (askyn("ç¡®å®šè¦å¯„å›å—ï¼Ÿ", NA, YEA) == YEA) {
 		       close(fd);
 		       now = time(0);
 	    	   getdatestring(now,NA);
-			   sprintf(title, "[%s] ËùÓĞÑ¶Ï¢±¸·İ", datestring);
+			   sprintf(title, "[%s] æ‰€æœ‰è®¯æ¯å¤‡ä»½", datestring);
 			   mail_file(filename, currentuser.userid, title);
 			   unlink(filename);
 			}
@@ -674,7 +674,7 @@ int ansimore2(char *filename, int promptend, int row, int numlines)
 	 refresh();
 	 return ch;
 }
-/* edwardc.990624 ÏÈÔİÊ±ÓÃ ansimore3() ´úÌæ ... */
+/* edwardc.990624 å…ˆæš‚æ—¶ç”¨ ansimore3() ä»£æ›¿ ... */
 
 int ansimore3(char *filename, int promptend)
 {
