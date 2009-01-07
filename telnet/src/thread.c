@@ -37,6 +37,7 @@ struct titlenode { //每个titlenode记录不同主题
 	char *title;
 	struct titlenode *next;
 	struct postnode *post;
+	struct postnode *tail;
 };
 
 struct titlenode toptitle; //同主题方式的头结点
@@ -88,30 +89,26 @@ int thread(struct fileheader *post, int num) {
 			titletmp->title = malloc(sizeof(char) * (strlen(ntitle) + 1));
 			strcpy(titletmp->title, ntitle);
 			titletmp->post = NULL;
+			titletmp->tail = NULL;
 			titletmp->next = NULL;
 			tmp->next = titletmp;
 		}
 		if (!strcmp(tmp->next->title, ntitle)) { //找到其所属主题
-			struct postnode *tmppost, *first = tmp->next->post;
-			if (first == NULL) {
-				tmppost
-						= (struct postnode *) malloc(sizeof(struct postnode));
-				tmppost->num = num;
-				tmppost->next = NULL;
-				tmp->next->post = tmppost;
-				return 1;
+			struct postnode *newpost;
+
+			newpost = malloc(sizeof(struct postnode));
+			newpost->num = num;
+			newpost->next = NULL;
+
+			if (!tmp->next->post) {
+				tmp->next->post = newpost;
+				tmp->next->tail = newpost;
+			} else {
+				tmp->next->tail->next = newpost;
+				tmp->next->tail = newpost;
 			}
-			while (1) {
-				if (first->next == NULL) {
-					tmppost
-							=(struct postnode *)malloc(sizeof(struct postnode));
-					tmppost->num = num;
-					tmppost->next = NULL;
-					first->next = tmppost;
-					return 2;
-				}
-				first = first->next;
-			}//while(1)
+
+			return 1;
 		} else {
 			tmp = tmp->next; //tmp此时的主题非ntitle,接着找
 		} //else
