@@ -496,7 +496,7 @@ int uleveltochar(char *buf, unsigned int lvl) {
 		return 0;
 	}
 	if (lvl < PERM_DEFAULT) {
-		strcpy(buf, "- -------- ");
+		strcpy(buf, "- --------");
 		return 1;
 	}
 	buf[10] = '\0';
