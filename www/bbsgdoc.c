@@ -11,24 +11,24 @@ int main() {
 	x1=getbcache(board);
 	if(x1==0)
 	{
-		printf("<b>ÎÄÕªÇø ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>æ–‡æ‘˜åŒº Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	}
 	strcpy(board, x1->filename);
 	if(!has_read_perm(&currentuser, board)) 
 	{
-		printf("<b>ÎÄÕªÇø ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>æ–‡æ‘˜åŒº Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	}
 	sprintf(dir, "boards/%s/.DIGEST", board);
     fp=fopen(dir, "r");
     if(fp==0)
 	{
-		printf("<b>ÎÄÕªÇø ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>æ–‡æ‘˜åŒº Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇøÄ¿Â¼");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒºç›®å½•");
 	}
 	total=file_size(dir)/sizeof(struct fileheader);
 	start=atoi(getparm("start"));
@@ -53,26 +53,26 @@ int main() {
         if(dashf(path))
                 printf("<img src=/info/boards/%s/banner.jpg align=absmiddle height=32>", board);
         else
-                printf("<font style='font-size: 18pt'>%s</font> ¡¤",board);
+                printf("<font style='font-size: 18pt'>%s</font> Â·",board);
 
-	printf(" %s ÎÄÕªÇø °æÖ÷[%s] ÎÄÕÂÊı[%d]</b><br>\n", BBSNAME, userid_str(x1->BM), total);
+	printf(" %s æ–‡æ‘˜åŒº ç‰ˆä¸»[%s] æ–‡ç« æ•°[%d]</b><br>\n", BBSNAME, userid_str(x1->BM), total);
 
 
         printf("<td width=15%% align=right>\n");
         printf("<form name=form1 action=bbsgdoc?board=%s method=post>", board);
-        printf("<input border=0 src=/images/button/forward.gif type=image align=absmiddle> µÚ <input class=thinborder type=text name=start size=4> Æª");
+        printf("<input border=0 src=/images/button/forward.gif type=image align=absmiddle> ç¬¬ <input class=thinborder type=text name=start size=4> ç¯‡");
         printf("</form></td></tr></table>\n");
 
 
 	if(total<=0) 
 	{
 		printpretable_lite();
-		http_fatal("±¾ÌÖÂÛÇøÄ¿Ç°Ã»ÓĞÎÄÕÂ");
+		http_fatal("æœ¬è®¨è®ºåŒºç›®å‰æ²¡æœ‰æ–‡ç« ");
 	}
 	printf("<center>\n");
 	printpretable();
 	printf("<table width=100%% border=0  bgcolor=#ffffff>\n");
-    printf("<tr class=pt9h ><td><font color=white>ĞòºÅ<td><font color=white>×´Ì¬<td><font color=white>×÷Õß<td><font color=white>ÈÕÆÚ<td><font color=white>±êÌâ<td>\n");//<font color=white>ÈËÆø\n");
+    printf("<tr class=pt9h ><td><font color=white>åºå·<td><font color=white>çŠ¶æ€<td><font color=white>ä½œè€…<td><font color=white>æ—¥æœŸ<td><font color=white>æ ‡é¢˜<td>\n");//<font color=white>äººæ°”\n");
 	fseek(fp, (start-1)*sizeof(struct fileheader), SEEK_SET);
 	int cc=0;
     for(i=0; i<20; i++) 
@@ -84,10 +84,10 @@ int main() {
 		//added end.
 		printf("<tr class=%s><td>%d<td>%s<td>%s",((cc++)%2)?"pt9dc":"pt9lc" , start+i, flag_str(x.accessed[0]), userid_str(x.owner));
 		printf("<td>%12.12s", Ctime(atoi(x.filename+2))+4);
-		//fix bug: ÏÔÊ¾bug by DeepOcean
-		printf("<td><a href=bbsgcon?board=%s&file=%s&num=%d>%s%s</a>\n",	board, x.filename, start+i,	strncmp(x.title, "Re: ", 4) ? "¡ñ " : "",
+		//fix bug: æ˜¾ç¤ºbug by DeepOcean
+		printf("<td><a href=bbsgcon?board=%s&file=%s&num=%d>%s%s</a>\n",	board, x.filename, start+i,	strncmp(x.title, "Re: ", 4) ? "â— " : "",
 		#ifdef CERTIFYMODE
-			(x.accessed[1]&FILE_UNCERTIFIED)?"[ÉĞÎ´ÉóÅú]":nohtml(x.title)
+			(x.accessed[1]&FILE_UNCERTIFIED)?"[å°šæœªå®¡æ‰¹]":nohtml(x.title)
 		#else
 			nohtml(x.title)
 		#endif
@@ -103,12 +103,12 @@ int main() {
 	printposttable();
 	printf("</center>\n");
 	if(start>0) 
-		printf("<a href=bbsgdoc?board=%s&start=%d><img border=0 src=/images/button/up.gif align=absmiddle>ÉÏÒ»Ò³</a>  ",	board, start<20 ? 0 : start-20);
+		printf("<a href=bbsgdoc?board=%s&start=%d><img border=0 src=/images/button/up.gif align=absmiddle>ä¸Šä¸€é¡µ</a>  ",	board, start<20 ? 0 : start-20);
 	if(start<total-19) 
-		printf("<a href=bbsgdoc?board=%s&start=%d><img border=0 src=/images/button/down.gif align=absmiddle>ÏÂÒ»Ò³</a>  ",	board, start+20);
-	printf("<a href=bbsdoc?board=%s>±¾ÌÖÂÛÇø</a>  ", board);
-	printf("<a href=bbs0an?path=%s>¾«»ªÇø</a>  ", anno_path_of(board));
-	printf("<a href=bbspst?board=%s><img border=0 src=/images/button/edit.gif align=absmiddle>·¢±íÎÄÕÂ</a>  ", board);
+		printf("<a href=bbsgdoc?board=%s&start=%d><img border=0 src=/images/button/down.gif align=absmiddle>ä¸‹ä¸€é¡µ</a>  ",	board, start+20);
+	printf("<a href=bbsdoc?board=%s>æœ¬è®¨è®ºåŒº</a>  ", board);
+	printf("<a href=bbs0an?path=%s>ç²¾ååŒº</a>  ", anno_path_of(board));
+	printf("<a href=bbspst?board=%s><img border=0 src=/images/button/edit.gif align=absmiddle>å‘è¡¨æ–‡ç« </a>  ", board);
 	fclose(fp);
 
 	http_quit();

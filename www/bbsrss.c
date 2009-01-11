@@ -26,18 +26,18 @@ int main()
 	strsncpy(board, getparm("board"), 32);
 	x1 = getbcache(board);
 	if (x1 == 0)
-		http_fatal("´íÎóµÄÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	strcpy(board, x1->filename);
 	if (!has_read_perm(&currentuser, board))
-		http_fatal("´íÎóµÄÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
     if (x1 ->flag & BOARD_DIR_FLAG)
-		http_fatal("ÄãÑ¡ÔñµÄÊÇÒ»¸öÄ¿Â¼"); //add by Danielfree 06.3.5
+		http_fatal("ä½ é€‰æ‹©çš„æ˜¯ä¸€ä¸ªç›®å½•"); //add by Danielfree 06.3.5
 	if ((x1->flag & BOARD_CLUB_FLAG)&& (x1->flag & BOARD_READ_FLAG )&& !has_BM_perm(&currentuser, board)&& !isclubmember(currentuser.userid, board))
-		http_fatal("Äú²»ÊÇ¾ãÀÖ²¿°æ %s µÄ³ÉÔ±£¬ÎŞÈ¨·ÃÎÊ¸Ã°æÃæ", board);
+		http_fatal("æ‚¨ä¸æ˜¯ä¿±ä¹éƒ¨ç‰ˆ %s çš„æˆå‘˜ï¼Œæ— æƒè®¿é—®è¯¥ç‰ˆé¢", board);
 	sprintf(dir, "boards/%s/.DIR", board);
 	total = file_size(dir) / sizeof(x);
 	if (total == 0)
-		http_fatal("ÌÖÂÛÇøÔİÎŞÎÄÕÂ");
+		http_fatal("è®¨è®ºåŒºæš‚æ— æ–‡ç« ");
 	start = total - count;
 	if (start < 0)
 	{
@@ -64,7 +64,7 @@ int main()
 	while (i<count){
 			if (fread(&x, sizeof(x), 1, fp) <= 0)
 					break;
-			if (x.id == x.gid) { //Ö»Êä³öÖ÷Ìù
+			if (x.id == x.gid) { //åªè¾“å‡ºä¸»è´´
 					i++;
 					sprintf(filename, "boards/%s/%s", board, x.filename);
 					stat(filename, &cachefile);

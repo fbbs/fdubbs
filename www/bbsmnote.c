@@ -5,12 +5,12 @@ int main() {
 	FILE *fp;
 	char *ptr, path[256], buf[10000], board[256];
    	init_all();
-	printf("<b>±à¼­½ø°æ»­Ãæ ¡¤ %s [ÌÖÂÛÇø: %s]</b><br>\n", BBSNAME, board);
+	printf("<b>ç¼–è¾‘è¿›ç‰ˆç”»é¢ Â· %s [è®¨è®ºåŒº: %s]</b><br>\n", BBSNAME, board);
 
 	printpretable_lite();
-	if(!loginok) http_fatal("´Ò´Ò¹ı¿Í£¬ÇëÏÈµÇÂ¼");
+	if(!loginok) http_fatal("åŒ†åŒ†è¿‡å®¢ï¼Œè¯·å…ˆç™»å½•");
 	strsncpy(board, getparm("board"), 30);
-	if(!has_BM_perm(&currentuser, board)) http_fatal("ÄúÎŞÈ¨½øĞĞ±¾²Ù×÷");
+	if(!has_BM_perm(&currentuser, board)) http_fatal("æ‚¨æ— æƒè¿›è¡Œæœ¬æ“ä½œ");
 	strsncpy(board, getbcache(board)->filename, 30);
 	sprintf(path, "vote/%s/notes", board);
 	if(!strcasecmp(getparm("type"), "update")) save_note(path);
@@ -27,8 +27,8 @@ int main() {
 	printf("%s",buf);
    	printf("</textarea></table>\n");
 	printposttable_lite();
-   	printf("<input type=submit value=´æÅÌ>  ");
-   	printf("<input type=reset value=¸´Ô­>\n");
+   	printf("<input type=submit value=å­˜ç›˜>  ");
+   	printf("<input type=reset value=å¤åŸ>\n");
 	http_quit();
 }
 
@@ -38,7 +38,7 @@ int save_note(char *path) {
 	strsncpy(buf, getparm("text"), 9999);
 	fprintf(fp, "%s", buf);
 	fclose(fp);
-	printf("½ø°æ»­ÃæĞŞ¸Ä³É¹¦¡£<br>\n");
-	printf("<a href='javascript:history.go(-2)'>·µ»Ø</a>");
+	printf("è¿›ç‰ˆç”»é¢ä¿®æ”¹æˆåŠŸã€‚<br>\n");
+	printf("<a href='javascript:history.go(-2)'>è¿”å›</a>");
 	http_quit();
 }

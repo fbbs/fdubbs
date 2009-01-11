@@ -24,22 +24,22 @@ CVS: $Id: config.h 2 2005-07-14 15:06:08Z root $
 */
 /* FIREBIRD BBS 3.0 CONFIGURATION VARIABLES */
 
-#define BBSVERSION      "��FB2000 v-Distribution��"
+#define BBSVERSION      "〔FB2000 v-Distribution〕"
 
-//#define FDQUAN	//���帴��Ȫ��
-//#define SPARC	//SPARC����ר��
+//#define FDQUAN	//定义复旦泉用
+//#define SPARC	//SPARC机器专用
 
 
 /*
-   ��������ʱ�� ���ϣ���������²��������͵����������棬����ͬʱ���͵�
-   sysop �壬���������棬����Դ�����Ķ��塣���е� sysop ���Ըĳ���
-   ϣ�������İ��档ע�⣺�������һ��Ҫ�Ǵ��ڵġ�
+   板主任命时， 如果希望任命文章不仅仅发送到被任命版面，而且同时发送到
+   sysop 板，或其他版面，你可以打开下面的定义。其中的 sysop 可以改成你
+   希望发表的版面。注意：这个版面一定要是存在的。
 
 //#define ORDAINBM_POST_BOARDNAME "SysOp"
 */
 
 /*  
-   ���������ⲿ������û���Ŀ�� ���磺BBSNET��WINMINE��SHOWUSER ��
+   允许开启外部程序的用户数目。 比如：BBSNET、WINMINE、SHOWUSER 等
 */
 #ifdef FDQUAN
 	#define MAX_USESHELL    50
@@ -225,7 +225,7 @@ so we don't need define this by passing make argument to the complier
 	#define BBSUID   9999
 	#define BBSGID   9999
 	#define BBSHOME "/home/bbs"
-	#define BBSNAME "����Ȫ"
+	#define BBSNAME "复旦泉"
 	#define BBSID   "FDQuanBBS"
 	#define BBSHOST "10.73.225.9"
 	#define BBSIP	"10.73.225.9"
@@ -233,7 +233,7 @@ so we don't need define this by passing make argument to the complier
 	#define BBSUID  9999 
 	#define BBSGID  9999
 	#define BBSHOME "/home/bbs"
-	#define BBSNAME "���¹⻪"
+	#define BBSNAME "日月光华"
 	#define BBSID   "Fudan BBS"
 	#define BBSHOST "bbs.fudan.edu.cn"
 	#define BBSIP	"61.129.42.9"

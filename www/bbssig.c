@@ -6,12 +6,12 @@ int main() {
 	char *ptr, path[256], buf[10000];
    	init_all();
 
-	/* added by roly  2002.05.10 È¥µôcache */
+	/* added by roly  2002.05.10 å»æ‰cache */
 	printf("<meta http-equiv=\"pragma\" content=\"no-cache\">");
 	/* add end */
 
-	if(!loginok) http_fatal("´Ò´Ò¹ı¿Í²»ÄÜÉèÖÃÇ©Ãûµµ£¬ÇëÏÈµÇÂ¼");
-	printf("<font style='font-size: 18pt'>%s</font> ¡¤ %s ÉèÖÃÇ©Ãûµµ \n", currentuser.userid, BBSNAME);
+	if(!loginok) http_fatal("åŒ†åŒ†è¿‡å®¢ä¸èƒ½è®¾ç½®ç­¾åæ¡£ï¼Œè¯·å…ˆç™»å½•");
+	printf("<font style='font-size: 18pt'>%s</font> Â· %s è®¾ç½®ç­¾åæ¡£ \n", currentuser.userid, BBSNAME);
 	sprintf(path, "home/%c/%s/signatures", 
 		toupper(currentuser.userid[0]), currentuser.userid);
 	if(!strcasecmp(getparm("type"), "1")) save_sig(path);
@@ -26,12 +26,12 @@ int main() {
 		if(ptr) ptr[0]=0;
 		fclose(fp);
 	}
-   	printf("Ç©ÃûµµÃ¿6ĞĞÎªÒ»¸öµ¥Î», ¿ÉÉèÖÃ¶à¸öÇ©Ãûµµ.<br>");
+   	printf("ç­¾åæ¡£æ¯6è¡Œä¸ºä¸€ä¸ªå•ä½, å¯è®¾ç½®å¤šä¸ªç­¾åæ¡£.<br>");
    	printf("<textarea class=ansi name=text rows=20 cols=80 nowrap>\n");
 	printf("%s",buf);
    	printf("</textarea></br>\n");
-   	printf("<input type=submit value=´æÅÌ> ");
-   	printf("<input type=reset value=¸´Ô­>\n");
+   	printf("<input type=submit value=å­˜ç›˜> ");
+   	printf("<input type=reset value=å¤åŸ>\n");
    	printf("</form>\n");
 	printposttable_lite();
 
@@ -44,6 +44,6 @@ int save_sig(char *path) {
 	buf=getparm("text");
 	fprintf(fp, "%s", buf);
 	fclose(fp);
-	printf("Ç©ÃûµµĞŞ¸Ä³É¹¦¡£");
+	printf("ç­¾åæ¡£ä¿®æ”¹æˆåŠŸã€‚");
 	http_quit();
 }

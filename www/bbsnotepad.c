@@ -4,11 +4,11 @@ int main() {
 	FILE *fp;
 	char buf[256];
 	init_all();
-	printf("<b><font style='font-size: 18pt'>%s</font> ¡¤ ÁôÑÔ°æ </b>[ÈÕÆÚ: %6.6s]<pre>\n", BBSNAME, Ctime(time(0))+4);
+	printf("<b><font style='font-size: 18pt'>%s</font> Â· ç•™è¨€ç‰ˆ </b>[æ—¥æœŸ: %6.6s]<pre>\n", BBSNAME, Ctime(time(0))+4);
 	printpretable();
 	fp=fopen("etc/notepad", "r");
 	if(fp==0) {
-		printf("½ñÌìµÄÁôÑÔ°æÎª¿Õ");
+		printf("ä»Šå¤©çš„ç•™è¨€ç‰ˆä¸ºç©º");
 		printposttable();
 		http_quit();
 	}

@@ -28,40 +28,40 @@ int main()
 	struct boardheader *brd;
 	struct fileheader x;
 	init_all();
-	printf("<b><font style='font-size: 18pt'>·¢ÎÄÍ³¼Æ</font> ¡¤ %s </b><br>\n", BBSNAME);
-	type=atoi(getparm("type"));					//»ñÈ¡·¢ÎÄÍ³¼ÆµÄÍ³¼Æ·½Ê½£º1:MÎÄ,2:GÎÄ,3:Ë®ÎÄ,4:Î´±ê¼Ç,5:×ÜÊı,6:ID
-	strsncpy(board, getparm("board"), 30);		//»ñÈ¡·¢ÎÄÍ³¼ÆµÄ°æÃæÃû³Æ
-	brd=getbcache(board);						//ÅĞ¶Ï¸Ã°æÃæÃû³ÆÊÇ·ñ´æÔÚ
-	if(brd==0) http_fatal("´íÎóµÄÌÖÂÛÇø");		//°æÃæ²»´æÔÚ
-	if(!has_read_perm(&currentuser, board)) http_fatal("´íÎóµÄÌÖÂÛÇøÃû³Æ");		//ÅĞ¶Ïµ±Ç°ÓÃ»§ÊÇ·ñÓĞ¸Ã°æÃæµÄ¶ÁÈ¨ÏŞ
-	if(type==0) return show_form(board);		//Ã»ÓĞÌá½»Í³¼Æ·½Ê½£¨µÚÒ»´Î½øÈë¸ÃÒ³Ãæ»ò·Ç±¾Ò³Ãæ´úÂëÌá½»ÁË´íÎóµÄÊı¾İ£©Ê±²»Í³¼Æ£¬·µ»ØÌá½»·¢ÎÄÍ³¼ÆµÄ±í¸ñ
+	printf("<b><font style='font-size: 18pt'>å‘æ–‡ç»Ÿè®¡</font> Â· %s </b><br>\n", BBSNAME);
+	type=atoi(getparm("type"));					//è·å–å‘æ–‡ç»Ÿè®¡çš„ç»Ÿè®¡æ–¹å¼ï¼š1:Mæ–‡,2:Gæ–‡,3:æ°´æ–‡,4:æœªæ ‡è®°,5:æ€»æ•°,6:ID
+	strsncpy(board, getparm("board"), 30);		//è·å–å‘æ–‡ç»Ÿè®¡çš„ç‰ˆé¢åç§°
+	brd=getbcache(board);						//åˆ¤æ–­è¯¥ç‰ˆé¢åç§°æ˜¯å¦å­˜åœ¨
+	if(brd==0) http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");		//ç‰ˆé¢ä¸å­˜åœ¨
+	if(!has_read_perm(&currentuser, board)) http_fatal("é”™è¯¯çš„è®¨è®ºåŒºåç§°");		//åˆ¤æ–­å½“å‰ç”¨æˆ·æ˜¯å¦æœ‰è¯¥ç‰ˆé¢çš„è¯»æƒé™
+	if(type==0) return show_form(board);		//æ²¡æœ‰æäº¤ç»Ÿè®¡æ–¹å¼ï¼ˆç¬¬ä¸€æ¬¡è¿›å…¥è¯¥é¡µé¢æˆ–éæœ¬é¡µé¢ä»£ç æäº¤äº†é”™è¯¯çš„æ•°æ®ï¼‰æ—¶ä¸ç»Ÿè®¡ï¼Œè¿”å›æäº¤å‘æ–‡ç»Ÿè®¡çš„è¡¨æ ¼
 
-	if(type>6) return http_fatal("·Ç·¨·ÃÎÊÒ³Ãæ£¡");		//added by DeepOcean. Oct 22,2005 ÓÃ»§´Ó·Ç±¾Ò³ÃæÌá½»·Ç·¨Êı¾İ
+	if(type>6) return http_fatal("éæ³•è®¿é—®é¡µé¢ï¼");		//added by DeepOcean. Oct 22,2005 ç”¨æˆ·ä»éæœ¬é¡µé¢æäº¤éæ³•æ•°æ®
 if (brd ->flag & BOARD_DIR_FLAG)
-		      http_fatal("ÄãÑ¡ÔñµÄÊÇÒ»¸öÄ¿Â¼"); //add by Danielfree 06.3.5
+		      http_fatal("ä½ é€‰æ‹©çš„æ˜¯ä¸€ä¸ªç›®å½•"); //add by Danielfree 06.3.5
 if ((brd->flag & BOARD_CLUB_FLAG)&& (brd->flag & BOARD_READ_FLAG )&& !has_BM_perm(&currentuser, board)&& !isclubmember(currentuser.userid, board))
-			        http_fatal("Äú²»ÊÇ¾ãÀÖ²¿°æ %s µÄ³ÉÔ±£¬ÎŞÈ¨·ÃÎÊ¸Ã°æÃæ", board);
-	sortmode=atoi(getparm("mode"));				//»ñÈ¡ÅÅĞò·½Ê½£º0:½µĞò£¬1:ÉıĞò
-	docstart=atoi(getparm("start"));			//»ñÈ¡ÆğÊ¼ÆªÊı
-	docend=atoi(getparm("end"));				//»ñÈ¡ÖÕÖ¹ÆªÊı
-	docmin=atoi(getparm("min"));				//»ñÈ¡Í³¼ÆãĞÖµ£¬3ÆªÆğÍ³¼Æ
+			        http_fatal("æ‚¨ä¸æ˜¯ä¿±ä¹éƒ¨ç‰ˆ %s çš„æˆå‘˜ï¼Œæ— æƒè®¿é—®è¯¥ç‰ˆé¢", board);
+	sortmode=atoi(getparm("mode"));				//è·å–æ’åºæ–¹å¼ï¼š0:é™åºï¼Œ1:å‡åº
+	docstart=atoi(getparm("start"));			//è·å–èµ·å§‹ç¯‡æ•°
+	docend=atoi(getparm("end"));				//è·å–ç»ˆæ­¢ç¯‡æ•°
+	docmin=atoi(getparm("min"));				//è·å–ç»Ÿè®¡é˜ˆå€¼ï¼Œ3ç¯‡èµ·ç»Ÿè®¡
 
 	sprintf(dir, "boards/%s/.DIR", board);
 
 	fp=fopen(dir, "r");
-	if (!fp) http_fatal("´íÎóµÄÌÖÂÛÇøÃû³Æ");	//.DIRÖ¸Ïò´íÎóÄ¿Â¼
+	if (!fp) http_fatal("é”™è¯¯çš„è®¨è®ºåŒºåç§°");	//.DIRæŒ‡å‘é”™è¯¯ç›®å½•
 	total=file_size(dir)/sizeof(struct fileheader);
 
 //	if(docstart<=0) docstart=0;
 //	if(docend<=0 || docend>total) docend=total;
 
-	//modified by DeepOcean, Oct 20,2005  ĞŞÕıÆğÊ¼ÆªÊıºÍÖÕÖ¹ÆªÊı
+	//modified by DeepOcean, Oct 20,2005  ä¿®æ­£èµ·å§‹ç¯‡æ•°å’Œç»ˆæ­¢ç¯‡æ•°
 	if(docstart<=0 || docstart>total) docstart=0;
 	if(docend<docstart || docend>total) docend=total;
 
-	if(docmin<3 || docmin>total) docmin=3;		//Í³¼ÆãĞÖµ£¬3ÆªÆğÍ³¼Æ
+	if(docmin<3 || docmin>total) docmin=3;		//ç»Ÿè®¡é˜ˆå€¼ï¼Œ3ç¯‡èµ·ç»Ÿè®¡
 
-	printf("<br>Í³¼ÆÌÖÂÛÇø'%s'ÄÚ, %d µ½ %d µÄ·¢ÎÄ³¬¹ı%dµÄID", board, docstart,docend,docmin);
+	printf("<br>ç»Ÿè®¡è®¨è®ºåŒº'%s'å†…, %d åˆ° %d çš„å‘æ–‡è¶…è¿‡%dçš„ID", board, docstart,docend,docmin);
 
 	sprintf(dir, "boards/%s/.DIR", board);
 
@@ -84,7 +84,7 @@ if ((brd->flag & BOARD_CLUB_FLAG)&& (brd->flag & BOARD_READ_FLAG )&& !has_BM_per
 			//added end.
 			//printf(userid_str(x.owner));
 
-			//Í³¼Æ·¢ÎÄÊıÁ¿
+			//ç»Ÿè®¡å‘æ–‡æ•°é‡
 			udcount=udcounthead;
 			while (udcount->next!=NULL)
 			{
@@ -143,7 +143,7 @@ if ((brd->flag & BOARD_CLUB_FLAG)&& (brd->flag & BOARD_READ_FLAG )&& !has_BM_per
 			}
 		}
 	}
-	//ÅÅĞò
+	//æ’åº
 	tail = NULL;
 	while (1)
 	{
@@ -179,7 +179,7 @@ if ((brd->flag & BOARD_CLUB_FLAG)&& (brd->flag & BOARD_READ_FLAG )&& !has_BM_per
 
 	printpretable();
 	printf("<table width=100%%>\n");
-	printf("<tr  class=pt9h ><td><font color=white>ÕÊºÅ</td><td><font color=white>·¢ÎÄ</td><td><font color=white>MÎÄ</td><td><font color=white>GÎÄ</td><td><font color=white>Ë®ÎÄ</td><td><font color=white>ÎŞ±ê¼Ç</td></tr>\n");
+	printf("<tr  class=pt9h ><td><font color=white>å¸å·</td><td><font color=white>å‘æ–‡</td><td><font color=white>Mæ–‡</td><td><font color=white>Gæ–‡</td><td><font color=white>æ°´æ–‡</td><td><font color=white>æ— æ ‡è®°</td></tr>\n");
 	int cc=0;
 	while (udcounthead->next!=NULL)
 	{
@@ -194,7 +194,7 @@ if ((brd->flag & BOARD_CLUB_FLAG)&& (brd->flag & BOARD_READ_FLAG )&& !has_BM_per
 	}
 	printf("</table>");
 	printposttable();
-	printf("<br>[<a href='bbsdoc?board=%s'>·µ»ØÌÖÂÛÇø</a>] ", board);
+	printf("<br>[<a href='bbsdoc?board=%s'>è¿”å›è®¨è®ºåŒº</a>] ", board);
 	http_quit();
 }
 
@@ -204,27 +204,27 @@ int show_form(char *board)
 	printpretable_lite();
 /*
 	printf("<table><form action=bbsacount method=post>\n");
-	printf("<tr><td>°æÃæÃû³Æ: <input type=text maxlength=24 size=24 name=board value='%s'/><br /></td></tr>\n", board);
-	printf("<tr><td>ÆğÊ¼ÆªÊı: <input type=text maxlength=8 size=8 name=start /><br /></td></tr>\n");
-	printf("<tr><td>ÖÕÖ¹ÆªÊı: <input type=text maxlength=8 size=8 name=end /></td></tr>\n");
-	printf("<tr><td>Í³¼ÆãĞÖµ: <input type=text maxlength=3 size=8 name=min value=5 /></td></tr>\n");
-	printf("<tr><td>Í³¼Æ·½Ê½: <select name=type><option value='5' >×ÜÊı</option><option value='1' >MÎÄ</option><option value='2' >GÎÄ</option><option value='3' >Ë®ÎÄ</option><option value='4' >Î´±ê¼Ç</option><option value='6' >id</option></select></td></tr>\n");
-	printf("<tr><td>ÅÅĞò·½Ê½: <select name=mode><option value='0'>½µĞò</option><option value='1' >ÉıĞò</option></select></td></tr>\n");
-	printf("<tr><td><input type=submit value=µİ½»²éÑ¯½á¹û /></td></tr>\n");
+	printf("<tr><td>ç‰ˆé¢åç§°: <input type=text maxlength=24 size=24 name=board value='%s'/><br /></td></tr>\n", board);
+	printf("<tr><td>èµ·å§‹ç¯‡æ•°: <input type=text maxlength=8 size=8 name=start /><br /></td></tr>\n");
+	printf("<tr><td>ç»ˆæ­¢ç¯‡æ•°: <input type=text maxlength=8 size=8 name=end /></td></tr>\n");
+	printf("<tr><td>ç»Ÿè®¡é˜ˆå€¼: <input type=text maxlength=3 size=8 name=min value=5 /></td></tr>\n");
+	printf("<tr><td>ç»Ÿè®¡æ–¹å¼: <select name=type><option value='5' >æ€»æ•°</option><option value='1' >Mæ–‡</option><option value='2' >Gæ–‡</option><option value='3' >æ°´æ–‡</option><option value='4' >æœªæ ‡è®°</option><option value='6' >id</option></select></td></tr>\n");
+	printf("<tr><td>æ’åºæ–¹å¼: <select name=mode><option value='0'>é™åº</option><option value='1' >å‡åº</option></select></td></tr>\n");
+	printf("<tr><td><input type=submit value=é€’äº¤æŸ¥è¯¢ç»“æœ /></td></tr>\n");
 */
 //modified by DeepOcean, Oct 20,2005
-	printf("<script language=JavaScript src=/javascript/datachk.js></script>\n");	//²¿·ÖÊäÈëÊı¾İµÄÑéÖ¤ÓÉ¿Í»§¶ËµÄjavascriptÍê³É£¬¼õÉÙÎŞÎ½µÄ¸ºµ£
+	printf("<script language=JavaScript src=/javascript/datachk.js></script>\n");	//éƒ¨åˆ†è¾“å…¥æ•°æ®çš„éªŒè¯ç”±å®¢æˆ·ç«¯çš„javascriptå®Œæˆï¼Œå‡å°‘æ— è°“çš„è´Ÿæ‹…
 	printf("<table><form action=bbsacount method=post onSubmit='return DataCheck(this)';>\n");
-	printf("<tr><td>°æÃæÃû³Æ: <input class=thinborder type=text maxlength=24 size=24 name=board value='%s'></td></tr>\n", board);
-	printf("<tr><td>ÆğÊ¼ÆªÊı: <input class=thinborder type=text maxlength=8 size=8 name=start></td></tr>\n");
-	printf("<tr><td>ÖÕÖ¹ÆªÊı: <input class=thinborder type=text maxlength=8 size=8 name=end></td></tr>\n");
-	printf("<tr><td>Í³¼ÆãĞÖµ: <input class=thinborder type=text maxlength=3 size=8 name=min value=5></td></tr>\n");
-	printf("<tr><td>Í³¼Æ·½Ê½: <select class=thinborder name=type><option value='5'>×ÜÊı</option><option value='1'>MÎÄ</option><option value='2'>GÎÄ</option><option value='3'>Ë®ÎÄ</option><option value='4'>Î´±ê¼Ç</option><option value='6'>id</option></select></td></tr>\n");
-	printf("<tr><td>ÅÅĞò·½Ê½: <select class=thinborder name=mode><option value='0'>½µĞò¡¡</option><option value='1'>ÉıĞò¡¡</option></select></td></tr>\n");
-	printf("<tr><td><input type=submit value=µİ½»²éÑ¯½á¹û name=submit></td></tr>");
+	printf("<tr><td>ç‰ˆé¢åç§°: <input class=thinborder type=text maxlength=24 size=24 name=board value='%s'></td></tr>\n", board);
+	printf("<tr><td>èµ·å§‹ç¯‡æ•°: <input class=thinborder type=text maxlength=8 size=8 name=start></td></tr>\n");
+	printf("<tr><td>ç»ˆæ­¢ç¯‡æ•°: <input class=thinborder type=text maxlength=8 size=8 name=end></td></tr>\n");
+	printf("<tr><td>ç»Ÿè®¡é˜ˆå€¼: <input class=thinborder type=text maxlength=3 size=8 name=min value=5></td></tr>\n");
+	printf("<tr><td>ç»Ÿè®¡æ–¹å¼: <select class=thinborder name=type><option value='5'>æ€»æ•°</option><option value='1'>Mæ–‡</option><option value='2'>Gæ–‡</option><option value='3'>æ°´æ–‡</option><option value='4'>æœªæ ‡è®°</option><option value='6'>id</option></select></td></tr>\n");
+	printf("<tr><td>æ’åºæ–¹å¼: <select class=thinborder name=mode><option value='0'>é™åºã€€</option><option value='1'>å‡åºã€€</option></select></td></tr>\n");
+	printf("<tr><td><input type=submit value=é€’äº¤æŸ¥è¯¢ç»“æœ name=submit></td></tr>");
 //finished.
 	printf("</form></table>");
 	printposttable_lite();
-	printf("[<a href='bbsdoc?board=%s'>·µ»ØÉÏÒ»Ò³</a>] ", board);
+	printf("[<a href='bbsdoc?board=%s'>è¿”å›ä¸Šä¸€é¡µ</a>] ", board);
 	http_quit();
 }

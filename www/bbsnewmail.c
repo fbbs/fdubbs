@@ -7,28 +7,28 @@ int main() {
 	char *ptr, buf[512], path[80], dir[80];
    	init_all();
 
-	/* added by roly  2002.05.10 È¥µôcache */
+	/* added by roly  2002.05.10 å»æ‰cache */
 	printf("<meta http-equiv=\"pragma\" content=\"no-cache\">");
 	/* add end */
 
 	if(!loginok) 
 	{
-		printf("<b>ĞÂĞÅ¼şÁĞ±í ¡¤ %s </b><br>\n", BBSNAME);
+		printf("<b>æ–°ä¿¡ä»¶åˆ—è¡¨ Â· %s </b><br>\n", BBSNAME);
 		printpretable_lite();
-		http_fatal("ÄúÉĞÎ´µÇÂ¼, ÇëÏÈµÇÂ¼");
+		http_fatal("æ‚¨å°šæœªç™»å½•, è¯·å…ˆç™»å½•");
 	}
-   	printf("<b>ĞÂĞÅ¼şÁĞ±í%s --  [Ê¹ÓÃÕß: %s]</b>\n", BBSNAME, currentuser.userid);
+   	printf("<b>æ–°ä¿¡ä»¶åˆ—è¡¨%s --  [ä½¿ç”¨è€…: %s]</b>\n", BBSNAME, currentuser.userid);
    	sprintf(dir, "mail/%c/%s/.DIR", toupper(currentuser.userid[0]), currentuser.userid);
 	fp=fopen(dir, "r");
 	if(fp==0) 
 	{
 		printpretable_lite();
-		http_fatal("Ä¿Ç°ÄúµÄĞÅÏäÃ»ÓĞÈÎºÎĞÅ¼ş");
+		http_fatal("ç›®å‰æ‚¨çš„ä¿¡ç®±æ²¡æœ‰ä»»ä½•ä¿¡ä»¶");
 	}
 	printf("<center>\n");
    	printpretable();
     printf("<table width=100%% border=0  bgcolor=#ffffff>\n");
-   	printf("<tr class=pt9h ><td><font color=white>ĞòºÅ<td><font color=white>×´Ì¬<td><font color=white>·¢ĞÅÈË<td><font color=white>ÈÕÆÚ<td><font color=white>ĞÅ¼ş±êÌâ\n");
+   	printf("<tr class=pt9h ><td><font color=white>åºå·<td><font color=white>çŠ¶æ€<td><font color=white>å‘ä¿¡äºº<td><font color=white>æ—¥æœŸ<td><font color=white>ä¿¡ä»¶æ ‡é¢˜\n");
    	int cc=0;
 	while(1) 
 	{
@@ -49,7 +49,7 @@ int main() {
 		printf("<td>%6.6s", Ctime(atoi(x.filename+2))+4);
 		printf("<td><a href=bbsmailcon?file=%s&num=%d>", x.filename, total-1);
 	 	if(strncmp("Re: ", x.title, 4)) 
-			printf("¡ï ");
+			printf("â˜… ");
         hprintf("%42.42s", x.title);
 	 	printf(" </a>\n");
 		total2++;
@@ -57,6 +57,6 @@ int main() {
 	printf("</table>\n");
 	printposttable();
 	printf("</center>");
-	printf("ÄúµÄĞÅÏä¹²ÓĞ%d·âĞÅ¼ş, ÆäÖĞĞÂĞÅ%d·â.", total, total2);
+	printf("æ‚¨çš„ä¿¡ç®±å…±æœ‰%då°ä¿¡ä»¶, å…¶ä¸­æ–°ä¿¡%då°.", total, total2);
 	http_quit();
 }

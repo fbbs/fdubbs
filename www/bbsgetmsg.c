@@ -35,7 +35,7 @@ int main() {
 		else p+=2;
 		printf("<b>%s</b>:",toid);
 		hprintf(p);
-		printf("<td align=right><a target=view href=bbssendmsg?destid=%s&destpid=%d>[回讯息]</a> <a href=bbsgetmsg>[忽略]</a>", toid, topid);
+		printf("<td align=right><a target=view href=bbssendmsg?destid=%s&destpid=%d>[鍥炶鎭痌</a> <a href=bbsgetmsg>[蹇界暐]</a>", toid, topid);
 		http_quit();
 	}
 	refreshto("bbsgetmsg", 60);

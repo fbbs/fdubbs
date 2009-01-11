@@ -4,15 +4,15 @@ int main() {
 	int i; 
 	init_all();
 
-	/* added by roly  2002.05.10 È¥µôcache */
+	/* added by roly  2002.05.10 å»æ‰cache */
 	printf("<meta http-equiv=\"pragma\" content=\"no-cache\">");
 	/* add end */
 
-   	if(!loginok) http_fatal("ÄúÉĞÎ´µÇÂ¼, ÇëÏÈµÇÂ¼");
+   	if(!loginok) http_fatal("æ‚¨å°šæœªç™»å½•, è¯·å…ˆç™»å½•");
 	loadfriend(currentuser.userid);
     	printf("<center>\n");
-  	printf("<b>ºÃÓÑÃûµ¥ ¡¤ %s [Ê¹ÓÃÕß: %s]</b><br>\n", BBSNAME, currentuser.userid);
-   	printf("Äú¹²Éè¶¨ÁË %d Î»ºÃÓÑ<br>", friendnum);
+  	printf("<b>å¥½å‹åå• Â· %s [ä½¿ç”¨è€…: %s]</b><br>\n", BBSNAME, currentuser.userid);
+   	printf("æ‚¨å…±è®¾å®šäº† %d ä½å¥½å‹<br>", friendnum);
 	
 	printf("<table align=center border=0 cellpadding=0 cellspacing=0 width=400>\n");
 	printf("	<tr height=6>\n");
@@ -24,16 +24,16 @@ int main() {
 	printf("		<td width=6 background='/images/l.gif'>\n");
 	printf("		<td width=100%%>\n");
 
-   	printf("<table width=100%% border=0  bgcolor=#ffffff><tr class=pt9h ><td><font color=white>ĞòºÅ<td><font color=white>ºÃÓÑ´úºÅ<td><font color=white>ºÃÓÑËµÃ÷<td><font color=white>É¾³ıºÃÓÑ");
+   	printf("<table width=100%% border=0  bgcolor=#ffffff><tr class=pt9h ><td><font color=white>åºå·<td><font color=white>å¥½å‹ä»£å·<td><font color=white>å¥½å‹è¯´æ˜<td><font color=white>åˆ é™¤å¥½å‹");
    	int cc=0;
 	for(i=0; i<friendnum; i++) {
 		printf("<tr class=%s><td>%d",((cc++)%2)?"pt9dc":"pt9lc" , i+1);
 		printf("<td><a href=bbsqry?userid=%s>%s</a>", fff[i].id, fff[i].id);
 		printf("<td>%s\n", nohtml(fff[i].exp));
-		printf("<td>[<a onclick='return confirm(\"È·ÊµÉ¾³ıÂğ?\")' href=bbsfdel?userid=%s>É¾³ı</a>]", fff[i].id);
+		printf("<td>[<a onclick='return confirm(\"ç¡®å®åˆ é™¤å—?\")' href=bbsfdel?userid=%s>åˆ é™¤</a>]", fff[i].id);
 	}
    	printf("</table>\n");
 	printposttable();
-	printf("[<a href=bbsfadd>Ìí¼ÓĞÂµÄºÃÓÑ</a>]</center>\n");
+	printf("[<a href=bbsfadd>æ·»åŠ æ–°çš„å¥½å‹</a>]</center>\n");
 	http_quit();
 }

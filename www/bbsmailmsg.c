@@ -3,18 +3,18 @@
 int main() {
 	char filename[80];
 	init_all();
-	printf("<b>ÏûÏ¢¼Ä»ØÓÊÏä ¡¤ %s </b><br>\n",BBSNAME);
+	printf("<b>æ¶ˆæ¯å¯„å›é‚®ç®± Â· %s </b><br>\n",BBSNAME);
 	printpretable_lite();
 
-	if(!loginok) http_fatal("´Ò´Ò¹ı¿Í²»ÄÜ´¦ÀíÏûÏ¢£¬ÇëÏÈµÇÂ¼");
+	if(!loginok) http_fatal("åŒ†åŒ†è¿‡å®¢ä¸èƒ½å¤„ç†æ¶ˆæ¯ï¼Œè¯·å…ˆç™»å½•");
 	/* modified by roly ? bug??*/
 	//sprintf(filename, "home/%c/%s/msgfile", toupper(currentuser.userid[0]), currentuser.userid);
 	sprintf(filename, "home/%c/%s/msgfile.me", toupper(currentuser.userid[0]), currentuser.userid);
 	/* modify end */
-	post_mail(currentuser.userid, "ËùÓĞÏûÏ¢±¸·İ", filename, currentuser.userid, currentuser.username, fromhost, -1);
+	post_mail(currentuser.userid, "æ‰€æœ‰æ¶ˆæ¯å¤‡ä»½", filename, currentuser.userid, currentuser.username, fromhost, -1);
 	unlink(filename);
-	printf("ÏûÏ¢±¸·İÒÑ¾­¼Ä»ØÄúµÄĞÅÏä");
+	printf("æ¶ˆæ¯å¤‡ä»½å·²ç»å¯„å›æ‚¨çš„ä¿¡ç®±");
 	printposttable_lite();
-	printf("<a href='javascript:history.go(-2)'>·µ»Ø</a>");
+	printf("<a href='javascript:history.go(-2)'>è¿”å›</a>");
 	http_quit();
 }

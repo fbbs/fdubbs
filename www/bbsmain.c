@@ -16,7 +16,7 @@ int main() {
 	char buf[1024], *ptr;
   	init_all();
 	printf("<meta http-equiv=\"pragma\" content=\"no-cache\">");
-	printf("<title>»¶Ó­¹âÁÙÈÕÔÂ¹â»ªBBS</title>");
+	printf("<title>æ¬¢è¿å…‰ä¸´æ—¥æœˆå…‰åBBS</title>");
 	printf("<style type=text/css>\n"
 "	*{ font-family: Tahoma; font-size: 9pt;}\n"
 "	A:link {	COLOR: #ffffff; TEXT-DECORATION: none}\n"
@@ -75,17 +75,17 @@ printf("<div id=panel width=100%% height=100%% valign=top>");
 "		   <td nowrap><img border=0 align=absmiddle src=/images/password.gif></td>\n"
 "		   <td><input style='font-weight:bold;BORDER: 0px; font-size:9pt; background-color:#6699CC;color:#ffffff' name=pw type=password maxlength=12 size=10></td>\n"
 "		 </tr><tr>\n"
-"                 <td></td><td><input type=submit value=µÇÂ¼½øÕ¾ style='font-size:9pt'></td>\n"
+"                 <td></td><td><input type=submit value=ç™»å½•è¿›ç«™ style='font-size:9pt'></td>\n"
 "		 </tr></table>\n"
 "		 </form>");
         } else {
-                char buf[256]="Î´×¢²áÓÃ»§";
+                char buf[256]="æœªæ³¨å†Œç”¨æˆ·";
                 printf("&nbsp;<img border=0 align=absmiddle src=/images/user_%c.gif> <a href=bbsqry?userid=%s target=view><b>%s</b></a><br>&nbsp;", currentuser.gender=='F'?'F':'M', currentuser.userid, currentuser.userid);
-               	if(currentuser.userlevel & PERM_BOARDS) strcpy(buf, "°æÖ÷");
-                if(currentuser.userlevel & PERM_XEMPT) strcpy(buf, "ÓÀ¾ÃÕÊºÅ");
-       	        if(currentuser.userlevel & PERM_SYSOPS) strcpy(buf, "±¾Õ¾Õ¾³¤");
-		else if(currentuser.userlevel & PERM_XEMPT) strcpy(buf, "ÓÀ¾ÃÕÊºÅ");
-		else if(currentuser.userlevel & PERM_BOARDS) strcpy(buf, "°æÖ÷");
+               	if(currentuser.userlevel & PERM_BOARDS) strcpy(buf, "ç‰ˆä¸»");
+                if(currentuser.userlevel & PERM_XEMPT) strcpy(buf, "æ°¸ä¹…å¸å·");
+       	        if(currentuser.userlevel & PERM_SYSOPS) strcpy(buf, "æœ¬ç«™ç«™é•¿");
+		else if(currentuser.userlevel & PERM_XEMPT) strcpy(buf, "æ°¸ä¹…å¸å·");
+		else if(currentuser.userlevel & PERM_BOARDS) strcpy(buf, "ç‰ˆä¸»");
 		else if(currentuser.userlevel & PERM_REGISTER) buf[0]=0;
 	
 		if(!buf[0])iconexp(countexp(&currentuser));
@@ -98,21 +98,21 @@ printf("<script type=\"text/javascript\" language=\"JavaScript1.2\">");
 
 printf(BEGIN_MENU);
 printf(BEGIN_SUBMENU);
-        printf(SUBMENU_FIRST ,"<IMG SRC=/images/announce.gif ALIGN=ABSMIDDLE> ","±¾Õ¾¾«»ª"
+        printf(SUBMENU_FIRST ,"<IMG SRC=/images/announce.gif ALIGN=ABSMIDDLE> ","æœ¬ç«™ç²¾å"
                                         ,"/cgi-bin/bbs/bbs0an", FRAME_VIEW
                                         ,"","","");
-	printf(SUBMENU ,"<IMG SRC=/images/penguin.gif ALIGN=ABSMIDDLE> ","È«²¿ÌÖÂÛ"
+	printf(SUBMENU ,"<IMG SRC=/images/penguin.gif ALIGN=ABSMIDDLE> ","å…¨éƒ¨è®¨è®º"
 					,"/cgi-bin/bbs/bbsall", FRAME_VIEW
 					,"","","");
-	printf(SUBMENU, "<IMG SRC=/images/top10.gif ALIGN=ABSMIDDLE> ", "Í³¼ÆÊı¾İ","", FRAME_VIEW,"","/images/arrow_r.gif","/images/arrow_r.gif");
+	printf(SUBMENU, "<IMG SRC=/images/top10.gif ALIGN=ABSMIDDLE> ", "ç»Ÿè®¡æ•°æ®","", FRAME_VIEW,"","/images/arrow_r.gif","/images/arrow_r.gif");
 	printf(BEGIN_POPUPMENU);
-		printf(SUBMENU ,"","½ñÈÕÊ®´ó"
+		printf(SUBMENU ,"","ä»Šæ—¥åå¤§"
 					,"/cgi-bin/bbs/bbstop10", FRAME_VIEW
 					,"","","");
-		printf(SUBMENU ,"","ÈÈÃÅÌÖÂÛÇø"
+		printf(SUBMENU ,"","çƒ­é—¨è®¨è®ºåŒº"
 					,"/cgi-bin/bbs/bbstopb10", FRAME_VIEW
 					,"","","");
-		 printf(SUBMENU ,"","ÔÚÏßÍ³¼Æ"
+		 printf(SUBMENU ,"","åœ¨çº¿ç»Ÿè®¡"
 		                        ,"/cgi-bin/bbs/bbsuserinfo", FRAME_VIEW
 					,"","","");
 										 
@@ -123,7 +123,7 @@ printf(BEGIN_SUBMENU);
 		int i;
 		char *cgi="bbsdoc";
 		if(atoi(getparm("my_def_mode"))!=0) cgi="bbstdoc";
-		printf(SUBMENU ,"<IMG SRC=/images/favorite.gif ALIGN=ABSMIDDLE> ","ÎÒµÄÊÕ²Ø"
+		printf(SUBMENU ,"<IMG SRC=/images/favorite.gif ALIGN=ABSMIDDLE> ","æˆ‘çš„æ”¶è—"
 						,"/cgi-bin/bbs/bbsmybrd", FRAME_VIEW
 						,"","/images/arrow_r.gif","/images/arrow_r.gif");
 		printf(BEGIN_POPUPMENU);
@@ -149,13 +149,13 @@ printf(BEGIN_SUBMENU);
 				
 			fclose(fp);
 		}
-		printf(SUBMENU ,"","Ô¤¶¨¹ÜÀí"
+		printf(SUBMENU ,"","é¢„å®šç®¡ç†"
 						,"/cgi-bin/bbs/bbsmybrd", FRAME_VIEW
 						,"","","");
 		printf(END_POPUPMENU);
 	}
 
-	printf(SUBMENU ,"<IMG SRC=/images/egroup.gif ALIGN=ABSMIDDLE> ","·ÖÀàÌÖÂÛ"
+	printf(SUBMENU ,"<IMG SRC=/images/egroup.gif ALIGN=ABSMIDDLE> ","åˆ†ç±»è®¨è®º"
 				,"/cgi-bin/bbs/bbssec", FRAME_VIEW
 				,"","/images/arrow_r.gif","/images/arrow_r.gif");
 	printf(BEGIN_POPUPMENU);
@@ -191,24 +191,24 @@ printf(BEGIN_SUBMENU);
 	}
 	printf(END_POPUPMENU);
 
-	printf(SUBMENU ,"<IMG SRC=/images/chat.gif ALIGN=ABSMIDDLE> ","ÈµÇÅÏà»á"
+	printf(SUBMENU ,"<IMG SRC=/images/chat.gif ALIGN=ABSMIDDLE> ","é¹Šæ¡¥ç›¸ä¼š"
 				,"", FRAME_VIEW
 				,"","/images/arrow_r.gif","/images/arrow_r.gif");
 	printf(BEGIN_POPUPMENU);
 	if(loginok) {
-		printf(SUBMENU ,"","ÔÚÏßºÃÓÑ"
+		printf(SUBMENU ,"","åœ¨çº¿å¥½å‹"
 				,"/cgi-bin/bbs/bbsfriend", FRAME_VIEW
 				,"","","");
 	}
-	printf(SUBMENU ,"","»·¹ËËÄ·½"
+	printf(SUBMENU ,"","ç¯é¡¾å››æ–¹"
 				,"/cgi-bin/bbs/bbsusr", FRAME_VIEW
 				,"","","");
 
 	if(currentuser.userlevel & PERM_TALK) {
-		printf(SUBMENU ,"","·¢ËÍÑ¶Ï¢"
+		printf(SUBMENU ,"","å‘é€è®¯æ¯"
 				,"/cgi-bin/bbs/bbssendmsg", FRAME_VIEW
 				,"","","");
-		printf(SUBMENU ,"","²é¿´ËùÓĞÑ¶Ï¢"
+		printf(SUBMENU ,"","æŸ¥çœ‹æ‰€æœ‰è®¯æ¯"
 				,"/cgi-bin/bbs/bbsmsg", FRAME_VIEW
 				,"","","");
 	}
@@ -216,85 +216,85 @@ printf(BEGIN_SUBMENU);
 	printf(END_POPUPMENU);
 
 if(loginok) {
-	printf(SUBMENU ,"<IMG SRC=/images/config.gif ALIGN=ABSMIDDLE> ","¸öÈËÉèÖÃ"
+	printf(SUBMENU ,"<IMG SRC=/images/config.gif ALIGN=ABSMIDDLE> ","ä¸ªäººè®¾ç½®"
 			,"", FRAME_VIEW
 			,"","/images/arrow_r.gif","/images/arrow_r.gif");
 	printf(BEGIN_POPUPMENU);		
-		printf(SUBMENU ,"","¸öÈË×ÊÁÏ"
+		printf(SUBMENU ,"","ä¸ªäººèµ„æ–™"
 				,"/cgi-bin/bbs/bbsinfo", FRAME_VIEW
 				,"","","");
-		printf(SUBMENU ,"","¸ÄËµÃ÷µµ"
+		printf(SUBMENU ,"","æ”¹è¯´æ˜æ¡£"
 				,"/cgi-bin/bbs/bbsplan", FRAME_VIEW
 				,"","","");
-		printf(SUBMENU ,"","¸ÄÇ©Ãûµµ"
+		printf(SUBMENU ,"","æ”¹ç­¾åæ¡£"
 				,"/cgi-bin/bbs/bbssig", FRAME_VIEW
 				,"","","");
-		printf(SUBMENU ,"","ĞŞ¸ÄÃÜÂë"
+		printf(SUBMENU ,"","ä¿®æ”¹å¯†ç "
 				,"/cgi-bin/bbs/bbspwd", FRAME_VIEW
 				,"","","");
-		printf(SUBMENU ,"","WWW¶¨ÖÆ"
+		printf(SUBMENU ,"","WWWå®šåˆ¶"
 				,"/cgi-bin/bbs/bbsmywww", FRAME_VIEW
 				,"","","");
-		printf(SUBMENU ,"","ÁÙÊ±¸ÄêÇ³Æ"
+		printf(SUBMENU ,"","ä¸´æ—¶æ”¹æ˜µç§°"
 				,"/cgi-bin/bbs/bbsnick", FRAME_VIEW
 				,"","","");
-		printf(SUBMENU ,"","Éè¶¨ºÃÓÑ"
+		printf(SUBMENU ,"","è®¾å®šå¥½å‹"
 				,"/cgi-bin/bbs/bbsfall", FRAME_VIEW
 				,"","","");
 		
 		if(currentuser.userlevel & PERM_CLOAK)
-		printf(SUBMENU ,"","ÇĞ»»ÒşÉí"
+		printf(SUBMENU ,"","åˆ‡æ¢éšèº«"
 				,"/cgi-bin/bbs/bbscloak", FRAME_VIEW
 				,"","","");
 
 	printf(END_POPUPMENU);
 
-	printf(SUBMENU ,"<IMG SRC=/images/mail.gif ALIGN=ABSMIDDLE> ","´¦ÀíĞÅ¼ş"
+	printf(SUBMENU ,"<IMG SRC=/images/mail.gif ALIGN=ABSMIDDLE> ","å¤„ç†ä¿¡ä»¶"
 				,"", FRAME_VIEW
 				,"","/images/arrow_r.gif","/images/arrow_r.gif");
 	printf(BEGIN_POPUPMENU);
-	printf(SUBMENU,"<img border=0 align=absmiddle src=/images/mail_new.gif> ","ÔÄÀÀĞÂĞÅ¼ş"
+	printf(SUBMENU,"<img border=0 align=absmiddle src=/images/mail_new.gif> ","é˜…è§ˆæ–°ä¿¡ä»¶"
 		,"/cgi-bin/bbs/bbsnewmail",FRAME_VIEW,"","","");
-	printf(SUBMENU,"<img border=0 align=absmiddle src=/images/mail.gif> ","ËùÓĞĞÅ¼ş"
+	printf(SUBMENU,"<img border=0 align=absmiddle src=/images/mail.gif> ","æ‰€æœ‰ä¿¡ä»¶"
 		,"/cgi-bin/bbs/bbsmail",FRAME_VIEW,"","","");
-	printf(SUBMENU,"<img border=0 align=absmiddle src=/images/mail_get.gif> ","ÏÂÔØĞÅ¼ş"
+	printf(SUBMENU,"<img border=0 align=absmiddle src=/images/mail_get.gif> ","ä¸‹è½½ä¿¡ä»¶"
 		,"/cgi-bin/bbs/bbsmaildown",FRAME_VIEW,"","","");
-	printf(SUBMENU,"<img border=0 align=absmiddle src=/images/mail_write.gif> ","·¢ËÍĞÅ¼ş"
+	printf(SUBMENU,"<img border=0 align=absmiddle src=/images/mail_write.gif> ","å‘é€ä¿¡ä»¶"
 		,"/cgi-bin/bbs//bbspstmail",FRAME_VIEW,"","","");
 
 	printf(END_POPUPMENU);
 	
 }
 
-	printf(SUBMENU ,"<IMG SRC=/images/search.gif ALIGN=ABSMIDDLE> ","²éÕÒÑ¡Ïî"
+	printf(SUBMENU ,"<IMG SRC=/images/search.gif ALIGN=ABSMIDDLE> ","æŸ¥æ‰¾é€‰é¡¹"
 				,"", FRAME_VIEW
 				,"","/images/arrow_r.gif","/images/arrow_r.gif");
 	printf(BEGIN_POPUPMENU);
 		if(HAS_PERM(PERM_OBOARDS))
-			printf(SUBMENU ,"","²éÕÒÎÄÕÂ"
+			printf(SUBMENU ,"","æŸ¥æ‰¾æ–‡ç« "
 							,"/cgi-bin/bbs/bbsfind", FRAME_VIEW
 						,"","","");
-		printf(SUBMENU ,"","²éÑ¯ÍøÓÑ"
+		printf(SUBMENU ,"","æŸ¥è¯¢ç½‘å‹"
 					,"/cgi-bin/bbs/bbsqry", FRAME_VIEW
 					,"","","");
-		printf(SUBMENU ,"","²éÕÒÌÖÂÛÇø"
+		printf(SUBMENU ,"","æŸ¥æ‰¾è®¨è®ºåŒº"
 					,"/cgi-bin/bbs/bbssel", FRAME_VIEW
 					,"","","");
-		printf(SUBMENU ,"","YCULËÑË÷"
+		printf(SUBMENU ,"","YCULæœç´¢"
 					,"http://www.ycul.com?ref=bbs.fudan.edu.cn", FRAME_VIEW,"","","");
 	printf(END_POPUPMENU);
 
 
-	printf(SUBMENU,"<IMG SRC=/images/service.gif ALIGN=ABSMIDDLE> ","¹«¹²·şÎñ"
+	printf(SUBMENU,"<IMG SRC=/images/service.gif ALIGN=ABSMIDDLE> ","å…¬å…±æœåŠ¡"
 				,"", FRAME_VIEW,"","/images/arrow_r.gif","/images/arrow_r.gif");
 	printf(BEGIN_POPUPMENU);
-		printf(SUBMENU,"","¿ª·¢ÖĞ...","",FRAME_VIEW,"","","");
+		printf(SUBMENU,"","å¼€å‘ä¸­...","",FRAME_VIEW,"","","");
 	printf(END_POPUPMENU);
 
-	printf(SUBMENU ,"<img border=0 align=absmiddle src=/images/telnet.gif> ","TelnetµÇÂ¼"
+	printf(SUBMENU ,"<img border=0 align=absmiddle src=/images/telnet.gif> ","Telnetç™»å½•"
 				,"telnet://bbs.fudan.sh.cn:2323", "_top"
 				,"","","");
-	if(loginok)printf(SUBMENU ,"<img border=0 align=absmiddle src=/images/exit.gif> ","×¢ÏúµÇÂ¼"
+	if(loginok)printf(SUBMENU ,"<img border=0 align=absmiddle src=/images/exit.gif> ","æ³¨é”€ç™»å½•"
 				,"/cgi-bin/bbs/bbslogout", "_top"
 				,"","","");
 

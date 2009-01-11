@@ -71,40 +71,40 @@ int main() {
 	int i; 
 	char board[80];
 	init_all();
-   	if(!loginok) http_fatal("ÄúÉĞÎ´µÇÂ¼, ÇëÏÈµÇÂ¼");
+   	if(!loginok) http_fatal("æ‚¨å°šæœªç™»å½•, è¯·å…ˆç™»å½•");
 	strsncpy(board, getparm("board"), 30);
-	if(!has_read_perm(&currentuser, board)) http_fatal("´íÎóµÄÌÖÂÛÇø");
-	if(!has_BM_perm(&currentuser, board)) http_fatal("ÄúÎŞÈ¨½øĞĞ±¾²Ù×÷");
+	if(!has_read_perm(&currentuser, board)) http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
+	if(!has_BM_perm(&currentuser, board)) http_fatal("æ‚¨æ— æƒè¿›è¡Œæœ¬æ“ä½œ");
 	loaddenyuser(board);
    	printf("<center>\n");
    /*	
-	printf("%s -- ±»·âÓÃ»§Ãûµ¥ [ÌÖÂÛÇø: %s]<hr color=green><br>\n", BBSNAME, board);
-   	printf("±¾°æ¹²ÓĞ %d ÈË±»·â<br>", denynum);
-   	printf("<table border=0  bgcolor=#ffffff><tr class=pt9 bgcolor=#70a6ff><td><font color=white>ĞòºÅ<td><font color=white>ÓÃ»§ÕÊºÅ<td><font color=white>±»·âÔ­Òò<td><font color=white>Ô­¶¨½â·âÈÕÆÚ<td><font color=white>¹ÜÀí\n");
+	printf("%s -- è¢«å°ç”¨æˆ·åå• [è®¨è®ºåŒº: %s]<hr color=green><br>\n", BBSNAME, board);
+   	printf("æœ¬ç‰ˆå…±æœ‰ %d äººè¢«å°<br>", denynum);
+   	printf("<table border=0  bgcolor=#ffffff><tr class=pt9 bgcolor=#70a6ff><td><font color=white>åºå·<td><font color=white>ç”¨æˆ·å¸å·<td><font color=white>è¢«å°åŸå› <td><font color=white>åŸå®šè§£å°æ—¥æœŸ<td><font color=white>ç®¡ç†\n");
    	for(i=0; i<denynum; i++) {
 		printf("<tr class=pt9 bgcolor=#f2f2f2><td>%d", i+1);
 		printf("<td><a href=bbsqry?userid=%s>%s</a>", denyuser[i].id, denyuser[i].id);
 		printf("<td>%s\n", nohtml(denyuser[i].exp));
 		printf("<td>%s\n", Ctime(denyuser[i].free_time)+4);
-		printf("<td>[<a onclick='return confirm(\"È·Êµ½â·âÂğ?\")' href=bbsdenydel?board=%s&userid=%s>½â·â</a>]", 
+		printf("<td>[<a onclick='return confirm(\"ç¡®å®è§£å°å—?\")' href=bbsdenydel?board=%s&userid=%s>è§£å°</a>]", 
 			board, denyuser[i].id);
 	}
    	printf("</table><hr color=green>\n");
 */
-	printf("%s -- ±»·âÓÃ»§Ãûµ¥ [ÌÖÂÛÇø: %s]<hr color=green><br>\n", BBSNAME, board);
-   	printf("±¾°æ¹²ÓĞ %d ÈË±»·â<br>", denynum);
-   	printf("<table border=0  bgcolor=#ffffff><tr class=pt9 bgcolor=#70a6ff><td><font color=white>ĞòºÅ<td><font color=white>ÓÃ»§ÕÊºÅ<td><font color=white>±»·âÔ­Òò<td><font color=white>½â·âÈÕÆÚ<td><font color=white>¹ÜÀí\n");
+	printf("%s -- è¢«å°ç”¨æˆ·åå• [è®¨è®ºåŒº: %s]<hr color=green><br>\n", BBSNAME, board);
+   	printf("æœ¬ç‰ˆå…±æœ‰ %d äººè¢«å°<br>", denynum);
+   	printf("<table border=0  bgcolor=#ffffff><tr class=pt9 bgcolor=#70a6ff><td><font color=white>åºå·<td><font color=white>ç”¨æˆ·å¸å·<td><font color=white>è¢«å°åŸå› <td><font color=white>è§£å°æ—¥æœŸ<td><font color=white>ç®¡ç†\n");
    	int cc=0;
 	for(i=0; i<denynum; i++) {
 		printf("<tr class=%s ><td>%d",((cc++)%2)?"pt9dc":"pt9lc" , i+1);
 		printf("<td><a href=bbsqry?userid=%s>%s</a>", denyuser[i].id, denyuser[i].id);
 		printf("<td>%s\n", nohtml(denyuser[i].description));
-		printf("<td>[<a onclick='return confirm(\"È·Êµ½â·âÂğ?\")' href=bbsdenydel?board=%s&userid=%s>½â·â</a>]", 
+		printf("<td>[<a onclick='return confirm(\"ç¡®å®è§£å°å—?\")' href=bbsdenydel?board=%s&userid=%s>è§£å°</a>]", 
 			board, denyuser[i].id);
 	}
    	printf("</table><hr color=green>\n");
 
 
-	printf("[<a href=bbsdenyadd?board=%s>Éè¶¨ĞÂµÄ²»¿ÉPOSTÓÃ»§</a>]</center>\n", board);
+	printf("[<a href=bbsdenyadd?board=%s>è®¾å®šæ–°çš„ä¸å¯POSTç”¨æˆ·</a>]</center>\n", board);
 	http_quit();
 }

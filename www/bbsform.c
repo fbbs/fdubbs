@@ -4,37 +4,37 @@ int main() {
   	FILE *fp;
 	int type;
 	init_all();
-	printf("<b>ÌîĞ´×¢²áµ¥ ¡¤ %s</b><br>\n", BBSNAME);
+	printf("<b>å¡«å†™æ³¨å†Œå• Â· %s</b><br>\n", BBSNAME);
 	printpretable_lite();
 	type=atoi(getparm("type"));
-  	if(!loginok) http_fatal("ÄúÉĞÎ´µÇÂ¼, ÇëÖØĞÂµÇÂ¼¡£");
+  	if(!loginok) http_fatal("æ‚¨å°šæœªç™»å½•, è¯·é‡æ–°ç™»å½•ã€‚");
 	check_if_ok();
 	if(type==1) {
 		check_submit_form();
 		http_quit();
 	}
-  	printf("ÄúºÃ, %s, ×¢²áµ¥Í¨¹ıºó¼´¿É»ñµÃ×¢²áÓÃ»§µÄÈ¨ÏŞ, ÏÂÃæ¸÷ÏîÎñ±ØÇëÈÏÕæÌîĞ´<br><hr>\n", currentuser.userid);
+  	printf("æ‚¨å¥½, %s, æ³¨å†Œå•é€šè¿‡åå³å¯è·å¾—æ³¨å†Œç”¨æˆ·çš„æƒé™, ä¸‹é¢å„é¡¹åŠ¡å¿…è¯·è®¤çœŸå¡«å†™<br><hr>\n", currentuser.userid);
   	printf("<form method=post action=bbsform?type=1>\n");
-  	printf("ÕæÊµĞÕÃû: <input name=realname type=text maxlength=8 size=8 value='%s'><br>\n", 
+  	printf("çœŸå®å§“å: <input name=realname type=text maxlength=8 size=8 value='%s'><br>\n", 
 		nohtml(currentuser.realname));
-  	printf("Ñ§Ğ£Ïµ¼¶: <input name=dept type=text maxlength=32 size=32 value='%s'>(»ò¹¤×÷µ¥Î»)<br>\n", 
+  	printf("å­¦æ ¡ç³»çº§: <input name=dept type=text maxlength=32 size=32 value='%s'>(æˆ–å·¥ä½œå•ä½)<br>\n", 
 		nohtml(currentuser.reginfo));
-  	printf("¾Ó×¡µØÖ·: <input name=address type=text maxlength=32 size=32 value='%s'><br>\n", 
+  	printf("å±…ä½åœ°å€: <input name=address type=text maxlength=32 size=32 value='%s'><br>\n", 
 		nohtml(currentuser.address));
-  	printf("ÁªÂçµç»°: <input name=phone type=text maxlength=32 size=32>(Ã»ÓĞ¿ÉĞ´'ÎŞ')<br><hr><br>\n");
+  	printf("è”ç»œç”µè¯: <input name=phone type=text maxlength=32 size=32>(æ²¡æœ‰å¯å†™'æ— ')<br><hr><br>\n");
   	printf("<input type=submit> <input type=reset>");
 	http_quit();
 }
 
 int check_if_ok() {
-  	if(user_perm(&currentuser, PERM_REGISTER)) http_fatal("ÄúÒÑ¾­Í¨¹ı±¾Õ¾µÄÉí·İÈÏÖ¤, ÎŞĞèÔÙ´ÎÌîĞ´×¢²áµ¥.");
-  	if(has_fill_form()) http_fatal("Ä¿Ç°Õ¾³¤ÉĞÎ´´¦ÀíÄúµÄ×¢²áµ¥£¬ÇëÄÍĞÄµÈ´ı.");
+  	if(user_perm(&currentuser, PERM_REGISTER)) http_fatal("æ‚¨å·²ç»é€šè¿‡æœ¬ç«™çš„èº«ä»½è®¤è¯, æ— éœ€å†æ¬¡å¡«å†™æ³¨å†Œå•.");
+  	if(has_fill_form()) http_fatal("ç›®å‰ç«™é•¿å°šæœªå¤„ç†æ‚¨çš„æ³¨å†Œå•ï¼Œè¯·è€å¿ƒç­‰å¾….");
 }
 
 int check_submit_form() {
 	FILE *fp;
   	fp=fopen("new_register", "a");
-	if(fp==0) http_fatal("×¢²áÎÄ¼ş´íÎó£¬ÇëÍ¨ÖªSYSOP");
+	if(fp==0) http_fatal("æ³¨å†Œæ–‡ä»¶é”™è¯¯ï¼Œè¯·é€šçŸ¥SYSOP");
   	fprintf(fp, "usernum: %d, %s\n", getusernum(currentuser.userid)+1, Ctime(time(0)));
   	fprintf(fp, "userid: %s\n", currentuser.userid);
   	fprintf(fp, "realname: %s\n", getparm("realname"));
@@ -43,5 +43,5 @@ int check_submit_form() {
   	fprintf(fp, "phone: %s\n", getparm("phone"));
   	fprintf(fp, "----\n" );
   	fclose(fp);
-  	printf("ÄúµÄ×¢²áµ¥ÒÑ³É¹¦Ìá½». Õ¾³¤¼ìÑé¹ıºó»á¸øÄú·¢ĞÅ, ÇëÁôÒâÄúµÄĞÅÏä.");
+  	printf("æ‚¨çš„æ³¨å†Œå•å·²æˆåŠŸæäº¤. ç«™é•¿æ£€éªŒè¿‡åä¼šç»™æ‚¨å‘ä¿¡, è¯·ç•™æ„æ‚¨çš„ä¿¡ç®±.");
 }

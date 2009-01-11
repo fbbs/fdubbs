@@ -27,18 +27,18 @@
 #define VOTE_ASKING     (5)
 
 struct ballot{
-	char    uid[IDLEN+1];           		/* Í¶Æ±ÈË       */
-	unsigned int voted;                		/* Í¶Æ±µÄÄÚÈİ   */
-    char    msg[3][STRLEN];        			/* ½¨ÒéÊÂÏî     */
+	char    uid[IDLEN+1];           		/* æŠ•ç¥¨äºº       */
+	unsigned int voted;                		/* æŠ•ç¥¨çš„å†…å®¹   */
+    char    msg[3][STRLEN];        			/* å»ºè®®äº‹é¡¹     */
 };
 
 struct votebal{
-	char	userid[IDLEN+1];				//	¿ªÉèÍ¶Æ±ÈË
-    char    title[STRLEN];					//	±êÌâ
-    char    type;							//	ÀàĞÍ
-    char    items[32][38];					//	Ã¿¸öÍ¶Æ±ÏîÄ¿µÄËµÃ÷
-    int     maxdays;						//	×î´óÌìÊı
-    int     maxtkt;							//	×î´ó????
-    int     totalitems;						//	×î¶àÌõÄ¿
-    time_t  opendate;						//	¿ªÉèÈÕÆÚ
+	char	userid[IDLEN+1];				//	å¼€è®¾æŠ•ç¥¨äºº
+    char    title[STRLEN];					//	æ ‡é¢˜
+    char    type;							//	ç±»å‹
+    char    items[32][38];					//	æ¯ä¸ªæŠ•ç¥¨é¡¹ç›®çš„è¯´æ˜
+    int     maxdays;						//	æœ€å¤§å¤©æ•°
+    int     maxtkt;							//	æœ€å¤§????
+    int     totalitems;						//	æœ€å¤šæ¡ç›®
+    time_t  opendate;						//	å¼€è®¾æ—¥æœŸ
 };

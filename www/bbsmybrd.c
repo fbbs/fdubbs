@@ -2,7 +2,7 @@
 struct boardheader data[MAXBOARD];
 //char mybrd[40][80];
 //int mybrdnum=0;
-//¸ÄÓÃÍ³Ò»µÄgoodboard½á¹¹ cometcaptor 2007-04-23
+//æ”¹ç”¨ç»Ÿä¸€çš„goodboardç»“æ„ cometcaptor 2007-04-23
 struct goodboard {
   struct goodbrdheader boards[GOOD_BRC_NUM];
   unsigned int nowpid;
@@ -21,10 +21,10 @@ int main() {
 	char *brd;
    	FILE *fp;
 	init_all();
-	printf("<b>ÊÕ²Ø¼Ğ ¡¤ %s </b><br>\n",BBSNAME);
+	printf("<b>æ”¶è—å¤¹ Â· %s </b><br>\n",BBSNAME);
 	printpretable_lite();
 	if(!loginok) 
-		http_fatal("ÉĞÎ´µÇÂ¼»òÕß³¬Ê±");
+		http_fatal("å°šæœªç™»å½•æˆ–è€…è¶…æ—¶");
 	type=atoi(getparm("type"));
 	if(type!=0) 
 	{
@@ -37,7 +37,7 @@ int main() {
 	GoodBrd.num = 0;
 	if(fp!=NULL)
 	{
-		/*ĞŞ¸Ägoodbrd½á¹¹×ö³öµÄÏàÓ¦¸Ä¶¯ cometcaptor 2007-04-23
+		/*ä¿®æ”¹goodbrdç»“æ„åšå‡ºçš„ç›¸åº”æ”¹åŠ¨ cometcaptor 2007-04-23
 		while(fscanf(fp, "%s\n", mybrd[mybrdnum])!= EOF)
 		{
 			mybrdnum++;
@@ -53,9 +53,9 @@ int main() {
 			{
 				i = GoodBrd.boards[GoodBrd.num].pos;
 				if ((bcache[i].filename[0]) &&
-								 (bcache[i].flag & BOARD_POST_FLAG //pÏŞÖÆ°æÃæ
-								 || HAS_PERM(bcache[i].level) //È¨ÏŞ×ã¹»
-								 ||(bcache[i].flag & BOARD_NOZAP_FLAG))) //²»¿Ézap
+								 (bcache[i].flag & BOARD_POST_FLAG //pé™åˆ¶ç‰ˆé¢
+								 || HAS_PERM(bcache[i].level) //æƒé™è¶³å¤Ÿ
+								 ||(bcache[i].flag & BOARD_NOZAP_FLAG))) //ä¸å¯zap
 					GoodBrd.num++;
 			}
 			if (GoodBrd.num == GOOD_BRC_NUM)
@@ -65,7 +65,7 @@ int main() {
 	}
 
    	printf("<center>\n");
-	printf("<b>¸öÈËÔ¤¶¨ÌÖÂÛÇø¹ÜÀí(ÄúÄ¿Ç°Ô¤¶¨ÁË%d¸öÌÖÂÛÇø£¬×î¶à¿ÉÔ¤¶¨%d¸ö)</b><br>\n", GoodBrd.num, GOOD_BRC_NUM);
+	printf("<b>ä¸ªäººé¢„å®šè®¨è®ºåŒºç®¡ç†(æ‚¨ç›®å‰é¢„å®šäº†%dä¸ªè®¨è®ºåŒºï¼Œæœ€å¤šå¯é¢„å®š%dä¸ª)</b><br>\n", GoodBrd.num, GOOD_BRC_NUM);
 	printf("<form action='bbsmybrd?type=1&confirm1=1' method=post>\n");
 	printf("<input type=hidden name=confirm1 value=1>\n");
 	printf("<table>\n");
@@ -82,7 +82,7 @@ int main() {
 	qsort(data, total, sizeof(struct boardheader), cmpboard);
 	for(i=0; i<total; i++) 
 	{
-               //if ( (data[i].group == 0) && (data[i].flag &BOARD_DIR_FLAG) ) //¸ùÄ¿Â¼²»¿É¼ÓÈëÊÕ²Ø¼Ğ06.3.5
+               //if ( (data[i].group == 0) && (data[i].flag &BOARD_DIR_FLAG) ) //æ ¹ç›®å½•ä¸å¯åŠ å…¥æ”¶è—å¤¹06.3.5
                //    continue;
 		if(i%3==0) 
 			printf("<tr>\n");
@@ -96,7 +96,7 @@ int main() {
 	}
 	printf("\n</table>\n");
 	printposttable_lite();
-	printf("<input type=submit value=È·ÈÏÔ¤¶¨> <input type=reset value=¸´Ô­>\n");
+	printf("<input type=submit value=ç¡®è®¤é¢„å®š> <input type=reset value=å¤åŸ>\n");
 	printf("</form>\n");
 	http_quit();
 }
@@ -123,16 +123,16 @@ int read_submit() {
 	int mybrdnum=0;
 	struct boardheader *bh;
 	int bhi;
-        if(!strcmp(getparm("confirm1"), "")) http_fatal("²ÎÊı´íÎó");
+        if(!strcmp(getparm("confirm1"), "")) http_fatal("å‚æ•°é”™è¯¯");
         for(i=0; i<parm_num; i++) 
 		{
                 if(!strcasecmp(parm_val[i], "on")) 
 				{
-                        //if(mybrdnum>=40) http_fatal("ÄúÊÔÍ¼Ô¤¶¨³¬¹ı40¸öÌÖÂÛÇø"); modified by cometcaptor 2007-04-23 
-			if(mybrdnum>=GOOD_BRC_NUM) http_fatal("ÄúÊÔÍ¼Ô¤¶¨µÄÌÖÂÛÇøÊıÄ¿³¬¹ıÉÏÏŞ");
+                        //if(mybrdnum>=40) http_fatal("æ‚¨è¯•å›¾é¢„å®šè¶…è¿‡40ä¸ªè®¨è®ºåŒº"); modified by cometcaptor 2007-04-23 
+			if(mybrdnum>=GOOD_BRC_NUM) http_fatal("æ‚¨è¯•å›¾é¢„å®šçš„è®¨è®ºåŒºæ•°ç›®è¶…è¿‡ä¸Šé™");
                         if(!has_read_perm(&currentuser, parm_name[i])) 
 			{
-				printf("¾¯¸æ: ÎŞ·¨Ô¤¶¨'%s'ÌÖÂÛÇø<br>\n", nohtml(parm_name[i]));
+				printf("è­¦å‘Š: æ— æ³•é¢„å®š'%s'è®¨è®ºåŒº<br>\n", nohtml(parm_name[i]));
                                 continue;
                         }
                         //strsncpy(mybrd[mybrdnum], parm_name[i], 80);
@@ -161,7 +161,7 @@ int read_submit() {
 			fwrite(&GoodBrd.boards[0], sizeof(struct goodbrdheader), mybrdnum, fp);
 			fclose(fp);
 		}
-        printf("<script>top.f2.location='bbsleft'</script>ĞŞ¸ÄÔ¤¶¨ÌÖÂÛÇø³É¹¦£¬ÄúÏÖÔÚÒ»¹²Ô¤¶¨ÁË%d¸öÌÖÂÛÇø:<hr>\n", mybrdnum);
-        printf("[<a href='javascript:history.go(-2)'>·µ»Ø</a>]");
+        printf("<script>top.f2.location='bbsleft'</script>ä¿®æ”¹é¢„å®šè®¨è®ºåŒºæˆåŠŸï¼Œæ‚¨ç°åœ¨ä¸€å…±é¢„å®šäº†%dä¸ªè®¨è®ºåŒº:<hr>\n", mybrdnum);
+        printf("[<a href='javascript:history.go(-2)'>è¿”å›</a>]");
 			
 }

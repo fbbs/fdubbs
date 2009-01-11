@@ -113,40 +113,40 @@ int main() {
 	int i; 
 	char board[80], *userid;
 	init_all();
-   	if(!loginok) http_fatal("ÄúÉĞÎ´µÇÂ¼, ÇëÏÈµÇÂ¼");
+   	if(!loginok) http_fatal("æ‚¨å°šæœªç™»å½•, è¯·å…ˆç™»å½•");
 	strsncpy(board, getparm("board"), 30);
-	if(!has_read_perm(&currentuser, board)) http_fatal("´íÎóµÄÌÖÂÛÇø");
-	if(!has_BM_perm(&currentuser, board)) http_fatal("ÄúÎŞÈ¨½øĞĞ±¾²Ù×÷");
+	if(!has_read_perm(&currentuser, board)) http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
+	if(!has_BM_perm(&currentuser, board)) http_fatal("æ‚¨æ— æƒè¿›è¡Œæœ¬æ“ä½œ");
 	loaddenyuser(board);
 	userid=getparm("userid");
    	for(i=0; i<denynum; i++) {
 		if(!strcasecmp(denyuser[i].id, userid)) {
 			denyuser[i].id[0]=0;
 			savedenyuser(board);
-			printf("ÒÑ¾­¸ø %s ½â·â. <br>\n", userid);
+			printf("å·²ç»ç»™ %s è§£å°. <br>\n", userid);
 			inform(board, userid);
-			printf("[<a href=bbsdenyall?board=%s>·µ»Ø±»·âÃûµ¥</a>]", board);
+			printf("[<a href=bbsdenyall?board=%s>è¿”å›è¢«å°åå•</a>]", board);
 			http_quit();
 		}
 	}
-	http_fatal("Õâ¸öÓÃ»§²»ÔÚ±»·âÃûµ¥ÖĞ");
+	http_fatal("è¿™ä¸ªç”¨æˆ·ä¸åœ¨è¢«å°åå•ä¸­");
 	http_quit();
 }
 
 int inform(char *board, char *user) {
         FILE *fp;
         char path[80], title[80];
-        sprintf(title, "»Ö¸´ %s ÔÚ %s °æµÄ POST È¨Á¦", user, board);
+        sprintf(title, "æ¢å¤ %s åœ¨ %s ç‰ˆçš„ POST æƒåŠ›", user, board);
         sprintf(path, "tmp/%d.tmp", getpid());
 	fp=fopen(path, "w");
-        fprintf(fp, "¡¾±¾¹«¸æÓÉ×Ô¶¯·¢ĞÅÏµÍ³×Ô¶¯ÕÅÌù¡¿\n\n");
-        fprintf(fp, "%s »Ö¸´ %s ÔÚ %s °æPOSTÈ¨.\n",  currentuser.userid, user, board);
+        fprintf(fp, "ã€æœ¬å…¬å‘Šç”±è‡ªåŠ¨å‘ä¿¡ç³»ç»Ÿè‡ªåŠ¨å¼ è´´ã€‘\n\n");
+        fprintf(fp, "%s æ¢å¤ %s åœ¨ %s ç‰ˆPOSTæƒ.\n",  currentuser.userid, user, board);
         fclose(fp);
-        post_article(board, title, path, "deliver", "×Ô¶¯·¢ĞÅÏµÍ³", "×Ô¶¯·¢ĞÅÏµÍ³", -1, -1, -1);
-        post_article("Notice",title,path,"deliver", "×Ô¶¯·¢ĞÅÏµÍ³", "×Ô¶¯·¢ĞÅÏµÍ³", -1, -1, -1);
+        post_article(board, title, path, "deliver", "è‡ªåŠ¨å‘ä¿¡ç³»ç»Ÿ", "è‡ªåŠ¨å‘ä¿¡ç³»ç»Ÿ", -1, -1, -1);
+        post_article("Notice",title,path,"deliver", "è‡ªåŠ¨å‘ä¿¡ç³»ç»Ÿ", "è‡ªåŠ¨å‘ä¿¡ç³»ç»Ÿ", -1, -1, -1);
 	//added by roly
 	post_mail(user, title, path, currentuser.userid, currentuser.username, fromhost, -1);
         unlink(path);
-        printf("ÏµÍ³ÒÑ¾­·¢ĞÅÍ¨ÖªÁË%s.<br>\n", user);
+        printf("ç³»ç»Ÿå·²ç»å‘ä¿¡é€šçŸ¥äº†%s.<br>\n", user);
 }
 

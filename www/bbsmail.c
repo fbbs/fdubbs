@@ -7,15 +7,15 @@ int main() {
 	struct fileheader *data;
    	init_all();
 
-	/* added by roly  2002.05.10 È¥µôcache */
+	/* added by roly  2002.05.10 å»æ‰cache */
 	printf("<meta http-equiv=\"pragma\" content=\"no-cache\">");
 	/* add end */
 
 	if(!loginok)
 	{
-		printf("<b>ĞÅ¼şÁĞ±í ¡¤ %s </b><br>",BBSNAME);
+		printf("<b>ä¿¡ä»¶åˆ—è¡¨ Â· %s </b><br>",BBSNAME);
 		printpretable_lite();
-		http_fatal("ÄúÉĞÎ´µÇÂ¼, ÇëÏÈµÇÂ¼");
+		http_fatal("æ‚¨å°šæœªç™»å½•, è¯·å…ˆç™»å½•");
 	}
 	strsncpy(buf, getparm("start"), 10);
 	start=atoi(buf);
@@ -23,7 +23,7 @@ int main() {
 	start--;
 	/* 02.11.17 add end */
 	if(buf[0]==0) start=999999;
-   	printf("<b>ĞÅ¼şÁĞ±í ¡¤ %s [Ê¹ÓÃÕß: %s]</b><br>\n", BBSNAME, currentuser.userid);
+   	printf("<b>ä¿¡ä»¶åˆ—è¡¨ Â· %s [ä½¿ç”¨è€…: %s]</b><br>\n", BBSNAME, currentuser.userid);
    	sprintf(dir, "mail/%c/%s/.DIR", toupper(currentuser.userid[0]), currentuser.userid);
    	total=file_size(dir)/sizeof(struct fileheader);
 	if(total<0 || total>30000) 
@@ -51,7 +51,7 @@ int main() {
 	printpretable();
 	printf("<form name=form1 method=post action=bbsmailman>");
 	printf("<table width=100%%>\n");
-	printf("<tr class=pt9h ><td><font color=white>ĞòºÅ<td><font color=white>¹ÜÀí<td><font color=white>×´Ì¬<td><font color=white>·¢ĞÅÈË<td><font color=white>ÈÕÆÚ<td><font color=white>ĞÅ¼ş±êÌâ\n");
+	printf("<tr class=pt9h ><td><font color=white>åºå·<td><font color=white>ç®¡ç†<td><font color=white>çŠ¶æ€<td><font color=white>å‘ä¿¡äºº<td><font color=white>æ—¥æœŸ<td><font color=white>ä¿¡ä»¶æ ‡é¢˜\n");
 	int cc=0;
 	for(i=start; i<start+19 && i<total; i++) 
 	{
@@ -76,7 +76,7 @@ int main() {
 		printf("<td>%12.12s", Ctime(filetime)+4);
 		printf("<td><a href=bbsmailcon?file=%s&num=%d>", data[i].filename, i);
 	 	if(strncmp("Re: ", data[i].title, 4)) 
-			printf("¡ï ");
+			printf("â˜… ");
 		hprintf("%42.42s", data[i].title);
 	 	printf("</a>\n");
 	}
@@ -87,18 +87,18 @@ int main() {
 		/* added by roly 05.11 */
 	printf("<input type=hidden name=mode value=''>");
 	printf("</form>");
-	printf("<b>ĞÅ¼ş×ÜÊı: %d</b>   ", total);
-	printf("\n[<a href='#' onclick=\"var all_inputs=document.getElementsByName('form1')[0].getElementsByTagName('input'); for(var i=0;i<all_inputs.length;i++){if(all_inputs[i].type=='checkbox')all_inputs[i].checked=true;} return false;\">±¾Ò³È«Ñ¡</a>] \n");
+	printf("<b>ä¿¡ä»¶æ€»æ•°: %d</b>   ", total);
+	printf("\n[<a href='#' onclick=\"var all_inputs=document.getElementsByName('form1')[0].getElementsByTagName('input'); for(var i=0;i<all_inputs.length;i++){if(all_inputs[i].type=='checkbox')all_inputs[i].checked=true;} return false;\">æœ¬é¡µå…¨é€‰</a>] \n");
 
-    printf("[<a href='#' onclick=\"var all_inputs=document.getElementsByName('form1')[0].getElementsByTagName('input'); for(var i=0;i<all_inputs.length;i++){if(all_inputs[i].type=='checkbox')all_inputs[i].checked=(all_inputs[i].checked)?false:true;} return false;\">±¾Ò³·´Ñ¡</a>]\n");
+    printf("[<a href='#' onclick=\"var all_inputs=document.getElementsByName('form1')[0].getElementsByTagName('input'); for(var i=0;i<all_inputs.length;i++){if(all_inputs[i].type=='checkbox')all_inputs[i].checked=(all_inputs[i].checked)?false:true;} return false;\">æœ¬é¡µåé€‰</a>]\n");
 
 	
 		
 	if (!mailnum_under_limit(currentuser.userid) || !mailsize_under_limit(currentuser.userid)) 
-		printf("<font color=#ff0000>ÄãµÄĞÅ¼ş³¬±ê£¡</font><br>");
+		printf("<font color=#ff0000>ä½ çš„ä¿¡ä»¶è¶…æ ‡ï¼</font><br>");
 	else
-		printf("<br>[<a href=bbspstmail>·¢ËÍĞÅ¼ş</a>]  ");
-	printf("[<a href='#' onclick='document.form1.mode.value=1; document.form1.submit();'>É¾³ıÑ¡ÔñĞÅ¼ş</a>]  ");
+		printf("<br>[<a href=bbspstmail>å‘é€ä¿¡ä»¶</a>]  ");
+	printf("[<a href='#' onclick='document.form1.mode.value=1; document.form1.submit();'>åˆ é™¤é€‰æ‹©ä¿¡ä»¶</a>]  ");
 		/* add end */
 		/* modified by roly for mail check */
 	/* modify end */
@@ -107,20 +107,20 @@ int main() {
 		i=start-19;
 		if(i<0)
 			i=0;
-		printf("[<a href=bbsmail?start=0>µÚÒ»Ò³</a>]  ");
-		printf("[<a href=bbsmail?start=%d>ÉÏÒ»Ò³</a>]  ", i);
+		printf("[<a href=bbsmail?start=0>ç¬¬ä¸€é¡µ</a>]  ");
+		printf("[<a href=bbsmail?start=%d>ä¸Šä¸€é¡µ</a>]  ", i);
 	}
 	if(start<total-19) 
 	{
 		i=start+19;
 		if(i>total-1) 
 			i=total-1;
-		printf("[<a href=bbsmail?start=%d>ÏÂÒ»Ò³</a>]  ", i);
-		printf("[<a href=bbsmail>×îºóÒ»Ò³</a>]");
+		printf("[<a href=bbsmail?start=%d>ä¸‹ä¸€é¡µ</a>]  ", i);
+		printf("[<a href=bbsmail>æœ€åä¸€é¡µ</a>]");
 	}
 	/* 02.11.17 added by stephen to fix the jump to mail trouble */
 	start ++;
 	/* 02.11.17 add end */
-	printf("<form><input type=submit value=Ìø×ªµ½> µÚ <input style='height:20px' type=text name=start size=3> ·â</form>");
+	printf("<form><input type=submit value=è·³è½¬åˆ°> ç¬¬ <input style='height:20px' type=text name=start size=3> å°</form>");
 	http_quit();
 }

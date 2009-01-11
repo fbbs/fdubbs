@@ -2,15 +2,15 @@
 
 int main() {
 	init_all();
-	printf("<b>ÒşÉí ¡¤ %s </b><br>\n",BBSNAME);
+	printf("<b>éšèº« Â· %s </b><br>\n",BBSNAME);
 	printpretable_lite();
-	if(!loginok) http_fatal("´Ò´Ò¹ı¿Í²»ÄÜ½øĞĞ´Ë²Ù×÷, ÇëÏÈµÇÂ¼");
-	if(!(currentuser.userlevel & PERM_CLOAK)) http_fatal("´íÎóµÄ²ÎÊı");
+	if(!loginok) http_fatal("åŒ†åŒ†è¿‡å®¢ä¸èƒ½è¿›è¡Œæ­¤æ“ä½œ, è¯·å…ˆç™»å½•");
+	if(!(currentuser.userlevel & PERM_CLOAK)) http_fatal("é”™è¯¯çš„å‚æ•°");
 	if(u_info->invisible) {
 		u_info->invisible=0;
-		printf("ÒşÉí×´Ì¬ÒÑ¾­Í£Ö¹ÁË.");
+		printf("éšèº«çŠ¶æ€å·²ç»åœæ­¢äº†.");
 	} else {
 		u_info->invisible=1;
-		printf("ÒşÉí×´Ì¬ÒÑ¾­¿ªÊ¼ÁË.");
+		printf("éšèº«çŠ¶æ€å·²ç»å¼€å§‹äº†.");
 	}
 }

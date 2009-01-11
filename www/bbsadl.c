@@ -6,7 +6,7 @@ int main() {
 	int sec1;
 	init_all();
 	printf("<center>\n");
-	printf("<nobr><b>¾«»ªÇøÏÂÔØ·şÎñ ¡¤ %s </b>\n", BBSNAME);
+	printf("<nobr><b>ç²¾ååŒºä¸‹è½½æœåŠ¡ Â· %s </b>\n", BBSNAME);
 
 	printpretable_lite();
 	sec1=atoi(getsenv("QUERY_STRING"));
@@ -14,7 +14,7 @@ int main() {
 	{
 		sec1--;
 		printf("<table  border=0>\n");
-		printf("<tr class=pt9h ><td><font color=white>ĞòºÅ<td><font color=white>Ãû³Æ<td><font color=white>´óĞ¡(×Ö½Ú)<td><font color=white>¸üĞÂÊ±¼ä\n");
+		printf("<tr class=pt9h ><td><font color=white>åºå·<td><font color=white>åç§°<td><font color=white>å¤§å°(å­—èŠ‚)<td><font color=white>æ›´æ–°æ—¶é—´\n");
 		int cc_one=0;
 		for(i=0; i<MAXBOARD; i++) 
 		{
@@ -37,17 +37,17 @@ int main() {
 		printf("</table>");
 	}else{
    		printf("<table border=0>\n");
-   		printf("<tr class=pt9h ><td><font color=white>ÇøºÅ<td><font color=white>Àà±ğ<td><font color=white>ÃèÊö<td><font color=white>ÏÂÔØ\n");
+   		printf("<tr class=pt9h ><td><font color=white>åŒºå·<td><font color=white>ç±»åˆ«<td><font color=white>æè¿°<td><font color=white>ä¸‹è½½\n");
    		int cc=0;
 		for(i=0; i<SECNUM; i++) 
 		{
       		printf("<tr class=%s><td>%d<td><font color=white><a href=bbsboa?%d>%s</a>",((cc++)%2)?"pt9dc":"pt9lc" , i, i, secname[i][0]);
 			printf("<td><a href=bbsboa?%d>%s</a>\n", i, secname[i][1]);
-			printf("<td><a href=bbsadl?%d>%s</a>\n", i+1, "ÏÂÔØ¾«»ªÇø");
+			printf("<td><a href=bbsadl?%d>%s</a>\n", i+1, "ä¸‹è½½ç²¾ååŒº");
    		}
    		printf("</table>\n");
 	}
-	printf("[<a href='javascript:history.go(-1)'>·µ»ØÉÏÒ»Ò³</a>] ");
+	printf("[<a href='javascript:history.go(-1)'>è¿”å›ä¸Šä¸€é¡µ</a>] ");
 	printf("</center>\n");
 }
 	

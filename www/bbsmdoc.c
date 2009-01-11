@@ -14,30 +14,30 @@ int main()
 	x1=getbcache(board);
 	if(x1==0) 
 	{
-		printf("<b>¹ÜÀíÄ£Ê½ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>ç®¡ç†æ¨¡å¼ Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	}
 	strcpy(board, x1->filename);
 	if(!has_read_perm(&currentuser, board)) 
 	{
-		printf("<b>¹ÜÀíÄ£Ê½ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>ç®¡ç†æ¨¡å¼ Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	}
 	if(!has_BM_perm(&currentuser, board))
 	{
-		printf("<b>¹ÜÀíÄ£Ê½ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>ç®¡ç†æ¨¡å¼ Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("ÄúÃ»ÓĞÈ¨ÏŞ·ÃÎÊ±¾Ò³");
+		http_fatal("æ‚¨æ²¡æœ‰æƒé™è®¿é—®æœ¬é¡µ");
 	}
 	sprintf(dir, "boards/%s/.DIR", board);
 	fp=fopen(dir, "r");
 	if(fp==0) 
 	{
-		printf("<b>¹ÜÀíÄ£Ê½ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>ç®¡ç†æ¨¡å¼ Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇøÄ¿Â¼");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒºç›®å½•");
 	}
 	total=file_size(dir)/sizeof(struct fileheader);
 	start=atoi(getparm("start"));
@@ -52,45 +52,45 @@ int main()
 
         printf("<table width=100%% border=0 ><tr><td width=85%% align=left>\n");
 
-	printf("<img src=/images/icons/bm.jpg align=absmiddle border=0><b><font color=#FF6633 style='font-size: 18pt'>%s</font> ¡¤ %s ¹ÜÀíÄ£Ê½ °æÖ÷[%s] ÎÄÕÂÊı[%d]</b>\n",board,BBSNAME, userid_str(x1->BM), total);
+	printf("<img src=/images/icons/bm.jpg align=absmiddle border=0><b><font color=#FF6633 style='font-size: 18pt'>%s</font> Â· %s ç®¡ç†æ¨¡å¼ ç‰ˆä¸»[%s] æ–‡ç« æ•°[%d]</b>\n",board,BBSNAME, userid_str(x1->BM), total);
 
         printf("<td width=15%% align=right>\n");
         printf("<form name=form1 action=bbsmdoc?board=%s method=post>", board);
-        printf("<input border=0 src=/images/button/forward.gif type=image align=absmiddle> µÚ <input class=thinborder type=text name=start size=4> Æª");
+        printf("<input border=0 src=/images/button/forward.gif type=image align=absmiddle> ç¬¬ <input class=thinborder type=text name=start size=4> ç¯‡");
         printf("</form></td></tr></table>\n");
 
 	if(total<=0) 
 	{
 		printpretable_lite();
-		http_fatal("±¾ÌÖÂÛÇøÄ¿Ç°Ã»ÓĞÎÄÕÂ");
+		http_fatal("æœ¬è®¨è®ºåŒºç›®å‰æ²¡æœ‰æ–‡ç« ");
 	}
 	
 	printf("<br><br>");
         if(start>1)
-	     printf("<a href=bbsmdoc?board=%s&start=%d><img border=0 src=/images/button/up.gif align=absmiddle>ÉÏÒ»Ò³</a>  ",        board, start<my_t_lines ? 1 : start-my_t_lines);
+	     printf("<a href=bbsmdoc?board=%s&start=%d><img border=0 src=/images/button/up.gif align=absmiddle>ä¸Šä¸€é¡µ</a>  ",        board, start<my_t_lines ? 1 : start-my_t_lines);
         if(start<total-my_t_lines+1)
-	        printf("<a href=bbsmdoc?board=%s&start=%d><img border=0 src=/images/button/down.gif align=absmiddle>ÏÂÒ»Ò³</a>  ",      board, start+my_t_lines+1);
+	        printf("<a href=bbsmdoc?board=%s&start=%d><img border=0 src=/images/button/down.gif align=absmiddle>ä¸‹ä¸€é¡µ</a>  ",      board, start+my_t_lines+1);
 
-	printf("[<a href=bbsdoc?board=%s>Ò»°ãÄ£Ê½</a>]  ", board);
+	printf("[<a href=bbsdoc?board=%s>ä¸€èˆ¬æ¨¡å¼</a>]  ", board);
         //commented by iamfat 2002.09.19
-        //Í¬²½Ì«Âé·³ÁË ÈÃ°ßÖñÈ¥telnet·âÈË°É
-        //printf("[<a href=bbsdenyall?board=%s>·âÈËÃûµ¥</a>]  ", board);
- 	printf("[<a href=bbsmnote?board=%s>±à¼­½ø°æ»­Ãæ</a>]  ", board);
+        //åŒæ­¥å¤ªéº»çƒ¦äº† è®©æ–‘ç«¹å»telnetå°äººå§
+        //printf("[<a href=bbsdenyall?board=%s>å°äººåå•</a>]  ", board);
+ 	printf("[<a href=bbsmnote?board=%s>ç¼–è¾‘è¿›ç‰ˆç”»é¢</a>]  ", board);
 		
 	printf("<form name=form2 method=post action=bbsman>\n");
 
 	printf("<input type=hidden name=mode value=''>\n");
 	printf("<input type=hidden name=board value='%s'>\n", board);
-	printf("<input type=button value=É¾³ı onclick='document.form2.mode.value=1; document.form2.submit();'>\n");
-	printf("<input type=button value=¼ÓM onclick='document.form2.mode.value=2; document.form2.submit();'>\n");
-	printf("<input type=button value=¼ÓG onclick='document.form2.mode.value=3; document.form2.submit();'>\n");
-	printf("<input type=button value=²»¿ÉRe onclick='document.form2.mode.value=4; document.form2.submit();'>\n");
-	printf("<input type=button value=Çå³ıMG onclick='document.form2.mode.value=5; document.form2.submit();'>\n");
+	printf("<input type=button value=åˆ é™¤ onclick='document.form2.mode.value=1; document.form2.submit();'>\n");
+	printf("<input type=button value=åŠ M onclick='document.form2.mode.value=2; document.form2.submit();'>\n");
+	printf("<input type=button value=åŠ G onclick='document.form2.mode.value=3; document.form2.submit();'>\n");
+	printf("<input type=button value=ä¸å¯Re onclick='document.form2.mode.value=4; document.form2.submit();'>\n");
+	printf("<input type=button value=æ¸…é™¤MG onclick='document.form2.mode.value=5; document.form2.submit();'>\n");
 
 	
 	printpretable();
 	printf("<table bgcolor=#ffffff>\n");
-	printf("<tr class=pt9h><th nowrap>ĞòºÅ</th><th nowrap>¹ÜÀí</th><th nowrap>×´Ì¬</th><th nowrap>×÷Õß</th><th nowrap>ÈÕÆÚ</th><th nowrap>±êÌâ</th></tr>\n");
+	printf("<tr class=pt9h><th nowrap>åºå·</th><th nowrap>ç®¡ç†</th><th nowrap>çŠ¶æ€</th><th nowrap>ä½œè€…</th><th nowrap>æ—¥æœŸ</th><th nowrap>æ ‡é¢˜</th></tr>\n");
 	fseek(fp, (start-1)*sizeof(struct fileheader), SEEK_SET);
 	int cc=0;
    	for(i=0; i<my_t_lines; i++) 

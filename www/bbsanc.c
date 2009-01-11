@@ -7,25 +7,25 @@ int main() {
 	init_all();
 	strsncpy(path, getparm("path"), 511);
     if(strstr(path,"bbslist"))
-            http_fatal("´íÎóµÄÌÖÂÛÇø");
+            http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	board=getbfroma(path);
 	if(board[0]) 
 	{
-		if (!has_read_perm(&currentuser, board)) http_fatal("´íÎóµÄÌÖÂÛÇø");
+		if (!has_read_perm(&currentuser, board)) http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 		x1=getbcache(board);
 		if ((x1->flag & BOARD_CLUB_FLAG)
 			&& (x1->flag & BOARD_READ_FLAG )
 			&& !has_BM_perm(&currentuser, board)
 			&& !isclubmember(currentuser.userid, board))
-			http_fatal("Äú²»ÊÇ¾ãÀÖ²¿°æ %s µÄ³ÉÔ±£¬ÎŞÈ¨·ÃÎÊ¸ÃÎÄ¼ş", board);
+			http_fatal("æ‚¨ä¸æ˜¯ä¿±ä¹éƒ¨ç‰ˆ %s çš„æˆå‘˜ï¼Œæ— æƒè®¿é—®è¯¥æ–‡ä»¶", board);
 	}
 	buf[0]=0;
 	if(board[0]) sprintf(buf, "%s", board);
-	printf("<center><b>%s ¡¤ %s ¾«»ªÇøÎÄÕÂÔÄ¶Á</b></center><br>\n", board, BBSNAME);
+	printf("<center><b>%s Â· %s ç²¾ååŒºæ–‡ç« é˜…è¯»</b></center><br>\n", board, BBSNAME);
 	if(strstr(path, ".Search") || strstr(path, ".Names")|| strstr(path, "..")|| strstr(path, "SYSHome"))
 	{
 		printpretable_lite();
-		http_fatal("´íÎóµÄÎÄ¼şÃû");
+		http_fatal("é”™è¯¯çš„æ–‡ä»¶å");
 	}
 	sprintf(buf, "0Announce%s", path);
 	printpretable();
@@ -33,7 +33,7 @@ int main() {
 	printf("<tr><td><pre class=ansi>");
 	fp=fopen(buf, "r");
 	if(fp==0) 
-		printf("´íÎóµÄÎÄ¼şÃû");
+		printf("é”™è¯¯çš„æ–‡ä»¶å");
 	else
 	{
 		while(1) 
@@ -46,9 +46,9 @@ int main() {
 	}
    	printf("</pre>\n</table>\n");
 	printposttable();
-	printf("<center>[<a href='javascript:history.go(-1)'>·µ»ØÉÏÒ»Ò³</a>]  ");
+	printf("<center>[<a href='javascript:history.go(-1)'>è¿”å›ä¸Šä¸€é¡µ</a>]  ");
    	if(board[0]) 
-		printf("[<a href=bbsdoc?board=%s>±¾ÌÖÂÛÇø</a>] ", board);
+		printf("[<a href=bbsdoc?board=%s>æœ¬è®¨è®ºåŒº</a>] ", board);
 	printf("</center>\n");
 	http_quit();
 }

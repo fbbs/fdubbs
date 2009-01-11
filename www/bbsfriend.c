@@ -15,11 +15,11 @@ int main() {
 	struct user_info *x;
 	init_all();
 
-	/* added by roly  2002.05.10 È¥µôcache */
+	/* added by roly  2002.05.10 å»æ‰cache */
 	printf("<meta http-equiv=\"pragma\" content=\"no-cache\">");
 	/* add end */
 
-	printf("<b><font style='font-size: 18pt'>ÔÚÏßºÃÓÑÁĞ±í</font> ¡¤ %s [Ê¹ÓÃÕß: %s]</b>\n", BBSNAME, currentuser.userid);
+	printf("<b><font style='font-size: 18pt'>åœ¨çº¿å¥½å‹åˆ—è¡¨</font> Â· %s [ä½¿ç”¨è€…: %s]</b>\n", BBSNAME, currentuser.userid);
 	for(i=0; i<MAXACTIVE; i++) {
 		x=&(shm_utmp->uinfo[i]);
 		if(x->active==0) continue;
@@ -31,19 +31,19 @@ int main() {
 	printf("<center>\n");
 	printpretable();
 	printf("<table border=0 width=100%% bgcolor=#ffffff>\n");
-	printf("<tr class=pt9h ><td><font color=white>ĞòºÅ<td><font color=white>ÓÑ<td><font color=white>Ê¹ÓÃÕß´úºÅ<td><font color=white>Ê¹ÓÃÕßêÇ³Æ<td><font color=white>À´×Ô<td><font color=white>¶¯Ì¬<td><font color=white>·¢´ô\n");
+	printf("<tr class=pt9h ><td><font color=white>åºå·<td><font color=white>å‹<td><font color=white>ä½¿ç”¨è€…ä»£å·<td><font color=white>ä½¿ç”¨è€…æ˜µç§°<td><font color=white>æ¥è‡ª<td><font color=white>åŠ¨æ€<td><font color=white>å‘å‘†\n");
 	qsort(user, total, sizeof(struct user_info), cmpuser);
 	int cc=0;
 	for(i=0; i<total; i++) {
 		int dt=(time(0)-user[i].idle_time)/60;
 		//if(!isfriend(user[i].userid)) continue; move this sentence to the former for... loop for efficiency consideration by jacobson 2006.4.18
 		printf("<tr class=%s><td>%d",((cc++)%2)?"pt9dc":"pt9lc" , i+1);
-		printf("<td>%s", "¡Ì");
+		printf("<td>%s", "âˆš");
 		printf("%s", user[i].invisible ? "<font color=green>C</font>" : " ");
 		printf("<td><a href=bbsqry?userid=%s>%s</a>", user[i].userid, user[i].userid);
 		printf("<td><a href=bbsqry?userid=%s>%24.24s </a>", user[i].userid, nohtml(user[i].username));
 		printf("<td>%20.20s ", user[i].from);
-		printf("<td>%s", user[i].invisible ? "ÒşÉíÖĞ..." : ModeType(user[i].mode));
+		printf("<td>%s", user[i].invisible ? "éšèº«ä¸­..." : ModeType(user[i].mode));
 		if(dt==0) {
 			printf("<td> \n");
 		} else {
@@ -51,9 +51,9 @@ int main() {
 		}
 	}
 	printf("</table>\n");
-	if(total==0) printf("Ä¿Ç°Ã»ÓĞºÃÓÑÔÚÏß");
+	if(total==0) printf("ç›®å‰æ²¡æœ‰å¥½å‹åœ¨çº¿");
 	printposttable();
 	printf("</center>\n");
-	printf("[<a href=bbsfall>È«²¿ºÃÓÑÃû²á</a>]");
+	printf("[<a href=bbsfall>å…¨éƒ¨å¥½å‹åå†Œ</a>]");
 	http_quit();
 }

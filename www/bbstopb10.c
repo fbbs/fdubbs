@@ -7,11 +7,11 @@ int main() {
 	init_all();
 	fp=fopen("0Announce/bbslist/board_day2", "r");
 	if(fp==0) http_fatal("error 1");
-	printf("<b><font style='font-size: 18pt'>½ñÈÕÈÈÃÅÌÖÂÛÇø</font> ¡¤ %s </b>\n\n", BBSNAME);
+	printf("<b><font style='font-size: 18pt'>ä»Šæ—¥çƒ­é—¨è®¨è®ºåŒº</font> Â· %s </b>\n\n", BBSNAME);
 	printf("<center>\n");
 	printpretable();
 	printf("<table width=100%% border=0>\n");
-	printf("<tr class=pt9h bgcolor=#70a6ff><td><font color=white>Ãû´Î<td><font color=white>°æÃû<td><font color=white>ÖĞÎÄ°æÃû<td><font color=white>ÈËÆø\n");
+	printf("<tr class=pt9h bgcolor=#70a6ff><td><font color=white>åæ¬¡<td><font color=white>ç‰ˆå<td><font color=white>ä¸­æ–‡ç‰ˆå<td><font color=white>äººæ°”\n");
 	int cc=0;
 	for(i=0; i<=15; i++) {
 		if(fgets(buf, 150, fp)==0) break;

@@ -5,17 +5,17 @@ int main() {
 	char board[80], *ptr;
 	struct boardheader *brd;
 	init_all();
-	printf("<b>¹ÜÀíÄ£Ê½ ¡¤ %s </b><br>\n",BBSNAME);
+	printf("<b>ç®¡ç†æ¨¡å¼ Â· %s </b><br>\n",BBSNAME);
 	printpretable_lite();
 
-	if(!loginok) http_fatal("ÇëÏÈµÇÂ¼");
+	if(!loginok) http_fatal("è¯·å…ˆç™»å½•");
 	strsncpy(board, getparm("board"), 60);
 	mode=atoi(getparm("mode"));
 	brd=getbcache(board);
-	if(brd==0) http_fatal("´íÎóµÄÌÖÂÛÇø");
+	if(brd==0) http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	strcpy(board, brd->filename);
-	if(!has_BM_perm(&currentuser, board)) http_fatal("ÄúÎŞÈ¨·ÃÎÊ±¾Ò³");
-	if(mode<=0 || mode>5) http_fatal("´íÎóµÄ²ÎÊı");
+	if(!has_BM_perm(&currentuser, board)) http_fatal("æ‚¨æ— æƒè®¿é—®æœ¬é¡µ");
+	if(mode<=0 || mode>5) http_fatal("é”™è¯¯çš„å‚æ•°");
 	printf("<table>");
 	for(i=0; i<parm_num && i<40; i++) {
 		if(!strncmp(parm_name[i], "box", 3)) {
@@ -30,9 +30,9 @@ int main() {
 		}
 	}
 	printf("</table>");
-	if(total<=0) printf("ÇëÏÈÑ¡¶¨ÎÄÕÂ<br>\n");
+	if(total<=0) printf("è¯·å…ˆé€‰å®šæ–‡ç« <br>\n");
 	else if(mode==1) updatelastpost(board);
-	printf("<br><a href=bbsmdoc?board=%s>·µ»Ø¹ÜÀíÄ£Ê½</a>", board);
+	printf("<br><a href=bbsmdoc?board=%s>è¿”å›ç®¡ç†æ¨¡å¼</a>", board);
 	http_quit();
 }
 
@@ -46,7 +46,7 @@ int do_del(char *board, char *file) {
 	sprintf(dir, "boards/%s/.DIR", board);
 	sprintf(path, "boards/%s/%s", board, file);
 	fp=fopen(dir, "r");
-	if(fp==0) http_fatal("´íÎóµÄ²ÎÊı");
+	if(fp==0) http_fatal("é”™è¯¯çš„å‚æ•°");
 	while(1) {
 		if(fread(&f, sizeof(struct fileheader), 1, fp)<=0) break;
 		//added by iamfat 2002.08.10
@@ -54,51 +54,4 @@ int do_del(char *board, char *file) {
 		//added end.
 		if(!strcmp(f.filename, file)) {
                         del_record(dir, sizeof(struct fileheader), num);
-//                      sprintf(buf, "\n¡ù %s ÓÚ %s É¾³ı¡E[FROM: %s]", currentuser.userid, Ctime(time(0))+4, fromhost);
-//modified by iamfat 2002.08.01
-//                      sprintf(buf, "\n¡ù %s ÓÚ %16.16s É¾³ı¡E[FROM: %s]", currentuser.userid, cn_Ctime(time(0))+6, fromhost);
-//                      f_append(path, buf);
-                        sprintf(dir, strcmp(id, f.owner)?"boards/%s/.TRASH":"boards/%s/.JUNK", board);
-                        strcpy(f.szEraser, id);
-                        f.timeDeleted=time(0);
-                        append_record(&f, sizeof(struct fileheader), dir);
- 			printf("<tr><td>%s  <td>±êÌâ:%s <td>É¾³ı³É¹¦.\n", f.owner, nohtml(f.title));
-			u=getuser(f.owner);
-			if(!junkboard(board) && u) {
-				if(u->numposts>0) u->numposts--;
-				save_user_data(u);
-			}
-			sprintf(buf, "Del %s\n", board);
-			trace(buf);
-			fclose(fp);
-			return;
-		}
-		num++;
-	}
-	fclose(fp);
-	printf("<tr><td><td>%s<td>ÎÄ¼ş²»´æÔÚ.\n", file);
-}
-
-int do_set(char *board, char *file, int flag) {
-	FILE *fp;
-	char path[256], dir[256];
-	struct fileheader f;
-	sprintf(dir, "boards/%s/.DIR", board);
-	sprintf(path, "boards/%s/%s", board, file);
-	fp=fopen(dir, "r+");
-	if(fp==0) http_fatal("´íÎóµÄ²ÎÊı");
-	while(1) {
-		if(fread(&f, sizeof(struct fileheader), 1, fp)<=0) break;
-		if(!strcmp(f.filename, file)) {
-			f.accessed[0]|=flag;
-			if(flag==0) f.accessed[0]=0;
-			fseek(fp, -1*sizeof(struct fileheader), SEEK_CUR);
-			fwrite(&f, sizeof(struct fileheader), 1, fp);
-			fclose(fp);
-			printf("<tr><td>%s<td>±êÌâ:%s<td>±ê¼Ç³É¹¦.\n", f.owner, nohtml(f.title));
-			return;
-		}
-	}
-	fclose(fp);
-	printf("<td><td><td>%s<td>ÎÄ¼ş²»´æÔÚ.\n", file);
-}
+//                      sprintf(buf, "\nâ€» %s äº %s åˆ é™¤

@@ -9,78 +9,78 @@ int main() {
 	strsncpy(target, getparm("target"), 30);
 	if(!loginok) 
 	{
-		printf("<b>×ªÔØÎÄÕÂ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>è½¬è½½æ–‡ç«  Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´Ò´Ò¹ı¿Í²»ÄÜ½øĞĞ±¾Ïî²Ù×÷");
+		http_fatal("åŒ†åŒ†è¿‡å®¢ä¸èƒ½è¿›è¡Œæœ¬é¡¹æ“ä½œ");
 	}
 	if(!has_read_perm(&currentuser, board)) 
 	{
-		printf("<b>×ªÔØÎÄÕÂ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>è½¬è½½æ–‡ç«  Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	}
 	x=get_file_ent(board, file);
 	if(x==0) 
 	{
-		printf("<b>×ªÔØÎÄÕÂ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>è½¬è½½æ–‡ç«  Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÎÄ¼şÃû");
+		http_fatal("é”™è¯¯çš„æ–‡ä»¶å");
 	}
-	printf("<b>×ªÔØÎÄÕÂ ¡¤ %s [Ê¹ÓÃÕß: %s]</b><br>\n", BBSNAME, currentuser.userid);
+	printf("<b>è½¬è½½æ–‡ç«  Â· %s [ä½¿ç”¨è€…: %s]</b><br>\n", BBSNAME, currentuser.userid);
 	printpretable_lite();
 	if(target[0]) {
-		if(!has_post_perm(&currentuser, target)) http_fatal("´íÎóµÄÌÖÂÛÇøÃû³Æ»òÄúÃ»ÓĞÔÚ¸Ã°æ·¢ÎÄµÄÈ¨ÏŞ");
+		if(!has_post_perm(&currentuser, target)) http_fatal("é”™è¯¯çš„è®¨è®ºåŒºåç§°æˆ–æ‚¨æ²¡æœ‰åœ¨è¯¥ç‰ˆå‘æ–‡çš„æƒé™");
 		return do_ccc(x, board, target);
 	}
 	printf("<table><tr><td>\n");
-	printf("<font color=red>×ªÌù·¢ÎÄ×¢ÒâÊÂÏî:<br>\n");
-	printf("±¾Õ¾¹æ¶¨Í¬ÑùÄÚÈİµÄÎÄÕÂÑÏ½ûÔÚ 4 ¸ö»ò 4 ¸öÒÔÉÏÌÖÂÛÇøÄÚÖØ¸´·¢±í¡£");
-	printf("Î¥Õß½«±»·â½ûÔÚ±¾Õ¾·¢ÎÄµÄÈ¨Àû<br><br></font>\n");
-	printf("ÎÄÕÂ±êÌâ: %s<br>\n", nohtml(x->title));
-	printf("ÎÄÕÂ×÷Õß: %s<br>\n", x->owner);
-	printf("Ô­ÌÖÂÛÇø: %s<br>\n", board);
+	printf("<font color=red>è½¬è´´å‘æ–‡æ³¨æ„äº‹é¡¹:<br>\n");
+	printf("æœ¬ç«™è§„å®šåŒæ ·å†…å®¹çš„æ–‡ç« ä¸¥ç¦åœ¨ 4 ä¸ªæˆ– 4 ä¸ªä»¥ä¸Šè®¨è®ºåŒºå†…é‡å¤å‘è¡¨ã€‚");
+	printf("è¿è€…å°†è¢«å°ç¦åœ¨æœ¬ç«™å‘æ–‡çš„æƒåˆ©<br><br></font>\n");
+	printf("æ–‡ç« æ ‡é¢˜: %s<br>\n", nohtml(x->title));
+	printf("æ–‡ç« ä½œè€…: %s<br>\n", x->owner);
+	printf("åŸè®¨è®ºåŒº: %s<br>\n", board);
 	printf("<form action=bbsccc method=post>\n");
 	printf("<input type=hidden name=board value=%s>", board);
 	printf("<input type=hidden name=file value=%s>", file);
-	printf("×ªÔØµ½ <input name=target size=30 maxlength=30> ÌÖÂÛÇø. ");
-	printf("<input type=submit value=È·¶¨></form>");
+	printf("è½¬è½½åˆ° <input name=target size=30 maxlength=30> è®¨è®ºåŒº. ");
+	printf("<input type=submit value=ç¡®å®š></form>");
 }
 
 int do_ccc(struct fileheader *x, char *board, char *board2) {
 	FILE *fp, *fp2;
 	struct boardheader *brc = NULL;
 	brc = getbcache(board2);
-	if (brc -> flag & BOARD_DIR_FLAG) {  //²»¿É×ªÔØµ½Ä¿Â¼ Danielfree 06.3.5
-	        http_fatal("ÄãÑ¡ÔñÁËÒ»¸öÄ¿Â¼");
+	if (brc -> flag & BOARD_DIR_FLAG) {  //ä¸å¯è½¬è½½åˆ°ç›®å½• Danielfree 06.3.5
+	        http_fatal("ä½ é€‰æ‹©äº†ä¸€ä¸ªç›®å½•");
         }
 	if ((brc->flag & BOARD_CLUB_FLAG)&& (brc->flag & BOARD_READ_FLAG )&& !has_BM_perm(&currentuser, brc->filename)&& !isclubmember(currentuser.userid, brc->filename)) {
-			http_fatal ("´íÎóµÄÌÖÂÛÇøÃû³Æ»òÄúÃ»ÓĞÔÚ¸Ã°æ·¢ÎÄµÄÈ¨ÏŞ");
+			http_fatal ("é”™è¯¯çš„è®¨è®ºåŒºåç§°æˆ–æ‚¨æ²¡æœ‰åœ¨è¯¥ç‰ˆå‘æ–‡çš„æƒé™");
 	}
 	char title[512], buf[512], path[200], path2[200], i;
 	sprintf(path, "boards/%s/%s", board, x->filename);
 	fp=fopen(path, "r");
-	if(fp==0) http_fatal("ÎÄ¼şÄÚÈİÒÑ¶ªÊ§, ÎŞ·¨×ªÔØ");
+	if(fp==0) http_fatal("æ–‡ä»¶å†…å®¹å·²ä¸¢å¤±, æ— æ³•è½¬è½½");
 	sprintf(path2, "tmp/%d.tmp", getpid());
 	fp2=fopen(path2, "w");
 	for(i=0; i<3; i++)
 		if(fgets(buf, 256, fp)==0) break;
-	fprintf(fp2, "[37;1m¡¾ ÒÔÏÂÎÄ×Ö×ªÔØ×Ô [32m%s [37mÌÖÂÛÇø ¡¿\n", board);
-	fprintf(fp2, "[37;1m¡¾ Ô­ÎÄÓÉ [32m%s [37mËù·¢±í ¡¿[m\n\n", x->owner);
+	fprintf(fp2, "[37;1mã€ ä»¥ä¸‹æ–‡å­—è½¬è½½è‡ª [32m%s [37mè®¨è®ºåŒº ã€‘\n", board);
+	fprintf(fp2, "[37;1mã€ åŸæ–‡ç”± [32m%s [37mæ‰€å‘è¡¨ ã€‘[m\n\n", x->owner);
 	while(1) {
 		if(fgets(buf, 256, fp)==0) break;
 		fprintf(fp2, "%s", buf);
 	}
 	fclose(fp);
 	fclose(fp2);
-	if((!strncmp(x->title, "[×ªÔØ]", 6))||
-		(!strncmp(x->title, "Re: [×ªÔØ]", 10))){
+	if((!strncmp(x->title, "[è½¬è½½]", 6))||
+		(!strncmp(x->title, "Re: [è½¬è½½]", 10))){
 		//modified by money 04.01.17 for judge Re & cross
 		sprintf(title, x->title);
 	} else {
-		sprintf(title, "[×ªÔØ]%.55s", x->title);
+		sprintf(title, "[è½¬è½½]%.55s", x->title);
 	}
 	post_article(board2, title, path2, currentuser.userid, currentuser.username, fromhost, -1, -1, -1);
 	unlink(path2);
-	printf("'%s' ÒÑ×ªÌùµ½ %s °æ.<br>\n", nohtml(title), board2);
-	printf("[<a href='javascript:history.go(-2)'>·µ»Ø</a>]");
+	printf("'%s' å·²è½¬è´´åˆ° %s ç‰ˆ.<br>\n", nohtml(title), board2);
+	printf("[<a href='javascript:history.go(-2)'>è¿”å›</a>]");
 }

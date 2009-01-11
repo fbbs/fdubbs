@@ -49,19 +49,19 @@ int main() {
 	x.birthmonth=atoi(getparm("month"));
 	x.birthday=atoi(getparm("day"));
    	for(i=0; x.userid[i]; i++)
-      		if(!strchr("ABCDEFGHIJKLMNOPQRSTUVWXYZ", toupper(x.userid[i]))) http_fatal("ÕÊºÅÖ»ÄÜÓÉÓ¢ÎÄ×ÖÄ¸×é³É");
-   	if(strlen(x.userid)<2) http_fatal("ÕÊºÅ³¤¶ÈÌ«¶Ì(2-12×Ö·û)");
-   	if(strlen(pass1)<4) http_fatal("ÃÜÂëÌ«¶Ì(ÖÁÉÙ4×Ö·û)");
-   	if(strcmp(pass1, pass2)) http_fatal("Á½´ÎÊäÈëµÄÃÜÂë²»Ò»ÖÂ, ÇëÈ·ÈÏÃÜÂë");
-   	if(strlen(x.username)<2) http_fatal("ÇëÊäÈëêÇ³Æ(êÇ³Æ³¤¶ÈÖÁÉÙ2¸ö×Ö·û)");
-   	if(strlen(x.realname)<4) http_fatal("ÇëÊäÈëÕæÊµĞÕÃû(ÇëÓÃÖĞÎÄ, ÖÁÉÙ2¸ö×Ö)");
-   	if(strlen(dept)<6) http_fatal("¹¤×÷µ¥Î»µÄÃû³Æ³¤¶ÈÖÁÉÙÒª6¸ö×Ö·û(»ò3¸öºº×Ö)");
-   	if(strlen(x.address)<6) http_fatal("Í¨Ñ¶µØÖ·³¤¶ÈÖÁÉÙÒª6¸ö×Ö·û(»ò3¸öºº×Ö)");
-   	if(badstr(x.passwd)||badstr(x.username)||badstr(x.realname)) http_fatal("ÄúµÄ×¢²áµ¥ÖĞº¬ÓĞ·Ç·¨×Ö·û");
-	if(badstr(dept)||badstr(x.address)||badstr(x.email)||badstr(phone)) http_fatal("ÄúµÄ×¢²áµ¥ÖĞº¬ÓĞ·Ç·¨×Ö·û");
-   	if(badymd(x.birthyear, x.birthmonth, x.birthday)) http_fatal("ÇëÊäÈëÄúµÄ³öÉúÄêÔÂ");
- 	if(is_bad_id(x.userid)) http_fatal("²»ÑÅÕÊºÅ»ò½ûÖ¹×¢²áµÄid, ÇëÖØĞÂÑ¡Ôñ");
-   	if(getuser(x.userid)) http_fatal("´ËÕÊºÅÒÑ¾­ÓĞÈËÊ¹ÓÃ,ÇëÖØĞÂÑ¡Ôñ¡£");
+      		if(!strchr("ABCDEFGHIJKLMNOPQRSTUVWXYZ", toupper(x.userid[i]))) http_fatal("å¸å·åªèƒ½ç”±è‹±æ–‡å­—æ¯ç»„æˆ");
+   	if(strlen(x.userid)<2) http_fatal("å¸å·é•¿åº¦å¤ªçŸ­(2-12å­—ç¬¦)");
+   	if(strlen(pass1)<4) http_fatal("å¯†ç å¤ªçŸ­(è‡³å°‘4å­—ç¬¦)");
+   	if(strcmp(pass1, pass2)) http_fatal("ä¸¤æ¬¡è¾“å…¥çš„å¯†ç ä¸ä¸€è‡´, è¯·ç¡®è®¤å¯†ç ");
+   	if(strlen(x.username)<2) http_fatal("è¯·è¾“å…¥æ˜µç§°(æ˜µç§°é•¿åº¦è‡³å°‘2ä¸ªå­—ç¬¦)");
+   	if(strlen(x.realname)<4) http_fatal("è¯·è¾“å…¥çœŸå®å§“å(è¯·ç”¨ä¸­æ–‡, è‡³å°‘2ä¸ªå­—)");
+   	if(strlen(dept)<6) http_fatal("å·¥ä½œå•ä½çš„åç§°é•¿åº¦è‡³å°‘è¦6ä¸ªå­—ç¬¦(æˆ–3ä¸ªæ±‰å­—)");
+   	if(strlen(x.address)<6) http_fatal("é€šè®¯åœ°å€é•¿åº¦è‡³å°‘è¦6ä¸ªå­—ç¬¦(æˆ–3ä¸ªæ±‰å­—)");
+   	if(badstr(x.passwd)||badstr(x.username)||badstr(x.realname)) http_fatal("æ‚¨çš„æ³¨å†Œå•ä¸­å«æœ‰éæ³•å­—ç¬¦");
+	if(badstr(dept)||badstr(x.address)||badstr(x.email)||badstr(phone)) http_fatal("æ‚¨çš„æ³¨å†Œå•ä¸­å«æœ‰éæ³•å­—ç¬¦");
+   	if(badymd(x.birthyear, x.birthmonth, x.birthday)) http_fatal("è¯·è¾“å…¥æ‚¨çš„å‡ºç”Ÿå¹´æœˆ");
+ 	if(is_bad_id(x.userid)) http_fatal("ä¸é›…å¸å·æˆ–ç¦æ­¢æ³¨å†Œçš„id, è¯·é‡æ–°é€‰æ‹©");
+   	if(getuser(x.userid)) http_fatal("æ­¤å¸å·å·²ç»æœ‰äººä½¿ç”¨,è¯·é‡æ–°é€‰æ‹©ã€‚");
    	sprintf(salt, "%c%c", 65+rand()%26, 65+rand()%26);
    	strsncpy(x.passwd, crypt1(pass1, salt), 14);
    	strcpy(x.termtype, "vt100");
@@ -92,24 +92,24 @@ int main() {
    	printf("<center>\n");
 	printpretable();
 	printf("<table><td><td><pre>\n");
-	printf("Ç×°®µÄĞÂÊ¹ÓÃÕß£¬ÄúºÃ£¡\n\n");
-        printf("»¶Ó­¹âÁÙ ±¾Õ¾, ÄúµÄĞÂÕÊºÅÒÑ¾­³É¹¦±»µÇ¼ÇÁË¡£\n");
-        printf("ÄúÄ¿Ç°ÓµÓĞ±¾Õ¾»ù±¾µÄÈ¨ÏŞ, °üÀ¨ÔÄ¶ÁÎÄÕÂ¡¢»·¹ËËÄ·½¡¢½ÓÊÕË½ÈË\n");
-	printf("ĞÅ¼ş¡¢½ÓÊÕËûÈËµÄÏûÏ¢¡¢½øÈëÁÄÌìÊÒµÈµÈ¡£µ±ÄúÍ¨¹ı±¾Õ¾µÄÉí·İÈ·\n");
-	printf("ÈÏÊÖĞøÖ®ºó£¬Äú»¹»á»ñµÃ¸ü¶àµÄÈ¨ÏŞ¡£Ä¿Ç°ÄúµÄ×¢²áµ¥ÒÑ¾­±»Ìá½»\n");
-	printf("µÈ´ıÉóÔÄ¡£Ò»°ãÇé¿ö24Ğ¡Ê±ÒÔÄÚ¾Í»áÓĞ´ğ¸´£¬ÇëÄÍĞÄµÈ´ı¡£Í¬Ê±Çë\n");
-	printf("ÁôÒâÄúµÄÕ¾ÄÚĞÅÏä¡£\n");
-	printf("Èç¹ûÄúÓĞÈÎºÎÒÉÎÊ£¬¿ÉÒÔÈ¥sysop(Õ¾³¤µÄ¹¤×÷ÊÒ)°æ·¢ÎÄÇóÖú¡£\n\n</pre></table>");
-   	printf("<br>ÄúµÄ»ù±¾×ÊÁÏÈçÏÂ:<br>\n");
+	printf("äº²çˆ±çš„æ–°ä½¿ç”¨è€…ï¼Œæ‚¨å¥½ï¼\n\n");
+        printf("æ¬¢è¿å…‰ä¸´ æœ¬ç«™, æ‚¨çš„æ–°å¸å·å·²ç»æˆåŠŸè¢«ç™»è®°äº†ã€‚\n");
+        printf("æ‚¨ç›®å‰æ‹¥æœ‰æœ¬ç«™åŸºæœ¬çš„æƒé™, åŒ…æ‹¬é˜…è¯»æ–‡ç« ã€ç¯é¡¾å››æ–¹ã€æ¥æ”¶ç§äºº\n");
+	printf("ä¿¡ä»¶ã€æ¥æ”¶ä»–äººçš„æ¶ˆæ¯ã€è¿›å…¥èŠå¤©å®¤ç­‰ç­‰ã€‚å½“æ‚¨é€šè¿‡æœ¬ç«™çš„èº«ä»½ç¡®\n");
+	printf("è®¤æ‰‹ç»­ä¹‹åï¼Œæ‚¨è¿˜ä¼šè·å¾—æ›´å¤šçš„æƒé™ã€‚ç›®å‰æ‚¨çš„æ³¨å†Œå•å·²ç»è¢«æäº¤\n");
+	printf("ç­‰å¾…å®¡é˜…ã€‚ä¸€èˆ¬æƒ…å†µ24å°æ—¶ä»¥å†…å°±ä¼šæœ‰ç­”å¤ï¼Œè¯·è€å¿ƒç­‰å¾…ã€‚åŒæ—¶è¯·\n");
+	printf("ç•™æ„æ‚¨çš„ç«™å†…ä¿¡ç®±ã€‚\n");
+	printf("å¦‚æœæ‚¨æœ‰ä»»ä½•ç–‘é—®ï¼Œå¯ä»¥å»sysop(ç«™é•¿çš„å·¥ä½œå®¤)ç‰ˆå‘æ–‡æ±‚åŠ©ã€‚\n\n</pre></table>");
+   	printf("<br>æ‚¨çš„åŸºæœ¬èµ„æ–™å¦‚ä¸‹:<br>\n");
    	printf("<table border=1 width=400>");
-   	printf("<tr><td>ÕÊºÅÎ»ÖÃ: <td>%d\n", getusernum(x.userid));
-   	printf("<tr><td>Ê¹ÓÃÕß´úºÅ: <td>%s (%s)\n", x.userid, x.username);
-   	printf("<tr><td>ĞÕ  Ãû: <td>%s<br>\n", x.realname);
-	printf("<tr><td>êÇ  ³Æ: <td>%s<br>\n", x.username);
-   	printf("<tr><td>ÉÏÕ¾Î»ÖÃ: <td>%s<br>\n", x.lasthost);
-   	printf("<tr><td>µç×ÓÓÊ¼ş: <td>%s<br></table><br>\n", x.email);
+   	printf("<tr><td>å¸å·ä½ç½®: <td>%d\n", getusernum(x.userid));
+   	printf("<tr><td>ä½¿ç”¨è€…ä»£å·: <td>%s (%s)\n", x.userid, x.username);
+   	printf("<tr><td>å§“  å: <td>%s<br>\n", x.realname);
+	printf("<tr><td>æ˜µ  ç§°: <td>%s<br>\n", x.username);
+   	printf("<tr><td>ä¸Šç«™ä½ç½®: <td>%s<br>\n", x.lasthost);
+   	printf("<tr><td>ç”µå­é‚®ä»¶: <td>%s<br></table><br>\n", x.email);
 	printposttable();
-   	printf("<center><input type=button onclick='window.close()' value=¹Ø±Õ±¾´°¿Ú></center>\n");
+   	printf("<center><input type=button onclick='window.close()' value=å…³é—­æœ¬çª—å£></center>\n");
    	newcomer(&x, words);
    	//sprintf(buf, "%s %-12s %d\n", Ctime(time(0))+4, x.userid, getusernum(x.userid));
    	//f_append("wwwreg.log", buf);
@@ -127,13 +127,13 @@ int newcomer(struct userec *x, char *words) {
   	char filename[80];
 	sprintf(filename, "tmp/%d.tmp", getpid());
 	fp=fopen(filename, "w");
-	fprintf(fp, "´ó¼ÒºÃ, \n\n");
-	fprintf(fp, "ÎÒÊÇ %s(%s), À´×Ô %s\n", x->userid, x->username, fromhost);
-	fprintf(fp, "½ñÌì³õÀ´´ËµØ±¨µ½, Çë´ó¼Ò¶à¶àÖ¸½Ì.\n\n");
-	fprintf(fp, "×ÔÎÒ½éÉÜ:\n\n");
+	fprintf(fp, "å¤§å®¶å¥½, \n\n");
+	fprintf(fp, "æˆ‘æ˜¯ %s(%s), æ¥è‡ª %s\n", x->userid, x->username, fromhost);
+	fprintf(fp, "ä»Šå¤©åˆæ¥æ­¤åœ°æŠ¥åˆ°, è¯·å¤§å®¶å¤šå¤šæŒ‡æ•™.\n\n");
+	fprintf(fp, "è‡ªæˆ‘ä»‹ç»:\n\n");
 	fprintf(fp, "%s", words);
 	fclose(fp);
-	post_article("newcomers", "WWWĞÂÊÖÉÏÂ·", filename, x->userid, x->username, fromhost, -1, -1, -1);
+	post_article("newcomers", "WWWæ–°æ‰‹ä¸Šè·¯", filename, x->userid, x->username, fromhost, -1, -1, -1);
 	unlink(filename);
 }
 
@@ -146,7 +146,7 @@ char   *userid;
 		if (num > shm_ucache->number)
 			shm_ucache->number = num;
 		strncpy(shm_ucache->userid[num - 1], userid, IDLEN + 1);
-              /* hash Ìî³ä */
+              /* hash å¡«å…… */
       if( strcmp(userid, "new") ){
               char a1,a2;
               int key;
@@ -162,7 +162,7 @@ char   *userid;
                       shm_ucache->prev[num-1] = i;
               }
       }
-              /* end of hash Ìî³ä */
+              /* end of hash å¡«å…… */
 	}
 }
 

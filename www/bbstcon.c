@@ -15,37 +15,37 @@ int main()
 	strsncpy(board, getparm("board"), 32);
 	strsncpy(file, getparm("file"), 32);
     /*
-     *  ÏÂÃæ´úÂëÓÃÓÚÌí¼ÓÌû×ÓµÄ°æÃæÑéÖ¤£¬Óëbbsdoc.cÖĞµÄÑéÖ¤´úÂëÀàËÆ,added by polygon
+     *  ä¸‹é¢ä»£ç ç”¨äºæ·»åŠ å¸–å­çš„ç‰ˆé¢éªŒè¯ï¼Œä¸bbsdoc.cä¸­çš„éªŒè¯ä»£ç ç±»ä¼¼,added by polygon
      * */
     x1=getbcache(board);
          if ((x1->flag & BOARD_CLUB_FLAG)
                           && (x1->flag & BOARD_READ_FLAG )
                                        && !has_BM_perm(&currentuser, board)
                                                         && !isclubmember(currentuser.userid, board))
-                                        http_fatal("Äú²»ÊÇ¾ãÀÖ²¿°æ %s µÄ³ÉÔ±£¬ÎŞÈ¨·ÃÎÊ¸Ã°æÃæ", board);
+                                        http_fatal("æ‚¨ä¸æ˜¯ä¿±ä¹éƒ¨ç‰ˆ %s çš„æˆå‘˜ï¼Œæ— æƒè®¿é—®è¯¥ç‰ˆé¢", board);
 	/*
      * end polygon
      * */
     printf("<center>\n");
 	if(!has_read_perm(&currentuser, board)) 
 	{
-		printf("<b>Í¬Ö÷ÌâÎÄÕÂÔÄ¶Á ¡¤ %s </b></center><br>\n",BBSNAME);
+		printf("<b>åŒä¸»é¢˜æ–‡ç« é˜…è¯» Â· %s </b></center><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	}
 	strcpy(board, getbcache(board)->filename);
 	if(loginok) brc_init(currentuser.userid, board);
 	printf("<a name=pagetop ></a>");
-	printf("<b>Í¬Ö÷ÌâÎÄÕÂÔÄ¶Á ¡¤ %s[ÌÖÂÛÇø: %s]</center>", BBSNAME, board);
+	printf("<b>åŒä¸»é¢˜æ–‡ç« é˜…è¯» Â· %s[è®¨è®ºåŒº: %s]</center>", BBSNAME, board);
 	if(strncmp(file, "M.", 2) && strncmp(file, "G.", 2)) 
 	{
 		printpretable_lite();
-		http_fatal("´íÎóµÄ²ÎÊı1");
+		http_fatal("é”™è¯¯çš„å‚æ•°1");
 	}
 	if(strstr(file, "..") || strstr(file, "/")) 
 	{
 		printpretable_lite();
-		http_fatal("´íÎóµÄ²ÎÊı2");
+		http_fatal("é”™è¯¯çš„å‚æ•°2");
 	}
 	sprintf(dir, "boards/%s/.DIR", board);
 	if(!strcmp(board, "noticeboard")) 
@@ -54,7 +54,7 @@ int main()
 	if(fp==0) 
 	{
 		printpretable_lite();
-		http_fatal("Ä¿Â¼´íÎó");
+		http_fatal("ç›®å½•é”™è¯¯");
 	}
 	while(1) 
 	{
@@ -89,13 +89,13 @@ int main()
 	if(found==0) 
 	{
 		printpretable_lite();
-		http_fatal("´íÎóµÄÎÄ¼şÃû");
+		http_fatal("é”™è¯¯çš„æ–‡ä»¶å");
 	}
-   	//if(!no_re) printf("[<a href='bbspst?board=%s&file=%s&userid=%s&title=%s'>»ØÎÄÕÂ</a>] ",
+   	//if(!no_re) printf("[<a href='bbspst?board=%s&file=%s&userid=%s&title=%s'>å›æ–‡ç« </a>] ",
 	//	board, file, x.owner, title);
 	printf("<center>\n");
-	printf("[<a href='javascript:history.go(-1)'>·µ»ØÉÏÒ»Ò³</a>]");
-	printf("[<a href=bbsdoc?board=%s>±¾ÌÖÂÛÇø</a>]", board);
+	printf("[<a href='javascript:history.go(-1)'>è¿”å›ä¸Šä¸€é¡µ</a>]");
+	printf("[<a href=bbsdoc?board=%s>æœ¬è®¨è®ºåŒº</a>]", board);
    	printf("</center>\n"); 
 	if(loginok) 
 		brc_update(currentuser.userid, board);
@@ -110,7 +110,7 @@ int show_file(char *board, struct fileheader *x, int n)
 		if(x->accessed[1]&FILE_UNCERTIFIED)
 		{
 			printpretable_lite();
-			http_fatal("±¾ÎÄÉĞÎ´Í¨¹ıÉóÅú");
+			http_fatal("æœ¬æ–‡å°šæœªé€šè¿‡å®¡æ‰¹");
 		}
 	#endif
 	if(loginok) 
@@ -126,16 +126,16 @@ int show_file(char *board, struct fileheader *x, int n)
 	if(!strncmp(ptr, "Re: ", 4)) 
 		ptr+=4;
 	ptr[60]=0;
-	printf("   <a href=bbscon?b=%s&f=%s&n=%d><img border=0 src=/images/button/content.gif align=absmiddle>±¾ÆªÈ«ÎÄ</a>", board, x->filename, n);
-	printf("   <a href='bbspst?board=%s&file=%s&userid=%s&id=%d&gid=%d&title=Re: %s'><img border=0 src=/images/button/edit.gif align=absmiddle>»Ø¸´±¾ÎÄ</a>  ", board, x->filename, x->owner, x->id, x->gid, entity_char(ptr));	
-	//printf("   <a href='bbspst?board=%s&file=%s&title=%s&userid=%s'><img border=0 src=/images/button/edit.gif align=absmiddle>»Ø¸´±¾ÎÄ</a>  ", board, x->filename, x->title, x->owner);
-	printf("[±¾Æª×÷Õß: %s]  ", userid_str(x->owner));
+	printf("   <a href=bbscon?b=%s&f=%s&n=%d><img border=0 src=/images/button/content.gif align=absmiddle>æœ¬ç¯‡å…¨æ–‡</a>", board, x->filename, n);
+	printf("   <a href='bbspst?board=%s&file=%s&userid=%s&id=%d&gid=%d&title=Re: %s'><img border=0 src=/images/button/edit.gif align=absmiddle>å›å¤æœ¬æ–‡</a>  ", board, x->filename, x->owner, x->id, x->gid, entity_char(ptr));	
+	//printf("   <a href='bbspst?board=%s&file=%s&title=%s&userid=%s'><img border=0 src=/images/button/edit.gif align=absmiddle>å›å¤æœ¬æ–‡</a>  ", board, x->filename, x->title, x->owner);
+	printf("[æœ¬ç¯‡ä½œè€…: %s]  ", userid_str(x->owner));
 	#ifdef SPARC	
-		printf("[±¾ÆªÈËÆø: %d] ", *(int*)(x->title+72));//modified by roly
+		printf("[æœ¬ç¯‡äººæ°”: %d] ", *(int*)(x->title+72));//modified by roly
 	#else
-		printf("[±¾ÆªÈËÆø: %d] ", *(int*)(x->title+73));//modified by roly
+		printf("[æœ¬ç¯‡äººæ°”: %d] ", *(int*)(x->title+73));//modified by roly
 	#endif
-	printf("<a href=#pagetop ><img border=0 src=/images/button/up.gif align=absmiddle>»ØÒ³Ê×</a>  \n");
+	printf("<a href=#pagetop ><img border=0 src=/images/button/up.gif align=absmiddle>å›é¡µé¦–</a>  \n");
 	printpretable();
 	printf("<table width=100%%><pre class=ansi>\n");
 	while(1) 
@@ -145,7 +145,7 @@ int show_file(char *board, struct fileheader *x, int n)
 	//The following lines are commented by polygon
     //	if(!strncmp(buf, ": ", 2)) 
 	//		continue;
-	//	if(!strncmp(buf, "¡¾ ÔÚ ", 4)) 
+	//	if(!strncmp(buf, "ã€ åœ¨ ", 4)) 
 	//		continue;
         //polygon<<
         if(!strncmp(buf, ": ", 2))

@@ -10,16 +10,16 @@ int main() {
 	init_all();
 	if(!loginok) 
 	{
-		printf("<b>·¢ËÍÏûÏ¢ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>å‘é€æ¶ˆæ¯ Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´Ò´Ò¹ı¿Í²»ÄÜ·¢ÏûÏ¢, ÇëÏÈµÇÂ¼£¡");
+		http_fatal("åŒ†åŒ†è¿‡å®¢ä¸èƒ½å‘æ¶ˆæ¯, è¯·å…ˆç™»å½•ï¼");
 	}
 /* added by roly 02.05.29 */
 	if(!HAS_PERM(PERM_TALK)) 
 	{
-		printf("<b>·¢ËÍÏûÏ¢ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>å‘é€æ¶ˆæ¯ Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("ÄúÊÇÎ´×¢²áÓÃ»§,»òÕßÎŞÈ¨·¢ËÍÏûÏ¢!");
+		http_fatal("æ‚¨æ˜¯æœªæ³¨å†Œç”¨æˆ·,æˆ–è€…æ— æƒå‘é€æ¶ˆæ¯!");
 	}
 /* add end */
 	strsncpy(destid, getparm("destid"), 13);
@@ -30,30 +30,30 @@ int main() {
 		strcpy(buf3, "<body onload='document.form0.msg.focus()'>");
 		if(destid[0]==0) strcpy(buf3, "<body onload='document.form0.destid.focus()'>");
 		printf("%s\n", buf3);
-		printf("<b>·¢ËÍÏûÏ¢ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>å‘é€æ¶ˆæ¯ Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
 		printf("<form name=form0 action=bbssendmsg method=post>\n");
 		printf("<input type=hidden name=destpid value=%d>\n",destpid);
-		printf("ËÍÏûÏ¢¸ø: <input name=destid maxlength=12 value='%s' size=12><br>\n",destid);
-		printf("ÏûÏ¢ÄÚÈİ: <input name=msg maxlength=50 size=50 value='%s'><br>\n",msg);
-		printf("<input type=submit value=È·ÈÏ width=6></form>");
+		printf("é€æ¶ˆæ¯ç»™: <input name=destid maxlength=12 value='%s' size=12><br>\n",destid);
+		printf("æ¶ˆæ¯å†…å®¹: <input name=msg maxlength=50 size=50 value='%s'><br>\n",msg);
+		printf("<input type=submit value=ç¡®è®¤ width=6></form>");
 		printposttable_lite();
 		http_quit();
 	}
 	if(getusernum(destid)<0) 
 	{
-		printf("<b>·¢ËÍÏûÏ¢ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>å‘é€æ¶ˆæ¯ Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("²éÎŞ´ËÈË");
+		http_fatal("æŸ¥æ— æ­¤äºº");
 	}
 	printf("<body onload='document.form1.b1.focus()'>\n");
 	user=getuser(destid);
 		
 	sprintf(filename, "home/%c/%s/rejects", toupper(destid[0]), user->userid);
 	if(file_has_word(filename, currentuser.userid))
-	    http_fatal("¶Ô·½²»ÏëÊÕµ½ÄúµÄÏûÏ¢");
+	    http_fatal("å¯¹æ–¹ä¸æƒ³æ”¶åˆ°æ‚¨çš„æ¶ˆæ¯");
 		
-	printf("<b>·¢ËÍÏûÏ¢ ¡¤ %s </b><br>\n",BBSNAME);
+	printf("<b>å‘é€æ¶ˆæ¯ Â· %s </b><br>\n",BBSNAME);
 	printpretable_lite();
 
 	for(i=0; i<MAXACTIVE; i++)
@@ -74,22 +74,22 @@ int main() {
 				if(mode==BBSNET || mode==PAGE || mode== LOCKSCREEN) 
 					continue;
 				if(!strcasecmp(destid, currentuser.userid))
-					printf("Äú²»ÄÜ¸ø×Ô¼º·¢Ñ¶Ï¢£¡");
+					printf("æ‚¨ä¸èƒ½ç»™è‡ªå·±å‘è®¯æ¯ï¼");
 				else 
 				{
 					if(send_msg(currentuser.userid, u_info->pid, destid, destpid, msg)==0) 
-						printf("ÒÑ¾­°ïÄúËÍ³öÏûÏ¢");
+						printf("å·²ç»å¸®æ‚¨é€å‡ºæ¶ˆæ¯");
 					else
-						printf("·¢ËÍÏûÏ¢Ê§°Ü");
+						printf("å‘é€æ¶ˆæ¯å¤±è´¥");
 				}
 				printf("<script>top.fmsg.location='bbsgetmsg'</script>\n");
-				printf("<br><form name=form1><input name=b1 type=button onclick='history.go(-2)' value='[·µ»Ø]'>");
+				printf("<br><form name=form1><input name=b1 type=button onclick='history.go(-2)' value='[è¿”å›]'>");
 				printf("</form>");
 				http_quit();
 			}
-	printf("´ËÈËÄ¿Ç°²»ÔÚÏß»òÕßÎŞ·¨½ÓÊÜÏûÏ¢");
+	printf("æ­¤äººç›®å‰ä¸åœ¨çº¿æˆ–è€…æ— æ³•æ¥å—æ¶ˆæ¯");
     printf("<script>top.fmsg.location='bbsgetmsg'</script>\n");
-	printf("<br><form name=form1><input name=b1 type=button onclick='history.go(-2)' value='[·µ»Ø]'>");
+	printf("<br><form name=form1><input name=b1 type=button onclick='history.go(-2)' value='[è¿”å›]'>");
 	printf("</form>");
 	http_quit();
 }

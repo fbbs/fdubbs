@@ -8,26 +8,26 @@ int main() {
 	struct boardheader *x1;
 	init_all();
 	
-	/* added by roly  2002.01.03 È¥µôcache */
+	/* added by roly  2002.01.03 å»æ‰cache */
 	printf("<meta http-equiv=\"pragma\" content=\"no-cache\">");
 	/* add end */
 	
 	strsncpy(path, getparm("path"), 511);
-	if(strstr(path, "..") || strstr(path, "SYSHome")) http_fatal("´ËÄ¿Â¼²»´æÔÚ");
+	if(strstr(path, "..") || strstr(path, "SYSHome")) http_fatal("æ­¤ç›®å½•ä¸å­˜åœ¨");
 	sprintf(names, "0Announce%s/.Names", path);
 	fp=fopen(names, "r");
 	board=getbfroma(path);
 	if(board[0]) {
-		if(!has_read_perm(&currentuser, board)) http_fatal("Ä¿Â¼²»´æÔÚ");
+		if(!has_read_perm(&currentuser, board)) http_fatal("ç›®å½•ä¸å­˜åœ¨");
 		x1=getbcache(board);
 		if ((x1->flag & BOARD_CLUB_FLAG)
 			&& (x1->flag & BOARD_READ_FLAG )
 			&& !has_BM_perm(&currentuser, board)
 			&& !isclubmember(currentuser.userid, board))
-				http_fatal("Äú²»ÊÇ¾ãÀÖ²¿°æ %s µÄ³ÉÔ±£¬ÎŞÈ¨·ÃÎÊ¸ÃÄ¿Â¼", board);
+				http_fatal("æ‚¨ä¸æ˜¯ä¿±ä¹éƒ¨ç‰ˆ %s çš„æˆå‘˜ï¼Œæ— æƒè®¿é—®è¯¥ç›®å½•", board);
 		
 	}
-	if(fp==0) http_fatal("Ä¿Â¼²»´æÔÚ");
+	if(fp==0) http_fatal("ç›®å½•ä¸å­˜åœ¨");
 	while(1) {
 		if(fgets(buf, 511, fp)==0) break;
 		if(!strncmp(buf, "# Title=", 8)) strcpy(title, buf+8);
@@ -40,14 +40,14 @@ int main() {
 			sprintf(file[total-1], "%s", trim(buf+6));
 		}
 	}
-	if(strstr(title, "BM: SYSOPS") && !(currentuser.userlevel & PERM_SYSOPS)) http_fatal("´íÎóµÄÄ¿Â¼");
+	if(strstr(title, "BM: SYSOPS") && !(currentuser.userlevel & PERM_SYSOPS)) http_fatal("é”™è¯¯çš„ç›®å½•");
 	
 	/*  added by roly 2002.01.03*/
-	/*  Ìí¼Ó¶ÔÄ¿Â¼µÄ·ÃÎÊÈ¨ÏŞ¿ØÖÆ£¬·ÀÖ¹¸ù¾İÄ¿Â¼ÃûÖ±½Ó¶¼¾«»ªÇø*/
-	if(strstr(title, "BM: OBOARDS") && !(currentuser.userlevel & PERM_OBOARDS)) http_fatal("´íÎóµÄÄ¿Â¼");
-	//modified by iamfat 2002.10.18 ±£Ö¤BMSÄ¿Â¼±¾°æ°æÖ÷¿É¼û
-	if(strstr(title, "BM: BMS") && !has_BM_perm(&currentuser, board)) http_fatal("´íÎóµÄÄ¿Â¼");
-	//if(strstr(title, "BM: BMS") && !(currentuser.userlevel & PERM_BOARDS)) http_fatal("´íÎóµÄÄ¿Â¼");
+	/*  æ·»åŠ å¯¹ç›®å½•çš„è®¿é—®æƒé™æ§åˆ¶ï¼Œé˜²æ­¢æ ¹æ®ç›®å½•åç›´æ¥éƒ½ç²¾ååŒº*/
+	if(strstr(title, "BM: OBOARDS") && !(currentuser.userlevel & PERM_OBOARDS)) http_fatal("é”™è¯¯çš„ç›®å½•");
+	//modified by iamfat 2002.10.18 ä¿è¯BMSç›®å½•æœ¬ç‰ˆç‰ˆä¸»å¯è§
+	if(strstr(title, "BM: BMS") && !has_BM_perm(&currentuser, board)) http_fatal("é”™è¯¯çš„ç›®å½•");
+	//if(strstr(title, "BM: BMS") && !(currentuser.userlevel & PERM_BOARDS)) http_fatal("é”™è¯¯çš„ç›®å½•");
 	/* added end   */
 	
 	buf[0]=0;
@@ -62,24 +62,24 @@ int main() {
 		}
 	}
 
-    printf("<b><font style='font-size: 18pt'>%s</font> ¡¤ %s ¾«»ªÇø [±¾Ä¿Â¼ä¯ÀÀ´ÎÊı: %d]</b>\n", buf, BBSNAME, get_count(path));
+    printf("<b><font style='font-size: 18pt'>%s</font> Â· %s ç²¾ååŒº [æœ¬ç›®å½•æµè§ˆæ¬¡æ•°: %d]</b>\n", buf, BBSNAME, get_count(path));
 	
 	printf("<center>\n");
 	printf("<table width=100%% height=80%%><tr valign=top><td>");
 	printpretable();
 	if(total<=0) {
-		printf("<br><< Ä¿Ç°Ã»ÓĞÎÄÕÂ >>\n");
+		printf("<br><< ç›®å‰æ²¡æœ‰æ–‡ç«  >>\n");
 		printposttable();
 		printf("</center>\n");
 		http_quit();
 	}
        	printf("<table border=0 width=100%%>\n");
-       	printf("<tr class=pt9h ><th nowrap>±àºÅ<th nowrap>±êÌâ<th nowrap>ÕûÀíÕß<th nowrap>ÈÕÆÚ");
+       	printf("<tr class=pt9h ><th nowrap>ç¼–å·<th nowrap>æ ‡é¢˜<th nowrap>æ•´ç†è€…<th nowrap>æ—¥æœŸ");
 	int cc=0;
 	for(i=0; i<total; i++) {
 		char *id;
 		/* if(strstr(name[i], "SYSOPS")) continue; */
-		//ÒÔÉÏ´úÂëÓÉroly×¢ÊÍµô£¬ÒòÎªÕ¾³¤¿ÉÒÔ·ÃÎÊ¸ÃÄ¿Â¼  2002.01.03
+		//ä»¥ä¸Šä»£ç ç”±rolyæ³¨é‡Šæ‰ï¼Œå› ä¸ºç«™é•¿å¯ä»¥è®¿é—®è¯¥ç›®å½•  2002.01.03
 		
 		index++;
 		if(strlen(name[i])<=39) {
@@ -93,10 +93,10 @@ int main() {
 		}
 		
 		/*  add by roly 2002.01.03
-		 *  ¸ù¾İÄ¿Â¼µÄ×÷ÕßÒÔ¼°ÓÃ»§È¨ÏŞÅĞ¶ÏÊÇ·ñÏÔÊ¾ 
+		 *  æ ¹æ®ç›®å½•çš„ä½œè€…ä»¥åŠç”¨æˆ·æƒé™åˆ¤æ–­æ˜¯å¦æ˜¾ç¤º 
 		 */		
 		if (!strncmp(id,"SYSOPS",6) && !(currentuser.userlevel & PERM_SYSOPS)) continue;
-		//modified by iamfat 2002.10.18 ±£Ö¤BMSÄ¿Â¼±¾°æ°æÖ÷¿É¼û
+		//modified by iamfat 2002.10.18 ä¿è¯BMSç›®å½•æœ¬ç‰ˆç‰ˆä¸»å¯è§
 		if (!strncmp(id,"BMS",3) && !has_BM_perm(&currentuser, board))continue;
 		//if(!strncmp(id,"BMS",3) && !(currentuser.userlevel & PERM_BOARDS)) continue;
 		if (!strncmp(id,"OBOARDS",7) && !(currentuser.userlevel & PERM_OBOARDS)) continue;
@@ -128,8 +128,8 @@ int main() {
 	}
 	printf("</td></tr></table>");
 	printf("</center>\n");
-	printf("<br>[<a href='javascript:history.go(-1)'><img border=0 src=/images/button/back.gif align=absmiddle>·µ»ØÉÏÒ»Ò³</a>] ");
-	if(board[0]) printf("[<a href=bbsdoc?board=%s><img border=0 src=/images/button/home.gif align=absmiddle>±¾ÌÖÂÛÇø</a>]", board);
+	printf("<br>[<a href='javascript:history.go(-1)'><img border=0 src=/images/button/back.gif align=absmiddle>è¿”å›ä¸Šä¸€é¡µ</a>] ");
+	if(board[0]) printf("[<a href=bbsdoc?board=%s><img border=0 src=/images/button/home.gif align=absmiddle>æœ¬è®¨è®ºåŒº</a>]", board);
 	http_quit();
 }
 

@@ -11,86 +11,86 @@ int main() {
 	strsncpy(target, getparm("target"), 30);
 	if(!loginok) 
 	{
-		printf("<b>×ª¼Ä/ÍÆ¼ö¸øºÃÓÑ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>è½¬å¯„/æ¨èç»™å¥½å‹ Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´Ò´Ò¹ı¿Í²»ÄÜ½øĞĞ±¾Ïî²Ù×÷");
+		http_fatal("åŒ†åŒ†è¿‡å®¢ä¸èƒ½è¿›è¡Œæœ¬é¡¹æ“ä½œ");
 	}
 	/* Added by Amigo 2002.06.19. For mail right check. */
 	if (!HAS_PERM(PERM_MAIL)) 
 	{
-		printf("<b>×ª¼Ä/ÍÆ¼ö¸øºÃÓÑ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>è½¬å¯„/æ¨èç»™å¥½å‹ Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("ÄúÉĞÎ´Íê³É×¢²á£¬»òÕß·¢ËÍĞÅ¼şµÄÈ¨ÏŞ±»·â½û");
+		http_fatal("æ‚¨å°šæœªå®Œæˆæ³¨å†Œï¼Œæˆ–è€…å‘é€ä¿¡ä»¶çš„æƒé™è¢«å°ç¦");
 	}
 	/* Add end. */
 	/* added by roly for mail check */
 	if (!mailnum_under_limit(currentuser.userid) || !mailsize_under_limit(currentuser.userid)) 
 	{
-		printf("<b>×ª¼Ä/ÍÆ¼ö¸øºÃÓÑ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>è½¬å¯„/æ¨èç»™å¥½å‹ Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("ÄúµÄĞÅ¼şÈİÁ¿³¬±ê£¬ÎŞ·¨·¢ĞÅ");
+		http_fatal("æ‚¨çš„ä¿¡ä»¶å®¹é‡è¶…æ ‡ï¼Œæ— æ³•å‘ä¿¡");
 	}
 	/* add end */
 	if(!has_read_perm(&currentuser, board)) 
 	{
-		printf("<b>×ª¼Ä/ÍÆ¼ö¸øºÃÓÑ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>è½¬å¯„/æ¨èç»™å¥½å‹ Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	}
 	x=get_file_ent(board, file);
 	if(x==0) 
 	{
-		printf("<b>×ª¼Ä/ÍÆ¼ö¸øºÃÓÑ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>è½¬å¯„/æ¨èç»™å¥½å‹ Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÎÄ¼şÃû");
+		http_fatal("é”™è¯¯çš„æ–‡ä»¶å");
 	}
-	printf("<b>×ª¼Ä/ÍÆ¼ö¸øºÃÓÑ ¡¤ %s [Ê¹ÓÃÕß: %s]</b>\n", BBSNAME, currentuser.userid);
+	printf("<b>è½¬å¯„/æ¨èç»™å¥½å‹ Â· %s [ä½¿ç”¨è€…: %s]</b>\n", BBSNAME, currentuser.userid);
 	printpretable_lite();
 	if(target[0]) {
 		if(!strstr(target, "@")) {
-			if(!getuser(target)) http_fatal("´íÎóµÄÊ¹ÓÃÕßÕÊºÅ");
+			if(!getuser(target)) http_fatal("é”™è¯¯çš„ä½¿ç”¨è€…å¸å·");
 			//add by Danielfree 06.2.5
 			if (!( (getuser(target) )-> userlevel & PERM_READMAIL))
-				  http_fatal("¶Ô·½ÎŞ·¨ÊÕĞÅ");
+				  http_fatal("å¯¹æ–¹æ— æ³•æ”¶ä¿¡");
 			strcpy(target, getuser(target)->userid);
 			if (!mailsize_under_limit(target)|| !mailnum_under_limit(target))
-				http_fatal("ÊÕĞÅÈËĞÅ¼şÈİÁ¿³¬±ê£¬ÎŞ·¨ÊÕĞÅ");
+				http_fatal("æ”¶ä¿¡äººä¿¡ä»¶å®¹é‡è¶…æ ‡ï¼Œæ— æ³•æ”¶ä¿¡");
 			//add end
 		}
 		user=getuser(target);
 		
 		sprintf(filename, "home/%c/%s/rejects", toupper(target[0]), user->userid);
 		if(file_has_word(filename, currentuser.userid))
-		    http_fatal("¶Ô·½²»ÏëÊÕµ½ÄúµÄĞÅ¼ş");
+		    http_fatal("å¯¹æ–¹ä¸æƒ³æ”¶åˆ°æ‚¨çš„ä¿¡ä»¶");
 			
 		return do_fwd(x, board, target);
 	}
 	printf("<table><tr><td>\n");
-	printf("ÎÄÕÂ±êÌâ: %s<br>\n", nohtml(x->title));
-	printf("ÎÄÕÂ×÷Õß: %s<br>\n", x->owner);
-	printf("Ô­ÌÖÂÛÇø: %s<br>\n", board);
+	printf("æ–‡ç« æ ‡é¢˜: %s<br>\n", nohtml(x->title));
+	printf("æ–‡ç« ä½œè€…: %s<br>\n", x->owner);
+	printf("åŸè®¨è®ºåŒº: %s<br>\n", board);
 	printf("<form action=bbsfwd method=post>\n");
 	printf("<input type=hidden name=board value=%s>", board);
 	printf("<input type=hidden name=file value=%s>", file);
 	/*
-	printf("°ÑÎÄÕÂ×ª¼Ä¸ø <input name=target size=30 maxlength=30 value=%s> (ÇëÊäÈë¶Ô·½µÄid»òemailµØÖ·). <br>\n",
+	printf("æŠŠæ–‡ç« è½¬å¯„ç»™ <input name=target size=30 maxlength=30 value=%s> (è¯·è¾“å…¥å¯¹æ–¹çš„idæˆ–emailåœ°å€). <br>\n",
 		currentuser.email);
 	*/
 	// modified by roly to deny internet mail
-	printf("°ÑÎÄÕÂ×ª¼Ä¸ø <input name=target size=12 maxlength=12 value=%s> (ÇëÊäÈë¶Ô·½µÄid). <br>\n",
+	printf("æŠŠæ–‡ç« è½¬å¯„ç»™ <input name=target size=12 maxlength=12 value=%s> (è¯·è¾“å…¥å¯¹æ–¹çš„id). <br>\n",
 		currentuser.userid);
 	//modified end
-	printf("<input type=submit value=È·¶¨×ª¼Ä></form>");
+	printf("<input type=submit value=ç¡®å®šè½¬å¯„></form>");
 }
 
 int do_fwd(struct fileheader *x, char *board, char *target) {
 	FILE *fp, *fp2;
 	char title[512], buf[512], path[200], i;
 	sprintf(path, "boards/%s/%s", board, x->filename);
-	if(!file_exist(path)) http_fatal("ÎÄ¼şÄÚÈİÒÑ¶ªÊ§, ÎŞ·¨×ª¼Ä");
-	sprintf(title, "[×ª¼Ä] %s", x->title);
+	if(!file_exist(path)) http_fatal("æ–‡ä»¶å†…å®¹å·²ä¸¢å¤±, æ— æ³•è½¬å¯„");
+	sprintf(title, "[è½¬å¯„] %s", x->title);
 	title[60]=0;
 	post_mail(target, title, path, currentuser.userid, currentuser.username, fromhost, -1);
-	printf("ÎÄÕÂÒÑ×ª¼Ä¸ø'%s'<br>\n", nohtml(target));
-	printf("[<a href='javascript:history.go(-2)'>·µ»Ø</a>]");
+	printf("æ–‡ç« å·²è½¬å¯„ç»™'%s'<br>\n", nohtml(target));
+	printf("[<a href='javascript:history.go(-2)'>è¿”å›</a>]");
 }

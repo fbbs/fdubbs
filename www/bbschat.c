@@ -19,12 +19,12 @@ int main() {
 	pid=atoi(getparm("pid"));
 	if(pid==0) reg();
 	if(!loginok) {
-		http_fatal("´íÎó£¬ÇëÏÈµÇÂ¼");
+		http_fatal("é”™è¯¯ï¼Œè¯·å…ˆç™»å½•");
 		exit(0);
 	}
 	if(pid>0)
 		if(kill(pid, 0)!=0) {
-			printf("<script>top.location='about:ÄúÒÑ¾­¶ÏÏß»òÒÑÓĞ1¸ö´°¿Ú½øÈëÁÄÌìÊÒÁË.'</script>");
+			printf("<script>top.location='about:æ‚¨å·²ç»æ–­çº¿æˆ–å·²æœ‰1ä¸ªçª—å£è¿›å…¥èŠå¤©å®¤äº†.'</script>");
 			exit(0);
 		}
         if(!strcmp(t, "frm")) show_frm(pid);
@@ -73,7 +73,7 @@ int frame_input(int pid) {
 "	<nobr>\n"
 "	<form onsubmit='add_cc()' name=form1 action=bbschat?pid=%d&t=chatsnd method=post target=hide>\n"
 "	Input: <input name=in1 maxlength=60 size=56>\n"
-"	<input type=submit value=·¢ËÍ>\n"
+"	<input type=submit value=å‘é€>\n"
 "	<script>\n"
 "		var cc, cc2;\n"
 "		cc='';\n"
@@ -82,7 +82,7 @@ int frame_input(int pid) {
 "			cc=x;\n"
 "		}\n"
 "		function do_quit() {\n"
-"			if(confirm('ÄúÕæµÄÒªÍË³öÁËÂğ£¿')) {\n"
+"			if(confirm('æ‚¨çœŸçš„è¦é€€å‡ºäº†å—ï¼Ÿ')) {\n"
 "				form1.in1.value='/b';\n"
 "				form1.submit();\n"
 "			}\n"
@@ -96,7 +96,7 @@ int frame_input(int pid) {
 "			form1.submit();\n"
 "		}\n"
 "		function do_room() {\n"
-"			xx=prompt('ÇëÊäÈë°üÏáÃû³Æ','');\n"
+"			xx=prompt('è¯·è¾“å…¥åŒ…å¢åç§°','');\n"
 "			if(xx=='' || xx==null) return;\n"
 "			form1.in1.value='/j '+ xx;\n"
 "			form1.submit();\n"
@@ -114,58 +114,58 @@ int frame_input(int pid) {
 "			form1.submit();\n"
 "		}\n"
 "		function do_msg() {\n"
-"			xx=prompt('¸øË­¶ªĞ¡Ö½Ìõ','');\n"
+"			xx=prompt('ç»™è°ä¸¢å°çº¸æ¡','');\n"
 "			if(xx=='' || xx==null) return;\n"
-"			yy=prompt('Ê²Ã´ÄÚÈİ','');\n"
+"			yy=prompt('ä»€ä¹ˆå†…å®¹','');\n"
 "			if(yy=='' || xx==null) return;\n"
 "			form1.in1.value='/m '+xx+' '+yy;\n"
 "			form1.submit();\n"
 "		}\n"
 "		function do_n() {\n"
-"			xx=prompt('ÄúÏë¸Ä³ÉÊ²Ã´Ãû×Ö?','');\n"
+"			xx=prompt('æ‚¨æƒ³æ”¹æˆä»€ä¹ˆåå­—?','');\n"
 "			if(xx=='' || xx==null) return;\n"
 "			form1.in1.value='/n '+xx;\n"
 "			form1.submit();\n"
 "		}\n"
 "		function do_pic() {\n"
-"			xx=prompt('ÇëÊäÈëÍ¼Æ¬µÄURLµØÖ·:','http://');\n"
+"			xx=prompt('è¯·è¾“å…¥å›¾ç‰‡çš„URLåœ°å€:','http://');\n"
 "			if(xx=='http://' || xx=='' || xx==null) return;\n"
 "			form1.in1.value='<img src='+xx+'>';\n"
 "			form1.submit();\n"
 "		}\n"
 "	</script>\n"
 "	<select onChange='do_alias(this.options[this.selectedIndex].value);this.selectedIndex=0;'>\n"
-"        <option value=' ' selected>ÁÄÌì¶¯×÷</option>\n"
-"        <option value='//hehe'>ºÇºÇµÄÉµĞ¦</option>\n"
-"	<option value='//faint'>ÒªÔÎµ¹ÁË</option>\n"
-"	<option value='//sleep'>ÒªË¯×ÅÁË</option>\n"
-"	<option value='//:D'>ÀÖ×Ì×ÌµÄ</option>\n"
-"	<option value='//so'>¾ÍÕâÑù</option>\n"
-"	<option value='//shake'>Ò¡Ò¡Í·</option>\n"
-"	<option value='//luck'>ÕæĞÒÔË°¡</option>\n"
-"	<option value='//tongue'>ÍÂÍÂÉàÍ·</option>\n"
-"	<option value='//blush'>Á³ºìÁË</option>\n"
-"	<option value='//applaud'>ÈÈÁÒ¹ÄÕÆ</option>\n"
-"	<option value='//cough'>¿ÈËÔÒ»ÏÂ</option>\n"
-"	<option value='//happy'>ºÃ¸ßĞË°¡</option>\n"
-"	<option value='//hungry'>¶Ç×Ó¶öÁË</option>\n"
-"	<option value='//strut>´óÒ¡´ó°Ú</option>\n"
-"	<option value='//think'>ÏëÒ»Ïë</option>\n"
-"	<option value='//?'>ÒÉ»ó²»ÒÑ</option>\n"
-"	<option value='//bearbug'>ÈÈÇéÓµ±§</option>\n"
-"	<option value='//bless'>×£¸£</option>\n"
-"	<option value='//bow'>¾Ï¹ª</option>\n"
-"        <option value='//caress'>¸§Ãş</option>\n"
-"        <option value='//cringe'>ÆóÇó¿íË¡</option>\n"
-"        <option value='//cry'>·ÅÉù´ó¿Ş</option>\n"
-"        <option value='//comfort'>°²Î¿Ò»ÏÂ</option>\n"
-"	<option value='//clap'>ÈÈÁÒ¹ÄÕÆ</option>\n"
-"        <option value='//dance'>ôæôæÆğÎè</option>\n"
-"    	<option value='//drivel'>Á÷¿ÚË®</option>\n"
-"    	<option value='//farewell'>ÔÙ¼û</option>\n"
-"  	<option value='//giggle'>´ôĞ¦</option>\n"
-"    	<option value='//grin'>ßÖ×ìĞ¦</option>\n"
-"      	<option value='//growl'>´óÉùÅØÏø</option>\n"
+"        <option value=' ' selected>èŠå¤©åŠ¨ä½œ</option>\n"
+"        <option value='//hehe'>å‘µå‘µçš„å‚»ç¬‘</option>\n"
+"	<option value='//faint'>è¦æ™•å€’äº†</option>\n"
+"	<option value='//sleep'>è¦ç¡ç€äº†</option>\n"
+"	<option value='//:D'>ä¹æ»‹æ»‹çš„</option>\n"
+"	<option value='//so'>å°±è¿™æ ·</option>\n"
+"	<option value='//shake'>æ‘‡æ‘‡å¤´</option>\n"
+"	<option value='//luck'>çœŸå¹¸è¿å•Š</option>\n"
+"	<option value='//tongue'>ååèˆŒå¤´</option>\n"
+"	<option value='//blush'>è„¸çº¢äº†</option>\n"
+"	<option value='//applaud'>çƒ­çƒˆé¼“æŒ</option>\n"
+"	<option value='//cough'>å’³å—½ä¸€ä¸‹</option>\n"
+"	<option value='//happy'>å¥½é«˜å…´å•Š</option>\n"
+"	<option value='//hungry'>è‚šå­é¥¿äº†</option>\n"
+"	<option value='//strut>å¤§æ‘‡å¤§æ‘†</option>\n"
+"	<option value='//think'>æƒ³ä¸€æƒ³</option>\n"
+"	<option value='//?'>ç–‘æƒ‘ä¸å·²</option>\n"
+"	<option value='//bearbug'>çƒ­æƒ…æ‹¥æŠ±</option>\n"
+"	<option value='//bless'>ç¥ç¦</option>\n"
+"	<option value='//bow'>é èº¬</option>\n"
+"        <option value='//caress'>æŠšæ‘¸</option>\n"
+"        <option value='//cringe'>ä¼æ±‚å®½æ•</option>\n"
+"        <option value='//cry'>æ”¾å£°å¤§å“­</option>\n"
+"        <option value='//comfort'>å®‰æ…°ä¸€ä¸‹</option>\n"
+"	<option value='//clap'>çƒ­çƒˆé¼“æŒ</option>\n"
+"        <option value='//dance'>ç¿©ç¿©èµ·èˆ</option>\n"
+"    	<option value='//drivel'>æµå£æ°´</option>\n"
+"    	<option value='//farewell'>å†è§</option>\n"
+"  	<option value='//giggle'>å‘†ç¬‘</option>\n"
+"    	<option value='//grin'>å’§å˜´ç¬‘</option>\n"
+"      	<option value='//growl'>å¤§å£°å’†å“®</option>\n"
 /*
 hand      heng      hug       haha      heihei    joycup    kick
 kiss      koko      laugh     mm        nod       nudge     oh        pad
@@ -173,7 +173,7 @@ pat       papaya    pinch     punch     pure      puke      report    shrug
 sigh      slap      smooch    snicker   sniff     spank     squeeze   thank
 tickle    wave      welcome   wink      xixi      zap
 
-¡¾ Verb + Message£º¶¯´Ê + ÒªËµµÄ»° ¡¿   Àı£º//sing ÌìÌìÌìÀ¶
+ã€ Verb + Messageï¼šåŠ¨è¯ + è¦è¯´çš„è¯ ã€‘   ä¾‹ï¼š//sing å¤©å¤©å¤©è“
 ask       chant     cheer     chuckle   curse     demand    frown     groan
 grumble   hum       moan      notice    order     ponder    pout      pray
 request   shout     sing      smile     smirk     swear     tease     whimper
@@ -181,31 +181,31 @@ yawn      yell
 */
 "        </select>\n"
 "	<select name=ccc onChange='add_cc0(this, this.options[this.selectedIndex].value)'>\n"
-"	<option value='' selected>°×É«</option>\n"
-"	<option value='%s'><font color=green>ºìÉ«</font></option>\n"
-"	<option value='%s'><font color=red>ÂÌÉ«</font></option>\n"
-"        <option value='%s'><font color=blue>À¶É«</font></option>\n"
-"        <option value='%s'><font color=blue>ÌìÀ¶</font></option>\n"
-"        <option value='%s'><font color=yellow>»ÆÉ«</font></option>\n"
-"        <option value='%s'><font color=red>Æ·ºì</font></option>\n"
-"	<option value='%s'>´ó×Ö</option>\n"
+"	<option value='' selected>ç™½è‰²</option>\n"
+"	<option value='%s'><font color=green>çº¢è‰²</font></option>\n"
+"	<option value='%s'><font color=red>ç»¿è‰²</font></option>\n"
+"        <option value='%s'><font color=blue>è“è‰²</font></option>\n"
+"        <option value='%s'><font color=blue>å¤©è“</font></option>\n"
+"        <option value='%s'><font color=yellow>é»„è‰²</font></option>\n"
+"        <option value='%s'><font color=red>å“çº¢</font></option>\n"
+"	<option value='%s'>å¤§å­—</option>\n"
 "	</select>\n"
 "	<select onChange='do_func(this.selectedIndex);this.selectedIndex=0;'>\n"
-" 	<option selected>ÁÄÌìÊÒ¹¦ÄÜ</option>\n"
-"	<option>½øÈë°üÏá</option>\n"
-"	<option>²é¿´°üÏáÃû</option>\n"
-"	<option>±¾°üÏáÓĞË­</option>\n"
-"	<option>¿´ÓĞË­ÔÚÏß</option>\n"
-"	<option>¶ªĞ¡Ö½Ìõ</option>\n"
-"	<option>¸ÄÁÄÌì´úºÅ</option>\n"
-"	<option>ÌùÍ¼Æ¬</option>\n"
-"	<option>Çå³ıÆÁÄ»</option>\n"
-"	<option>±³¾°·´É«</option>\n"
-"	<option>Àë¿ªÁÄÌìÊÒ</option>\n"
+" 	<option selected>èŠå¤©å®¤åŠŸèƒ½</option>\n"
+"	<option>è¿›å…¥åŒ…å¢</option>\n"
+"	<option>æŸ¥çœ‹åŒ…å¢å</option>\n"
+"	<option>æœ¬åŒ…å¢æœ‰è°</option>\n"
+"	<option>çœ‹æœ‰è°åœ¨çº¿</option>\n"
+"	<option>ä¸¢å°çº¸æ¡</option>\n"
+"	<option>æ”¹èŠå¤©ä»£å·</option>\n"
+"	<option>è´´å›¾ç‰‡</option>\n"
+"	<option>æ¸…é™¤å±å¹•</option>\n"
+"	<option>èƒŒæ™¯åè‰²</option>\n"
+"	<option>ç¦»å¼€èŠå¤©å®¤</option>\n"
 "        </select>\n"
 "	<br>\n"
-"	<a href='javascript:do_quit()'>[Àë¿ªbbs²è¹İ] </a>\n"
-"	<a href='/chathelp.html' target=_blank>[ÁÄÌìÊÒ°ïÖú] </a>\n"
+"	<a href='javascript:do_quit()'>[ç¦»å¼€bbsèŒ¶é¦†] </a>\n"
+"	<a href='/chathelp.html' target=_blank>[èŠå¤©å®¤å¸®åŠ©] </a>\n"
 "	<script>\n"
 "	function do_func(n) {\n"
 "		if(n==0) return;\n"
@@ -339,14 +339,14 @@ int chatrefresh(int pid) {
 			}
 			if(!strncmp(genbuf, "/t", 2)) {
 				int i;
-				printf("<script>top.document.title='bbs²è¹İ--»°Ìâ: ");
+				printf("<script>top.document.title='bbsèŒ¶é¦†--è¯é¢˜: ");
 				hprintf(genbuf+2);
 				printf("'</script>");
-				sprintf(buf2, "±¾°üÏáµÄ»°ÌâÊÇ: [[1;33m%s[37m]", genbuf+2);
+				sprintf(buf2, "æœ¬åŒ…å¢çš„è¯é¢˜æ˜¯: [[1;33m%s[37m]", genbuf+2);
 				strcpy(genbuf, buf2);
 			}
 			if(!strncmp(genbuf, "/r", 2)) {
-				sprintf(buf2, "±¾°üÏáµÄÃû³ÆÊÇ: [[1;33m%s[37m]", genbuf+2);
+				sprintf(buf2, "æœ¬åŒ…å¢çš„åç§°æ˜¯: [[1;33m%s[37m]", genbuf+2);
 				strcpy(genbuf, buf2);
 			}
 			if(!strncmp(genbuf, "/", 1)) {

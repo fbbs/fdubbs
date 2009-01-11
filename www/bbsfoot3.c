@@ -15,7 +15,7 @@ int main() {
 #endif
                 u_info->idle_time=time(0);
         }
-  	//printf("Ê±¼ä[%16.16s </a>] ", Ctime(time(0)));
+  	//printf("æ—¶é—´[%16.16s </a>] ", Ctime(time(0)));
 	//modified by iamfat 2002.08.01
   	printf("<img border=0 src=/images/clock.gif align=absmiddle>[%s </a>] ", cn_Ctime(time(0)));
 	printf("<img border=0 src=/images/users.gif align=absmiddle>[<a href=bbsusr target=view>%d</a>] ", count_online());
@@ -24,13 +24,13 @@ int main() {
 		mail_total=mails(id, 0);
 		mail_unread=mails(id, 1);
 		if(mail_unread==0) {
-			printf("<img border=0 src=/images/mailw.gif align=absmiddle>[<a href=bbsmail target=view>%d·â</a>] ", mail_total);
+			printf("<img border=0 src=/images/mailw.gif align=absmiddle>[<a href=bbsmail target=view>%då°</a>] ", mail_total);
 		} else {
-			printf("<img border=0 src=/images/mailw.gif align=absmiddle>[<a href=bbsmail target=view>%d(ĞÂĞÅ<font color=red>%d</font>)</a>] ", 
+			printf("<img border=0 src=/images/mailw.gif align=absmiddle>[<a href=bbsmail target=view>%d(æ–°ä¿¡<font color=red>%d</font>)</a>] ", 
 				mail_total, mail_unread);
 		}
 	}
-	printf("<img border=0 src=/images/water.gif align=absmiddle>[%dĞ¡Ê±%d·Ö]", dt/60, dt%60);
+	printf("<img border=0 src=/images/water.gif align=absmiddle>[%då°æ—¶%dåˆ†]", dt/60, dt%60);
   	printf("<script>setTimeout('self.location=self.location', 240000);</script>");
   	printf("</body>");
 }

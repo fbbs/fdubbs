@@ -13,28 +13,28 @@ int main()
 	printf("<center>\n");
 	if(!has_read_perm(&currentuser, board)) 
 	{
-		printf("<b>ÎÄÕÂÔÄ¶Á ¡¤ %s </b></center><br>\n",BBSNAME);
+		printf("<b>æ–‡ç« é˜…è¯» Â· %s </b></center><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	}
 	strcpy(board, getbcache(board)->filename);
-	printf("<b>ÎÄÕÂÔÄ¶Á ¡¤ %s [ÌÖÂÛÇø: %s]</b></center><br>\n", BBSNAME, board);
+	printf("<b>æ–‡ç« é˜…è¯» Â· %s [è®¨è®ºåŒº: %s]</b></center><br>\n", BBSNAME, board);
 	if(strncmp(file, "M.", 2) && strncmp(file, "G.", 2)) 
 	{
 		printpretable_lite();
-		http_fatal("´íÎóµÄ²ÎÊı1");
+		http_fatal("é”™è¯¯çš„å‚æ•°1");
 	}
 	if(strstr(file, "..") || strstr(file, "/")) 
 	{
 		printpretable_lite();
-		http_fatal("´íÎóµÄ²ÎÊı2");
+		http_fatal("é”™è¯¯çš„å‚æ•°2");
 	}
 	sprintf(dir, "boards/%s/.DIGEST", board);
 	total=file_size(dir)/sizeof(x);
 	if(total<=0) 
 	{
 		printpretable_lite();
-		http_fatal("´ËÌÖÂÛÇø²»´æÔÚ»òÕßÎª¿Õ");
+		http_fatal("æ­¤è®¨è®ºåŒºä¸å­˜åœ¨æˆ–è€…ä¸ºç©º");
 	}
 	#ifdef CERTIFYMODE
 		fp=fopen(dir, "r+");
@@ -49,7 +49,7 @@ int main()
 		if(x.accessed[1]&FILE_UNCERTIFIED)
 		{
 			printpretable_lite();
-			http_fatal("±¾ÎÄÉĞÎ´Í¨¹ıÉóÅú");
+			http_fatal("æœ¬æ–‡å°šæœªé€šè¿‡å®¡æ‰¹");
 		}
 	#endif
 	printpretable();
@@ -59,10 +59,10 @@ int main()
 	fp=fopen(filename, "r");
 	if(fp==0) 
 	{
-		printf("±¾ÎÄ²»´æÔÚ»òÕßÒÑ±»É¾³ı");
+		printf("æœ¬æ–‡ä¸å­˜åœ¨æˆ–è€…å·²è¢«åˆ é™¤");
 		printf("</pre>\n</table>\n");
 		printposttable();
-		printf("[<a href=bbsdoc?board=%s>±¾ÌÖÂÛÇø</a>]", board);
+		printf("[<a href=bbsdoc?board=%s>æœ¬è®¨è®ºåŒº</a>]", board);
 		http_quit();
 	}
 	while(1) 
@@ -75,8 +75,8 @@ int main()
 	printf("</pre>\n</table>\n");
 	printposttable();
 	printf("<center>\n");
-	printf("[<a href=bbssec>·ÖÀàÌÖÂÛÇø</a>]  ");
-//	printf("[<a href=bbsall>È«²¿ÌÖÂÛÇø</a>]  ");
+	printf("[<a href=bbssec>åˆ†ç±»è®¨è®ºåŒº</a>]  ");
+//	printf("[<a href=bbsall>å…¨éƒ¨è®¨è®ºåŒº</a>]  ");
 	fp=fopen(dir, "r+");
 	if(fp==0) 
 		http_fatal("dir error2");
@@ -84,14 +84,14 @@ int main()
 	{
 		fseek(fp, sizeof(x)*(num-2), SEEK_SET);
 		fread(&x, sizeof(x), 1, fp);
-		printf("<a href=bbsgcon?board=%s&file=%s&num=%d><img border=0 src=/images/button/up.gif align=absmiddle>ÉÏÒ»Æª</a>  ", board, x.filename, num-1);
+		printf("<a href=bbsgcon?board=%s&file=%s&num=%d><img border=0 src=/images/button/up.gif align=absmiddle>ä¸Šä¸€ç¯‡</a>  ", board, x.filename, num-1);
 	}
-	printf("[<a href=bbsdoc?board=%s>±¾ÌÖÂÛÇø</a>]  ", board);
+	printf("[<a href=bbsdoc?board=%s>æœ¬è®¨è®ºåŒº</a>]  ", board);
 	if(num<total-1) 
 	{
 		fseek(fp, sizeof(x)*(num), SEEK_SET);
 		fread(&x, sizeof(x), 1, fp);
-		printf("<a href=bbsgcon?board=%s&file=%s&num=%d><img border=0 src=/images/button/down.gif align=absmiddle>ÏÂÒ»Æª</a>  ", board, x.filename, num+1);
+		printf("<a href=bbsgcon?board=%s&file=%s&num=%d><img border=0 src=/images/button/down.gif align=absmiddle>ä¸‹ä¸€ç¯‡</a>  ", board, x.filename, num+1);
 	}
 	if(num>0 && num<=total) 
 	{
@@ -102,7 +102,7 @@ int main()
 		#else
 			(*(int*)(x.title+73))++;//modified by roly from 73 to 72 for sparc solaris
 		#endif
-		//deleted by cometcaptor 2006-10-29 ÒÔÏÂ´úÂëÔì³ÉÎÄÕªÇøÄ¿Â¼Ëğ»µ
+		//deleted by cometcaptor 2006-10-29 ä»¥ä¸‹ä»£ç é€ æˆæ–‡æ‘˜åŒºç›®å½•æŸå
 		//fseek(fp, sizeof(x)*num, SEEK_SET);
 		//fwrite(&x, sizeof(x), 1, fp);
 	}
@@ -110,7 +110,7 @@ int main()
 	ptr=x.title;
 	if(!strncmp(ptr, "Re: ", 4)) 
 		ptr+=4;
-	printf("[<a href='bbstfind?board=%s&gid=%d'>Í¬Ö÷ÌâÔÄ¶Á</a>]\n", board, x.gid);
+	printf("[<a href='bbstfind?board=%s&gid=%d'>åŒä¸»é¢˜é˜…è¯»</a>]\n", board, x.gid);
    	printf("</center>\n"); 
 	http_quit();
 }

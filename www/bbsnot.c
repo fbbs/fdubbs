@@ -7,19 +7,19 @@ int main() {
 	init_all();
 	strsncpy(board, getparm("board"), 32);
 	x1=getbcache(board);
-	if(!has_read_perm(&currentuser, board)) http_fatal("´íÎóµÄ°æÃæ");
+	if(!has_read_perm(&currentuser, board)) http_fatal("é”™è¯¯çš„ç‰ˆé¢");
 	if ((x1->flag & BOARD_CLUB_FLAG)
 	&& (x1->flag & BOARD_READ_FLAG )
 	&& !has_BM_perm(&currentuser, board)
 	&& !isclubmember(currentuser.userid, board))
-		http_fatal("Äú²»ÊÇ¾ãÀÖ²¿°æ %s µÄ³ÉÔ±£¬ÎŞÈ¨·ÃÎÊ¸Ã°æÃæ", board);
+		http_fatal("æ‚¨ä¸æ˜¯ä¿±ä¹éƒ¨ç‰ˆ %s çš„æˆå‘˜ï¼Œæ— æƒè®¿é—®è¯¥ç‰ˆé¢", board);
 		   
-	printf("<b><font style='font-size: 18pt'>½ø°æ»­Ãæ</font> ¡¤ %s [ÌÖÂÛÇø: %s]\n", BBSNAME, board);
+	printf("<b><font style='font-size: 18pt'>è¿›ç‰ˆç”»é¢</font> Â· %s [è®¨è®ºåŒº: %s]\n", BBSNAME, board);
    	sprintf(filename, "vote/%s/notes", board);
 	fp=fopen(filename, "r");
 	if(fp==0) {
 		printpretable_lite();
-		printf("<br>±¾ÌÖÂÛÇøÉĞÎŞ¡¸½ø°æ»­Ãæ¡¹¡£\n");
+		printf("<br>æœ¬è®¨è®ºåŒºå°šæ— ã€Œè¿›ç‰ˆç”»é¢ã€ã€‚\n");
 		printposttable_lite();
 		http_quit();
 	}
@@ -44,8 +44,8 @@ int main() {
  	printf("</pre></table>\n");
 	printposttable();
 	printf("</center>\n");
-   	printf("[<a href=bbsdoc?board=%s>±¾ÌÖÂÛÇø</a>] ", board);
+   	printf("[<a href=bbsdoc?board=%s>æœ¬è®¨è®ºåŒº</a>] ", board);
 	if(has_BM_perm(&currentuser, board)) 
-		printf("[<a href=bbsmnote?board=%s>±à¼­½ø°æ»­Ãæ</a>]", board);
+		printf("[<a href=bbsmnote?board=%s>ç¼–è¾‘è¿›ç‰ˆç”»é¢</a>]", board);
 	http_quit();
 }

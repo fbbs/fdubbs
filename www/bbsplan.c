@@ -6,14 +6,14 @@ int main() {
 	char *ptr, plan[256], buf[10000];
    	init_all();
 
-	/* added by roly  2002.05.10 È¥µôcache */
+	/* added by roly  2002.05.10 å»æ‰cache */
 	printf("<meta http-equiv=\"pragma\" content=\"no-cache\">");
 	/* add end */
 
-	if(!loginok) http_fatal("´Ò´Ò¹ı¿Í²»ÄÜÉèÖÃËµÃ÷µµ£¬ÇëÏÈµÇÂ¼");
+	if(!loginok) http_fatal("åŒ†åŒ†è¿‡å®¢ä¸èƒ½è®¾ç½®è¯´æ˜æ¡£ï¼Œè¯·å…ˆç™»å½•");
 	sprintf(plan, "home/%c/%s/plans", toupper(currentuser.userid[0]), currentuser.userid);
 	if(!strcasecmp(getparm("type"), "update")) save_plan(plan);
-	printf("<b><font style='font-size: 18pt'>%s</font> ¡¤ %s ÉèÖÃ¸öÈËËµÃ÷µµ</b> \n", currentuser.userid, BBSNAME);
+	printf("<b><font style='font-size: 18pt'>%s</font> Â· %s è®¾ç½®ä¸ªäººè¯´æ˜æ¡£</b> \n", currentuser.userid, BBSNAME);
 	printf("<center>\n");
 	printpretable_lite();
    	printf("<form method=post action=bbsplan?type=update>\n");
@@ -28,8 +28,8 @@ int main() {
    	printf("<textarea class=thinborder name=text rows=20 cols=80 nowrap>\n");
 	printf("%s",buf);
    	printf("</textarea></table>\n");
-   	printf("<input type=submit value=´æÅÌ> ");
-   	printf("<input type=reset value=¸´Ô­>\n");
+   	printf("<input type=submit value=å­˜ç›˜> ");
+   	printf("<input type=reset value=å¤åŸ>\n");
 	printposttable_lite();
    	printf("</center>\n");
 	http_quit();
@@ -41,6 +41,6 @@ int save_plan(char *plan) {
 	strsncpy(buf, getparm("text"), 9999);
 	fprintf(fp, "%s", buf);
 	fclose(fp);
-	printf("¸öÈËËµÃ÷µµĞŞ¸Ä³É¹¦¡£");
+	printf("ä¸ªäººè¯´æ˜æ¡£ä¿®æ”¹æˆåŠŸã€‚");
 	http_quit();
 }

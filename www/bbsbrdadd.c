@@ -25,11 +25,11 @@ int main() {
     int bpos = 0;
     int alreadyexists = 0; //added by cometcaptor 2007-07-13
 	init_all();
-	printf("<b>ÊÕ²Ø¼Ğ ¡¤ %s </b><br>\n",BBSNAME);
+	printf("<b>æ”¶è—å¤¹ Â· %s </b><br>\n",BBSNAME);
 	printpretable_lite();
 	strsncpy(board, getparm("board"), 32);
     bpos = getbnum(board)-1;
-	if(!loginok) http_fatal("³¬Ê±»òÎ´µÇÂ¼£¬ÇëÖØĞÂlogin");
+	if(!loginok) http_fatal("è¶…æ—¶æˆ–æœªç™»å½•ï¼Œè¯·é‡æ–°login");
 	sprintf(file, "home/%c/%s/.goodbrd", toupper(currentuser.userid[0]), currentuser.userid);
 	fp=fopen(file, "r");
         mybrdnum=0;
@@ -47,10 +47,10 @@ int main() {
                 }
                 fclose(fp);
         }
-	if(mybrdnum>=GOOD_BRC_NUM) http_fatal("ÄúÔ¤¶¨ÌÖÂÛÇøÊıÄ¿ÒÑ´ïÉÏÏŞ£¬²»ÄÜÔö¼ÓÔ¤¶¨");
-	//if(ismybrd(board)>=0) http_fatal("ÄúÒÑ¾­Ô¤¶¨ÁËÕâ¸öÌÖÂÛÇø");
-    if (alreadyexists) http_fatal("ÄúÒÑ¾­Ô¤¶¨ÁËÕâ¸öÌÖÂÛÇø");//modified by cometcaptor 2007-07-13
-	if(!has_read_perm(&currentuser, board)) http_fatal("´ËÌÖÂÛÇø²»´æÔÚ");
+	if(mybrdnum>=GOOD_BRC_NUM) http_fatal("æ‚¨é¢„å®šè®¨è®ºåŒºæ•°ç›®å·²è¾¾ä¸Šé™ï¼Œä¸èƒ½å¢åŠ é¢„å®š");
+	//if(ismybrd(board)>=0) http_fatal("æ‚¨å·²ç»é¢„å®šäº†è¿™ä¸ªè®¨è®ºåŒº");
+    if (alreadyexists) http_fatal("æ‚¨å·²ç»é¢„å®šäº†è¿™ä¸ªè®¨è®ºåŒº");//modified by cometcaptor 2007-07-13
+	if(!has_read_perm(&currentuser, board)) http_fatal("æ­¤è®¨è®ºåŒºä¸å­˜åœ¨");
 	//strcpy(mybrd[mybrdnum], board);
 	//mybrdnum++;
     /*
@@ -77,6 +77,6 @@ int main() {
         fclose(fp);
     }
 	printf("<script>top.f2.location='bbsleft'</script>\n");
-	printf("Ô¤¶¨ÌÖÂÛÇø³É¹¦<br><a href='javascript:history.go(-1)'>¿ìËÙ·µ»Ø</a>");
+	printf("é¢„å®šè®¨è®ºåŒºæˆåŠŸ<br><a href='javascript:history.go(-1)'>å¿«é€Ÿè¿”å›</a>");
 	http_quit();
 }

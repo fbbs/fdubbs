@@ -4,27 +4,27 @@ int main() {
 	int type;
   	char pw1[20], pw2[20], pw3[20];
 	init_all();
-	if(!loginok) http_fatal("ÄúÉĞÎ´µÇÂ¼, ÇëÏÈµÇÂ¼");
+	if(!loginok) http_fatal("æ‚¨å°šæœªç™»å½•, è¯·å…ˆç™»å½•");
 	type=atoi(getparm("type"));
 	if(type==0) {
-		printf("<b>%s -- ĞŞ¸ÄÃÜÂë [ÓÃ»§: %s]</b>\n", BBSNAME, currentuser.userid);
+		printf("<b>%s -- ä¿®æ”¹å¯†ç  [ç”¨æˆ·: %s]</b>\n", BBSNAME, currentuser.userid);
 		printpretable_lite();
 		printf("<form action=bbspwd?type=1 method=post>\n");
-		printf("ÄúµÄ¾ÉÃÜÂë: <input maxlength=12 size=12 type=password name=pw1><br>\n");
-		printf("ÄúµÄĞÂÃÜÂë: <input maxlength=12 size=12 type=password name=pw2><br>\n");
-		printf("ÔÙÊäÈëÒ»´Î: <input maxlength=12 size=12 type=password name=pw3><br><br>\n");
-		printf("<input type=submit value=È·¶¨ĞŞ¸Ä>\n");
+		printf("æ‚¨çš„æ—§å¯†ç : <input maxlength=12 size=12 type=password name=pw1><br>\n");
+		printf("æ‚¨çš„æ–°å¯†ç : <input maxlength=12 size=12 type=password name=pw2><br>\n");
+		printf("å†è¾“å…¥ä¸€æ¬¡: <input maxlength=12 size=12 type=password name=pw3><br><br>\n");
+		printf("<input type=submit value=ç¡®å®šä¿®æ”¹>\n");
 		printposttable_lite();
 		http_quit();
 	}
   	strsncpy(pw1, getparm("pw1"), 13);
   	strsncpy(pw2, getparm("pw2"), 13);
   	strsncpy(pw3, getparm("pw3"), 13);
-  	if(strcmp(pw2, pw3)) http_fatal("Á½´ÎÃÜÂë²»ÏàÍ¬");
-  	if(strlen(pw2)<2) http_fatal("ĞÂÃÜÂëÌ«¶Ì");
-  	if(!checkpasswd(currentuser.passwd, pw1)) http_fatal("ÃÜÂë²»ÕıÈ·");
+  	if(strcmp(pw2, pw3)) http_fatal("ä¸¤æ¬¡å¯†ç ä¸ç›¸åŒ");
+  	if(strlen(pw2)<2) http_fatal("æ–°å¯†ç å¤ªçŸ­");
+  	if(!checkpasswd(currentuser.passwd, pw1)) http_fatal("å¯†ç ä¸æ­£ç¡®");
   	strcpy(currentuser.passwd, crypt1(pw2, pw2));
   	save_user_data(&currentuser);
-  	printf("[%s] ÃÜÂëĞŞ¸Ä³É¹¦.", currentuser.userid);
+  	printf("[%s] å¯†ç ä¿®æ”¹æˆåŠŸ.", currentuser.userid);
 }
 

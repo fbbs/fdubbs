@@ -52,24 +52,24 @@ int main() {
 	init_all();
 	strsncpy(userid, getparm("userid"), 13);
 	//printf("%s",userid);
-	printf("<b>²éÑ¯ÍøÓÑ ¡¤ %s </b>\n", BBSNAME);
+	printf("<b>æŸ¥è¯¢ç½‘å‹ Â· %s </b>\n", BBSNAME);
 //	if(userid[0]==0) {
 		printf("<br><form action=bbsqry>\n");
-		printf("ÇëÊäÈëÓÃ»§Ãû: <input name=userid maxlength=12 size=12>\n");
-		printf("<input type=submit value=²éÑ¯ÓÃ»§>\n");
+		printf("è¯·è¾“å…¥ç”¨æˆ·å: <input name=userid maxlength=12 size=12>\n");
+		printf("<input type=submit value=æŸ¥è¯¢ç”¨æˆ·>\n");
 		printf("</form>\n");
 	if(userid[0]==0){
 		http_quit();
 	}
 /* added by roly */
-	if(!strcmp(userid,"³ÏÕ÷°æÖ÷ÖĞ")) {
-		printf("faint£¬Õâ¸ö¶¼Òª²é£¿");
+	if(!strcmp(userid,"è¯šå¾ç‰ˆä¸»ä¸­")) {
+		printf("faintï¼Œè¿™ä¸ªéƒ½è¦æŸ¥ï¼Ÿ");
 		http_quit();
 	}
 /* added end */
 	x=getuser(userid);
 	if(!loginok || x==0) {
-		printf("ÓÃ»§ [%s] ²»´æÔÚ.", userid);
+		printf("ç”¨æˆ· [%s] ä¸å­˜åœ¨.", userid);
 		http_quit();
 	}
 	/*
@@ -82,7 +82,7 @@ printpretable();
 printf("<table bgcolor=#ffffff>\n");
 
 	printf("<pre class=ansi>\n");
-	sprintf(buf, "%s ([33m%s[37m) ¹²ÉÏÕ¾ [32m%d[m ´Î£¬·¢±íÎÄÕÂ [32m%d[m Æª", 
+	sprintf(buf, "%s ([33m%s[37m) å…±ä¸Šç«™ [32m%d[m æ¬¡ï¼Œå‘è¡¨æ–‡ç«  [32m%d[m ç¯‡", 
 		x->userid, x->username, x->numlogins, x->numposts);
 	hprintf("%s", buf);
 	show_special(x->userid);
@@ -93,7 +93,7 @@ printf("<table bgcolor=#ffffff>\n");
                 clr=32;
 	}
 	if(x->userdefine & DEF_S_HOROSCOPE) hprintf("[[1;%dm%s[m]", clr, horoscope(x->birthmonth, x->birthday));
-//	hprintf("ÉÏ´ÎÔÚ [[32m%s[37m] ´Ó [[32m%s[37m] µ½±¾Õ¾Ò»ÓÎ¡£\n", Ctime(x->lastlogin), x->lasthost);
+//	hprintf("ä¸Šæ¬¡åœ¨ [[32m%s[37m] ä» [[32m%s[37m] åˆ°æœ¬ç«™ä¸€æ¸¸ã€‚\n", Ctime(x->lastlogin), x->lasthost);
 //modified by iamfat 2002.08.01
 /*
 	{
@@ -102,35 +102,35 @@ printf("<table bgcolor=#ffffff>\n");
 		i=(int) (10.0*rand()/(RAND_MAX+1.0));;
 		while(i--)
 		{
-			printf("<!--ÉÏ´ÎÔÚ [[32m%s[37m] ´Ó [[32m%d.%d.%d.%d[37m] µ½±¾Õ¾Ò»ÓÎ¡£\n-->", cn_Ctime(time(0)), (int) (256.0*rand()/(RAND_MAX+1.0)), (int) (256.0*rand()/(RAND_MAX+1.0)), (int) (256.0*rand()/(RAND_MAX+1.0)), (int) (256.0*rand()/(RAND_MAX+1.0)));
+			printf("<!--ä¸Šæ¬¡åœ¨ [[32m%s[37m] ä» [[32m%d.%d.%d.%d[37m] åˆ°æœ¬ç«™ä¸€æ¸¸ã€‚\n-->", cn_Ctime(time(0)), (int) (256.0*rand()/(RAND_MAX+1.0)), (int) (256.0*rand()/(RAND_MAX+1.0)), (int) (256.0*rand()/(RAND_MAX+1.0)), (int) (256.0*rand()/(RAND_MAX+1.0)));
 		}
 	}
-	hprintf("ÉÏ´ÎÔÚ [[32m%s[37m] ´Ó [[32m%s[37m] µ½±¾Õ¾Ò»ÓÎ¡£\n", cn_Ctime(x->lastlogin), x->lasthost);*/
+	hprintf("ä¸Šæ¬¡åœ¨ [[32m%s[37m] ä» [[32m%s[37m] åˆ°æœ¬ç«™ä¸€æ¸¸ã€‚\n", cn_Ctime(x->lastlogin), x->lasthost);*/
 	count_mails(userid, &tmp1, &tmp2);
-	hprintf("ĞÅÏä£º[[32m%s[37m]£¬", tmp2 ? "¡Ñ":"  ");
+	hprintf("ä¿¡ç®±ï¼š[[32m%s[37m]ï¼Œ", tmp2 ? "âŠ™":"  ");
 /*
 #ifdef SHOWEXP
-	hprintf("¾­ÑéÖµ£º[[32m%d[37m]([33m%s[37m) ", countexp(x), cexp(countexp(x)));
+	hprintf("ç»éªŒå€¼ï¼š[[32m%d[37m]([33m%s[37m) ", countexp(x), cexp(countexp(x)));
 #else
-	hprintf("¾­ÑéÖµ£º[[33m%s[37m] ", cexp(countexp(x)));
+	hprintf("ç»éªŒå€¼ï¼š[[33m%s[37m] ", cexp(countexp(x)));
 #endif
 */
-	printf("¾­ÑéÖµ: [");
+	printf("ç»éªŒå€¼: [");
 	iconexp(countexp(x));
 	printf("]");
 #ifdef SHOWPERF
-	hprintf("±íÏÖÖµ£º[[32m%d[37m]([33m%s[37m) ", countperf(x), cperf(countperf(x)));
+	hprintf("è¡¨ç°å€¼ï¼š[[32m%d[37m]([33m%s[37m) ", countperf(x), cperf(countperf(x)));
 #else
-	hprintf("±íÏÖÖµ£º[[33m%s[37m] ", cperf(countperf(x)));
+	hprintf("è¡¨ç°å€¼ï¼š[[33m%s[37m] ", cperf(countperf(x)));
 #endif
-	hprintf("ÉúÃüÁ¦£º[[32m%d[37m]¡£\n", count_life_value(x));
+	hprintf("ç”Ÿå‘½åŠ›ï¼š[[32m%d[37m]ã€‚\n", count_life_value(x));
 	num=0;
 	for(i=0; i<MAXACTIVE; i++) {
 		u=&(shm_utmp->uinfo[i]);
 		if(!strcmp(u->userid, x->userid)) {
 			if(u->active==0 || u->pid==0 || u->invisible && !HAS_PERM(PERM_SEECLOAK)) continue;
 			num++;
-			if(num==1) hprintf("Ä¿Ç°ÔÚÕ¾ÉÏ, ×´Ì¬ÈçÏÂ:\n");
+			if(num==1) hprintf("ç›®å‰åœ¨ç«™ä¸Š, çŠ¶æ€å¦‚ä¸‹:\n");
 			if(u->invisible) hprintf("[36mC[37m");
 			hprintf("[32m%s[m ", ModeType(u->mode));
 			if(num%5==0) printf("\n");
@@ -138,12 +138,12 @@ printf("<table bgcolor=#ffffff>\n");
 	}
 	if(num==0) {
 		sprintf(filename, "home/%c/%s", toupper(x->userid[0]), x->userid);
-//		hprintf("Ä¿Ç°²»ÔÚÕ¾ÉÏ, ÉÏ´ÎÀëÕ¾Ê±¼ä [[1;32m%s[m]\n\n", Ctime(file_time(filename)));
+//		hprintf("ç›®å‰ä¸åœ¨ç«™ä¸Š, ä¸Šæ¬¡ç¦»ç«™æ—¶é—´ [[1;32m%s[m]\n\n", Ctime(file_time(filename)));
 //modified by iamfat 2002.08.01
 /* 2002.09.22 modified by stephen to fix the web query last login time error and make it fit the telnet query. */
-/*		hprintf("Ä¿Ç°²»ÔÚÕ¾ÉÏ, ÉÏ´ÎÀëÕ¾Ê±¼ä [[1;32m%s[m]\n\n", cn_Ctime(file_time(filename)));
+/*		hprintf("ç›®å‰ä¸åœ¨ç«™ä¸Š, ä¸Šæ¬¡ç¦»ç«™æ—¶é—´ [[1;32m%s[m]\n\n", cn_Ctime(file_time(filename)));
 */
-	hprintf("Ä¿Ç°²»ÔÚÕ¾ÉÏ, ÉÏ´ÎÀëÕ¾Ê±¼ä [[1;32m%s[m]\n\n", cn_Ctime( get_last_logout(x) ));
+	hprintf("ç›®å‰ä¸åœ¨ç«™ä¸Š, ä¸Šæ¬¡ç¦»ç«™æ—¶é—´ [[1;32m%s[m]\n\n", cn_Ctime( get_last_logout(x) ));
 /* 2002.09.22 modified end*/
 	}
 	printf("\n");
@@ -156,7 +156,7 @@ printf("<table bgcolor=#ffffff>\n");
 		}
 		fclose(fp);
 	} else {
-		hprintf("[36mÃ»ÓĞ¸öÈËËµÃ÷µµ[37m\n");
+		hprintf("[36mæ²¡æœ‰ä¸ªäººè¯´æ˜æ¡£[37m\n");
 	}
 	printf("</pre>");
 //	printf("<br><br>\n");
@@ -164,10 +164,10 @@ printf("</table>");
 
 printposttable();
 
-	printf("<p align=center><a href=bbspstmail?userid=%s&title=Ã»Ö÷Ìâ>[Ğ´ĞÅÎÊºò]</a>  ", x->userid);
-	printf("<a href=bbssendmsg?destid=%s>[·¢ËÍÑ¶Ï¢]</a>  ", x->userid);
-	printf("<a href=bbsfadd?userid=%s>[¼ÓÈëºÃÓÑ]</a>  ", x->userid);
-	printf("<a href=bbsfdel?userid=%s>[É¾³ıºÃÓÑ]</a>  ", x->userid);
+	printf("<p align=center><a href=bbspstmail?userid=%s&title=æ²¡ä¸»é¢˜>[å†™ä¿¡é—®å€™]</a>  ", x->userid);
+	printf("<a href=bbssendmsg?destid=%s>[å‘é€è®¯æ¯]</a>  ", x->userid);
+	printf("<a href=bbsfadd?userid=%s>[åŠ å…¥å¥½å‹]</a>  ", x->userid);
+	printf("<a href=bbsfdel?userid=%s>[åˆ é™¤å¥½å‹]</a>  ", x->userid);
 	printf("</p>\n");
 	http_quit();
 }
@@ -182,7 +182,7 @@ int show_special(char *id2) {
                 name[0]=0;
                 if(fscanf(fp, "%s %s", id1, name)<=0) break;
                 if(!strcmp(id1, id2))
-			hprintf(" [1;31m¡ï[0;36m%s[1;31m¡ï[m", name);
+			hprintf(" [1;31mâ˜…[0;36m%s[1;31mâ˜…[m", name);
         }
         fclose(fp);
 }

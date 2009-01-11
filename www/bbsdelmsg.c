@@ -3,12 +3,12 @@
 int main() {
 	char path[80];
 	init_all();
-	printf("<b>É¾³ıÏûÏ¢ ¡¤ %s </b><br>\n",BBSNAME);
+	printf("<b>åˆ é™¤æ¶ˆæ¯ Â· %s </b><br>\n",BBSNAME);
 	printpretable_lite();
-	if(!loginok) http_fatal("´Ò´Ò¹ı¿Í²»ÄÜ´¦ÀíÑ¶Ï¢, ÇëÏÈµÇÂ¼");
+	if(!loginok) http_fatal("åŒ†åŒ†è¿‡å®¢ä¸èƒ½å¤„ç†è®¯æ¯, è¯·å…ˆç™»å½•");
 	sethomefile(path, currentuser.userid, "msgfile.me");
 	unlink(path);
-	printf("ÒÑÉ¾³ıËùÓĞÑ¶Ï¢±¸·İ");
+	printf("å·²åˆ é™¤æ‰€æœ‰è®¯æ¯å¤‡ä»½");
 	printposttable_lite();
 	http_quit();
 }

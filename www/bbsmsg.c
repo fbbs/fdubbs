@@ -4,15 +4,15 @@ int main() {
 	FILE *fp;
 	char buf[512], path[512];
 	init_all();
-	/* added by roly  2002.05.10 È¥µôcache */
+	/* added by roly  2002.05.10 å»æ‰cache */
 	printf("<meta http-equiv=\"pragma\" content=\"no-cache\">");
 	/* add end */
-	printf("<b>²é¿´ÏûÏ¢ ¡¤ %s </b><br>\n",BBSNAME);
+	printf("<b>æŸ¥çœ‹æ¶ˆæ¯ Â· %s </b><br>\n",BBSNAME);
 	printpretable_lite();
-	if(!loginok) http_fatal("´Ò´Ò¹ı¿ÍÎŞ·¨²é¿´ÏûÏ¢, ÇëÏÈµÇÂ¼");
+	if(!loginok) http_fatal("åŒ†åŒ†è¿‡å®¢æ— æ³•æŸ¥çœ‹æ¶ˆæ¯, è¯·å…ˆç™»å½•");
 	sethomefile(path, currentuser.userid, "msgfile.me");
 	fp=fopen(path, "r");
-	if(fp==0) http_fatal("Ã»ÓĞÈÎºÎÏûÏ¢");
+	if(fp==0) http_fatal("æ²¡æœ‰ä»»ä½•æ¶ˆæ¯");
 	printf("<pre>\n");
 	while(1) {
 		if(fgets(buf, 256, fp)<=0) break;
@@ -21,7 +21,7 @@ int main() {
 	fclose(fp);
 	printf("</pre>");
 	printposttable_lite();
-	printf("<br><a onclick='return confirm(\"ÄúÕæµÄÒªÇå³ıËùÓĞÏûÏ¢Âğ?\")' href=bbsdelmsg>Çå³ıËùÓĞÏûÏ¢</a> ");
-	printf("    <a href=bbsmailmsg>ÏûÏ¢¼Ä»ØĞÅÏä</a>");
+	printf("<br><a onclick='return confirm(\"æ‚¨çœŸçš„è¦æ¸…é™¤æ‰€æœ‰æ¶ˆæ¯å—?\")' href=bbsdelmsg>æ¸…é™¤æ‰€æœ‰æ¶ˆæ¯</a> ");
+	printf("    <a href=bbsmailmsg>æ¶ˆæ¯å¯„å›ä¿¡ç®±</a>");
 	http_quit();
 }

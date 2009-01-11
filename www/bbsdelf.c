@@ -22,14 +22,14 @@ int main()
 	int start;
 	int num=0;
 	init_all();
-	if(!loginok) http_fatal("´Ò´Ò¹ý¿ÍÎÞ·¨É¾³ýÎÄ¼þ, ÇëÏÈµÇÂ¼");
+	if(!loginok) http_fatal("åŒ†åŒ†è¿‡å®¢æ— æ³•åˆ é™¤æ–‡ä»¶, è¯·å…ˆç™»å½•");
 	strsncpy(file, getparm("file"), 40);
 	start=atoi(getparm("start"));
 	strsncpy(board, getparm("board"),80);
 	sprintf(filename,"%s/upload/%s/.DIR",BBSHOME,board);
 	fpdir=fopen(filename, "r");
 	if(fpdir==0) 
-		http_fatal("¿ÕÄ¿Â¼");
+		http_fatal("ç©ºç›®å½•");
 	while(1) 
 	{
 		if(fread(&x, sizeof(x), 1, fpdir)<=0) 
@@ -38,29 +38,29 @@ int main()
 		{
 			brd=getbcache(board);
 			if(brd==0) 
-				http_fatal("ÄÚ²¿´íÎó10002");
+				http_fatal("å†…éƒ¨é”™è¯¯10002");
 			if(strcasecmp(x.owner,currentuser.userid) && !has_BM_perm(&currentuser, board) && !(currentuser.userlevel & PERM_OBOARDS)) 
 			{
-				http_fatal("Ã»ÓÐÈ¨ÏÞÉ¾³ýÎÄ¼þ");
+				http_fatal("æ²¡æœ‰æƒé™åˆ é™¤æ–‡ä»¶");
 			}
 
 			sprintf(filename,"%s/upload/%s/%s",BBSHOME,board,x.filename);
 			if(unlink(filename))
 			{
-				http_fatal("É¾³ýÎÄ¼þ³ö´í");
+				http_fatal("åˆ é™¤æ–‡ä»¶å‡ºé”™");
 			}
 			/*
 			sprintf(filename2,"%s_TRASH",filename);
 			if(rename(filename,filename2))
 			{
-				http_fatal("É¾³ýÎÄ¼þ³ö´í");
+				http_fatal("åˆ é™¤æ–‡ä»¶å‡ºé”™");
 			}
 			strcat(x.showname,"_TRASH");			
 			sprintf(filename,"%s/upload/%s/.TRASH", BBSHOME,x.board);
 			fptrash=fopen(filename,"a");
 			if(fptrash==NULL)
 			{
-				http_fatal("ÄÚ²¿´íÎó:Ð´ÎÄ¼þ´íÎó");
+				http_fatal("å†…éƒ¨é”™è¯¯:å†™æ–‡ä»¶é”™è¯¯");
 			}
 			fwrite(&x,sizeof(struct dir),1,fptrash);
 			fclose(fptrash);	
@@ -82,6 +82,6 @@ int main()
 		num++;
 	}
 	fclose(fpdir);
-	http_fatal("´íÎóµÄÎÄ¼þÃû");
+	http_fatal("é”™è¯¯çš„æ–‡ä»¶å");
 }
 

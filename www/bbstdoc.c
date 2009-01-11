@@ -16,16 +16,16 @@ int main() {
 	      && (x1->flag & BOARD_READ_FLAG )
 		       && !has_BM_perm(&currentuser, board)
 			        && !isclubmember(currentuser.userid, board))
-					        http_fatal("Äú²»ÊÇ¾ãÀÖ²¿°æ %s µÄ³ÉÔ±£¬ÎŞÈ¨·ÃÎÊ¸Ã°æÃæ", board);
-	if(x1==0) http_fatal("´íÎóµÄÌÖÂÛÇø");
+					        http_fatal("æ‚¨ä¸æ˜¯ä¿±ä¹éƒ¨ç‰ˆ %s çš„æˆå‘˜ï¼Œæ— æƒè®¿é—®è¯¥ç‰ˆé¢", board);
+	if(x1==0) http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	strcpy(board, x1->filename);
-	if(!has_read_perm(&currentuser, board)) http_fatal("´íÎóµÄÌÖÂÛÇø");
+	if(!has_read_perm(&currentuser, board)) http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	sprintf(dir, "boards/%s/.DIR", board);
         fp=fopen(dir, "r");
-        if(fp==0) http_fatal("´íÎóµÄÌÖÂÛÇøÄ¿Â¼");
+        if(fp==0) http_fatal("é”™è¯¯çš„è®¨è®ºåŒºç›®å½•");
 	total=file_size(dir)/sizeof(struct fileheader);
 	data=calloc(sizeof(struct fileheader), total);
-	if(data==0) http_fatal("ÄÚ´æÒç³ö");
+	if(data==0) http_fatal("å†…å­˜æº¢å‡º");
 	total=fread(data, sizeof(struct fileheader), total, fp);
 	fclose(fp);
 	for(i=0; i<total; i++) if(strncmp(data[i].title, "Re: ", 4)) total2++;
@@ -52,13 +52,13 @@ int main() {
         if(dashf(path))
                 printf("<img src=/info/boards/%s/banner.jpg align=absmiddle height=32>", board);
         else
-                printf("<font style='font-size: 18pt'>%s</font> ¡¤",board);
+                printf("<font style='font-size: 18pt'>%s</font> Â·",board);
 
-	printf(" %s Ö÷ÌâÔÄ¶Á °æÖ÷[%s] ÎÄÕÂ%d, Ö÷Ìâ%d¸ö</b>\n", BBSNAME, userid_str(x1->BM), total, total2);
+	printf(" %s ä¸»é¢˜é˜…è¯» ç‰ˆä¸»[%s] æ–‡ç« %d, ä¸»é¢˜%dä¸ª</b>\n", BBSNAME, userid_str(x1->BM), total, total2);
 
         printf("<td width=15%% align=right>\n");
         printf("<form name=form1 action=bbstdoc?board=%s method=post>", board);
-        printf("<input border=0 src=/images/button/forward.gif type=image align=absmiddle> µÚ <input class=thinborder type=text name=start size=4> Æª");
+        printf("<input border=0 src=/images/button/forward.gif type=image align=absmiddle> ç¬¬ <input class=thinborder type=text name=start size=4> ç¯‡");
         printf("</form></td></tr></table>\n");
 
         printf("<table cellspacing=0 cellpadding=0 border=0 width=100%%><tr valign=top><td width=70%%>");
@@ -76,17 +76,17 @@ int main() {
         }*/
         printf("</td><td width=30%% nowrap>");
         printpretable();
-        printf("<b>°æÖ÷ÍÆ¼öÎÄÕÂ</b><br>");
+        printf("<b>ç‰ˆä¸»æ¨èæ–‡ç« </b><br>");
         showrecommend(board,3,0);
         printposttable();
         printf("</td></tr></table>");
 
 
-	if(total<=0) http_fatal("±¾ÌÖÂÛÇøÄ¿Ç°Ã»ÓĞÎÄÕÂ");
+	if(total<=0) http_fatal("æœ¬è®¨è®ºåŒºç›®å‰æ²¡æœ‰æ–‡ç« ");
 	printpretable();
 	printf("<table width=100%% height=100%%><tr valign=top><td>");
 	printf("<table bgcolor=#ffffff width=100%%>\n");
-   	printf("<tr class=pt9h bgcolor=#70a6ff><th nowrap>ĞòºÅ</th><th nowrap>×´Ì¬</th><th nowrap>×÷Õß<th nowrap>ÈÕÆÚ<th nowrap width=100%%>±êÌâ\n"); //<td><font color=white>»ØÌû/ÈËÆø\n");
+   	printf("<tr class=pt9h bgcolor=#70a6ff><th nowrap>åºå·</th><th nowrap>çŠ¶æ€</th><th nowrap>ä½œè€…<th nowrap>æ—¥æœŸ<th nowrap width=100%%>æ ‡é¢˜\n"); //<td><font color=white>å›å¸–/äººæ°”\n");
 	int cc=0;
 	for(i=0; i<total; i++) {
 		if(!strncmp(data[i].title, "Re: ", 4)) continue;
@@ -114,16 +114,16 @@ int main() {
         printf("</td></tr></table>");
  
 	printposttable();
-	printf("<a href=bbspst?board=%s><img border=0 src=/images/button/edit.gif align=absmiddle>·¢±íÎÄÕÂ</a> ", board);
+	printf("<a href=bbspst?board=%s><img border=0 src=/images/button/edit.gif align=absmiddle>å‘è¡¨æ–‡ç« </a> ", board);
 	if(start>0)
-		printf("<a href=bbstdoc?board=%s&start=%d><img border=0 src=/images/button/up.gif align=absmiddle>ÉÏÒ»Ò³</a> ", board, start-my_t_lines);
+		printf("<a href=bbstdoc?board=%s&start=%d><img border=0 src=/images/button/up.gif align=absmiddle>ä¸Šä¸€é¡µ</a> ", board, start-my_t_lines);
 	if(start<total2-my_t_lines)
-		printf("<a href=bbstdoc?board=%s&start=%d><img border=0 src=/images/button/down.gif align=absmiddle>ÏÂÒ»Ò³</a> ", board, start+my_t_lines);
-	printf("<a href=bbsnot?board=%s>½ø°æ»­Ãæ</a> ", board);
-	printf("<a href=bbsdoc?board=%s>Ò»°ãÄ£Ê½</a> ", board);
-	printf("<a href=bbsgdoc?board=%s>ÎÄÕªÇø</a> ", board);
-	printf("<a href=bbs0an?path=%s>¾«»ªÇø</a> ", anno_path_of(board));
-	printf("<a href=%s.tgz>ÏÂÔØ¾«»ªÇø</a>  <br>", anno_path_of(board));
+		printf("<a href=bbstdoc?board=%s&start=%d><img border=0 src=/images/button/down.gif align=absmiddle>ä¸‹ä¸€é¡µ</a> ", board, start+my_t_lines);
+	printf("<a href=bbsnot?board=%s>è¿›ç‰ˆç”»é¢</a> ", board);
+	printf("<a href=bbsdoc?board=%s>ä¸€èˆ¬æ¨¡å¼</a> ", board);
+	printf("<a href=bbsgdoc?board=%s>æ–‡æ‘˜åŒº</a> ", board);
+	printf("<a href=bbs0an?path=%s>ç²¾ååŒº</a> ", anno_path_of(board));
+	printf("<a href=%s.tgz>ä¸‹è½½ç²¾ååŒº</a>  <br>", anno_path_of(board));
 	free(data);
 	http_quit();
 }

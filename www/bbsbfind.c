@@ -7,7 +7,7 @@ int main() {
 	struct boardheader *brd;
 	struct fileheader x;
 	init_all();
-	printf("<center>%s -- °æÄÚÎÄÕÂËÑË÷<hr color=green><br>\n", BBSNAME);
+	printf("<center>%s -- ç‰ˆå†…æ–‡ç« æœç´¢<hr color=green><br>\n", BBSNAME);
 	type=atoi(getparm("type"));
 	strsncpy(board, getparm("board"), 30);
 	if(type==0) return show_form(board);
@@ -21,26 +21,26 @@ int main() {
 	if(dt<0) dt=0;
 	if(dt>9999) dt=9999;
 	brd=getbcache(board);
-	if(brd==0) http_fatal("´íÎóµÄÌÖÂÛÇø");
+	if(brd==0) http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	strcpy(board, brd->filename);
-	if(!has_read_perm(&currentuser, board)) http_fatal("´íÎóµÄÌÖÂÛÇø");
+	if(!has_read_perm(&currentuser, board)) http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	if (brd ->flag & BOARD_DIR_FLAG)
-			http_fatal("ÄãÑ¡ÔñµÄÊÇÒ»¸öÄ¿Â¼"); //add by Danielfree 06.3.5
+			http_fatal("ä½ é€‰æ‹©çš„æ˜¯ä¸€ä¸ªç›®å½•"); //add by Danielfree 06.3.5
 	if ((brd->flag & BOARD_CLUB_FLAG)&& (brd->flag & BOARD_READ_FLAG )&& !has_BM_perm(&currentuser, board)&& !isclubmember(currentuser.userid, board))
-		http_fatal("Äú²»ÊÇ¾ãÀÖ²¿°æ %s µÄ³ÉÔ±£¬ÎŞÈ¨·ÃÎÊ¸Ã°æÃæ", board);	
+		http_fatal("æ‚¨ä¸æ˜¯ä¿±ä¹éƒ¨ç‰ˆ %s çš„æˆå‘˜ï¼Œæ— æƒè®¿é—®è¯¥ç‰ˆé¢", board);	
 	//modified by iamfat 2002.08.19
-	//if(!has_BM_perm(&currentuser, board))http_fatal("¶Ô²»Æğ, ÄúÎŞ·¨Ê¹ÓÃËÑË÷¹¦ÄÜ!\n");
+	//if(!has_BM_perm(&currentuser, board))http_fatal("å¯¹ä¸èµ·, æ‚¨æ— æ³•ä½¿ç”¨æœç´¢åŠŸèƒ½!\n");
 	sprintf(dir, "boards/%s/.DIR", board);
 	fp=fopen(dir, "r");
-	if(fp==0) http_fatal("ÌÖÂÛÇø´íÎó»òÃ»ÓĞÄ¿Ç°ÎÄÕÂ");
-	printf("²éÕÒÌÖÂÛÇø'%s'ÄÚ, ±êÌâº¬: '%s' ", board, nohtml(title));
-	if(title2[0]) printf("ºÍ '%s' ", nohtml(title2));
-	if(title3[0]) printf("²»º¬ '%s' ", nohtml(title3));
-	printf("×÷ÕßÎª: '%s', '%d'ÌìÒÔÄÚµÄ%sÎÄÕÂ.<br>\n", 
-		userid[0] ? userid_str(userid) : "ËùÓĞ×÷Õß", dt, mg ? "¾«»ª" : "ËùÓĞ");
+	if(fp==0) http_fatal("è®¨è®ºåŒºé”™è¯¯æˆ–æ²¡æœ‰ç›®å‰æ–‡ç« ");
+	printf("æŸ¥æ‰¾è®¨è®ºåŒº'%s'å†…, æ ‡é¢˜å«: '%s' ", board, nohtml(title));
+	if(title2[0]) printf("å’Œ '%s' ", nohtml(title2));
+	if(title3[0]) printf("ä¸å« '%s' ", nohtml(title3));
+	printf("ä½œè€…ä¸º: '%s', '%d'å¤©ä»¥å†…çš„%sæ–‡ç« .<br>\n", 
+		userid[0] ? userid_str(userid) : "æ‰€æœ‰ä½œè€…", dt, mg ? "ç²¾å" : "æ‰€æœ‰");
 	printpretable();
 	printf("<table width=100%%  bgcolor=#ffffff>\n");
-	printf("<tr class=pt9h><th nowrap>±àºÅ<th nowrap>±ê¼Ç<th nowrap>×÷Õß<th nowrap>ÈÕÆÚ<th nowrap>±êÌâ\n");
+	printf("<tr class=pt9h><th nowrap>ç¼–å·<th nowrap>æ ‡è®°<th nowrap>ä½œè€…<th nowrap>æ—¥æœŸ<th nowrap>æ ‡é¢˜\n");
 	int cc=0;
 	int isreply=0;
 	while(1) {
@@ -63,7 +63,7 @@ int main() {
 		printf("<td nowrap>%12.12s", 4+Ctime(atoi(x.filename+2)));
 
 		isreply=!strncmp(x.title, "Re: ", 4);
-		//fix bug: ÏÔÊ¾bug by DeepOcean:
+		//fix bug: æ˜¾ç¤ºbug by DeepOcean:
 		printf("<td nowrap width=100%%><a href=bbscon?b=%s&f=%s&n=%d>%s%s </a>\n", board, x.filename, num, isreply? "<img src=/images/types/reply.gif align=absmiddle border=0> "
 		                :"<img src=/images/types/text.gif align=absmiddle border=0> ",nohtml(isreply?(x.title+4):x.title));
 		if(total>=999) break;
@@ -71,30 +71,30 @@ int main() {
 	fclose(fp);
 	printf("</table>\n");
 	printposttable();
-	printf("<br>¹²ÕÒµ½ %d ÆªÎÄÕÂ·ûºÏÌõ¼ş", total);
-	if(total>999) printf("(Æ¥Åä½á¹û¹ı¶à, Ê¡ÂÔµÚ1000ÒÔºóµÄ²éÑ¯½á¹û)");
+	printf("<br>å…±æ‰¾åˆ° %d ç¯‡æ–‡ç« ç¬¦åˆæ¡ä»¶", total);
+	if(total>999) printf("(åŒ¹é…ç»“æœè¿‡å¤š, çœç•¥ç¬¬1000ä»¥åçš„æŸ¥è¯¢ç»“æœ)");
 	printf("<br>\n");
-	printf("[<a href=bbsdoc?board=%s>·µ»Ø±¾ÌÖÂÛÇø</a>] [<a href='javascript:history.go(-1)'>·µ»ØÉÏÒ»Ò³</a>]", board);
+	printf("[<a href=bbsdoc?board=%s>è¿”å›æœ¬è®¨è®ºåŒº</a>] [<a href='javascript:history.go(-1)'>è¿”å›ä¸Šä¸€é¡µ</a>]", board);
 	http_quit();
 }
 
 int show_form(char *board) {
 	printf("<table><form action=bbsbfind?type=1 method=post>\n");
-	printf("<tr><td>°æÃæÃû³Æ: <input type=text maxlength=24 size=24 name=board value='%s'><br>\n", board);
-	printf("<tr><td>±êÌâº¬ÓĞ: <input type=text maxlength=50 size=20 name=title> AND ");
+	printf("<tr><td>ç‰ˆé¢åç§°: <input type=text maxlength=24 size=24 name=board value='%s'><br>\n", board);
+	printf("<tr><td>æ ‡é¢˜å«æœ‰: <input type=text maxlength=50 size=20 name=title> AND ");
 	printf("<input type=text maxlength=50 size=20 name=title2>\n");
-	printf("<tr><td>±êÌâ²»º¬: <input type=text maxlength=50 size=20 name=title3>\n");
-	printf("<tr><td>×÷ÕßÕÊºÅ: <input type=text maxlength=12 size=12 name=userid><br>\n");
-	printf("<tr><td>Ê±¼ä·¶Î§: <input type=text maxlength=4  size=4  name=dt value=7> ÌìÒÔÄÚ<br>\n");
-	printf("<tr><td>¾«»ªÎÄÕÂ: <input type=checkbox name=mg> ");
-	printf("²»º¬¸úÌù: <input type=checkbox name=og><br><br>\n");
-	printf("<tr><td><input type=submit value=µİ½»²éÑ¯½á¹û>\n");
+	printf("<tr><td>æ ‡é¢˜ä¸å«: <input type=text maxlength=50 size=20 name=title3>\n");
+	printf("<tr><td>ä½œè€…å¸å·: <input type=text maxlength=12 size=12 name=userid><br>\n");
+	printf("<tr><td>æ—¶é—´èŒƒå›´: <input type=text maxlength=4  size=4  name=dt value=7> å¤©ä»¥å†…<br>\n");
+	printf("<tr><td>ç²¾åæ–‡ç« : <input type=checkbox name=mg> ");
+	printf("ä¸å«è·Ÿè´´: <input type=checkbox name=og><br><br>\n");
+	printf("<tr><td><input type=submit value=é€’äº¤æŸ¥è¯¢ç»“æœ>\n");
 	printf("</form></table>");
-	if(HAS_PERM(PERM_OBOARDS)&&HAS_PERM(PERM_SPECIAL0)){//Ìí¼ÓÈ¨ÏŞÎ»¿ØÖÆ0  06.1.2
-	printf("[<a href='bbsdoc?board=%s'>·µ»ØÉÏÒ»Ò³</a>] [<a href=bbsfind>È«Õ¾ÎÄÕÂ²éÑ¯</a>]", board);
+	if(HAS_PERM(PERM_OBOARDS)&&HAS_PERM(PERM_SPECIAL0)){//æ·»åŠ æƒé™ä½æ§åˆ¶0  06.1.2
+	printf("[<a href='bbsdoc?board=%s'>è¿”å›ä¸Šä¸€é¡µ</a>] [<a href=bbsfind>å…¨ç«™æ–‡ç« æŸ¥è¯¢</a>]", board);
 	}
 	else {
-	  printf("[<a href='bbsdoc?board=%s'>·µ»ØÉÏÒ»Ò³</a>]", board);
+	  printf("[<a href='bbsdoc?board=%s'>è¿”å›ä¸Šä¸€é¡µ</a>]", board);
 	}
 	http_quit();
 }

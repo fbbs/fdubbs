@@ -9,28 +9,28 @@ int main() {
 	strsncpy(id, getparm("id"), 13);
         strsncpy(pw, getparm("pw"), 13);
 	if(loginok && strcasecmp(id, currentuser.userid)) {
-		http_fatal("ÏµÍ³¼ì²âµ½Ä¿Ç°ÄúµÄ¼ÆËã»úÉÏÒÑ¾­µÇÂ¼ÓĞÒ»¸öÕÊºÅ %s£¬ÇëÏÈÍË³ö.(%s)", 
-			currentuser.userid, "Ñ¡ÔñÕı³£logout, »òÕß¹Ø±ÕËùÓĞä¯ÀÀÆ÷´°¿Ú");
+		http_fatal("ç³»ç»Ÿæ£€æµ‹åˆ°ç›®å‰æ‚¨çš„è®¡ç®—æœºä¸Šå·²ç»ç™»å½•æœ‰ä¸€ä¸ªå¸å· %sï¼Œè¯·å…ˆé€€å‡º.(%s)", 
+			currentuser.userid, "é€‰æ‹©æ­£å¸¸logout, æˆ–è€…å…³é—­æ‰€æœ‰æµè§ˆå™¨çª—å£");
 	}
 	x=getuser(id);
-	if(x==0) http_fatal("´íÎóµÄÊ¹ÓÃÕßÕÊºÅ");
+	if(x==0) http_fatal("é”™è¯¯çš„ä½¿ç”¨è€…å¸å·");
 	if(strcasecmp(id, "guest")) {
 		if(!checkpasswd(x->passwd, pw)) {
 			if(pw[0]!=0) sleep(2);
                         sethomefile(buf,id,"logins.bad");
                         do_report(buf, fromhost);
  			do_report("logins.bad", fromhost);
-			http_fatal("ÃÜÂë´íÎó");
+			http_fatal("å¯†ç é”™è¯¯");
 		}
 		if(!user_perm(x, PERM_LOGIN))
-			http_fatal("´ËÕÊºÅÒÑ±»Í£»ú, ÈôÓĞÒÉÎÊ, ÇëÓÃÆäËûÕÊºÅÔÚsysop°æÑ¯ÎÊ.");
+			http_fatal("æ­¤å¸å·å·²è¢«åœæœº, è‹¥æœ‰ç–‘é—®, è¯·ç”¨å…¶ä»–å¸å·åœ¨sysopç‰ˆè¯¢é—®.");
 		if(file_has_word(".bansite", fromhost)) {
-			http_fatal("¶Ô²»Æğ, ±¾Õ¾²»»¶Ó­À´×Ô [%s] µÄµÇÂ¼. <br>ÈôÓĞÒÉÎÊ, ÇëÓëSYSOPÁªÏµ.", fromhost);
+			http_fatal("å¯¹ä¸èµ·, æœ¬ç«™ä¸æ¬¢è¿æ¥è‡ª [%s] çš„ç™»å½•. <br>è‹¥æœ‰ç–‘é—®, è¯·ä¸SYSOPè”ç³».", fromhost);
 		}
 		t=x->lastlogin;
 		x->lastlogin=time(0);
 		save_user_data(x);
-		if(abs(t-time(0))<5) http_fatal("Á½´ÎµÇÂ¼¼ä¸ô¹ıÃÜ!");
+		if(abs(t-time(0))<5) http_fatal("ä¸¤æ¬¡ç™»å½•é—´éš”è¿‡å¯†!");
 		x->numlogins++;
 		strsncpy(x->lasthost, fromhost, 16);
 		save_user_data(x);
@@ -105,7 +105,7 @@ int wwwlogin(struct userec *user) {
 	}
 	flock(fileno(fp), LOCK_UN);
 	fclose(fp);
-	http_fatal("±§Ç¸£¬Ä¿Ç°ÔÚÏßÓÃ»§ÊıÒÑ´ïÉÏÏŞ£¬ÎŞ·¨µÇÂ¼¡£ÇëÉÔºóÔÙÀ´¡£");
+	http_fatal("æŠ±æ­‰ï¼Œç›®å‰åœ¨çº¿ç”¨æˆ·æ•°å·²è¾¾ä¸Šé™ï¼Œæ— æ³•ç™»å½•ã€‚è¯·ç¨åå†æ¥ã€‚");
 }
 
 void add_msg() {

@@ -6,21 +6,21 @@ int main() {
 	int day;
 	init_all();
 	//modified by iamfat 2002.08.19
-	if(!(HAS_PERM(PERM_OBOARDS)&&HAS_PERM(PERM_SPECIAL0)) )http_fatal("¶Ô²»Æğ, ÄúÎŞ·¨Ê¹ÓÃËÑË÷¹¦ÄÜ!\n");
+	if(!(HAS_PERM(PERM_OBOARDS)&&HAS_PERM(PERM_SPECIAL0)) )http_fatal("å¯¹ä¸èµ·, æ‚¨æ— æ³•ä½¿ç”¨æœç´¢åŠŸèƒ½!\n");
   	strsncpy(user, getparm("user"), 13);
   	strsncpy(title, getparm("title"), 50);
 	strsncpy(title2, getparm("title2"), 50);
 	strsncpy(title3, getparm("title3"), 50);
   	day=atoi(getparm("day"));
   	if(day==0) {
-		printf("%s -- Õ¾ÄÚÎÄÕÂ²éÑ¯<hr color=green>\n", BBSNAME);
+		printf("%s -- ç«™å†…æ–‡ç« æŸ¥è¯¢<hr color=green>\n", BBSNAME);
 		printf("<form action=bbsfind>\n");
-		printf("ÎÄÕÂ×÷Õß: <input maxlength=12 size=12 type=text name=user> (²»Ìî²éÕÒËùÓĞ×÷Õß)<br>\n");
-		printf("±êÌâº¬ÓĞ: <input maxlength=60 size=20 type=text name=title>");
+		printf("æ–‡ç« ä½œè€…: <input maxlength=12 size=12 type=text name=user> (ä¸å¡«æŸ¥æ‰¾æ‰€æœ‰ä½œè€…)<br>\n");
+		printf("æ ‡é¢˜å«æœ‰: <input maxlength=60 size=20 type=text name=title>");
 		printf(" AND <input maxlength=60 size=20 type=text name=title2><br>\n");
-		printf("±êÌâ²»º¬: <input maxlength=60 size=20 type=text name=title3><br>\n");
-		printf("²éÕÒ×î½ü: <input maxlength=5 size=5 type=text name=day value=7> ÌìÒÔÄÚµÄÎÄÕÂ<br><br>\n");
-		printf("<input type=submit value=Ìá½»²éÑ¯>\n");
+		printf("æ ‡é¢˜ä¸å«: <input maxlength=60 size=20 type=text name=title3><br>\n");
+		printf("æŸ¥æ‰¾æœ€è¿‘: <input maxlength=5 size=5 type=text name=day value=7> å¤©ä»¥å†…çš„æ–‡ç« <br><br>\n");
+		printf("<input type=submit value=æäº¤æŸ¥è¯¢>\n");
 	} else {
 		search(user, title, title2, title3, day*86400);
 	}
@@ -32,12 +32,12 @@ int search(char *id, char *pat, char *pat2, char *pat3, int dt) {
   	char board[256], dir[256], buf2[150];
 	int total, now=time(0), i, sum=0, n, t;
   	struct fileheader x;
-  	printf("%s -- Õ¾ÄÚÎÄÕÂ²éÑ¯½á¹û <br>\n", BBSNAME);
-	printf("×÷Õß: %s ", id);
-	printf("±êÌâº¬ÓĞ: '%s' ", nohtml(pat));
-	if(pat2[0]) printf("ºÍ '%s' ", nohtml(pat2));
-	if(pat3[0]) printf("²»º¬ '%s'", nohtml(pat3));
-	printf("Ê±¼ä: %d Ìì<br><hr color=green>\n", dt/86400);
+  	printf("%s -- ç«™å†…æ–‡ç« æŸ¥è¯¢ç»“æœ <br>\n", BBSNAME);
+	printf("ä½œè€…: %s ", id);
+	printf("æ ‡é¢˜å«æœ‰: '%s' ", nohtml(pat));
+	if(pat2[0]) printf("å’Œ '%s' ", nohtml(pat2));
+	if(pat3[0]) printf("ä¸å« '%s'", nohtml(pat3));
+	printf("æ—¶é—´: %d å¤©<br><hr color=green>\n", dt/86400);
 	for(i=0; i<MAXBOARD; i++) {
 		total=0;
 		strcpy(board, bcache[i].filename);
@@ -74,8 +74,8 @@ int search(char *id, char *pat, char *pat2, char *pat3, int dt) {
 		}
 		printf("</table>\n");
 		if(total==0) continue;
-		printf("<br>ÒÔÉÏ%dÆªÀ´×Ô <a href=bbsdoc?board=%s>%s</a><br><br>\n",
+		printf("<br>ä»¥ä¸Š%dç¯‡æ¥è‡ª <a href=bbsdoc?board=%s>%s</a><br><br>\n",
 			total, board, board);
 	}
-	printf("Ò»¹²ÕÒµ½%dÆªÎÄÕÂ·ûºÏ²éÕÒÌõ¼ş<br>\n", sum);
+	printf("ä¸€å…±æ‰¾åˆ°%dç¯‡æ–‡ç« ç¬¦åˆæŸ¥æ‰¾æ¡ä»¶<br>\n", sum);
 }
