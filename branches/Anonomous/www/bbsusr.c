@@ -16,7 +16,7 @@ int main() {
 	struct user_info *x;
 	char search[80];
 	init_all();
-	printf("<b><font style='font-size: 18pt'>ÔÚÏßÓÃ»§ÁĞ±í</font> ¡¤ %s [Ä¿Ç°ÔÚÏß: %dÈË]</b>\n", BBSNAME, count_online());
+	printf("<b><font style='font-size: 18pt'>åœ¨çº¿ç”¨æˆ·åˆ—è¡¨</font> Â· %s [ç›®å‰åœ¨çº¿: %däºº]</b>\n", BBSNAME, count_online());
 	printf("<center>\n");
 	for(i=0; i<MAXACTIVE; i++) {
 		x=&(shm_utmp->uinfo[i]);
@@ -32,8 +32,8 @@ int main() {
 	printpretable();
 
 	printf("<table border=0 width=100%% bgcolor=#ffffff>\n");
-//	printf("<tr class=pt9 bgcolor=#70a6ff><td><font color=white>ĞòºÅ<td><font color=white>ÓÑ<td><font color=white>Ê¹ÓÃÕß´úºÅ<td><font color=white>Ê¹ÓÃÕßêÇ³Æ<td><font color=white>À´×Ô<td><font color=white>¶¯Ì¬<td><font color=white>·¢´ô\n");
-	printf("<tr class=pt9h ></th><th nowrap>ĞòºÅ</th><th nowrap>ÓÑ</th><th nowrap>Ê¹ÓÃÕß´úºÅ</th><th nowrap>Ê¹ÓÃÕßêÇ³Æ</th><th nowrap>¶¯Ì¬</th><th nowrap>·¢´ô\n");
+//	printf("<tr class=pt9 bgcolor=#70a6ff><td><font color=white>åºå·<td><font color=white>å‹<td><font color=white>ä½¿ç”¨è€…ä»£å·<td><font color=white>ä½¿ç”¨è€…æ˜µç§°<td><font color=white>æ¥è‡ª<td><font color=white>åŠ¨æ€<td><font color=white>å‘å‘†\n");
+	printf("<tr class=pt9h ></th><th nowrap>åºå·</th><th nowrap>å‹</th><th nowrap>ä½¿ç”¨è€…ä»£å·</th><th nowrap>ä½¿ç”¨è€…æ˜µç§°</th><th nowrap>åŠ¨æ€</th><th nowrap>å‘å‘†\n");
 	qsort(user, total, sizeof(struct user_info), cmpuser);
 	if(start>total-5) start=total-5;
 	if(start<0) start=0;
@@ -41,12 +41,12 @@ int main() {
 	for(i=start; i<start+my_t_lines && i<total; i++) {
 		int dt=(time(0)-user[i].idle_time)/60;
 		printf("<tr class=%s><td nowrap>%d",((cc++)%2)?"pt9dc":"pt9lc" , i+1);
-		printf("<td nowrap>%s", isfriend(user[i].userid) ? "¡Ì" : "  ");
+		printf("<td nowrap>%s", isfriend(user[i].userid) ? "âˆš" : "  ");
 		printf("%s", user[i].invisible ? "<font color=green>C</font>" : " ");
 		printf("<td nowrap><a href=bbsqry?userid=%s><b>%s</b></a>", user[i].userid, user[i].userid);
 		printf("<td width=100%%><a href=bbsqry?userid=%s>%24.24s </a>", user[i].userid, nohtml(user[i].username));
 	//	printf("<td>%20.20s ", user[i].from);
-		printf("<td nowrap align=center>%s", user[i].invisible ? "ÒşÉíÖĞ..." : ModeType(user[i].mode));
+		printf("<td nowrap align=center>%s", user[i].invisible ? "éšèº«ä¸­..." : ModeType(user[i].mode));
 		if(dt==0) {
 			printf("<td nowrap> \n");
 		} else {
@@ -58,15 +58,15 @@ int main() {
 	printposttable();
 	printf("</center>\n");
 
-	printf("[<a href='bbsufind?search=*'>È«²¿</a>] ");
+	printf("[<a href='bbsufind?search=*'>å…¨éƒ¨</a>] ");
 	for(i='A'; i<='Z'; i++)
 		printf("[<a href=bbsufind?search=%c>%c</a>]", i, i);
 	printf("<br>\n");
-	printf("[<a href=bbsfriend>ÔÚÏßºÃÓÑ</a>] ");
-	if(start>0) printf("<a href=bbsusr?start=%d><img border=0 src=/images/button/up.gif align=absmiddle>ÉÏÒ»Ò³</a>  ", start-20);
-	if(start<total-my_t_lines) printf("<a href=bbsusr?start=%d><img border=0 src=/images/button/down.gif align=absmiddle>ÏÂÒ»Ò³</a>  ", start+my_t_lines);
+	printf("[<a href=bbsfriend>åœ¨çº¿å¥½å‹</a>] ");
+	if(start>0) printf("<a href=bbsusr?start=%d><img border=0 src=/images/button/up.gif align=absmiddle>ä¸Šä¸€é¡µ</a>  ", start-20);
+	if(start<total-my_t_lines) printf("<a href=bbsusr?start=%d><img border=0 src=/images/button/down.gif align=absmiddle>ä¸‹ä¸€é¡µ</a>  ", start+my_t_lines);
 	printf("<br><form action=bbsusr>\n");
-	printf("<input type=submit value=Ìø×ªµ½µÚ> ");
-	printf("<input type=input size=4 name=start> ¸öÊ¹ÓÃÕß</form>");
+	printf("<input type=submit value=è·³è½¬åˆ°ç¬¬> ");
+	printf("<input type=input size=4 name=start> ä¸ªä½¿ç”¨è€…</form>");
 	http_quit();
 }

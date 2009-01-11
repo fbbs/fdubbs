@@ -15,7 +15,7 @@ int main() {
 	struct user_info *x;
 	char search;
 	init_all();
-	printf("<b><font style='font-size: 18pt'>ÔÚÏßÓÃ»§²éÑ¯</font> ¡¤ %s [ÔÚÏß×ÜÈËÊı: %dÈË]</b> --\n", BBSNAME, count_online());
+	printf("<b><font style='font-size: 18pt'>åœ¨çº¿ç”¨æˆ·æŸ¥è¯¢</font> Â· %s [åœ¨çº¿æ€»äººæ•°: %däºº]</b> --\n", BBSNAME, count_online());
 	for(i=0; i<MAXACTIVE; i++) {
 		x=&(shm_utmp->uinfo[i]);
 		if(x->active==0) continue;
@@ -24,29 +24,29 @@ int main() {
 		total++;
 	}
 	search=toupper(getparm("search")[0]);
-	if(search!='*' && (search<'A' || search>'Z')) http_fatal("´íÎóµÄ²ÎÊı");
+	if(search!='*' && (search<'A' || search>'Z')) http_fatal("é”™è¯¯çš„å‚æ•°");
 	if(search=='*') {
-		printf("ËùÓĞÔÚÏßÊ¹ÓÃÕß<br>\n");
+		printf("æ‰€æœ‰åœ¨çº¿ä½¿ç”¨è€…<br>\n");
 	} else {
-		printf("×ÖÄ¸'%c'¿ªÍ·µÄÔÚÏßÊ¹ÓÃÕß.<br>\n", search);
+		printf("å­—æ¯'%c'å¼€å¤´çš„åœ¨çº¿ä½¿ç”¨è€….<br>\n", search);
 	}
 	printf("<center>\n");
 	printpretable();
 	printf("<table width=100%% border=0 cellpadding=1>\n");
-	//printf("<tr bgcolor=#70a6ff><td>ĞòºÅ<td>ÓÑ<td>Ê¹ÓÃÕß´úºÅ<td>Ê¹ÓÃÕßêÇ³Æ<td>À´×Ô<td>¶¯Ì¬<td>·¢´ô\n");
-	printf("<tr class=pt9h ><td>ĞòºÅ<td>ÓÑ<td>Ê¹ÓÃÕß´úºÅ<td>Ê¹ÓÃÕßêÇ³Æ<td>¶¯Ì¬<td>·¢´ô\n");
+	//printf("<tr bgcolor=#70a6ff><td>åºå·<td>å‹<td>ä½¿ç”¨è€…ä»£å·<td>ä½¿ç”¨è€…æ˜µç§°<td>æ¥è‡ª<td>åŠ¨æ€<td>å‘å‘†\n");
+	printf("<tr class=pt9h ><td>åºå·<td>å‹<td>ä½¿ç”¨è€…ä»£å·<td>ä½¿ç”¨è€…æ˜µç§°<td>åŠ¨æ€<td>å‘å‘†\n");
 	qsort(user, total, sizeof(struct user_info), cmpuser);
 	int cc=0;
 	for(i=0; i<total; i++) {
 		int dt=(time(0)-user[i].idle_time)/60;
 		if(toupper(user[i].userid[0])!=search && search!='*') continue;
 		printf("<tr class=%s><td>%d",((cc++)%2)?"pt9dc":"pt9lc" , i+1);
-		printf("<td>%s", isfriend(user[i].userid) ? "¡Ì" : "  ");
+		printf("<td>%s", isfriend(user[i].userid) ? "âˆš" : "  ");
 		printf("%s", user[i].invisible ? "<font color=green>C</font>" : " ");
 		printf("<td><a href=bbsqry?userid=%s>%s</a>", user[i].userid, user[i].userid);
 		printf("<td><a href=bbsqry?userid=%s>%24.24s </a>", user[i].userid, nohtml(user[i].username));
 		//printf("<td>%20.20s ", user[i].from);
-		printf("<td>%s", user[i].invisible ? "ÒşÉíÖĞ..." : ModeType(user[i].mode));
+		printf("<td>%s", user[i].invisible ? "éšèº«ä¸­..." : ModeType(user[i].mode));
 		if(dt==0) {
 			printf("<td> \n");
 		} else {
@@ -57,9 +57,9 @@ int main() {
 	printf("</table>\n");
 	printposttable();
 	printf("</center>\n");
-	printf("±¾ÏîÔÚÏß: %dÈË", total2);
+	printf("æœ¬é¡¹åœ¨çº¿: %däºº", total2);
 	printf("<br>");
-        if(search!='*') printf("[<a href='bbsufind?search=*'>È«²¿</a>] ");
+        if(search!='*') printf("[<a href='bbsufind?search=*'>å…¨éƒ¨</a>] ");
         for(i='A'; i<='Z'; i++) {
 		if(i==search) {
 			printf("[%c]", i);
@@ -68,6 +68,6 @@ int main() {
 		}
 	}
         printf("<br>\n");
-	printf("[<a href='javascript:history.go(-1)'>·µ»Ø</a>] [<a href=bbsusr>Ò»°ãÄ£Ê½</a>] ");
+	printf("[<a href='javascript:history.go(-1)'>è¿”å›</a>] [<a href=bbsusr>ä¸€èˆ¬æ¨¡å¼</a>] ");
 	http_quit();
 }

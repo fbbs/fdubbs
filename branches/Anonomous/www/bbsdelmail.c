@@ -7,25 +7,25 @@ int main() {
 	char path[80], file[80], *id;
 	int num=0;
 	init_all();
-	if(loginok == 0) http_fatal("ÄúÉĞÎ´µÇÂ¼");
+	if(loginok == 0) http_fatal("æ‚¨å°šæœªç™»å½•");
 	id=currentuser.userid;
 	strsncpy(file, getparm("file"), 20);
-	if(strncmp(file, "M.", 2) || strstr(file, "..")) http_fatal("´íÎóµÄ²ÎÊı");
+	if(strncmp(file, "M.", 2) || strstr(file, "..")) http_fatal("é”™è¯¯çš„å‚æ•°");
 	sprintf(path, "mail/%c/%s/.DIR", toupper(id[0]), id);
 	fp=fopen(path, "r");
-	if(fp==0) http_fatal("´íÎóµÄ²ÎÊı2");
+	if(fp==0) http_fatal("é”™è¯¯çš„å‚æ•°2");
 	while(1) {
 		if(fread(&f, sizeof(f), 1, fp)<=0) break;
 		num++;
 		if(!strcmp(f.filename, file)) {
 			fclose(fp);
 			del_record(path, sizeof(struct fileheader), num-1);
-			printf("ĞÅ¼şÒÑÉ¾³ı.<br><a href=bbsmail>·µ»ØËùÓĞĞÅ¼şÁĞ±í</a>\n");
+			printf("ä¿¡ä»¶å·²åˆ é™¤.<br><a href=bbsmail>è¿”å›æ‰€æœ‰ä¿¡ä»¶åˆ—è¡¨</a>\n");
 			http_quit();
 		}
 	}
 	fclose(fp);
-	http_fatal("ĞÅ¼ş²»´æÔÚ, ÎŞ·¨É¾³ı");
+	http_fatal("ä¿¡ä»¶ä¸å­˜åœ¨, æ— æ³•åˆ é™¤");
 }
 */
 /* modified by roly. patch of NJU0.9 */
@@ -37,15 +37,15 @@ int main() {
         char path[80], file[80], *id; 
         int num=0; 
         init_all(); 
-		printf("<b>É¾³ıÓÊ¼ş ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>åˆ é™¤é‚®ä»¶ Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-        if(loginok == 0) http_fatal("ÄúÉĞÎ´µÇÂ¼"); 
+        if(loginok == 0) http_fatal("æ‚¨å°šæœªç™»å½•"); 
         id=currentuser.userid; 
         strsncpy(file, getparm("file"), 32); 
-        if(strncmp(file, "M.", 2) || strstr(file, "..")) http_fatal("´íÎóµÄ²ÎÊı"); 
+        if(strncmp(file, "M.", 2) || strstr(file, "..")) http_fatal("é”™è¯¯çš„å‚æ•°"); 
         sprintf(path, "mail/%c/%s/.DIR", toupper(id[0]), id); 
         fp=fopen(path, "r"); 
-        if(fp==0) http_fatal("´íÎóµÄ²ÎÊı2"); 
+        if(fp==0) http_fatal("é”™è¯¯çš„å‚æ•°2"); 
         while(1) { 
                 if(fread(&f, sizeof(f), 1, fp)<=0) break; 
                 num++; 
@@ -55,10 +55,10 @@ int main() {
 
                         sprintf(path, "mail/%c/%s/%s", toupper(id[0]), id, f.filename); 
                         unlink(path); 
-                        printf("ĞÅ¼şÒÑÉ¾³ı.<br><a href=bbsmail>·µ»ØËùÓĞĞÅ¼şÁĞ±í</a>\n"); 
+                        printf("ä¿¡ä»¶å·²åˆ é™¤.<br><a href=bbsmail>è¿”å›æ‰€æœ‰ä¿¡ä»¶åˆ—è¡¨</a>\n"); 
                         http_quit(); 
                 } 
         } 
         fclose(fp); 
-        http_fatal("ĞÅ¼ş²»´æÔÚ, ÎŞ·¨É¾³ı"); 
+        http_fatal("ä¿¡ä»¶ä¸å­˜åœ¨, æ— æ³•åˆ é™¤"); 
 } 

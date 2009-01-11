@@ -5,40 +5,40 @@ int main() {
    	int i;
 	char userid[80], buf[512], path[512], file[512], board[512], title[80]="";
    	init_all();
-	if(!loginok) http_fatal("´Ò´Ò¹ı¿Í²»ÄÜĞ´ĞÅ£¬ÇëÏÈµÇÂ¼");
+	if(!loginok) http_fatal("åŒ†åŒ†è¿‡å®¢ä¸èƒ½å†™ä¿¡ï¼Œè¯·å…ˆç™»å½•");
 	/* Added by Amigo 2002.06.19. For mail right check. */
 	if (!HAS_PERM(PERM_MAIL)) 
-			http_fatal("ÄúÉĞÎ´Íê³É×¢²á£¬»òÕß·¢ËÍĞÅ¼şµÄÈ¨ÏŞ±»·â½û");
+			http_fatal("æ‚¨å°šæœªå®Œæˆæ³¨å†Œï¼Œæˆ–è€…å‘é€ä¿¡ä»¶çš„æƒé™è¢«å°ç¦");
 	/* Add end. */
 	/* added by roly for mail check */
 	if (!mailnum_under_limit(currentuser.userid) || !mailsize_under_limit(currentuser.userid)) 
-					http_fatal("ÄúµÄĞÅ¼şÈİÁ¿³¬±ê£¬ÎŞ·¨·¢ĞÅ");
+					http_fatal("æ‚¨çš„ä¿¡ä»¶å®¹é‡è¶…æ ‡ï¼Œæ— æ³•å‘ä¿¡");
 	/* add end */
 	strsncpy(file, getparm("file"), 32);
 	strsncpy(title, nohtml(getparm("title")), 50);
 	strsncpy(userid, getparm("userid"), 40);
-	if(file[0]!='M' && file[0]) http_fatal("´íÎóµÄÎÄ¼şÃû");
-	printf("<b>%s -- ¼ÄÓïĞÅ¸ë [Ê¹ÓÃÕß: %s]</b>\n", BBSNAME, currentuser.userid);
+	if(file[0]!='M' && file[0]) http_fatal("é”™è¯¯çš„æ–‡ä»¶å");
+	printf("<b>%s -- å¯„è¯­ä¿¡é¸½ [ä½¿ç”¨è€…: %s]</b>\n", BBSNAME, currentuser.userid);
    	printf("<center>\n");
 	printpretable_lite();
    	printf("<table border=0><tr><td>\n");
 	printf("<form method=post action=bbssndmail?userid=%s>\n", userid);
-   	printf("ĞÅ¼ş±êÌâ: <input class=thinborder type=text name=title size=40 maxlength=100 value='%s'> ", title);
-   	printf("·¢ĞÅÈË: &nbsp;%s<br>\n", currentuser.userid);
- 	printf("ÊÕĞÅÈË: &nbsp;&nbsp<input class=thinborder type=text name=userid value='%s'>", nohtml(userid));
- 	printf("  Ê¹ÓÃÇ©Ãûµµ ");
+   	printf("ä¿¡ä»¶æ ‡é¢˜: <input class=thinborder type=text name=title size=40 maxlength=100 value='%s'> ", title);
+   	printf("å‘ä¿¡äºº: &nbsp;%s<br>\n", currentuser.userid);
+ 	printf("æ”¶ä¿¡äºº: &nbsp;&nbsp<input class=thinborder type=text name=userid value='%s'>", nohtml(userid));
+ 	printf("  ä½¿ç”¨ç­¾åæ¡£ ");
    	printf("<input type=radio name=signature value=1 checked>1\n");
    	printf("<input type=radio name=signature value=2>2\n");
    	printf("<input type=radio name=signature value=3>3\n");
 	printf("<input type=radio name=signature value=4>4\n");
 	printf("<input type=radio name=signature value=5>5\n");
    	printf("<input type=radio name=signature value=0>0\n"); 
-	printf("±¸·İ<input type=checkbox name=backup>\n");
+	printf("å¤‡ä»½<input type=checkbox name=backup>\n");
    	printf("<br>\n");
    	printf("<textarea class=thinborder name=text rows=20 cols=80 wrap=physicle>\n\n");
 	if(file[0]) {
 		int lines=0;
-		printf("¡¾ ÔÚ %s µÄÀ´ĞÅÖĞÌáµ½: ¡¿\n", userid);
+		printf("ã€ åœ¨ %s çš„æ¥ä¿¡ä¸­æåˆ°: ã€‘\n", userid);
 		sprintf(path, "mail/%c/%s/%s", toupper(currentuser.userid[0]), currentuser.userid, file);
 		fp=fopen(path, "r");
 		if(fp) {
@@ -46,13 +46,13 @@ int main() {
 				if(fgets(buf, 500, fp)==0) break;
 			while(1) {
 				if(fgets(buf, 500, fp)==0) break;
-				if(!strncmp(buf, ": ¡¾", 4)) continue;
+				if(!strncmp(buf, ": ã€", 4)) continue;
 				if(!strncmp(buf, ": : ", 4)) continue;
 				if(!strncmp(buf, "--\n", 3)) break;
 				if(buf[0]=='\n') continue;;
 				if(!strcasestr(buf, "</textarea>")) printf(": %s", buf);
 				if(lines++>20) {
-					printf(": (ÒÔÏÂÒıÑÔÊ¡ÂÔ ... ...)");
+					printf(": (ä»¥ä¸‹å¼•è¨€çœç•¥ ... ...)");
 					break;
 				}
 			}
@@ -61,8 +61,8 @@ int main() {
 		}
 	}
    	printf("</textarea><br><div align=center>\n");
-	printf("<input type=submit value=·¢ËÍ> ");
-   	printf("<input type=reset value=Çå³ı></form>\n");
+	printf("<input type=submit value=å‘é€> ");
+   	printf("<input type=reset value=æ¸…é™¤></form>\n");
 	printf("</div></table>");
 	printposttable_lite();
 	printf("</center>");

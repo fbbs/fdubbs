@@ -1,83 +1,83 @@
 #ifndef _GLOSSARY_H_
 #define _GLOSSARY_H_
 
-// ÃèÊö¾­ÑéÖµµÈ¼¶
-#define GLY_CEXP0 		"Ã»µÈ¼¶"
-#define GLY_CEXP1		"ĞÂÊÖÉÏÂ·"
-#define GLY_CEXP2		"Ò»°ãÕ¾ÓÑ"
-#define GLY_CEXP3		"ÖĞ¼¶Õ¾ÓÑ"
-#define GLY_CEXP4		"¸ß¼¶Õ¾ÓÑ"
-#define GLY_CEXP5		"ÀÏÕ¾ÓÑ"
-#define GLY_CEXP6		"³¤ÀÏ¼¶"
-#define GLY_CEXP7		"±¾Õ¾ÔªÀÏ"
-#define GLY_CEXP8		"¿ª¹ú´óÀÏ"
+// æè¿°ç»éªŒå€¼ç­‰çº§
+#define GLY_CEXP0 		"æ²¡ç­‰çº§"
+#define GLY_CEXP1		"æ–°æ‰‹ä¸Šè·¯"
+#define GLY_CEXP2		"ä¸€èˆ¬ç«™å‹"
+#define GLY_CEXP3		"ä¸­çº§ç«™å‹"
+#define GLY_CEXP4		"é«˜çº§ç«™å‹"
+#define GLY_CEXP5		"è€ç«™å‹"
+#define GLY_CEXP6		"é•¿è€çº§"
+#define GLY_CEXP7		"æœ¬ç«™å…ƒè€"
+#define GLY_CEXP8		"å¼€å›½å¤§è€"
 
-// ÃèÊöÎÄÕÂÊıµÈ¼¶
-#define GLY_CPOST0		"Ã»Ğ´ÎÄÕÂ"
-#define GLY_CPOST1		"ÎÄ²ÉÒ»°ã"
-#define GLY_CPOST2		"ÎÄ²ÉŞÈŞÈ"
-#define GLY_CPOST3		"ÎÄÌ³¸ßÊÖ"
-#define GLY_CPOST4		"ÎÄÌ³²©Ê¿"
-#define GLY_CPOST5		"ÎÄÌ³ÖÁ×ğ"
+// æè¿°æ–‡ç« æ•°ç­‰çº§
+#define GLY_CPOST0		"æ²¡å†™æ–‡ç« "
+#define GLY_CPOST1		"æ–‡é‡‡ä¸€èˆ¬"
+#define GLY_CPOST2		"æ–‡é‡‡å¥•å¥•"
+#define GLY_CPOST3		"æ–‡å›é«˜æ‰‹"
+#define GLY_CPOST4		"æ–‡å›åšå£«"
+#define GLY_CPOST5		"æ–‡å›è‡³å°Š"
 
-// ÃèÊö±íÏÖÖµµÈ¼¶
+// æè¿°è¡¨ç°å€¼ç­‰çº§
 /* Modified by Amigo 2002.06.23. Change perf description. */
-//#define GLY_CPERF0		"ĞÂÊÖÉÏÂ·"
-//#define GLY_CPERF1		"¸Ï¿ì¼ÓÓÍ"
-//#define GLY_CPERF2		"Å¬Á¦ÖĞ"
-//#define GLY_CPERF3		"»¹²»´í"
-//#define GLY_CPERF4		"ºÜºÃ"
-//#define GLY_CPERF5		"ÓÅµÈÉú"
-//#define GLY_CPERF6		"Ì«ÓÅĞãÁË"
-//#define GLY_CPERF7		"±¾Õ¾Ö§Öù"
-//#define GLY_CPERF8		"Éñ¡«¡«"
+//#define GLY_CPERF0		"æ–°æ‰‹ä¸Šè·¯"
+//#define GLY_CPERF1		"èµ¶å¿«åŠ æ²¹"
+//#define GLY_CPERF2		"åŠªåŠ›ä¸­"
+//#define GLY_CPERF3		"è¿˜ä¸é”™"
+//#define GLY_CPERF4		"å¾ˆå¥½"
+//#define GLY_CPERF5		"ä¼˜ç­‰ç”Ÿ"
+//#define GLY_CPERF6		"å¤ªä¼˜ç§€äº†"
+//#define GLY_CPERF7		"æœ¬ç«™æ”¯æŸ±"
+//#define GLY_CPERF8		"ç¥ï½ï½"
 /*
-1¡«100£¬´Ò´Ò¹ı¿Í
-101¡«200£¬ÅÔ¹ÛÕß
-201¡«300£¬¿ìÅ¬Á¦Ñ½
-301¡«400£¬»¹²»´í
-401¡«500£¬ÓÅĞã
-501¡«600£¬ºÃ¼«ÁË
-601¡«700£¬ÇáÎ¢¹ıÁ¿
-701¡«800£¬È¥Ñ§Ï°°É
-801¡«900£¬ÖĞ¶¾ÁË
-901¡«999£¬¿ìÃ»¾ÈÁË
-1000£¬Éñ°¡£¬¾È¾ÈÎÒ°É
+1ï½100ï¼ŒåŒ†åŒ†è¿‡å®¢
+101ï½200ï¼Œæ—è§‚è€…
+201ï½300ï¼Œå¿«åŠªåŠ›å‘€
+301ï½400ï¼Œè¿˜ä¸é”™
+401ï½500ï¼Œä¼˜ç§€
+501ï½600ï¼Œå¥½æäº†
+601ï½700ï¼Œè½»å¾®è¿‡é‡
+701ï½800ï¼Œå»å­¦ä¹ å§
+801ï½900ï¼Œä¸­æ¯’äº†
+901ï½999ï¼Œå¿«æ²¡æ•‘äº†
+1000ï¼Œç¥å•Šï¼Œæ•‘æ•‘æˆ‘å§
 */
-//#define GLY_CPERF5		"ÓÅµÈÉú"
-//#define GLY_CPERF6		"Ì«ÓÅĞãÁË"
-//#define GLY_CPERF7		"±¾Õ¾Ö§Öù"
-//#define GLY_CPERF8		"Éñ¡«¡«"
+//#define GLY_CPERF5		"ä¼˜ç­‰ç”Ÿ"
+//#define GLY_CPERF6		"å¤ªä¼˜ç§€äº†"
+//#define GLY_CPERF7		"æœ¬ç«™æ”¯æŸ±"
+//#define GLY_CPERF8		"ç¥ï½ï½"
 
-#define GLY_CPERF0		"´Ò´Ò¹ı¿Í"
-#define GLY_CPERF1		"ÅÔ¹ÛÕß"
-#define GLY_CPERF2		"¿ìÅ¬Á¦Ñ½"
-#define GLY_CPERF3		"»¹²»´í"
-#define GLY_CPERF4		"ºÜºÃ"
-#define GLY_CPERF5		"ÓÅĞã"
-#define GLY_CPERF6		"ºÃ¼«ÁË"
-#define GLY_CPERF7		"±¾Õ¾³£¿Í"
-#define GLY_CPERF8		"ÖĞ¼áÁ¦Á¿"
-#define GLY_CPERF9		"×ÊÉîÈËÊ¿"
-#define GLY_CPERFA		"½­ºşÔªÀÏ"
-#define GLY_CPERFB		"Éñ¡«¡«"
+#define GLY_CPERF0		"åŒ†åŒ†è¿‡å®¢"
+#define GLY_CPERF1		"æ—è§‚è€…"
+#define GLY_CPERF2		"å¿«åŠªåŠ›å‘€"
+#define GLY_CPERF3		"è¿˜ä¸é”™"
+#define GLY_CPERF4		"å¾ˆå¥½"
+#define GLY_CPERF5		"ä¼˜ç§€"
+#define GLY_CPERF6		"å¥½æäº†"
+#define GLY_CPERF7		"æœ¬ç«™å¸¸å®¢"
+#define GLY_CPERF8		"ä¸­åšåŠ›é‡"
+#define GLY_CPERF9		"èµ„æ·±äººå£«"
+#define GLY_CPERFA		"æ±Ÿæ¹–å…ƒè€"
+#define GLY_CPERFB		"ç¥ï½ï½"
 /* Modify end. */
 
-// ÃèÊö½±ÕÂÊı
-#define GLY_MEDAL0		"Ã»ÓĞ¹±Ï×,ºÙºÙ"
-#define GLY_MEDAL1		"ÓĞµã±íÏÖÁË:)"
-#define GLY_MEDAL2		"ÓĞ½Ï´óµÄ¹±Ï×"
-#define GLY_MEDAL3		"¹àË®Õ¾½¨ÉèÕß"
-#define GLY_MEDAL4		"¹àË®Õ¾µÄ¹¦Ø©"
+// æè¿°å¥–ç« æ•°
+#define GLY_MEDAL0		"æ²¡æœ‰è´¡çŒ®,å˜¿å˜¿"
+#define GLY_MEDAL1		"æœ‰ç‚¹è¡¨ç°äº†:)"
+#define GLY_MEDAL2		"æœ‰è¾ƒå¤§çš„è´¡çŒ®"
+#define GLY_MEDAL3		"çŒæ°´ç«™å»ºè®¾è€…"
+#define GLY_MEDAL4		"çŒæ°´ç«™çš„åŠŸä¸"
 
-// ÃèÊö½ğÇ®Êı
-#define GLY_MONEY0		"Çî¹âµ°:P"
-#define GLY_MONEY1		"ÃãÇ¿¶ÈÈÕ"
-#define GLY_MONEY2		"Ğ¡ÓĞ²Æ¸»"
-#define GLY_MONEY3		"ÓĞÇ®ÈË¼Ò"
-#define GLY_MONEY4		"Ğ¡¿µÖ®¼Ò"
-#define GLY_MONEY5		"ÍòÔª»§!!"
-#define GLY_MONEY6		"Ò»·½²Æ°Ô"
-#define GLY_MONEY7		"Ë®Õ¾²ÆÉñ"
+// æè¿°é‡‘é’±æ•°
+#define GLY_MONEY0		"ç©·å…‰è›‹:P"
+#define GLY_MONEY1		"å‹‰å¼ºåº¦æ—¥"
+#define GLY_MONEY2		"å°æœ‰è´¢å¯Œ"
+#define GLY_MONEY3		"æœ‰é’±äººå®¶"
+#define GLY_MONEY4		"å°åº·ä¹‹å®¶"
+#define GLY_MONEY5		"ä¸‡å…ƒæˆ·!!"
+#define GLY_MONEY6		"ä¸€æ–¹è´¢éœ¸"
+#define GLY_MONEY7		"æ°´ç«™è´¢ç¥"
 
 #endif

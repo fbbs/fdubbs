@@ -6,11 +6,11 @@ int main() {
 	init_all(); 
 	board=nohtml(getparm("board"));
 	if(board[0]==0) {
-		printf("<b>%s -- Ñ¡ÔñÌÖÂÛÇø</b>\n", BBSNAME);
+		printf("<b>%s -- é€‰æ‹©è®¨è®ºåŒº</b>\n", BBSNAME);
 		printpretable_lite();
 		printf("<form action=bbssel>\n");
-		printf("ÌÖÂÛÇøÃû³Æ: <input type=text name=board>");
-		printf(" <input type=submit value=È·¶¨>");
+		printf("è®¨è®ºåŒºåç§°: <input type=text name=board>");
+		printf(" <input type=submit value=ç¡®å®š>");
 		printf("</form>\n");
 		printposttable_lite();
 		http_quit();
@@ -29,9 +29,9 @@ int main() {
 				http_quit();
 			}
 		}
-		printf("<b>%s -- Ñ¡ÔñÌÖÂÛÇø</b>\n", BBSNAME);
-		printf("ÕÒ²»µ½Õâ¸öÌÖÂÛÇø, ", board);
-		printf("±êÌâÖĞº¬ÓĞ'%s'µÄÌÖÂÛÇøÓĞ: <br><br>\n", board);
+		printf("<b>%s -- é€‰æ‹©è®¨è®ºåŒº</b>\n", BBSNAME);
+		printf("æ‰¾ä¸åˆ°è¿™ä¸ªè®¨è®ºåŒº, ", board);
+		printf("æ ‡é¢˜ä¸­å«æœ‰'%s'çš„è®¨è®ºåŒºæœ‰: <br><br>\n", board);
 		printpretable();
 		printf("<table>");
 		for(i=0; i<MAXBOARD; i++) {
@@ -54,7 +54,7 @@ int main() {
 		}
 		printf("</table>\n");
 		printposttable();
-		printf("<br>¹²ÕÒµ½%d¸ö·ûºÏÌõ¼şµÄÌÖÂÛÇø.\n", total);
+		printf("<br>å…±æ‰¾åˆ°%dä¸ªç¬¦åˆæ¡ä»¶çš„è®¨è®ºåŒº.\n", total);
 
 		http_quit();
 

@@ -10,13 +10,13 @@ int main() {
 	struct fileheader x;
 	struct boardheader *brd;
 	   	init_all();
-	printf("<b>·¢±íÎÄÕÂ ¡¤ %s </b><br>\n",BBSNAME);
+	printf("<b>å‘è¡¨æ–‡ç«  Â· %s </b><br>\n",BBSNAME);
 	printpretable_lite();
-	if(!loginok) http_fatal("´Ò´Ò¹ı¿Í²»ÄÜ·¢±íÎÄÕÂ£¬ÇëÏÈµÇÂ¼");
+	if(!loginok) http_fatal("åŒ†åŒ†è¿‡å®¢ä¸èƒ½å‘è¡¨æ–‡ç« ï¼Œè¯·å…ˆç™»å½•");
    	strsncpy(board, getparm("board"), 80);
    	strsncpy(title, noansi(getparm("title")), 80);
  	brd=getbcache(board);
-	if(brd==0) http_fatal("´íÎóµÄÌÖÂÛÇøÃû³Æ");
+	if(brd==0) http_fatal("é”™è¯¯çš„è®¨è®ºåŒºåç§°");
 	strcpy(board, brd->filename);
   	for(i=0; i<strlen(title); i++)
 		if(title[i]<=27 && title[i]>=-1) title[i]=' ';
@@ -31,7 +31,7 @@ int main() {
 		{
 			if (strlen(title) > 48)
 				title[48] = '\0';
-			sprintf(tempfilename, "Re£º%s", &title[3]);
+			sprintf(tempfilename, "Reï¼š%s", &title[3]);
 			strcpy(title, tempfilename);
 		}
 	}
@@ -39,13 +39,13 @@ int main() {
 	sig=atoi(getparm("signature"));
    	content=getparm("text");
    	if(title[0]==0)
-      		http_fatal("ÎÄÕÂ±ØĞëÒªÓĞ±êÌâ");
+      		http_fatal("æ–‡ç« å¿…é¡»è¦æœ‰æ ‡é¢˜");
       	sprintf(dir, "boards/%s/.DIR", board);
         if(!has_post_perm(&currentuser, board))
-	    	http_fatal("´ËÌÖÂÛÇøÊÇÎ¨¶ÁµÄ, »òÊÇÄúÉĞÎŞÈ¨ÏŞÔÚ´Ë·¢±íÎÄÕÂ.");
+	    	http_fatal("æ­¤è®¨è®ºåŒºæ˜¯å”¯è¯»çš„, æˆ–æ˜¯æ‚¨å°šæ— æƒé™åœ¨æ­¤å‘è¡¨æ–‡ç« .");
 	sprintf(filename, "boards/%s/deny_users", board);
 	if(file_has_word(filename, currentuser.userid))
-		http_fatal("ºÜ±§Ç¸, Äú±»°æÎñÈËÔ±Í£Ö¹ÁË±¾°æµÄpostÈ¨Àû.");
+		http_fatal("å¾ˆæŠ±æ­‰, æ‚¨è¢«ç‰ˆåŠ¡äººå‘˜åœæ­¢äº†æœ¬ç‰ˆçš„postæƒåˆ©.");
 #ifdef SPARC
 	if(abs(time(0) - *(int*)(u_info->from+34))<6) { //modified from 36 to 34 for sparc solaris by roly 02.02.28
 		*(int*)(u_info->from+34)=time(0); //modified from 36 to 34 for sparc solaris by roly 02.02.28
@@ -53,7 +53,7 @@ int main() {
 	if(abs(time(0) - *(int*)(u_info->from+36))<6) { //modified from 36 to 34 for sparc solaris by roly 02.02.28
 		*(int*)(u_info->from+36)=time(0); //modified from 36 to 34 for sparc solaris by roly 02.02.28
 #endif
-		http_fatal("Á½´Î·¢ÎÄ¼ä¸ô¹ıÃÜ, ÇëĞİÏ¢¼¸ÃëºóÔÙÊÔ");
+		http_fatal("ä¸¤æ¬¡å‘æ–‡é—´éš”è¿‡å¯†, è¯·ä¼‘æ¯å‡ ç§’åå†è¯•");
 	}
 #ifdef SPARC
 	*(int*)(u_info->from+34)=time(0);//modified from 36 to 34 for sparc solaris by roly 02.02.28
@@ -66,7 +66,7 @@ int main() {
 	r=post_article(board, title, filename, currentuser.userid, currentuser.username, fromhost, o_id, o_gid, sig-1);
 
 	
-	if(r<=0) http_fatal("ÄÚ²¿´íÎó£¬ÎŞ·¨·¢ÎÄ");
+	if(r<=0) http_fatal("å†…éƒ¨é”™è¯¯ï¼Œæ— æ³•å‘æ–‡");
 	sprintf(buf, "M.%d.A", r);
 	brc_init(currentuser.userid, board);
 	brc_add_read(buf);

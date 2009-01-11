@@ -22,30 +22,30 @@ int main() {
 "    					<TD background=/bbsuserbg.jpg>\n"
 "    					<img border='0' src='/bbsuser.jpg' width='80' height='16'></TD></TR>\n"
 "					  <TR>\n"
-"					    <TD  background=/bbsuserbg.jpg >ÕÊºÅ: <INPUT style='HEIGHT: 20px' maxLength=12 size=8 name=id></TD></TR>\n"
+"					    <TD  background=/bbsuserbg.jpg >å¸å·: <INPUT style='HEIGHT: 20px' maxLength=12 size=8 name=id></TD></TR>\n"
 "					  <TR>\n"
-"					    <TD  background=/bbsuserbg.jpg >ÃÜÂë: <INPUT style='HEIGHT: 20px' type=password maxLength=12 size=8 name=pw></TD></TR>\n"
-"					  <TR><TD  width='132' height='45' background='/bbsusersign.jpg'><input style='width:40px; height:20px; Font-size=12px;BACKGROUND-COLOR:c0b0b0' type=submit value=µÇÂ¼>\n"
+"					    <TD  background=/bbsuserbg.jpg >å¯†ç : <INPUT style='HEIGHT: 20px' type=password maxLength=12 size=8 name=pw></TD></TR>\n"
+"					  <TR><TD  width='132' height='45' background='/bbsusersign.jpg'><input style='width:40px; height:20px; Font-size=12px;BACKGROUND-COLOR:c0b0b0' type=submit value=ç™»å½•>\n"
 "                      </TD></TR>\n"
 "					  </TBODY></TABLE></FORM>\n");
 	} else {
-                char buf[256]="Î´×¢²áÓÃ»§";
+                char buf[256]="æœªæ³¨å†Œç”¨æˆ·";
 		printf("<TABLE style='border-collapse: collapse' bordercolor='#111111' cellpadding='0' cellspacing='0'>\n"
 "  				<TBODY>\n"
 "  					  <TR>\n"
 "    					<TD colSpan=2>\n"
 "    					<img border='0' src='/bbsuser.jpg' width='80' height='16'></TD></TR>\n"
 "					  <TR>\n"
-"						<TD height='22'>ÓÃ»§: <a href=bbsqry?userid=%s target=f3>%s</a></TD></TR>", currentuser.userid, currentuser.userid);
+"						<TD height='22'>ç”¨æˆ·: <a href=bbsqry?userid=%s target=f3>%s</a></TD></TR>", currentuser.userid, currentuser.userid);
                 
 				if(currentuser.userlevel & PERM_REGISTER) strcpy(buf, cexpstr(countexp(&currentuser)));
-                if(currentuser.userlevel & PERM_BOARDS) strcpy(buf, "°æÖ÷");
-				if(currentuser.userlevel & PERM_XEMPT) strcpy(buf, "ÓÀ¾ÃÕÊºÅ");
-                if(currentuser.userlevel & PERM_SYSOPS) strcpy(buf, "±¾Õ¾Õ¾³¤");
+                if(currentuser.userlevel & PERM_BOARDS) strcpy(buf, "ç‰ˆä¸»");
+				if(currentuser.userlevel & PERM_XEMPT) strcpy(buf, "æ°¸ä¹…å¸å·");
+                if(currentuser.userlevel & PERM_SYSOPS) strcpy(buf, "æœ¬ç«™ç«™é•¿");
                 
-				printf("<TR><TD height='22'>   ¼¶±ğ: %s</TD></TR>", buf);
+				printf("<TR><TD height='22'>   çº§åˆ«: %s</TD></TR>", buf);
                 printf("<TR><TD  width='132' height='45' background='/bbsusersign.jpg'>\n"
-			"		<a href=bbslogout target=_top>×¢Ïú±¾´ÎµÇÂ¼</a>\n"
+			"		<a href=bbslogout target=_top>æ³¨é”€æœ¬æ¬¡ç™»å½•</a>\n"
 			"	</TD></TR></TBODY></TABLE>\n");
 	}
   	printf("</body>");

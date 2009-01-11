@@ -10,53 +10,53 @@ int main() {
    	struct fileheader  *x;
 	
 	//added by iamfat 2002.08.17
-    sprintf(origin, ":¡¤%s %s¡¤", BBSNAME, BBSHOST);
+    sprintf(origin, ":Â·%s %sÂ·", BBSNAME, BBSHOST);
 	//added end
 
 	init_all();
 	if(!loginok) 
 	{
-		printf("<b>ĞŞ¸ÄÎÄÕÂ ¡¤ %s </b><br>\n", BBSNAME);
+		printf("<b>ä¿®æ”¹æ–‡ç«  Â· %s </b><br>\n", BBSNAME);
 		printpretable_lite();
-		http_fatal("´Ò´Ò¹ı¿Í²»ÄÜĞŞ¸ÄÎÄÕÂ£¬ÇëÏÈµÇÂ¼");
+		http_fatal("åŒ†åŒ†è¿‡å®¢ä¸èƒ½ä¿®æ”¹æ–‡ç« ï¼Œè¯·å…ˆç™»å½•");
 	}
 	strsncpy(board, getparm("board"), 20);
 	type=atoi(getparm("type"));
 	brd=getbcache(board);
 	if(brd==0) 
 	{
-		printf("<b>ĞŞ¸ÄÎÄÕÂ ¡¤ %s </b><br>\n", BBSNAME);
+		printf("<b>ä¿®æ”¹æ–‡ç«  Â· %s </b><br>\n", BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	}
 	strcpy(board, brd->filename);
 	strsncpy(file, getparm("file"), 32);
 	if(!has_post_perm(&currentuser, board))
 	{
-		printf("<b>ĞŞ¸ÄÎÄÕÂ ¡¤ %s </b><br>\n", BBSNAME);
+		printf("<b>ä¿®æ”¹æ–‡ç«  Â· %s </b><br>\n", BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇø»òÕßÄúÎŞÈ¨ÔÚ´ËÌÖÂÛÇø·¢±íÎÄÕÂ");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒºæˆ–è€…æ‚¨æ— æƒåœ¨æ­¤è®¨è®ºåŒºå‘è¡¨æ–‡ç« ");
 	}
    	x=get_file_ent(board, file);
 	if(strstr(file, "..") || strstr(file, "/")) 
 	{
-		printf("<b>ĞŞ¸ÄÎÄÕÂ ¡¤ %s </b><br>\n", BBSNAME);
+		printf("<b>ä¿®æ”¹æ–‡ç«  Â· %s </b><br>\n", BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄ²ÎÊı");
+		http_fatal("é”™è¯¯çš„å‚æ•°");
 	}
 	if(x==0) 
 	{
-		printf("<b>ĞŞ¸ÄÎÄÕÂ ¡¤ %s </b><br>\n", BBSNAME);
+		printf("<b>ä¿®æ”¹æ–‡ç«  Â· %s </b><br>\n", BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄ²ÎÊı");
+		http_fatal("é”™è¯¯çš„å‚æ•°");
 	}
 	if(strcmp(x->owner, currentuser.userid)&& !has_BM_perm(&currentuser, board)) 
 	{
-		printf("<b>ĞŞ¸ÄÎÄÕÂ ¡¤ %s </b><br>\n", BBSNAME);
+		printf("<b>ä¿®æ”¹æ–‡ç«  Â· %s </b><br>\n", BBSNAME);
 		printpretable_lite();
-		http_fatal("ÄúÎŞÈ¨ĞŞ¸Ä´ËÎÄÕÂ");
+		http_fatal("æ‚¨æ— æƒä¿®æ”¹æ­¤æ–‡ç« ");
 	}
-	printf("<b>ĞŞ¸ÄÎÄÕÂ ¡¤ %s [Ê¹ÓÃÕß: %s]</b><br>\n", BBSNAME, currentuser.userid);
+	printf("<b>ä¿®æ”¹æ–‡ç«  Â· %s [ä½¿ç”¨è€…: %s]</b><br>\n", BBSNAME, currentuser.userid);
 	printf("<center>\n");
 	printpretable_lite();
 	if(type!=0)
@@ -70,13 +70,13 @@ int main() {
    	printf("<table border=1>\n");
 	printf("<tr><td>");
 	printf("<tr><td><form method=post action=bbsedit>\n");
-   	printf("Ê¹ÓÃ±êÌâ: %s ÌÖÂÛÇø: %s<br>\n", nohtml(x->title), board);
-   	printf("±¾ÎÄ×÷Õß£º%s<br>\n", currentuser.userid);
+   	printf("ä½¿ç”¨æ ‡é¢˜: %s è®¨è®ºåŒº: %s<br>\n", nohtml(x->title), board);
+   	printf("æœ¬æ–‡ä½œè€…ï¼š%s<br>\n", currentuser.userid);
    	printf("<textarea name=text rows=20 cols=80 wrap=physicle>");
 	sprintf(path, "boards/%s/%s", board, file);
 	fp=fopen(path, "r");
-	if(fp==0) http_fatal("ÎÄ¼ş¶ªÊ§");
-	//added by iamfat 2002.08.17 Ìø¹ıHeader
+	if(fp==0) http_fatal("æ–‡ä»¶ä¸¢å¤±");
+	//added by iamfat 2002.08.17 è·³è¿‡Header
 	while(fgets(buf, 500, fp) && buf[0]!='\n');
 	while(fgets(buf, 500, fp))
 	{
@@ -89,8 +89,8 @@ int main() {
 	printf("<input type=hidden name=type value=1>\n");
 	printf("<input type=hidden name=board value=%s>\n", board);
 	printf("<input type=hidden name=file value=%s>\n", file);
-	printf("<input type=submit value=´æÅÌ> \n");
-   	printf("<input type=reset value=ÖØÖÃ></form>\n");
+	printf("<input type=submit value=å­˜ç›˜> \n");
+   	printf("<input type=reset value=é‡ç½®></form>\n");
 	printf("</table>");
 	http_quit();
 }
@@ -101,13 +101,13 @@ int update_form(char *board, char *file) {
 	char *buf=getparm("text"), path[80];
 	sprintf(path, "boards/%s/%s", board, file);
 	fp=fopen(path, "w");
-	if(fp==0) http_fatal("ÎŞ·¨´æÅÌ");
+	if(fp==0) http_fatal("æ— æ³•å­˜ç›˜");
 	fprintf(fp, "%s", buf);
-//	fprintf(fp, "\n¡ù ĞŞ¸Ä:£®%s ì¶ %s ĞŞ¸Ä±¾ÎÄ£®[FROM: %s] ", currentuser.userid, Ctime(time(0))+4, fromhost);
+//	fprintf(fp, "\nâ€» ä¿®æ”¹:ï¼%s æ–¼ %s ä¿®æ”¹æœ¬æ–‡ï¼[FROM: %s] ", currentuser.userid, Ctime(time(0))+4, fromhost);
 //modified by iamfat 2002.08.01
-	fprintf(fp, "[m[1;36m¡ù ĞŞ¸Ä:¡¤%s ì¶ %16.16s ĞŞ¸Ä±¾ÎÄ¡¤HTTP [FROM: %-.20s][m\n", currentuser.userid, cn_Ctime(time(0))+6, fromhost);
+	fprintf(fp, "[m[1;36mâ€» ä¿®æ”¹:Â·%s æ–¼ %16.16s ä¿®æ”¹æœ¬æ–‡Â·HTTP [FROM: %-.20s][m\n", currentuser.userid, cn_Ctime(time(0))+6, fromhost);
 	fclose(fp);
-	printf("ĞŞ¸ÄÎÄÕÂ³É¹¦.<br><a href=bbsdoc?board=%s>·µ»Ø±¾ÌÖÂÛÇø</a>", board);
+	printf("ä¿®æ”¹æ–‡ç« æˆåŠŸ.<br><a href=bbsdoc?board=%s>è¿”å›æœ¬è®¨è®ºåŒº</a>", board);
 }
 */
 //rewrite by iamfat 2002.08.17
@@ -120,7 +120,7 @@ int update_form(char *board, char *file) {
 	sprintf(pathnew, "boards/%s/%s.%d", board, file, u_info->pid);
 	fpr=fopen(path, "r");
 	fpw=fopen(pathnew, "w");
-	if(fpw==0||fpr==0) http_fatal("ÎŞ·¨´æÅÌ");
+	if(fpw==0||fpr==0) http_fatal("æ— æ³•å­˜ç›˜");
 	while(fgets(buf2, 500, fpr) && buf2[0]!='\n')fprintf(fpw,"%s",buf2);
 	fprintf(fpw, "\n%s\n", buf);
 	while(fgets(buf2,500,fpr)!=0)
@@ -128,12 +128,12 @@ int update_form(char *board, char *file) {
 		if(strstr(buf2,origin) && buf2[0]!=':')flag=1;
 		if(flag)
 		{
-			if(strncmp(buf2,"[m[1;36m¡ù ĞŞ¸Ä:¡¤",17))fprintf(fpw,"%s",buf2);
+			if(strncmp(buf2,"[m[1;36mâ€» ä¿®æ”¹:Â·",17))fprintf(fpw,"%s",buf2);
 		}
 	}
-	fprintf(fpw, "[m[1;36m¡ù ĞŞ¸Ä:¡¤%s ì¶ %16.16s ĞŞ¸Ä±¾ÎÄ¡¤HTTP [FROM: %-.20s][m\n", currentuser.userid, cn_Ctime(time(0))+6, fromhost);
+	fprintf(fpw, "[m[1;36mâ€» ä¿®æ”¹:Â·%s æ–¼ %16.16s ä¿®æ”¹æœ¬æ–‡Â·HTTP [FROM: %-.20s][m\n", currentuser.userid, cn_Ctime(time(0))+6, fromhost);
 	fclose(fpw);
 	fclose(fpr);
 	rename(pathnew, path);
-	printf("ĞŞ¸ÄÎÄÕÂ³É¹¦.<br><a href=bbsdoc?board=%s>·µ»Ø±¾ÌÖÂÛÇø</a>", board);
+	printf("ä¿®æ”¹æ–‡ç« æˆåŠŸ.<br><a href=bbsdoc?board=%s>è¿”å›æœ¬è®¨è®ºåŒº</a>", board);
 }

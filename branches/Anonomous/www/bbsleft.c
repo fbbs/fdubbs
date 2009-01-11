@@ -21,7 +21,7 @@ void EndMenuDrop()
 int main() {
         char buf[1024], *ptr;
         init_all();
-        printf("<title>»¶Ó­¹âÁÙÈÕÔÂ¹â»ªBBS</title>");
+        printf("<title>æ¬¢è¿å…‰ä¸´æ—¥æœˆå…‰åBBS</title>");
         printf("<style type=text/css>\n"
 "               body {\n"
 "                 margin:0; padding:0; font-family: tahoma, verdana, arial; font-size: 9pt; color: #ffffff; background: #336699; overflow:hidden;\n"
@@ -103,13 +103,13 @@ printf("<div style=\"height:100%%\">");
 printf("<a href=\"#\" onclick=\"switch_bar()\" id=\"switchbar\">&nbsp;</a>");
 printf("<div id=\"mainbar\">");
 
-        printf(MENUITEM ,"/cgi-bin/bbs/bbs0an",FRAME_VIEW,"/images/announce.gif","±¾Õ¾¾«»ª");
-        printf(MENUITEM ,"/cgi-bin/bbs/bbsall",FRAME_VIEW,"/images/penguin.gif","È«²¿ÌÖÂÛ");
+        printf(MENUITEM ,"/cgi-bin/bbs/bbs0an",FRAME_VIEW,"/images/announce.gif","æœ¬ç«™ç²¾å");
+        printf(MENUITEM ,"/cgi-bin/bbs/bbsall",FRAME_VIEW,"/images/penguin.gif","å…¨éƒ¨è®¨è®º");
 
-        BeginMenuDrop("Stat","/images/top10.gif","Í³¼ÆÊı¾İ");
-        printf(MENUSUBITEM,"/cgi-bin/bbs/bbstop10",FRAME_VIEW,"/images/blankblock.gif","±¾ÈÕÊ®´ó");
-        printf(MENUSUBITEM,"/cgi-bin/bbs/bbstopb10",FRAME_VIEW,"/images/blankblock.gif","ÈÈÃÅÌÖÂÛ");
-        printf(MENUSUBITEM,"/cgi-bin/bbs/bbsuserinfo",FRAME_VIEW,"/images/blankblock.gif","ÔÚÏßÍ³¼Æ");
+        BeginMenuDrop("Stat","/images/top10.gif","ç»Ÿè®¡æ•°æ®");
+        printf(MENUSUBITEM,"/cgi-bin/bbs/bbstop10",FRAME_VIEW,"/images/blankblock.gif","æœ¬æ—¥åå¤§");
+        printf(MENUSUBITEM,"/cgi-bin/bbs/bbstopb10",FRAME_VIEW,"/images/blankblock.gif","çƒ­é—¨è®¨è®º");
+        printf(MENUSUBITEM,"/cgi-bin/bbs/bbsuserinfo",FRAME_VIEW,"/images/blankblock.gif","åœ¨çº¿ç»Ÿè®¡");
         EndMenuDrop();
 
         if(loginok) {
@@ -117,8 +117,8 @@ printf("<div id=\"mainbar\">");
                 int i;
                 char *cgi="bbsdoc";
                 if(atoi(getparm("my_def_mode"))!=0) cgi="bbstdoc";
-                BeginMenuDrop("Favorite", "/images/favorite.gif","ÎÒµÄÊÕ²Ø");
-                printf(MENUSUBITEM, "/cgi-bin/bbs/bbsmybrd",FRAME_VIEW,"/images/blankblock.gif","Ô¤¶¨¹ÜÀí");
+                BeginMenuDrop("Favorite", "/images/favorite.gif","æˆ‘çš„æ”¶è—");
+                printf(MENUSUBITEM, "/cgi-bin/bbs/bbsmybrd",FRAME_VIEW,"/images/blankblock.gif","é¢„å®šç®¡ç†");
                 sprintf(buf, "home/%c/%s/.goodbrd", toupper(currentuser.userid[0]), currentuser.userid);
                 fp=fopen(buf, "rb");
                 if(fp!=NULL)
@@ -146,7 +146,7 @@ printf("<div id=\"mainbar\">");
                 EndMenuDrop();
         }
 
-        BeginMenuDrop("EGroup","/images/egroup.gif","·ÖÀàÌÖÂÛ");
+        BeginMenuDrop("EGroup","/images/egroup.gif","åˆ†ç±»è®¨è®º");
         {
                 int i, j;
                 struct boardheader *x;
@@ -161,56 +161,56 @@ printf("<div id=\"mainbar\">");
         }
         EndMenuDrop();
 
-        BeginMenuDrop("QueQiao","/images/chat.gif","ÈµÇÅÏà»á");
+        BeginMenuDrop("QueQiao","/images/chat.gif","é¹Šæ¡¥ç›¸ä¼š");
         if(loginok)
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsfriend",FRAME_VIEW,"/images/blankblock.gif","ÔÚÏßºÃÓÑ");
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsusr",FRAME_VIEW,"/images/blankblock.gif","»·¹ËËÄ·½");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsfriend",FRAME_VIEW,"/images/blankblock.gif","åœ¨çº¿å¥½å‹");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsusr",FRAME_VIEW,"/images/blankblock.gif","ç¯é¡¾å››æ–¹");
         if(currentuser.userlevel & PERM_TALK) {
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbssendmsg",FRAME_VIEW,"/images/blankblock.gif","·¢ËÍÑ¶Ï¢");
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsmsg",FRAME_VIEW,"/images/blankblock.gif","²é¿´ËùÓĞÑ¶Ï¢");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbssendmsg",FRAME_VIEW,"/images/blankblock.gif","å‘é€è®¯æ¯");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsmsg",FRAME_VIEW,"/images/blankblock.gif","æŸ¥çœ‹æ‰€æœ‰è®¯æ¯");
         }
         EndMenuDrop();
 
 if(loginok) {
-        BeginMenuDrop("Config","/images/config.gif","¸öÈËÉèÖÃ");
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsinfo",FRAME_VIEW,"/images/blankblock.gif","¸öÈË×ÊÁÏ");
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsplan",FRAME_VIEW,"/images/blankblock.gif","¸ÄËµÃ÷µµ");
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbssig",FRAME_VIEW,"/images/blankblock.gif","¸ÄÇ©Ãûµµ");
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsmywww",FRAME_VIEW,"/images/blankblock.gif","WWW¶¨ÖÆ");
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbspwd",FRAME_VIEW,"/images/blankblock.gif","ĞŞ¸ÄÃÜÂë");
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsnick",FRAME_VIEW,"/images/blankblock.gif","ÁÙÊ±¸ÄêÇ³Æ");
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsfall",FRAME_VIEW,"/images/blankblock.gif","Éè¶¨ºÃÓÑ");
+        BeginMenuDrop("Config","/images/config.gif","ä¸ªäººè®¾ç½®");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsinfo",FRAME_VIEW,"/images/blankblock.gif","ä¸ªäººèµ„æ–™");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsplan",FRAME_VIEW,"/images/blankblock.gif","æ”¹è¯´æ˜æ¡£");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbssig",FRAME_VIEW,"/images/blankblock.gif","æ”¹ç­¾åæ¡£");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsmywww",FRAME_VIEW,"/images/blankblock.gif","WWWå®šåˆ¶");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbspwd",FRAME_VIEW,"/images/blankblock.gif","ä¿®æ”¹å¯†ç ");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsnick",FRAME_VIEW,"/images/blankblock.gif","ä¸´æ—¶æ”¹æ˜µç§°");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsfall",FRAME_VIEW,"/images/blankblock.gif","è®¾å®šå¥½å‹");
                 if(currentuser.userlevel & PERM_CLOAK)
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbscloak",FRAME_VIEW,"/images/blankblock.gif","ÇĞ»»ÒşÉí");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbscloak",FRAME_VIEW,"/images/blankblock.gif","åˆ‡æ¢éšèº«");
         EndMenuDrop();
 
-        BeginMenuDrop("Mail","/images/mail.gif","´¦ÀíĞÅ¼ş");
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsnewmail",FRAME_VIEW,"/images/mail_new.gif","ÔÄÀÀĞÂĞÅ¼ş");
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsmail",FRAME_VIEW,"/images/mail.gif","ËùÓĞĞÅ¼ş");
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsmaildown",FRAME_VIEW,"/images/mail_get.gif","ÏÂÔØĞÅ¼ş");
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbspstmail",FRAME_VIEW,"/images/mail_write.gif","·¢ËÍĞÅ¼ş");
+        BeginMenuDrop("Mail","/images/mail.gif","å¤„ç†ä¿¡ä»¶");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsnewmail",FRAME_VIEW,"/images/mail_new.gif","é˜…è§ˆæ–°ä¿¡ä»¶");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsmail",FRAME_VIEW,"/images/mail.gif","æ‰€æœ‰ä¿¡ä»¶");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbsmaildown",FRAME_VIEW,"/images/mail_get.gif","ä¸‹è½½ä¿¡ä»¶");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbspstmail",FRAME_VIEW,"/images/mail_write.gif","å‘é€ä¿¡ä»¶");
         EndMenuDrop();
 }
 
-        BeginMenuDrop("Search","/images/search.gif","²éÕÒÑ¡Ïî");
-                if(HAS_PERM(PERM_OBOARDS)&&HAS_PERM(PERM_SPECIAL0)) //ĞŞ¸ÄÈ¨ÏŞÏŞ¶¨+0È¨ÏŞ¿ØÖÆ06.1.2
-                        printf(MENUSUBITEM,"/cgi-bin/bbs/bbsfind",FRAME_VIEW,"/images/blankblock.gif","²éÕÒÎÄÕÂ");
-                if(loginok)printf(MENUSUBITEM,"/cgi-bin/bbs/bbsqry",FRAME_VIEW,"/images/blankblock.gif","²éÑ¯ÍøÓÑ");
-                printf(MENUSUBITEM,"/cgi-bin/bbs/bbssel",FRAME_VIEW,"/images/blankblock.gif","²éÕÒÌÖÂÛÇø");
-                printf(MENUSUBITEM,"/cgi-bin/rsearch",FRAME_VIEW,"/images/search.gif","ÈÕÔÂ¹â»ªËÑË÷");
-                printf(MENUSUBITEM,"http://ycul.com?ref=bbs.fudan.edu.cn",FRAME_VIEW,"/images/service/ycul.gif","YculËÑË÷");
-                printf(MENUSUBITEM,"http://10.13.200.200:8080/",FRAME_VIEW,"/images/blankblock.gif","¸»¿âËÑË÷");
-                printf(MENUSUBITEM,"http://www.cit.fudan.edu.cn/opensource/",FRAME_VIEW,"/images/blankblock.gif","ĞÅÏ¢²úÒµÖ÷ÌåÊı¾İ¿â");      
+        BeginMenuDrop("Search","/images/search.gif","æŸ¥æ‰¾é€‰é¡¹");
+                if(HAS_PERM(PERM_OBOARDS)&&HAS_PERM(PERM_SPECIAL0)) //ä¿®æ”¹æƒé™é™å®š+0æƒé™æ§åˆ¶06.1.2
+                        printf(MENUSUBITEM,"/cgi-bin/bbs/bbsfind",FRAME_VIEW,"/images/blankblock.gif","æŸ¥æ‰¾æ–‡ç« ");
+                if(loginok)printf(MENUSUBITEM,"/cgi-bin/bbs/bbsqry",FRAME_VIEW,"/images/blankblock.gif","æŸ¥è¯¢ç½‘å‹");
+                printf(MENUSUBITEM,"/cgi-bin/bbs/bbssel",FRAME_VIEW,"/images/blankblock.gif","æŸ¥æ‰¾è®¨è®ºåŒº");
+                printf(MENUSUBITEM,"/cgi-bin/rsearch",FRAME_VIEW,"/images/search.gif","æ—¥æœˆå…‰åæœç´¢");
+                printf(MENUSUBITEM,"http://ycul.com?ref=bbs.fudan.edu.cn",FRAME_VIEW,"/images/service/ycul.gif","Yculæœç´¢");
+                printf(MENUSUBITEM,"http://10.13.200.200:8080/",FRAME_VIEW,"/images/blankblock.gif","å¯Œåº“æœç´¢");
+                printf(MENUSUBITEM,"http://www.cit.fudan.edu.cn/opensource/",FRAME_VIEW,"/images/blankblock.gif","ä¿¡æ¯äº§ä¸šä¸»ä½“æ•°æ®åº“");      
         EndMenuDrop();
 
 
-        BeginMenuDrop("Service","/images/service.gif","¹«¹²·şÎñ");
-                printf(MENUSUBITEM,"#","_self","/images/blankblock.gif","¿ª·¢ÖĞ...");
+        BeginMenuDrop("Service","/images/service.gif","å…¬å…±æœåŠ¡");
+                printf(MENUSUBITEM,"#","_self","/images/blankblock.gif","å¼€å‘ä¸­...");
         EndMenuDrop();
 
-        printf(MENUITEM,"telnet://bbs.fudan.sh.cn:2323","_top","/images/telnet.gif","ÖÕ¶ËµÇÂ¼");
+        printf(MENUITEM,"telnet://bbs.fudan.sh.cn:2323","_top","/images/telnet.gif","ç»ˆç«¯ç™»å½•");
         if(loginok)
-                printf(MENUITEM,"/cgi-bin/bbs/bbslogout","_top","/images/exit.gif","×¢ÏúµÇÂ¼");
+                printf(MENUITEM,"/cgi-bin/bbs/bbslogout","_top","/images/exit.gif","æ³¨é”€ç™»å½•");
         
         printf("</body>\n</html>");
 }

@@ -84,15 +84,15 @@ extern long ti ;
 #define MAXFRIENDS (300)
 #define MAXREJECTS (32)
 #define NUMPERMS   (30)
-#define REG_EXPIRED	3600    /* ÖØ×öÉí·İÈ·ÈÏÆÚÏŞ */
-#define MAXGUEST	16	   /* ×î¶à guest ÕÊºÅÉÏÕ¾¸öÊı */
+#define REG_EXPIRED	3600    /* é‡åšèº«ä»½ç¡®è®¤æœŸé™ */
+#define MAXGUEST	16	   /* æœ€å¤š guest å¸å·ä¸Šç«™ä¸ªæ•° */
 
 #define FILE_BUFSIZE        200    /* max. length of a file in SHM*/
 #define FILE_MAXLINE         25    /* max. line of a file in SHM */
-#define MAX_WELCOME          15    /* »¶Ó­»­ÃæÊı */
-#define MAX_GOODBYE          15    /* ÀëÕ¾»­ÃæÊı */
-#define MAX_ISSUE            15    /* ×î´ó½øÕ¾»­ÃæÊı */
-#define MAX_DIGEST         1000    /* ×î´óÎÄÕªÊı */
+#define MAX_WELCOME          15    /* æ¬¢è¿ç”»é¢æ•° */
+#define MAX_GOODBYE          15    /* ç¦»ç«™ç”»é¢æ•° */
+#define MAX_ISSUE            15    /* æœ€å¤§è¿›ç«™ç”»é¢æ•° */
+#define MAX_DIGEST         1000    /* æœ€å¤§æ–‡æ‘˜æ•° */
 #define MAX_POSTRETRY       100
 
 #define MORE_BUFSIZE       4096
@@ -118,7 +118,7 @@ extern long ti ;
 #define PASSLEN		 	14    /* User's password length (13 chars) */
 
 #ifdef CODE_VALID
-  #define RNDPASSLEN             10        /* °µÂëÈÏÖ¤µÄ°µÂë³¤¶È (ÊÊÒË·¶Î§ 4~10)*/
+  #define RNDPASSLEN             10        /* æš—ç è®¤è¯çš„æš—ç é•¿åº¦ (é€‚å®œèŒƒå›´ 4~10)*/
 #endif
 
 #define MAXGOPHERITEMS     9999    /* max of gopher items */
@@ -168,13 +168,13 @@ extern  char ULIST[];
 #define CLOAK_FLAG   0x2   /* true if cloak was ON last session */
 #define SIG_FLAG     0x8   /* true if sig was turned OFF last session */
 #define BRDSORT_FLAG 0x20  /* true if the boards sorted alphabetical */
-#define CURSOR_FLAG  0x80  /* true if the cursor mode open *//* ÏÖÔÚ²»ÓÃÁË */
+#define CURSOR_FLAG  0x80  /* true if the cursor mode open *//* ç°åœ¨ä¸ç”¨äº† */
 #define ACTIVE_BOARD 0x200 /* true if user toggled active movie board on */
 
 #define MSG_SEPERATOR   "\
-¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª"
-#define MULTI_LOGINS	2	/* Í¬Ê±¿ÉÉÏÕ¾ ID Êı */
-#define DEF_VALUE		"¡ï¡ï »¶Ó­¹âÁÙÈÕÔÂ¹â»ªÕ¾! ¡ï¡ï"
+â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”"
+#define MULTI_LOGINS	2	/* åŒæ—¶å¯ä¸Šç«™ ID æ•° */
+#define DEF_VALUE		"â˜…â˜… æ¬¢è¿å…‰ä¸´æ—¥æœˆå…‰åç«™! â˜…â˜…"
 #define DEF_FILE		"etc/whatdate"
 
 #define ALL_PAGER       0x1

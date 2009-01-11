@@ -14,7 +14,7 @@
 
 #define TLINES 18
 #define SQUID
-//added by iamfat 2002.08.29 for ¸¡¶¯±íÏÖÖµ
+//added by iamfat 2002.08.29 for æµ®åŠ¨è¡¨ç°å€¼
 #define MAX_PERF (1000)
 #define MAX_LUCKY (20)
 void SpecialID(const char* uid, char* host);
@@ -54,41 +54,41 @@ char seccode[SECNUM][6]={
 
 char secname[SECNUM][2][20]={
 #ifdef FDQUAN
-		"BBS ÏµÍ³", "[Õ¾ÄÚ]",
-		"¸´µ©´óÑ§", "[±¾Ğ£]",
-		"¹â»ª¹«Ë¾", "[ÇÚÖú]",	
-		"ÉçÍÅ×éÖ¯", "[ÍÅÌå]",
-		"¾ºÈü»î¶¯", "[ÁÙÊ±]",
-		"Ì¸ÌìÁÄµØ", "[¸ĞĞÔ]",
-		"ÓÎÏ·ĞİÏĞ", "[ĞİÏĞ]",
-		"¸öÈË·ç²É", "[¸öÈË]",
-		"»ı·ÖÂÛÌ³", "[ÍÅÌå]"
+		"BBS ç³»ç»Ÿ", "[ç«™å†…]",
+		"å¤æ—¦å¤§å­¦", "[æœ¬æ ¡]",
+		"å…‰åå…¬å¸", "[å‹¤åŠ©]",	
+		"ç¤¾å›¢ç»„ç»‡", "[å›¢ä½“]",
+		"ç«èµ›æ´»åŠ¨", "[ä¸´æ—¶]",
+		"è°ˆå¤©èŠåœ°", "[æ„Ÿæ€§]",
+		"æ¸¸æˆä¼‘é—²", "[ä¼‘é—²]",
+		"ä¸ªäººé£é‡‡", "[ä¸ªäºº]",
+		"ç§¯åˆ†è®ºå›", "[å›¢ä½“]"
 #else
-        "BBS ÏµÍ³", "[Õ¾ÄÚ]",
-        "¸´µ©´óÑ§", "[±¾Ğ£]",
-        "ÔºÏµ·ç²É", "[Ğ£Ô°]",
-        "µçÄÔ¼¼Êõ", "[µçÄÔ]",
-        "ĞİÏĞÓéÀÖ", "[ĞİÏĞ]",
-        "ÎÄÑ§ÒÕÊõ", "[ÎÄÒÕ]",
-        "ÌåÓı½¡Éí", "[ÔË¶¯]",
-        "¸ĞĞÔ¿Õ¼ä", "[¸ĞĞÔ]",
-        "ĞÂÎÅĞÅÏ¢", "[ĞÂÎÅ]",
-        "Ñ§¿ÆÑ§Êõ", "[Ñ§¿Æ]",
-	"Ó°ÊÓÒôÀÖ", "[Ó°Òô]",
-	"½»Ò××¨Çø", "[½»Ò×]"
+        "BBS ç³»ç»Ÿ", "[ç«™å†…]",
+        "å¤æ—¦å¤§å­¦", "[æœ¬æ ¡]",
+        "é™¢ç³»é£é‡‡", "[æ ¡å›­]",
+        "ç”µè„‘æŠ€æœ¯", "[ç”µè„‘]",
+        "ä¼‘é—²å¨±ä¹", "[ä¼‘é—²]",
+        "æ–‡å­¦è‰ºæœ¯", "[æ–‡è‰º]",
+        "ä½“è‚²å¥èº«", "[è¿åŠ¨]",
+        "æ„Ÿæ€§ç©ºé—´", "[æ„Ÿæ€§]",
+        "æ–°é—»ä¿¡æ¯", "[æ–°é—»]",
+        "å­¦ç§‘å­¦æœ¯", "[å­¦ç§‘]",
+	"å½±è§†éŸ³ä¹", "[å½±éŸ³]",
+	"äº¤æ˜“ä¸“åŒº", "[äº¤æ˜“]"
 #endif
 };
 /*
 char secname[SECNUM][2][20]={
-	"BBS ÏµÍ³", "[Õ¾ÄÚ]",
-	"¸´µ©´óÑ§", "[±¾Ğ£]",
-	"ÉçÍÅ×éÖ¯", "[ÍÅÌå]",	
-        "¸öĞÔ¿Õ¼ä", "[¸öÈË]"
+	"BBS ç³»ç»Ÿ", "[ç«™å†…]",
+	"å¤æ—¦å¤§å­¦", "[æœ¬æ ¡]",
+	"ç¤¾å›¢ç»„ç»‡", "[å›¢ä½“]",	
+        "ä¸ªæ€§ç©ºé—´", "[ä¸ªäºº]"
 };
 */
 struct boardheader *getbcache();
 int junkboard(char *board) {
-        // Çë×Ô¶¨Òåjunkboard.
+        // è¯·è‡ªå®šä¹‰junkboard.
 	//if(file_has_word("etc/junkboards", board)) return 1;
 		struct boardheader *bp;
 		bp = getbcache(board);
@@ -451,9 +451,9 @@ char *cn_Ctime(time_t t)
 {
 	static char s[80];
 	struct tm *tm;
-	char weeknum[7][3]={"Ìì","Ò»","¶ş","Èı","ËÄ","Îå","Áù"};
+	char weeknum[7][3]={"å¤©","ä¸€","äºŒ","ä¸‰","å››","äº”","å…­"};
 	tm = localtime(&t);
-	sprintf(s,"%4dÄê%02dÔÂ%02dÈÕ%02d:%02d:%02d ĞÇÆÚ%2s",
+	sprintf(s,"%4då¹´%02dæœˆ%02dæ—¥%02d:%02d:%02d æ˜ŸæœŸ%2s",
 		tm->tm_year+1900,tm->tm_mon+1,tm->tm_mday,
 		tm->tm_hour,tm->tm_min,tm->tm_sec,
 		weeknum[tm->tm_wday]);
@@ -663,8 +663,8 @@ int http_fatal(char *fmt, ...) {
         vsnprintf(buf, 1023, fmt, ap);
         va_end(ap);
 	buf[1023]=0;
- 	printf("´íÎó! %s! <br><br>\n", buf);
-	printf("<a href=javascript:history.go(-1)>¿ìËÙ·µ»Ø</a>");
+ 	printf("é”™è¯¯! %s! <br><br>\n", buf);
+	printf("<a href=javascript:history.go(-1)>å¿«é€Ÿè¿”å›</a>");
 	http_quit();
 }
 
@@ -1043,9 +1043,9 @@ int post_mail(char *userid, char *title, char *file, char *id, char *nickname, c
 	int t, i;
 	/* added by roly check mail size */
 	if (!mailnum_under_limit(currentuser.userid))
-			http_fatal("ÄúµÄĞÅ¼şÈİÁ¿³¬±ê£¬ÎŞ·¨·¢ĞÅ");
+			http_fatal("æ‚¨çš„ä¿¡ä»¶å®¹é‡è¶…æ ‡ï¼Œæ— æ³•å‘ä¿¡");
 	if (!mailsize_under_limit(userid))
-			http_fatal("ÊÕ¼şÈËĞÅ¼şÈİÁ¿³¬±ê£¬ÎŞ·¨ÊÕĞÅ");
+			http_fatal("æ”¶ä»¶äººä¿¡ä»¶å®¹é‡è¶…æ ‡ï¼Œæ— æ³•æ”¶ä¿¡");
 	
 	/* add end */
 	if(strstr(userid, "@")) 
@@ -1063,12 +1063,12 @@ int post_mail(char *userid, char *title, char *file, char *id, char *nickname, c
 	fp=fopen(buf3, "w");
 	if(fp==0) return -2;
 	fp2=fopen(file, "r");
-	fprintf(fp, "¼ÄĞÅÈË: %s (%s)\n", id, nickname);
-	fprintf(fp, "±ê  Ìâ: %s\n", title);
-//	fprintf(fp, "·¢ĞÅÕ¾: %s (%s)\n", BBSNAME, Ctime(time(0)));
+	fprintf(fp, "å¯„ä¿¡äºº: %s (%s)\n", id, nickname);
+	fprintf(fp, "æ ‡  é¢˜: %s\n", title);
+//	fprintf(fp, "å‘ä¿¡ç«™: %s (%s)\n", BBSNAME, Ctime(time(0)));
 //modified by iamfat 2002.08.01
-	fprintf(fp, "·¢ĞÅÕ¾: %s (%s)\n", BBSNAME, cn_Ctime(time(0)));
-	fprintf(fp, "À´  Ô´: %s\n\n", ip);
+	fprintf(fp, "å‘ä¿¡ç«™: %s (%s)\n", BBSNAME, cn_Ctime(time(0)));
+	fprintf(fp, "æ¥  æº: %s\n\n", ip);
 	if(fp2) {
 		while(1) {
 			if(fgets(buf3, 256, fp2)<=0) break;
@@ -1078,7 +1078,7 @@ int post_mail(char *userid, char *title, char *file, char *id, char *nickname, c
 	}
 	fprintf(fp, "\n--\n");
 	sig_append(fp, id, sig);
-	fprintf(fp, "[m[1;%2dm¡ù À´Ô´:¡¤%s %s¡¤HTTP [FROM: %-.20s][m\n", 31+rand()%7, BBSNAME, BBSHOST, ip);
+	fprintf(fp, "[m[1;%2dmâ€» æ¥æº:Â·%s %sÂ·HTTP [FROM: %-.20s][m\n", 31+rand()%7, BBSNAME, BBSHOST, ip);
 	fclose(fp);
         sprintf(dir, "mail/%c/%s/.DIR", toupper(userid[0]), userid);
         fp=fopen(dir, "a");
@@ -1090,7 +1090,7 @@ int post_mail(char *userid, char *title, char *file, char *id, char *nickname, c
 int post_imail(char *userid, char *title, char *file, char *id, char *nickname, char *ip, int sig) {
         FILE *fp1, *fp2;
         char buf[256];
-	if(strstr(userid, ";") || strstr(userid, "`")) http_fatal("´íÎóµÄÊÕĞÅÈËµØÖ·");
+	if(strstr(userid, ";") || strstr(userid, "`")) http_fatal("é”™è¯¯çš„æ”¶ä¿¡äººåœ°å€");
 	sprintf(buf, "sendmail -f %s.bbs@%s '%s'", id, BBSHOST, userid);
         fp2=popen(buf, "w");
         fp1=fopen(file, "r");
@@ -1105,8 +1105,8 @@ int post_imail(char *userid, char *title, char *file, char *id, char *nickname, 
         }
 	fprintf(fp2, "\n--\n");
  	sig_append(fp2, id, sig);
-// 	fprintf(fp2, "\n\n[1;%dm¡ù À´Ô´:£®%s %s [FROM: %.20s][m\n", 31+rand()%7, BBSNAME, "http://bbs.fudan.edu.cn", ip);
-	fprintf(fp2, "[m[1;%2dm¡ù À´Ô´:¡¤%s %s¡¤HTTP [FROM: %-.20s][m\n", 31+rand()%7, BBSNAME, BBSHOST, ip);
+// 	fprintf(fp2, "\n\n[1;%dmâ€» æ¥æº:ï¼%s %s [FROM: %.20s][m\n", 31+rand()%7, BBSNAME, "http://bbs.fudan.edu.cn", ip);
+	fprintf(fp2, "[m[1;%2dmâ€» æ¥æº:Â·%s %sÂ·HTTP [FROM: %-.20s][m\n", 31+rand()%7, BBSNAME, BBSHOST, ip);
         fprintf(fp2, ".\n");
         fclose(fp1);
         pclose(fp2);
@@ -1254,7 +1254,7 @@ int post_article(char *board, char *title, char *file, char *id, char *nickname,
 
 /* add by roly 02.05.29 */
         brd=getbcache(board);
-	if(brd==0) http_fatal("´íÎóµÄÌÖÂÛÇø");
+	if(brd==0) http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	strcpy(board2, brd->filename);	
 
 /* add end */
@@ -1278,7 +1278,7 @@ int post_article(char *board, char *title, char *file, char *id, char *nickname,
 	}
 	fp=fopen(buf3, "w");
 	fp2=fopen(file, "r");
-	fprintf(fp, "·¢ĞÅÈË: %s (%s), ĞÅÇø: %s\n±ê  Ìâ: %s\n·¢ĞÅÕ¾: %s (%s)\n\n",
+	fprintf(fp, "å‘ä¿¡äºº: %s (%s), ä¿¡åŒº: %s\næ ‡  é¢˜: %s\nå‘ä¿¡ç«™: %s (%s)\n\n",
 //		id, nickname, board2, title, BBSNAME, Ctime(time(0)));
 //modified by iamfat 2002.08.01
 		id, nickname, board2, header.title, BBSNAME, cn_Ctime(time(0)));
@@ -1294,8 +1294,8 @@ int post_article(char *board, char *title, char *file, char *id, char *nickname,
 	}
 	fprintf(fp, "\n--\n");
 	sig_append(fp, id, sig);
-//	fprintf(fp, "\n[1;%dm¡ù À´Ô´:£®%s %s [FROM: %.20s][m\n", 31+rand()%7, BBSNAME, "http://bbs.fudan.edu.cn", ip);
-	fprintf(fp, "[m[1;%2dm¡ù À´Ô´:¡¤%s %s¡¤HTTP [FROM: %-.20s][m\n", 31+rand()%7, BBSNAME, BBSHOST, ip);
+//	fprintf(fp, "\n[1;%dmâ€» æ¥æº:ï¼%s %s [FROM: %.20s][m\n", 31+rand()%7, BBSNAME, "http://bbs.fudan.edu.cn", ip);
+	fprintf(fp, "[m[1;%2dmâ€» æ¥æº:Â·%s %sÂ·HTTP [FROM: %-.20s][m\n", 31+rand()%7, BBSNAME, BBSHOST, ip);
 	fclose(fp);
 #ifdef CERTIFYMODE 
     Certify(board2, &header);
@@ -1386,7 +1386,7 @@ int has_BM_perm(struct userec *user, char *board) {
 }
 
 int has_read_perm(struct userec *user, char *board) {  
-	struct boardheader *x;	/* °æÃæ²»´æÔÚ·µ»Ø0, pºÍz°æÃæ·µ»Ø1, ÓĞÈ¨ÏŞ°æÃæ·µ»Ø1. */
+	struct boardheader *x;	/* ç‰ˆé¢ä¸å­˜åœ¨è¿”å›0, på’Œzç‰ˆé¢è¿”å›1, æœ‰æƒé™ç‰ˆé¢è¿”å›1. */
 	if(board[0]<=32) return 0;
 	x=getbcache(board);
 	if(x==0) return 0; 
@@ -1477,7 +1477,7 @@ int send_msg(char *myuserid, int mypid, char *touserid, int topid, char msg[256]
 	for(i=0; i<strlen(msg); i++)
 		if((0<msg[i] && msg[i]<=27 )|| msg[i]==-1) msg[i]=32;
 	if(mypid<=0) return -1;
-	sprintf(msgbuf, "[0;1;44;36m%-12.12s[33m([36m%-5.5s[33m):[37m%-54.54s[31m(^Z»Ø)[m[%05dm\n",
+	sprintf(msgbuf, "[0;1;44;36m%-12.12s[33m([36m%-5.5s[33m):[37m%-54.54s[31m(^Zå›)[m[%05dm\n",
  		myuserid, Ctime(time(0)) + 11, msg, mypid);
 	sethomefile(buf3, touserid, "msgfile");
 	f_append(buf3, msgbuf);
@@ -1500,91 +1500,91 @@ int send_msg(char *myuserid, int mypid, char *touserid, int topid, char msg[256]
 
 char *horoscope(int month, int day) {
         int date=month*100+day;
-        if(month<1 || month>12 || day<1 || day>31) return "²»Ïê";
-        if(date<121 || date>=1222) return "Ä¦ôÉ×ù";
-        if(date<219) return "Ë®Æ¿×ù";
-        if(date<321) return "Ë«Óã×ù";
-        if(date<421) return "ÄµÑò×ù";
-        if(date<521) return "½ğÅ£×ù";
-        if(date<622) return "Ë«×Ó×ù";
-        if(date<723) return "¾ŞĞ·×ù";
-        if(date<823) return "Ê¨×Ó×ù";
-        if(date<923) return "´¦Å®×ù";
-        if(date<1024) return "Ìì³Ó×ù";
-        if(date<1123) return "ÌìĞ«×ù";
-        if(date<1222) return "ÉäÊÖ×ù";
+        if(month<1 || month>12 || day<1 || day>31) return "ä¸è¯¦";
+        if(date<121 || date>=1222) return "æ‘©ç¾¯åº§";
+        if(date<219) return "æ°´ç“¶åº§";
+        if(date<321) return "åŒé±¼åº§";
+        if(date<421) return "ç‰¡ç¾Šåº§";
+        if(date<521) return "é‡‘ç‰›åº§";
+        if(date<622) return "åŒå­åº§";
+        if(date<723) return "å·¨èŸ¹åº§";
+        if(date<823) return "ç‹®å­åº§";
+        if(date<923) return "å¤„å¥³åº§";
+        if(date<1024) return "å¤©ç§¤åº§";
+        if(date<1123) return "å¤©èåº§";
+        if(date<1222) return "å°„æ‰‹åº§";
 }
 
 char *ModeType(int mode) {
  	switch (mode) {
  	case IDLE: 	return "";
- 	case NEW:	return "ĞÂÕ¾ÓÑ×¢²á";
- 	case LOGIN:	return "½øÈë±¾Õ¾";
- 	case DIGEST: 	return "ä¯ÀÀ¾«»ªÇø";
- 	case MMENU: 	return "Ö÷Ñ¡µ¥";
- 	case ADMIN: 	return "¹ÜÀíÕßÑ¡µ¥";
- 	case SELECT: 	return "Ñ¡ÔñÌÖÂÛÇø";
- 	case READBRD: 	return "ÀÀ±éÌìÏÂ";
- 	case READNEW: 	return "ÀÀĞÂÎÄÕÂ";
- 	case READING: 	return "Æ·Î¶ÎÄÕÂ";
- 	case POSTING: 	return "·¢±íÎÄÕÂ";
- 	case MAIL: 	return "´¦ÀíĞÅ¼ã";
- 	case SMAIL: 	return "¼ÄÓïĞÅ¸ë";
- 	case RMAIL: 	return "ÔÄÀÀĞÅ¼ã";
- 	case TMENU: 	return "ÁÄÌìÑ¡µ¥";
- 	case LUSERS: 	return "»·¹ËËÄ·½";
- 	case FRIEND: 	return "Ñ°ÕÒºÃÓÑ";
-        case MONITOR:   return "Ì½ÊÓÃñÇé";
-        case QUERY:     return "²éÑ¯ÍøÓÑ";
-        case TALK:      return "ÈµÇÅÏ¸Óï";
-        case PAGE:      return "°ÍÏ¿Ô³Ìä";
-        case CHAT1:     return "ÑàÔ²Ò¹»°";
-        case CHAT2:     return "ÑàÔ°Ò¹»°";
+ 	case NEW:	return "æ–°ç«™å‹æ³¨å†Œ";
+ 	case LOGIN:	return "è¿›å…¥æœ¬ç«™";
+ 	case DIGEST: 	return "æµè§ˆç²¾ååŒº";
+ 	case MMENU: 	return "ä¸»é€‰å•";
+ 	case ADMIN: 	return "ç®¡ç†è€…é€‰å•";
+ 	case SELECT: 	return "é€‰æ‹©è®¨è®ºåŒº";
+ 	case READBRD: 	return "è§ˆéå¤©ä¸‹";
+ 	case READNEW: 	return "è§ˆæ–°æ–‡ç« ";
+ 	case READING: 	return "å“å‘³æ–‡ç« ";
+ 	case POSTING: 	return "å‘è¡¨æ–‡ç« ";
+ 	case MAIL: 	return "å¤„ç†ä¿¡ç¬º";
+ 	case SMAIL: 	return "å¯„è¯­ä¿¡é¸½";
+ 	case RMAIL: 	return "é˜…è§ˆä¿¡ç¬º";
+ 	case TMENU: 	return "èŠå¤©é€‰å•";
+ 	case LUSERS: 	return "ç¯é¡¾å››æ–¹";
+ 	case FRIEND: 	return "å¯»æ‰¾å¥½å‹";
+        case MONITOR:   return "æ¢è§†æ°‘æƒ…";
+        case QUERY:     return "æŸ¥è¯¢ç½‘å‹";
+        case TALK:      return "é¹Šæ¡¥ç»†è¯­";
+        case PAGE:      return "å·´å³¡çŒ¿å•¼";
+        case CHAT1:     return "ç‡•åœ†å¤œè¯";
+        case CHAT2:     return "ç‡•å›­å¤œè¯";
         case CHAT3:     return "Chat3";
         case CHAT4:     return "Chat4";
-        case LAUSERS:   return "Ì½ÊÓÍøÓÑ";
-        case XMENU:     return "ÏµÍ³×ÊÑ¶";
-        case VOTING:    return "Í¶Æ±";
-        case EDITWELC:  return "±à¼­Welc";
-        case EDITUFILE: return "±à¼­¸öÈËµµ";
-        case EDITSFILE: return "¶¯ÊÖ¶¯½Å";
-        case ZAP:       return "¶©ÔÄÌÖÂÛÇø";
-        case LOCKSCREEN:return "ÆÁÄ»Ëø¶¨";
-        case NOTEPAD:   return "ÁôÑÔ°å";
-        case GMENU:     return "¹¤¾ßÏä";
-        case MSG:       return "ËÍÑ¶Ï¢";
-        case USERDEF:   return "×Ô¶©²ÎÊı";
-        case EDIT:      return "ĞŞ¸ÄÎÄÕÂ";
-        case OFFLINE:   return "×ÔÉ±ÖĞ..";
-        case EDITANN:   return "±àĞŞ¾«»ª";
-        case LOOKMSGS:  return "²ì¿´Ñ¶Ï¢";
-        case WFRIEND:   return "Ñ°ÈËÃû²á";
-        case WNOTEPAD:  return "Óû×ß»¹Áô";
+        case LAUSERS:   return "æ¢è§†ç½‘å‹";
+        case XMENU:     return "ç³»ç»Ÿèµ„è®¯";
+        case VOTING:    return "æŠ•ç¥¨";
+        case EDITWELC:  return "ç¼–è¾‘Welc";
+        case EDITUFILE: return "ç¼–è¾‘ä¸ªäººæ¡£";
+        case EDITSFILE: return "åŠ¨æ‰‹åŠ¨è„š";
+        case ZAP:       return "è®¢é˜…è®¨è®ºåŒº";
+        case LOCKSCREEN:return "å±å¹•é”å®š";
+        case NOTEPAD:   return "ç•™è¨€æ¿";
+        case GMENU:     return "å·¥å…·ç®±";
+        case MSG:       return "é€è®¯æ¯";
+        case USERDEF:   return "è‡ªè®¢å‚æ•°";
+        case EDIT:      return "ä¿®æ”¹æ–‡ç« ";
+        case OFFLINE:   return "è‡ªæ€ä¸­..";
+        case EDITANN:   return "ç¼–ä¿®ç²¾å";
+        case LOOKMSGS:  return "å¯Ÿçœ‹è®¯æ¯";
+        case WFRIEND:   return "å¯»äººåå†Œ";
+        case WNOTEPAD:  return "æ¬²èµ°è¿˜ç•™";
         case BBSNET:    return "BBSNET..";
-        case M_BLACKJACK:return "¡ïºÚ¼×¿Ë¡ï";
-	case M_XAXB:return "¡ï²ÂÊı×Ö¡ï";
-	case M_DICE:return "¡ïÎ÷°ËÀ­¡ï";
-	case M_GP:return "½ğÆË¿ËËó¹ş";
-	case M_NINE:return "ÌìµØ¾Å¾Å";
-	case WINMINE:return "¼üÅÌÉ¨À×";
-	case M_BINGO:return "±ö¹û±ö¹û";
-	case FIVE:return "¾öÕ½Îå×ÓÆå";
-	case MARKET:	return "½»Ò×ÊĞ³¡";
-	case PAGE_FIVE:return "ÑûÇëÏÂÆå";
-	case CHICK:return "µç×ÓĞ¡¼¦";
-	case MARY:return "³¬¼¶ÂêÀö"; 
-	case CHICKEN:return "ĞÇ¿ÕÕ½¶·¼¦";
-	case GOODWISH: return "¸øÅóÓÑ×£¸£";
+        case M_BLACKJACK:return "â˜…é»‘ç”²å…‹â˜…";
+	case M_XAXB:return "â˜…çŒœæ•°å­—â˜…";
+	case M_DICE:return "â˜…è¥¿å…«æ‹‰â˜…";
+	case M_GP:return "é‡‘æ‰‘å…‹æ¢­å“ˆ";
+	case M_NINE:return "å¤©åœ°ä¹ä¹";
+	case WINMINE:return "é”®ç›˜æ‰«é›·";
+	case M_BINGO:return "å®¾æœå®¾æœ";
+	case FIVE:return "å†³æˆ˜äº”å­æ£‹";
+	case MARKET:	return "äº¤æ˜“å¸‚åœº";
+	case PAGE_FIVE:return "é‚€è¯·ä¸‹æ£‹";
+	case CHICK:return "ç”µå­å°é¸¡";
+	case MARY:return "è¶…çº§ç›ä¸½"; 
+	case CHICKEN:return "æ˜Ÿç©ºæˆ˜æ–—é¸¡";
+	case GOODWISH: return "ç»™æœ‹å‹ç¥ç¦";
 /*2003.04.22 added by stephen*/
-	case GIVEUPBBS: return "½äÍøÖĞ";
+	case GIVEUPBBS: return "æˆ’ç½‘ä¸­";
 /*2003.04.22 stephen add end*/
-        case 10001:     return "Webä¯ÀÀ";
-        default:        return "È¥ÁËÄÄ¶ù??";
+        case 10001:     return "Webæµè§ˆ";
+        default:        return "å»äº†å“ªå„¿??";
         }
 }
 
 //modified by iamfat 2002.08.01
-//¾­ÑéÖµÀ­¿ª6µµ Ã¿µµ10¼¶
+//ç»éªŒå€¼æ‹‰å¼€6æ¡£ æ¯æ¡£10çº§
 char   *cexpstr(int exp)
 {
 	static char ce[11];
@@ -1645,44 +1645,44 @@ void iconexp(int exp)
 	else return " ****";
 	return "*****";
 //modified by roly
-        if(exp==-9999) 	return "Ã»µÈ¼¶";
-        if(exp<=100)  	return "ĞÂÊÖÉÏÂ·";
-        if(exp<=450)	return "Ò»°ãÕ¾ÓÑ";
-        if(exp<=850)	return "ÖĞ¼¶Õ¾ÓÑ";
-        if(exp<=1500)	return "¸ß¼¶Õ¾ÓÑ";
-        if(exp<=2500)	return "ÀÏÕ¾ÓÑ";
-        if(exp<=3000)	return "³¤ÀÏ¼¶";
-        if(exp<=5000)	return "±¾Õ¾ÔªÀÏ";
-        if(exp<=10000)	return "¿ª¹ú´óÀÏ";
-        return "³¬¼¶´óÀÏ";
+        if(exp==-9999) 	return "æ²¡ç­‰çº§";
+        if(exp<=100)  	return "æ–°æ‰‹ä¸Šè·¯";
+        if(exp<=450)	return "ä¸€èˆ¬ç«™å‹";
+        if(exp<=850)	return "ä¸­çº§ç«™å‹";
+        if(exp<=1500)	return "é«˜çº§ç«™å‹";
+        if(exp<=2500)	return "è€ç«™å‹";
+        if(exp<=3000)	return "é•¿è€çº§";
+        if(exp<=5000)	return "æœ¬ç«™å…ƒè€";
+        if(exp<=10000)	return "å¼€å›½å¤§è€";
+        return "è¶…çº§å¤§è€";
 }*/
 
 
 char   *cperf(int perf) {
 /* Commented by Amigo 2002.06.18. Change exp description. */
 	/* added by roly */
-//	if (perf==100) return "ºÃÑùµÄ";
-//    	return "¼ÓÓÍ¼ÓÓÍ";
+//	if (perf==100) return "å¥½æ ·çš„";
+//    	return "åŠ æ²¹åŠ æ²¹";
     /* add end */    
 
 /* Following if criterias modified by Amigo 2002.06.18. */
 /* Modified by Amigo 2002.06.23. Change perf description. */
 //modified by iamfat 2002.08.01
 /*
-        if(perf==-9999)	return "ĞÂÊÖÉÏÂ·";
-        if(perf<=100)	return "ĞÂÊÖÉÏÂ·";
-        if(perf<=200)	return "¸Ï¿ì¼ÓÓÍ";
-        if(perf<=400)	return "Å¬Á¦ÖĞ";
-        if(perf<=500)	return "»¹²»´í";
-        if(perf<=550)	return "ºÜºÃ";
-        if(perf<=600)	return "ÓÅĞã";
-        if(perf<=650)	return "ºÃ¼«ÁË";
-        if(perf<=700)	return "±¾Õ¾³£¿Í";
-        if(perf<=800)	return "ÖĞ¼áÁ¦Á¿";
-        if(perf<=900)	return "×ÊÉîÈËÊ¿";
-        if(perf<1000)	return "½­ºşÔªÀÏ";
-        if(perf>=1000)	return "Éñ¡«¡«";
-	return "»úÆ÷ÈË£¡";
+        if(perf==-9999)	return "æ–°æ‰‹ä¸Šè·¯";
+        if(perf<=100)	return "æ–°æ‰‹ä¸Šè·¯";
+        if(perf<=200)	return "èµ¶å¿«åŠ æ²¹";
+        if(perf<=400)	return "åŠªåŠ›ä¸­";
+        if(perf<=500)	return "è¿˜ä¸é”™";
+        if(perf<=550)	return "å¾ˆå¥½";
+        if(perf<=600)	return "ä¼˜ç§€";
+        if(perf<=650)	return "å¥½æäº†";
+        if(perf<=700)	return "æœ¬ç«™å¸¸å®¢";
+        if(perf<=800)	return "ä¸­åšåŠ›é‡";
+        if(perf<=900)	return "èµ„æ·±äººå£«";
+        if(perf<1000)	return "æ±Ÿæ¹–å…ƒè€";
+        if(perf>=1000)	return "ç¥ï½ï½";
+	return "æœºå™¨äººï¼";
 */
         if (perf <= 100) return GLY_CPERF0;
         if (perf <= 200) return GLY_CPERF1;
@@ -1733,7 +1733,7 @@ int countperf(struct userec *x) {
    perf=(reg_days/4>250?250:reg_days/4);
    perf=perf+(x->stay/14400>250?250:(x->stay/14400));
    perf=perf+(x->stay/(36*reg_days)>500?500:(x->stay/(36*reg_days)));
-   //added by iamfat 2002.08.29 for ¸¡¶¯±íÏÖÖµ
+   //added by iamfat 2002.08.29 for æµ®åŠ¨è¡¨ç°å€¼
    randomize();
    //perf=perf + rand()%(MAX_LUCKY*2)-MAX_LUCKY;
    perf=(perf>MAX_PERF)?MAX_PERF:perf;
@@ -1779,7 +1779,7 @@ int user_perm(struct userec *x, int level) {
 	return (level?x->userlevel & level:1);
 }
 
-/* add by stiger, µÃµ½hashkey */
+/* add by stiger, å¾—åˆ°hashkey */
 int uhashkey(char *userid, char *a1, char *a2)
 {
       char *c=userid;
@@ -2036,7 +2036,7 @@ int init_all() {
     time_t t = time(NULL);
     struct tm *tp = localtime(&t);
     if(currentuser.birthmonth==((tp->tm_mon)+1)&&currentuser.birthday==(tp->tm_mday))
-         printf("<head><script>self.status=\"½ñÌìÊÇÄúµÄÉúÈÕ£¬ÈÕÔÂ¹â»ªBBS×£ÄúÉúÈÕ¿ìÀÖ£¡\"</script></head>");
+         printf("<head><script>self.status=\"ä»Šå¤©æ˜¯æ‚¨çš„ç”Ÿæ—¥ï¼Œæ—¥æœˆå…‰åBBSç¥æ‚¨ç”Ÿæ—¥å¿«ä¹ï¼\"</script></head>");
     /*
     * Add End by polygon
     */
@@ -2293,12 +2293,12 @@ int specialboard(char* board)
 //added end
 
 //added by iamfat 2002.09.03
-//º¯ÊıÔ­ĞÍ: void SpecialID(const char* uid, char* host)
-//º¯Êı¹¦ÄÜ: ¸ù¾İidÍ¨¹ı¶Ôetc/special.iniÀïÃæµÄÆ¥Åä ¸ø³ö¸ÃidÏàÓ¦µÄÌØÊâµÇÂ½host
+//å‡½æ•°åŸå‹: void SpecialID(const char* uid, char* host)
+//å‡½æ•°åŠŸèƒ½: æ ¹æ®idé€šè¿‡å¯¹etc/special.inié‡Œé¢çš„åŒ¹é… ç»™å‡ºè¯¥idç›¸åº”çš„ç‰¹æ®Šç™»é™†host
 //added by iamfat 2002.07.30
-//²ÎÊı½éÉÜ:
-//(IN)uid:ÓÃ»§µÄid
-//(IN/OUT)host:´«µİ¹ıÀ´ÓÃÓÚĞŞ¸ÄµÄÓÃ»§µÄhostÖ¸Õë
+//å‚æ•°ä»‹ç»:
+//(IN)uid:ç”¨æˆ·çš„id
+//(IN/OUT)host:ä¼ é€’è¿‡æ¥ç”¨äºä¿®æ”¹çš„ç”¨æˆ·çš„hostæŒ‡é’ˆ
 void SpecialID(const char* uid, char* host)
 {
 	FILE *fp;
@@ -2407,7 +2407,7 @@ int showcontent(char *filename)
                 char *id, *s;
                 if(fgets(buf, 512, fp)==0)
                         break;
-                if(!strncmp(buf, "·¢ĞÅÈË: ", 8))
+                if(!strncmp(buf, "å‘ä¿¡äºº: ", 8))
                 {
                         ptr=strdup(buf);
                         id=strtok(ptr+8, " ");
@@ -2418,7 +2418,7 @@ int showcontent(char *filename)
                                 s="\n";
                         if(strlen(id)<13 && getuser(id))
                         {
-                                printf("·¢ĞÅÈË: %s%s", userid_str(id), s);
+                                printf("å‘ä¿¡äºº: %s%s", userid_str(id), s);
                                 free(ptr);
                                 continue;
                         }
@@ -2516,12 +2516,12 @@ void showrecommend(char *board, int showall, int showborder)
 		}
 		
 		/*  add by roly 2002.01.03
-		 *  ¸ù¾İÄ¿Â¼µÄ×÷ÕßÒÔ¼°ÓÃ»§È¨ÏŞÅĞ¶ÏÊÇ·ñÏÔÊ¾ 
+		 *  æ ¹æ®ç›®å½•çš„ä½œè€…ä»¥åŠç”¨æˆ·æƒé™åˆ¤æ–­æ˜¯å¦æ˜¾ç¤º 
 		 */
-		//if (strncmp(id,"ÍÆ¼ö",4)) continue;
+		//if (strncmp(id,"æ¨è",4)) continue;
 		
 		if (!strncmp(id,"SYSOPS",6) && !(currentuser.userlevel & PERM_SYSOPS)) continue;
-		//modified by iamfat 2002.10.18 ±£Ö¤BMSÄ¿Â¼±¾°æ°æÖ÷¿É¼û
+		//modified by iamfat 2002.10.18 ä¿è¯BMSç›®å½•æœ¬ç‰ˆç‰ˆä¸»å¯è§
 		if (!strncmp(id,"BMS",3) && !has_BM_perm(&currentuser, board))continue;
 		//if(!strncmp(id,"BMS",3) && !(currentuser.userlevel & PERM_BOARDS)) continue;
 		if (!strncmp(id,"OBOARDS",7) && !(currentuser.userlevel & PERM_OBOARDS)) continue;
@@ -2533,7 +2533,7 @@ void showrecommend(char *board, int showall, int showborder)
 		{
 			if(showall && showed>=showall)
 			{
-				printf("<br><a href=bbs0an?path=%s/recommend>¸ü¶à...</a>",path);
+				printf("<br><a href=bbs0an?path=%s/recommend>æ›´å¤š...</a>",path);
 				break;
 			}
 			if(showed>0)printf("<br>");
@@ -2544,7 +2544,7 @@ void showrecommend(char *board, int showall, int showborder)
 		{
 			if(showall && showed>=showall)
 			{
-				printf("<br><a href=bbs0an?path=%s/recommend>¸ü¶à...</a>",path);
+				printf("<br><a href=bbs0an?path=%s/recommend>æ›´å¤š...</a>",path);
 				break;
 			}
 			if(showed>0)printf("<br>");

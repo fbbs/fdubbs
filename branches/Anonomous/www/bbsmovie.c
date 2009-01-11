@@ -8,7 +8,7 @@ int main() {
         num=atoi(getparm("num"));
         fp=fopen("etc/movie", "r");
         if(fp==0)
-                http_fatal("±¾Õ¾»î¶¯¿´°æÉĞÎ´Æô¶¯");
+                http_fatal("æœ¬ç«™æ´»åŠ¨çœ‹ç‰ˆå°šæœªå¯åŠ¨");
         while(total<120) {
                 if(fgets(buf[total], 255, fp)==0) break;
                 total++;
@@ -20,16 +20,16 @@ int main() {
                 sprintf(buf2, "bbsmovie?num=%d", (num+1)%(total/5));
                 refreshto(buf2, 10);
         }
-        printf("<center>%s -- »î¶¯¿´°æ [µÚ%d/%dÒ³]<hr color=green>\n", BBSNAME, num+1, total/5);
+        printf("<center>%s -- æ´»åŠ¨çœ‹ç‰ˆ [ç¬¬%d/%dé¡µ]<hr color=green>\n", BBSNAME, num+1, total/5);
         printf("<table><tr><td><pre>");
-        printf("<font color=red>¡õ¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª©ÈÈÕÔÂ¹â»ª»î¶¯¿´°å ©À¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡õ</font>\n");
+        printf("<font color=red>â–¡â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â”¤æ—¥æœˆå…‰åæ´»åŠ¨çœ‹æ¿ â”œâ€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â–¡</font>\n");
        
  		for(i=num*5; i<=num*5+4; i++)
                 hhprintf("%s", buf[i]);
-        printf("<font color=red>¡õ¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡ª¡õ</font>\n");
+        printf("<font color=red>â–¡â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â–¡</font>\n");
         printf("</pre></table><hr color=green>\n");
         printf("<div align=right>");
-        printf("(10Ãë×Ô¶¯Ë¢ĞÂ) ");
+        printf("(10ç§’è‡ªåŠ¨åˆ·æ–°) ");
         for(i=0; i<total/5; i++) {
                 if(i!=num) {
                         printf("<a href=bbsmovie?num=%d>[%d]</a>", i, i+1);

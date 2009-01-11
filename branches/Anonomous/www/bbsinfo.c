@@ -4,50 +4,50 @@ int main() {
 	int n, type;
   	init_all();
 
-	/* added by roly  2002.05.10 È¥µôcache */
+	/* added by roly  2002.05.10 å»æ‰cache */
 	printf("<meta http-equiv=\"pragma\" content=\"no-cache\">");
 	/* add end */
 
-	if(!loginok) http_fatal("ÄúÉĞÎ´µÇÂ¼");
+	if(!loginok) http_fatal("æ‚¨å°šæœªç™»å½•");
 	type=atoi(getparm("type"));
-	printf("<b>ÓÃ»§¸öÈË×ÊÁÏ ¡¤ %s </b><br>\n", BBSNAME);
+	printf("<b>ç”¨æˆ·ä¸ªäººèµ„æ–™ Â· %s </b><br>\n", BBSNAME);
 	printpretable_lite();
 	if(type!=0) {
 		check_info();
 		http_quit();
 	}
  	printf("<form action=bbsinfo?type=1 method=post>");
-  	printf("ÄúµÄÕÊºÅ: %s<br>\n", currentuser.userid);
-  	printf("ÄúµÄêÇ³Æ: <input type=text name=nick value='%s' size=24 maxlength=30><br>\n",
+  	printf("æ‚¨çš„å¸å·: %s<br>\n", currentuser.userid);
+  	printf("æ‚¨çš„æ˜µç§°: <input type=text name=nick value='%s' size=24 maxlength=30><br>\n",
 		currentuser.username);
-  	printf("·¢±í´ó×÷: %d Æª<br>\n", currentuser.numposts);
-  	printf("ĞÅ¼şÊıÁ¿: %d ·â<br>\n", currentuser.nummails);
-  	printf("ÉÏÕ¾´ÎÊı: %d ´Î<br>\n", currentuser.numlogins);
-  	printf("ÉÏÕ¾Ê±¼ä: %d ·ÖÖÓ<br>\n", currentuser.stay/60);
-  	printf("ÕæÊµĞÕÃû: <input type=text name=realname value='%s' size=16 maxlength=16><br>\n",
+  	printf("å‘è¡¨å¤§ä½œ: %d ç¯‡<br>\n", currentuser.numposts);
+  	printf("ä¿¡ä»¶æ•°é‡: %d å°<br>\n", currentuser.nummails);
+  	printf("ä¸Šç«™æ¬¡æ•°: %d æ¬¡<br>\n", currentuser.numlogins);
+  	printf("ä¸Šç«™æ—¶é—´: %d åˆ†é’Ÿ<br>\n", currentuser.stay/60);
+  	printf("çœŸå®å§“å: <input type=text name=realname value='%s' size=16 maxlength=16><br>\n",
 	 	currentuser.realname);
-  	printf("¾Ó×¡µØÖ·: <input type=text name=address value='%s' size=40 maxlength=40><br>\n",
+  	printf("å±…ä½åœ°å€: <input type=text name=address value='%s' size=40 maxlength=40><br>\n",
  		currentuser.address);
-//  	printf("ÕÊºÅ½¨Á¢: %s<br>", Ctime(currentuser.firstlogin));
-//  	printf("×î½ü¹âÁÙ: %s<br>", Ctime(currentuser.lastlogin));
+//  	printf("å¸å·å»ºç«‹: %s<br>", Ctime(currentuser.firstlogin));
+//  	printf("æœ€è¿‘å…‰ä¸´: %s<br>", Ctime(currentuser.lastlogin));
 //modified by iamfat 2002.08.01
-  	printf("ÕÊºÅ½¨Á¢: %s<br>", cn_Ctime(currentuser.firstlogin));
-  	printf("×î½ü¹âÁÙ: %s<br>", cn_Ctime(currentuser.lastlogin));
-  	printf("À´Ô´µØÖ·: %s<br>", currentuser.lasthost);
-//  	printf("µç×ÓÓÊ¼ş: <input type=text name=email value='%s' size=32 maxlength=32><br>\n", 
+  	printf("å¸å·å»ºç«‹: %s<br>", cn_Ctime(currentuser.firstlogin));
+  	printf("æœ€è¿‘å…‰ä¸´: %s<br>", cn_Ctime(currentuser.lastlogin));
+  	printf("æ¥æºåœ°å€: %s<br>", currentuser.lasthost);
+//  	printf("ç”µå­é‚®ä»¶: <input type=text name=email value='%s' size=32 maxlength=32><br>\n", 
 //		currentuser.email);
-  	printf("³öÉúÈÕÆÚ: <input type=text name=year value=%d size=4 maxlength=4>Äê", 
+  	printf("å‡ºç”Ÿæ—¥æœŸ: <input type=text name=year value=%d size=4 maxlength=4>å¹´", 
 		currentuser.birthyear+1900);
-  	printf("<input type=text name=month value=%d size=2 maxlength=2>ÔÂ", 
+  	printf("<input type=text name=month value=%d size=2 maxlength=2>æœˆ", 
 		currentuser.birthmonth);
-  	printf("<input type=text name=day value=%d size=2 maxlength=2>ÈÕ<br>\n", 
+  	printf("<input type=text name=day value=%d size=2 maxlength=2>æ—¥<br>\n", 
 		currentuser.birthday);
-  	printf("ÓÃ»§ĞÔ±ğ: ");
-    	printf("ÄĞ<input type=radio value=M name=gender %s>", 
+  	printf("ç”¨æˆ·æ€§åˆ«: ");
+    	printf("ç”·<input type=radio value=M name=gender %s>", 
 		currentuser.gender=='M' ? "checked" : "");
-    	printf("Å®<input type=radio value=F name=gender %s><br>",
+    	printf("å¥³<input type=radio value=F name=gender %s><br>",
 		currentuser.gender=='F' ? "checked" : "");
-  	printf("<br><input type=submit value=È·¶¨>   <input type=reset value=¸´Ô­>\n");
+  	printf("<br><input type=submit value=ç¡®å®š>   <input type=reset value=å¤åŸ>\n");
   	printf("</form>");
 	printposttable_lite();
 	http_quit();
@@ -61,41 +61,41 @@ int check_info() {
     	if(strlen(buf)>1) {
 		strcpy(currentuser.username, buf);
 	} else {
-		printf("¾¯¸æ: êÇ³ÆÌ«¶Ì!<br>\n");
+		printf("è­¦å‘Š: æ˜µç§°å¤ªçŸ­!<br>\n");
 	}
     	strsncpy(buf, getparm("realname"), 9);
     	if(strlen(buf)>1) {
 		strcpy(currentuser.realname, buf); 
 	} else {
-		printf("¾¯¸æ: ÕæÊµĞÕÃûÌ«¶Ì!<br>\n");
+		printf("è­¦å‘Š: çœŸå®å§“åå¤ªçŸ­!<br>\n");
 	}
     	strsncpy(buf, getparm("address"), 40);
     	if(strlen(buf)>8) {
 		strcpy(currentuser.address, buf);
 	} else {
-		printf("¾¯¸æ: ¾Ó×¡µØÖ·Ì«¶Ì!<br>\n");
+		printf("è­¦å‘Š: å±…ä½åœ°å€å¤ªçŸ­!<br>\n");
 	}
     	strsncpy(buf, getparm("year"), 5);
     	if(atoi(buf)>1910 && atoi(buf)<1998) {
 		currentuser.birthyear=atoi(buf)-1900;
 	} else {
-		printf("¾¯¸æ: ´íÎóµÄ³öÉúÄê·İ!<br>\n");
+		printf("è­¦å‘Š: é”™è¯¯çš„å‡ºç”Ÿå¹´ä»½!<br>\n");
 	}
     	strsncpy(buf, getparm("month"), 3);
     	if(atoi(buf)>0 && atoi(buf)<=12) {
 		currentuser.birthmonth=atoi(buf);
 	} else {
-		printf("¾¯¸æ: ´íÎóµÄ³öÉúÔÂ·İ!<br>\n");
+		printf("è­¦å‘Š: é”™è¯¯çš„å‡ºç”Ÿæœˆä»½!<br>\n");
 	}
     	strsncpy(buf, getparm("day"), 3);
     	if(atoi(buf)>0 && atoi(buf)<=31) {
 		currentuser.birthday=atoi(buf);
 	} else {
-		printf("¾¯¸æ: ´íÎóµÄ³öÉúÈÕÆÚ!<br>\n");
+		printf("è­¦å‘Š: é”™è¯¯çš„å‡ºç”Ÿæ—¥æœŸ!<br>\n");
 	}
     	strsncpy(buf, getparm("gender"), 2);
     	if(!strcasecmp(buf, "F")) currentuser.gender='F';
     	if(!strcasecmp(buf, "M")) currentuser.gender='M';
     	save_user_data(&currentuser);
-    	printf("[%s] ¸öÈË×ÊÁÏĞŞ¸Ä³É¹¦.", currentuser.userid);
+    	printf("[%s] ä¸ªäººèµ„æ–™ä¿®æ”¹æˆåŠŸ.", currentuser.userid);
 }

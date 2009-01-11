@@ -17,9 +17,9 @@ int main() {
 
 	if(!loginok)
 	{
-		printf("<b>·¢±íÎÄÕÂ ¡¤ %s </b><br>\n", BBSNAME);
+		printf("<b>å‘è¡¨æ–‡ç«  Â· %s </b><br>\n", BBSNAME);
 		printpretable_lite();
-		http_fatal("´Ò´Ò¹ı¿Í²»ÄÜ·¢±íÎÄÕÂ£¬ÇëÏÈµÇÂ¼");
+		http_fatal("åŒ†åŒ†è¿‡å®¢ä¸èƒ½å‘è¡¨æ–‡ç« ï¼Œè¯·å…ˆç™»å½•");
 	}
 	strsncpy(board, getparm("board"), 20);
 	strsncpy(file, getparm("file"), 80);
@@ -35,9 +35,9 @@ int main() {
 	strsncpy(userid, getparm("userid"), 40);
 	if(file[0]!='M' && file[0])
 	{
-		printf("<b>·¢±íÎÄÕÂ ¡¤ %s </b><br>\n", BBSNAME);
+		printf("<b>å‘è¡¨æ–‡ç«  Â· %s </b><br>\n", BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÎÄ¼şÃû");
+		http_fatal("é”™è¯¯çš„æ–‡ä»¶å");
 	}
 	
 /* added by roly 02.01.25 to disable ... */
@@ -47,33 +47,33 @@ int main() {
 	    noreply = fileinfo->accessed[0] & FILE_NOREPLY ||bp->flag & BOARD_NOREPLY_FLAG; 
 	    if(!(!noreply ||has_BM_perm(&currentuser, board))) 
 		{
-			printf("<b>·¢±íÎÄÕÂ ¡¤ %s </b><br>\n", BBSNAME);
+			printf("<b>å‘è¡¨æ–‡ç«  Â· %s </b><br>\n", BBSNAME);
 			printpretable_lite();
-	        http_fatal("¶Ô²»Æğ, ¸ÃÎÄÕÂÓĞ²»¿É RE ÊôĞÔ, Äú²»ÄÜ»Ø¸´(RE) ÕâÆªÎÄÕÂ."); 
+	        http_fatal("å¯¹ä¸èµ·, è¯¥æ–‡ç« æœ‰ä¸å¯ RE å±æ€§, æ‚¨ä¸èƒ½å›å¤(RE) è¿™ç¯‡æ–‡ç« ."); 
 		}
     }
 /* add end */  
     if(!has_post_perm(&currentuser, board))
 	{
-		printf("<b>·¢±íÎÄÕÂ ¡¤ %s </b><br>\n", BBSNAME);
+		printf("<b>å‘è¡¨æ–‡ç«  Â· %s </b><br>\n", BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇø»òÕßÄúÎŞÈ¨ÔÚ´ËÌÖÂÛÇø·¢±íÎÄÕÂ");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒºæˆ–è€…æ‚¨æ— æƒåœ¨æ­¤è®¨è®ºåŒºå‘è¡¨æ–‡ç« ");
 	}
     
     if ((bp->flag & BOARD_CLUB_FLAG)
 	    && !isclubmember(currentuser.userid, board)
 		&& !has_BM_perm(&currentuser, board))
-	    http_fatal("Äú²»ÊÇ¾ãÀÖ²¿°æ %s µÄ³ÉÔ±£¬ÎŞÈ¨ÔÚ´ËÌÖÂÛÇø·¢±íÎÄÕÂ", board);
+	    http_fatal("æ‚¨ä¸æ˜¯ä¿±ä¹éƒ¨ç‰ˆ %s çš„æˆå‘˜ï¼Œæ— æƒåœ¨æ­¤è®¨è®ºåŒºå‘è¡¨æ–‡ç« ", board);
 	    printf("<body onload=javascript:document.postform.title.focus();>");
-        printf("<b>·¢±íÎÄÕÂ ¡¤ %s [Ê¹ÓÃÕß: %s]</b>\n", BBSNAME, currentuser.userid);
+        printf("<b>å‘è¡¨æ–‡ç«  Â· %s [ä½¿ç”¨è€…: %s]</b>\n", BBSNAME, currentuser.userid);
    	printf("<center>\n");
 
 	printpretable_lite();
 	
 	printf("<table border=0>\n");
 	printf("<tr><td>");
-	printf("<font color=green>·¢ÎÄ×¢ÒâÊÂÏî: <br>\n");
-	printf("·¢ÎÄÊ±Ó¦É÷ÖØ¿¼ÂÇÎÄÕÂÄÚÈİÊÇ·ñÊÊºÏ¹«¿ª³¡ºÏ·¢±í£¬ÇëÎğËÁÒâ¹àË®¡£Ğ»Ğ»ÄúµÄºÏ×÷¡£<br>\n</font>");
+	printf("<font color=green>å‘æ–‡æ³¨æ„äº‹é¡¹: <br>\n");
+	printf("å‘æ–‡æ—¶åº”æ…é‡è€ƒè™‘æ–‡ç« å†…å®¹æ˜¯å¦é€‚åˆå…¬å¼€åœºåˆå‘è¡¨ï¼Œè¯·å‹¿è‚†æ„çŒæ°´ã€‚è°¢è°¢æ‚¨çš„åˆä½œã€‚<br>\n</font>");
 //	printf("<tr><td><form name=postform method=post action=bbssnd?board=%s>\n", board);
     printf("<tr><td><form name=postform method=post onsubmit='wait_post()' action=bbssnd?board=%s>\n", board);
 
@@ -86,25 +86,25 @@ int main() {
 	printf("<input type=hidden name=id value=%s>", getparm("id"));
 	printf("<input type=hidden name=gid value=%s>", getparm("gid"));
 	/* added end */
-   	printf("Ê¹ÓÃ±êÌâ: <input class=thinborder type=text name=title size=60 maxlength=50 value='%s' %s>", 
+   	printf("ä½¿ç”¨æ ‡é¢˜: <input class=thinborder type=text name=title size=60 maxlength=50 value='%s' %s>", 
 		title, (replymode==1)?"READONLY":"");
-	printf(" ÌÖÂÛÇø: [%s]<br>\n",board);
-   	printf("×÷Õß£º<b>%s</b>", currentuser.userid);
-   	printf("  &nbsp; &nbsp; Ê¹ÓÃÇ©Ãûµµ ");
+	printf(" è®¨è®ºåŒº: [%s]<br>\n",board);
+   	printf("ä½œè€…ï¼š<b>%s</b>", currentuser.userid);
+   	printf("  &nbsp; &nbsp; ä½¿ç”¨ç­¾åæ¡£ ");
    	printf("<input type=radio name=signature value=1 checked>1");
    	printf("<input type=radio name=signature value=2>2");
    	printf("<input type=radio name=signature value=3>3");
 	printf("<input type=radio name=signature value=4>4");
 	printf("<input type=radio name=signature value=5>5");
    	printf("<input type=radio name=signature value=0>0"); 
-   	printf(" [<a target=_balnk href=bbssig>²é¿´Ç©Ãûµµ</a>] ");
+   	printf(" [<a target=_balnk href=bbssig>æŸ¥çœ‹ç­¾åæ¡£</a>] ");
 	printf("<br>\n<textarea class=thinborder name=text rows=20 cols=80 wrap=virtual>\n\n");
 
  
 	
 	if(file[0]) {
 		int lines=0;
-		printf("¡¾ ÔÚ %s µÄ´ó×÷ÖĞÌáµ½: ¡¿\n", userid);
+		printf("ã€ åœ¨ %s çš„å¤§ä½œä¸­æåˆ°: ã€‘\n", userid);
 		sprintf(path, "boards/%s/%s", board, file);
 		fp=fopen(path, "r");
 		if(fp) {
@@ -112,12 +112,12 @@ int main() {
 				if(fgets(buf, 500, fp)==0) break;
 			while(1) {
 				if(fgets(buf, 500, fp)==0) break;
-				if(!strncmp(buf, ": ¡¾", 4)) continue;
+				if(!strncmp(buf, ": ã€", 4)) continue;
 				if(!strncmp(buf, ": : ", 4)) continue;
 				if(!strncmp(buf, "--\n", 3)) break;
 				if(buf[0]=='\n') continue;
 				if(lines++>=20) {
-					printf(": (ÒÔÏÂÒıÑÔÊ¡ÂÔ...)\n");
+					printf(": (ä»¥ä¸‹å¼•è¨€çœç•¥...)\n");
 					break;
 				}
 				if(!strcasestr(buf, "</textarea>")) printf(": %s", buf);
@@ -127,15 +127,15 @@ int main() {
 	}
    	printf("</textarea>\n");
    	printf("<tr><td class=post align=center>");
-//	printf("<input type=submit value=·¢±í> ");
-    printf("<input type=submit value=&nbsp;·¢&nbsp;&nbsp;±í&nbsp; id=btnPost> ");
+//	printf("<input type=submit value=å‘è¡¨> ");
+    printf("<input type=submit value=&nbsp;å‘&nbsp;&nbsp;è¡¨&nbsp; id=btnPost> ");
 	
-   	printf("<input type=reset value=Çå³ı>  ");
+   	printf("<input type=reset value=æ¸…é™¤>  ");
 	{
 		char attach[256];
 		sprintf(attach, "%s/upload/%s", BBSHOME, board);
 		if(dashd(attach))
-			printf("<input type='button' name='attach' value='¸½¼ş' onclick='return opnewwin() ' />");
+			printf("<input type='button' name='attach' value='é™„ä»¶' onclick='return opnewwin() ' />");
 	}
 	printf("<br>");
 	printf("<script language='JavaScript'>\n");
@@ -151,12 +151,12 @@ int main() {
 	printf("function wait_post() \n");
 	printf("{          \n");
 	printf("     objPost.disabled=true;\n");
-	printf("     objPost.value='ÕıÔÚ·¢±í,ÇëÄÍĞÄµÈ´ı...';\n");
+	printf("     objPost.value='æ­£åœ¨å‘è¡¨,è¯·è€å¿ƒç­‰å¾…...';\n");
 	printf("     setTimeout('enable_post()',20000);\n");
 	printf("}           \n");
 	printf("function enable_post() \n");
 	printf("{           \n");
-	printf("     objPost.value='·¢ËÍ³¬Ê±,ÇëÖØÊÔ';\n");
+	printf("     objPost.value='å‘é€è¶…æ—¶,è¯·é‡è¯•';\n");
 	printf("     objPost.disabled=false;\n");
 	printf("}           \n");
 	printf("function opnewwin()		\n");

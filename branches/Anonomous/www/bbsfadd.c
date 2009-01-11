@@ -4,32 +4,32 @@ int main() {
    	FILE *fp;
 	char path[80], userid[80], exp[80];
 	init_all();
-   	if(!loginok) http_fatal("ÄúÉĞÎ´µÇÂ¼£¬ÇëÏÈµÇÂ¼");
+   	if(!loginok) http_fatal("æ‚¨å°šæœªç™»å½•ï¼Œè¯·å…ˆç™»å½•");
    	sprintf(path, "home/%c/%s/friends", toupper(currentuser.userid[0]), currentuser.userid);
-   	printf("<b><font style='font-size: 18pt'>Ìí¼ÓºÃÓÑ</font> ¡¤ %s [Ê¹ÓÃÕß: %s]</b>\n", BBSNAME, currentuser.userid);
+   	printf("<b><font style='font-size: 18pt'>æ·»åŠ å¥½å‹</font> Â· %s [ä½¿ç”¨è€…: %s]</b>\n", BBSNAME, currentuser.userid);
 	printpretable_lite();
 	strsncpy(userid, getparm("userid"), 13);
 	strsncpy(exp, getparm("exp"), 32);
 	loadfriend(currentuser.userid);
 	if(userid[0]==0 || exp[0]==0) {
-		if(userid[0]) printf("<font color=red>ÇëÊäÈëºÃÓÑËµÃ÷</font>");
+		if(userid[0]) printf("<font color=red>è¯·è¾“å…¥å¥½å‹è¯´æ˜</font>");
 		printf("<form action=bbsfadd>\n");
-		printf("ÇëÊäÈëÓû¼ÓÈëµÄºÃÓÑÕÊºÅ: <input type=text name=userid value='%s'><br>\n",
+		printf("è¯·è¾“å…¥æ¬²åŠ å…¥çš„å¥½å‹å¸å·: <input type=text name=userid value='%s'><br>\n",
 			userid);
-		printf("ÇëÊäÈë¶ÔÕâ¸öºÃÓÑµÄËµÃ÷: <input type=text name=exp>\n", 
+		printf("è¯·è¾“å…¥å¯¹è¿™ä¸ªå¥½å‹çš„è¯´æ˜: <input type=text name=exp>\n", 
 			exp);
-		printf("<br><br><input type=submit value=È·¶¨></form>\n");
+		printf("<br><br><input type=submit value=ç¡®å®š></form>\n");
 		http_quit();
 	}
-	if(!getuser(userid)) http_fatal("´íÎóµÄÊ¹ÓÃÕßÕÊºÅ");
-	if(friendnum>=199) http_fatal("ÄúµÄºÃÓÑÃûµ¥ÒÑ´ïµ½ÉÏÏŞ, ²»ÄÜÌí¼ÓĞÂµÄºÃÓÑ");
-   	if(isfriend(userid)) http_fatal("´ËÈËÒÑ¾­ÔÚÄúµÄºÃÓÑÃûµ¥ÀïÁË");
+	if(!getuser(userid)) http_fatal("é”™è¯¯çš„ä½¿ç”¨è€…å¸å·");
+	if(friendnum>=199) http_fatal("æ‚¨çš„å¥½å‹åå•å·²è¾¾åˆ°ä¸Šé™, ä¸èƒ½æ·»åŠ æ–°çš„å¥½å‹");
+   	if(isfriend(userid)) http_fatal("æ­¤äººå·²ç»åœ¨æ‚¨çš„å¥½å‹åå•é‡Œäº†");
 	strcpy(fff[friendnum].id, getuser(userid)->userid);
 	strcpy(fff[friendnum].exp, exp);
 	friendnum++;
    	fp=fopen(path, "w");
    	fwrite(fff, sizeof(struct override), friendnum, fp);
    	fclose(fp);
-   	printf("[%s]ÒÑ¼ÓÈëÄúµÄºÃÓÑÃûµ¥.<br><br>\n <a href=bbsfall>·µ»ØºÃÓÑÃûµ¥</a>", userid);
+   	printf("[%s]å·²åŠ å…¥æ‚¨çš„å¥½å‹åå•.<br><br>\n <a href=bbsfall>è¿”å›å¥½å‹åå•</a>", userid);
 	http_quit();
 }

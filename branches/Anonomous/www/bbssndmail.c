@@ -14,28 +14,28 @@ int check_user(char * userid)
 	if(!strstr(userid, "@")) {
                 u=getuser(userid);
                 if(u==0) 
-			//http_fatal("´íÎóµÄÊÕĞÅÈËÕÊºÅ");
+			//http_fatal("é”™è¯¯çš„æ”¶ä¿¡äººå¸å·");
 			return -1;
                  //add by Danielfree 06.2.5
                  else if (!(u -> userlevel & PERM_READMAIL))
-                      //http_fatal("¶Ô·½ÎŞ·¨ÊÕĞÅ");
+                      //http_fatal("å¯¹æ–¹æ— æ³•æ”¶ä¿¡");
 		      return -1;
                 //add  end
                 strcpy(userid, u->userid);
                 //added by roly to test mail size
                 //modified by Danielfree to test mail num
                 if (!mailsize_under_limit(userid)||!mailnum_under_limit(userid))
-		//http_fatal("ÊÕ¼şÈËĞÅ¼şÈİÁ¿³¬±ê£¬ÎŞ·¨ÊÕĞÅ");
+		//http_fatal("æ”¶ä»¶äººä¿¡ä»¶å®¹é‡è¶…æ ‡ï¼Œæ— æ³•æ”¶ä¿¡");
                 return -1;
 		//add end
 		sprintf(filename, "home/%c/%s/rejects", toupper(userid[0]), userid);
 		if(file_has_word(filename, currentuser.userid))
-		 // http_fatal("¶Ô·½²»ÏëÊÕµ½ÄúµÄĞÅ¼ş");
+		 // http_fatal("å¯¹æ–¹ä¸æƒ³æ”¶åˆ°æ‚¨çš„ä¿¡ä»¶");
 	      		return -1;
        }
         /* added by roly to deny internet mail */
         else {
-                http_fatal("±¾Õ¾²»Ö§³Ö¶ÔÍâ·¢ĞÅ");
+                http_fatal("æœ¬ç«™ä¸æ”¯æŒå¯¹å¤–å‘ä¿¡");
 		return -1;
         }
 	
@@ -48,15 +48,15 @@ int main() {
 	int t, i, sig, backup;
 	struct fileheader x;
 	init_all();
-	printf("<b>·¢ËÍĞÅ¼ş ¡¤ %s </b><br>\n",BBSNAME);
+	printf("<b>å‘é€ä¿¡ä»¶ Â· %s </b><br>\n",BBSNAME);
 	printpretable_lite();
-	if(!loginok) http_fatal("´Ò´Ò¹ı¿Í²»ÄÜĞ´ĞÅ£¬ÇëÏÈµÇÂ¼");
+	if(!loginok) http_fatal("åŒ†åŒ†è¿‡å®¢ä¸èƒ½å†™ä¿¡ï¼Œè¯·å…ˆç™»å½•");
 	/* Added by Amigo 2002.06.19. For mail right check. */
 	if (!HAS_PERM(PERM_MAIL)) 
-		http_fatal("ÄúÉĞÎ´Íê³É×¢²á£¬»òÕß·¢ËÍĞÅ¼şµÄÈ¨ÏŞ±»·â½û");
+		http_fatal("æ‚¨å°šæœªå®Œæˆæ³¨å†Œï¼Œæˆ–è€…å‘é€ä¿¡ä»¶çš„æƒé™è¢«å°ç¦");
 	/* Add end. */
 	if(!mailnum_under_limit(currentuser.userid) || !mailsize_under_limit(currentuser.userid))
-		http_fatal("ÄúµÄĞÅ¼şÈİÁ¿³¬±ê£¬ÎŞ·¨·¢ĞÅ");
+		http_fatal("æ‚¨çš„ä¿¡ä»¶å®¹é‡è¶…æ ‡ï¼Œæ— æ³•å‘ä¿¡");
    	
 	//prepare the message...
 	strsncpy(title, noansi(getparm("title")), 50);
@@ -66,10 +66,10 @@ int main() {
    	sig=atoi(getparm("signature"));
    	content=getparm("text");
    	if(title[0]==0)
-      		strcpy(title, "Ã»Ö÷Ìâ");
+      		strcpy(title, "æ²¡ä¸»é¢˜");
 	sprintf(filename, "tmp/%d.tmp", getpid());
 	f_append(filename, content);
-	sprintf(title2, "{±¸·İ} %s", title);
+	sprintf(title2, "{å¤‡ä»½} %s", title);
 	title2[70]=0;
 	
 	/* 
@@ -85,9 +85,9 @@ int main() {
 	{
 		if(check_user(token)==0){
 	  		post_mail(token, title, filename, currentuser.userid, currentuser.username, fromhost, sig-1);
-			printf("ĞÅ¼şÒÑ¼Ä¸ø%s.<br>\n", token);
+			printf("ä¿¡ä»¶å·²å¯„ç»™%s.<br>\n", token);
 		}else{
-			printf("ÎŞ·¨°ÑĞÅ¼ş¼Ä¸ø%s.<br>\n",token);
+			printf("æ— æ³•æŠŠä¿¡ä»¶å¯„ç»™%s.<br>\n",token);
 		}
 	}
 	while(token)
@@ -97,9 +97,9 @@ int main() {
 		{
 			if(check_user(token)==0){
 	  			post_mail(token, title, filename, currentuser.userid, currentuser.username, fromhost, sig-1);
-				printf("ĞÅ¼şÒÑ¼Ä¸ø%s.<br>\n", token);
+				printf("ä¿¡ä»¶å·²å¯„ç»™%s.<br>\n", token);
 			}else{
-				printf("ÎŞ·¨°ÑĞÅ¼ş¼Ä¸ø%s.<br>\n",token);
+				printf("æ— æ³•æŠŠä¿¡ä»¶å¯„ç»™%s.<br>\n",token);
 			}
 			
 		}
@@ -115,12 +115,12 @@ int main() {
 
 	if(backup)
 		post_mail(currentuser.userid, title2, filename, currentuser.userid, currentuser.username, fromhost, sig-1);
-	if(backup) printf("ĞÅ¼şÒÑ¾­±¸·İ.<br>\n");
+	if(backup) printf("ä¿¡ä»¶å·²ç»å¤‡ä»½.<br>\n");
 	unlink(filename);
 	//added by iamfat 2002.10.20
 	sprintf(title2, "mailed %s: %s", userid, title);
 	trace(title2);
 	//added end
-	printf("<a href='javascript:history.go(-2)'>·µ»Ø</a>");
+	printf("<a href='javascript:history.go(-2)'>è¿”å›</a>");
 	http_quit();
 }

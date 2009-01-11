@@ -23,12 +23,12 @@ int main() {
 	}
 	qsort(data, total, sizeof(struct boardheader), cmpboard);
 
-	printf("<img src=/info/all/banner.jpg align=absmiddle border=0><b> %s [ÌÖÂÛÇøÊı: %d]</b>", BBSNAME, total);
+	printf("<img src=/info/all/banner.jpg align=absmiddle border=0><b> %s [è®¨è®ºåŒºæ•°: %d]</b>", BBSNAME, total);
 
 	printf("<center>\n");
 	printpretable();	       
 	printf("<table width=100% bgcolor=#ffffff>\n");
-	printf("<tr class=pt9h ><th nowrap>ĞòºÅ</th><th nowrap>ÌÖÂÛÇøÃû³Æ</th><th nowrap>Àà±ğ</th><th nowrap>ÖĞÎÄÃèÊö</th><th nowrap>°æÖ÷</th>\n");
+	printf("<tr class=pt9h ><th nowrap>åºå·</th><th nowrap>è®¨è®ºåŒºåç§°</th><th nowrap>ç±»åˆ«</th><th nowrap>ä¸­æ–‡æè¿°</th><th nowrap>ç‰ˆä¸»</th>\n");
 	int cc=0;
 	for(i=0; i<total; i++) {
 		int isgroup = (data[i].flag & BOARD_DIR_FLAG)? 1 : 0; //add for dir 06.3.5 Danielfree
@@ -45,7 +45,7 @@ int main() {
 
         /* print board category */
         if (isgroup)
-            printf("<td  nowrap align=center><b>%6.6s</b></td>", "[Ä¿Â¼]");
+            printf("<td  nowrap align=center><b>%6.6s</b></td>", "[ç›®å½•]");
         else
             printf("<td  nowrap align=center>%6.6s</td>", data[i].title+1);
 
@@ -59,8 +59,8 @@ int main() {
 		printf("</td>");
 		/* print first BM */
         ptr=strtok(data[i].BM, " ,;");
-        if(ptr==0) ptr=(isgroup)? "-":"³ÏÕ÷°æÖ÷ÖĞ";    
-		//if(ptr==0) ptr="³ÏÕ÷°æÖ÷ÖĞ";
+        if(ptr==0) ptr=(isgroup)? "-":"è¯šå¾ç‰ˆä¸»ä¸­";    
+		//if(ptr==0) ptr="è¯šå¾ç‰ˆä¸»ä¸­";
 		printf("</td><td nowrap><b><a href=bbsqry?userid=%s>%s</a></b></td>", ptr, ptr);
 	}
 	printf("</table>");

@@ -12,29 +12,29 @@ int main() {
 	x1=getbcache(board);
 	if(x1==0) 
 	{
-		printf("<center><b>Í¬Ö÷Ìâ²éÕÒ ¡¤ %s </b></center><br>\n",BBSNAME);
+		printf("<center><b>åŒä¸»é¢˜æŸ¥æ‰¾ Â· %s </b></center><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	}
 	strcpy(board, x1->filename);
 	if(!has_read_perm(&currentuser, board)) 
 	{
-		printf("<center><b>Í¬Ö÷Ìâ²éÕÒ ¡¤ %s </b></center><br>\n",BBSNAME);
+		printf("<center><b>åŒä¸»é¢˜æŸ¥æ‰¾ Â· %s </b></center><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	}
 	sprintf(buf, "bbsman?board=%s&mode=1", board);
 	sprintf(dir, "boards/%s/.DIR", board);
 	fp=fopen(dir, "r");
 	if(fp==0) 
 	{
-		printf("<center><b>Í¬Ö÷Ìâ²éÕÒ ¡¤ %s </b></center><br>\n",BBSNAME);
+		printf("<center><b>åŒä¸»é¢˜æŸ¥æ‰¾ Â· %s </b></center><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇøÄ¿Â¼");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒºç›®å½•");
 	}
-	printf("<center><b>Í¬Ö÷Ìâ²éÕÒ ¡¤ %s [ÌÖÂÛÇø: %s] [Ö÷Ìâ '%s']</b><br>\n",	BBSNAME, board, nohtml(title));
+	printf("<center><b>åŒä¸»é¢˜æŸ¥æ‰¾ Â· %s [è®¨è®ºåŒº: %s] [ä¸»é¢˜ '%s']</b><br>\n",	BBSNAME, board, nohtml(title));
 	printpretable();
-	printf("<table width=100%% border=0><tr class=pt9h><td><font color=white>±àºÅ<td><font color=white>×÷Õß<td><font color=white>ÈÕÆÚ<td><font color=white>±êÌâ\n");
+	printf("<table width=100%% border=0><tr class=pt9h><td><font color=white>ç¼–å·<td><font color=white>ä½œè€…<td><font color=white>æ—¥æœŸ<td><font color=white>æ ‡é¢˜\n");
 	int cc=0;
 	while(1) 
 	{
@@ -65,13 +65,13 @@ int main() {
 	fclose(fp);
 	printf("</table>\n");
 	printposttable();
-	printf("<br>¹²ÕÒµ½ %d Æª \n", total);
-	printf("<a href=bbsdoc?board=%s>±¾ÌÖÂÛÇø</a> ", board);
+	printf("<br>å…±æ‰¾åˆ° %d ç¯‡ \n", total);
+	printf("<a href=bbsdoc?board=%s>æœ¬è®¨è®ºåŒº</a> ", board);
 	if(total>0) 
 	{
-		printf("<a href=bbstcon?board=%s&file=%s>±¾Ö÷ÌâÈ«²¿Õ¹¿ª</a> ", board, first_file);
+		printf("<a href=bbstcon?board=%s&file=%s>æœ¬ä¸»é¢˜å…¨éƒ¨å±•å¼€</a> ", board, first_file);
 		if(has_BM_perm(&currentuser, board)) 
-			printf("<a onclick='return confirm(\"È·¶¨Í¬Ö÷ÌâÈ«²¿É¾³ı?\")' href=%s>Í¬Ö÷ÌâÉ¾³ı</a>", buf);
+			printf("<a onclick='return confirm(\"ç¡®å®šåŒä¸»é¢˜å…¨éƒ¨åˆ é™¤?\")' href=%s>åŒä¸»é¢˜åˆ é™¤</a>", buf);
 	}
 	http_quit();
 }

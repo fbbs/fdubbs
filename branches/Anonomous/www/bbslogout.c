@@ -8,7 +8,7 @@ int main() {
 	if(!loginok) { 
 		redirect(FIRST_PAGE);  //added by roly
 		return 0;
-		http_fatal("��û�е�¼");		
+		http_fatal("您没有登录");		
 	}
 	//added by iamfat 2002.10.05 for TRACE
 	sprintf(buf, "EXIT @%s", fromhost);

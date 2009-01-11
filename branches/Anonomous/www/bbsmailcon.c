@@ -10,23 +10,23 @@ int main() {
 	num=atoi(getparm("num"));
 	printf("<center>\n");
 	id=currentuser.userid;
-	printf("ÔÄ¶ÁĞÅ¼ş ¡¤ %s [Ê¹ÓÃÕß: %s]\n", BBSNAME, id);
+	printf("é˜…è¯»ä¿¡ä»¶ Â· %s [ä½¿ç”¨è€…: %s]\n", BBSNAME, id);
 	if(strncmp(file, "M.", 2)) 
 	{
 		printpretable_lite();
-		http_fatal("´íÎóµÄ²ÎÊı1");
+		http_fatal("é”™è¯¯çš„å‚æ•°1");
 	}
 	if(strstr(file, "..") || strstr(file, "/")) 
 	{
 		printpretable_lite();
-		http_fatal("´íÎóµÄ²ÎÊı2");
+		http_fatal("é”™è¯¯çš„å‚æ•°2");
 	}
 	sprintf(dir, "mail/%c/%s/.DIR", toupper(id[0]), id);
 	total=file_size(dir)/sizeof(x);
 	if(total<=0) 
 	{
 		printpretable_lite();
-		http_fatal("´íÎóµÄ²ÎÊı3");
+		http_fatal("é”™è¯¯çš„å‚æ•°3");
 	}
 	printpretable();
 	printf("<table width=100%% border=0>\n");
@@ -35,10 +35,10 @@ int main() {
 	fp=fopen(path, "r");
 	if(fp==0) 
 	{
-		printf("±¾ÎÄ²»´æÔÚ»òÕßÒÑ±»É¾³ı");
+		printf("æœ¬æ–‡ä¸å­˜åœ¨æˆ–è€…å·²è¢«åˆ é™¤");
 		printf("</pre>\n</table>\n");
 		printposttable();
-		printf("<br>[<a href=bbsmail>·µ»ØĞÅ¼şÁĞ±í</a>]  ");
+		printf("<br>[<a href=bbsmail>è¿”å›ä¿¡ä»¶åˆ—è¡¨</a>]  ");
 		printf("</center>\n");
 		http_quit();
 	}
@@ -56,15 +56,15 @@ int main() {
 	if(num>0) {
 		fseek(fp, sizeof(x)*(num-1), SEEK_SET);
 		fread(&x, sizeof(x), 1, fp);
-		printf("<a href=bbsmailcon?file=%s&num=%d><img border=0 src=/images/button/up.gif align=absmiddle>ÉÏÒ»Æª</a>  ", x.filename, num-1);
+		printf("<a href=bbsmailcon?file=%s&num=%d><img border=0 src=/images/button/up.gif align=absmiddle>ä¸Šä¸€ç¯‡</a>  ", x.filename, num-1);
 	}
 	if(num<total-1) {
 		fseek(fp, sizeof(x)*(num+1), SEEK_SET);
       		fread(&x, sizeof(x), 1, fp);
-      		printf("<a href=bbsmailcon?file=%s&num=%d><img border=0 src=/images/button/down.gif align=absmiddle>ÏÂÒ»Æª</a>  ", x.filename, num+1);
+      		printf("<a href=bbsmailcon?file=%s&num=%d><img border=0 src=/images/button/down.gif align=absmiddle>ä¸‹ä¸€ç¯‡</a>  ", x.filename, num+1);
 	}
-	printf("[<a onclick='return confirm(\"ÄúÕæµÄÒªÉ¾³ıÕâ·âĞÅÂğ?\")' href=bbsdelmail?file=%s> É¾³ı</a>]  ", file);
-	printf("[<a href=bbsmail>·µ»ØĞÅ¼şÁĞ±í</a>]  ");
+	printf("[<a onclick='return confirm(\"æ‚¨çœŸçš„è¦åˆ é™¤è¿™å°ä¿¡å—?\")' href=bbsdelmail?file=%s> åˆ é™¤</a>]  ", file);
+	printf("[<a href=bbsmail>è¿”å›ä¿¡ä»¶åˆ—è¡¨</a>]  ");
 	if(num>=0 && num<total) 
 	{
 		char title2[80];
@@ -84,7 +84,7 @@ int main() {
 			if(strncmp(x.title, "Re:",3)) 
 				sprintf(title2, "Re: %s", x.title);
 			title2[60]=0;
-			printf("[<a href='bbspstmail?userid=%s&file=%s&title=%s'>»ØĞÅ</a>]",ptr, x.filename, title2);
+			printf("[<a href='bbspstmail?userid=%s&file=%s&title=%s'>å›ä¿¡</a>]",ptr, x.filename, title2);
 		}
 	}
 	fclose(fp);

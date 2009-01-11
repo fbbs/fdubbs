@@ -13,18 +13,18 @@ int main() {
 	struct fileheader x;
 	init_all();
 
-	/* added by roly  2002.05.10 È¥µôcache */
+	/* added by roly  2002.05.10 å»æ‰cache */
 	printf("<meta http-equiv=\"pragma\" content=\"no-cache\">");
-	printf("<title>ĞÅ¼şÏÂÔØ</title><body>");
+	printf("<title>ä¿¡ä»¶ä¸‹è½½</title><body>");
 	/* add end */
 
 	if(!loginok)
 	{
-		printf("<b>ĞÅ¼şÏÂÔØ ¡¤ %s</b><br>\n",BBSNAME);
+		printf("<b>ä¿¡ä»¶ä¸‹è½½ Â· %s</b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("ÄúÉĞÎ´µÇÂ¼, ÇëÏÈµÇÂ¼");
+		http_fatal("æ‚¨å°šæœªç™»å½•, è¯·å…ˆç™»å½•");
 	}
-	printf("<b>ĞÅ¼şÏÂÔØ ¡¤ %s</b><br>\n", BBSNAME);
+	printf("<b>ä¿¡ä»¶ä¸‹è½½ Â· %s</b><br>\n", BBSNAME);
 	type=atoi(getparm("type"));
 	
 	if(type==0) return show_form();	
@@ -74,7 +74,7 @@ int main() {
 			fpfile=fopen(path, "r");
 			if(fpfile==0) 
 			{
-				printf("±¾ÎÄ²»´æÔÚ»òÕßÒÑ±»É¾³ı£¡");
+				printf("æœ¬æ–‡ä¸å­˜åœ¨æˆ–è€…å·²è¢«åˆ é™¤ï¼");
 				printf("</pre></table>\n");
 				printposttable();
 				continue;
@@ -99,9 +99,9 @@ int main() {
 int show_form() {
 	printpretable_lite();
 	printf("<table><form action=bbsmaildown?type=1 method=post>\n");
-	printf("<tr><td>ÆğÊ¼ÆªÊı: <input type=text maxlength=8 size=8 name=start><br>\n");
-	printf("<tr><td>ÖÕÖ¹ÆªÊı: <input type=text maxlength=8 size=8 name=end>\n");
-	printf("<tr><td><input type=submit value=µİ½»²éÑ¯>\n");
+	printf("<tr><td>èµ·å§‹ç¯‡æ•°: <input type=text maxlength=8 size=8 name=start><br>\n");
+	printf("<tr><td>ç»ˆæ­¢ç¯‡æ•°: <input type=text maxlength=8 size=8 name=end>\n");
+	printf("<tr><td><input type=submit value=é€’äº¤æŸ¥è¯¢>\n");
 	printf("</form></table>");	
 	printposttable_lite();
 	http_quit();

@@ -7,9 +7,9 @@ int main() {
 	my_style=init_all();
 	if(!loginok) 
 	{
-		printf("<b>WWW¸öÈË¶¨ÖÆ ¡¤ %s </b><br>\n",BBSNAME);
+		printf("<b>WWWä¸ªäººå®šåˆ¶ Â· %s </b><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´Ò´Ò¹ı¿Í²»ÄÜ¶¨ÖÆ½çÃæ");
+		http_fatal("åŒ†åŒ†è¿‡å®¢ä¸èƒ½å®šåˆ¶ç•Œé¢");
 	}
 	sprintf(path, "home/%c/%s/.mywww", toupper(currentuser.userid[0]), currentuser.userid);
         type=atoi(getparm("type"));
@@ -37,7 +37,7 @@ int main() {
        	 	ptr=getparm("def_mode");
         	if(ptr[0]) def_mode=atoi(ptr);
 	}
-	printf("<b>WWW¸öÈË¶¨ÖÆ ¡¤ %s [Ê¹ÓÃÕß: %s]</b>", BBSNAME, currentuser.userid);
+	printf("<b>WWWä¸ªäººå®šåˆ¶ Â· %s [ä½¿ç”¨è€…: %s]</b>", BBSNAME, currentuser.userid);
 	printpretable_lite();
 	if(type>0) return save_set(path, t_lines, link_mode, def_mode, my_style);
 	printf("<table>\n");
@@ -45,11 +45,11 @@ int main() {
 	if(link_mode<0 || link_mode>1) link_mode=0;
 	printf("<tr><td><form action=bbsmywww>\n");
 	printf("<input type=hidden name=type value=1>");
-	printf("Ò»ÆÁÏÔÊ¾µÄÎÄÕÂĞĞÊı(10-40): <input name=t_lines size=8 value=%d><br>\n", t_lines);
-	printf("Á´½ÓÊ¶±ğ (0Ê¶±ğ, 1²»Ê¶±ğ): <input name=link_mode size=8 value=%d><br>\n", link_mode);
-	printf("È±Ê¡Ä£Ê½ (0Ò»°ã, 1Ö÷Ìâ)  : <input name=def_mode size=8 value=%d><br><hr>\n", def_mode);
-	printf("½çÃæ·ç¸ñ (0·ÂTERM, 1´«Í³, 2·ÂºÚµ×TERM): <input name=my_style size=8 value=%d><br><br>\n", my_style);
-	printf("<tr><td align=center><input type=submit value=È·¶¨> <input type=reset value=¸´Ô­>\n");
+	printf("ä¸€å±æ˜¾ç¤ºçš„æ–‡ç« è¡Œæ•°(10-40): <input name=t_lines size=8 value=%d><br>\n", t_lines);
+	printf("é“¾æ¥è¯†åˆ« (0è¯†åˆ«, 1ä¸è¯†åˆ«): <input name=link_mode size=8 value=%d><br>\n", link_mode);
+	printf("ç¼ºçœæ¨¡å¼ (0ä¸€èˆ¬, 1ä¸»é¢˜)  : <input name=def_mode size=8 value=%d><br><hr>\n", def_mode);
+	printf("ç•Œé¢é£æ ¼ (0ä»¿TERM, 1ä¼ ç»Ÿ, 2ä»¿é»‘åº•TERM): <input name=my_style size=8 value=%d><br><br>\n", my_style);
+	printf("<tr><td align=center><input type=submit value=ç¡®å®š> <input type=reset value=å¤åŸ>\n");
 	printf("</form>\n");
 }
 
@@ -57,10 +57,10 @@ int save_set(char *path, int t_lines, int link_mode, int def_mode, int my_style)
 {
 	FILE *fp;
 	char buf[80];
-	if(t_lines<10 || t_lines>40) http_fatal("´íÎóµÄĞĞÊı");
-	if(link_mode<0 || link_mode>1) http_fatal("´íÎóµÄÁ´½ÓÊ¶±ğ²ÎÊı");
-	if(def_mode<0 || def_mode>1) http_fatal("´íÎóµÄÈ±Ê¡Ä£Ê½");
-	if(my_style<0||my_style>2) http_fatal("´íÎóµÄ½çÃæ·ç¸ñ");	
+	if(t_lines<10 || t_lines>40) http_fatal("é”™è¯¯çš„è¡Œæ•°");
+	if(link_mode<0 || link_mode>1) http_fatal("é”™è¯¯çš„é“¾æ¥è¯†åˆ«å‚æ•°");
+	if(def_mode<0 || def_mode>1) http_fatal("é”™è¯¯çš„ç¼ºçœæ¨¡å¼");
+	if(my_style<0||my_style>2) http_fatal("é”™è¯¯çš„ç•Œé¢é£æ ¼");	
 	fp=fopen(path, "w");
 	fprintf(fp, "t_lines %d\n", t_lines);
 	fprintf(fp, "link_mode %d\n", link_mode);
@@ -75,6 +75,6 @@ int save_set(char *path, int t_lines, int link_mode, int def_mode, int my_style)
         setcookie("my_def_mode", buf);
 	sprintf(buf, "%d", my_style);
 	setcookie("my_style", buf);
-	printf("WWW¶¨ÖÆ²ÎÊıÉè¶¨³É¹¦.<br>\n");
-	printf("[<a href='javascript:history.go(-2)'>·µ»Ø</a>]");
+	printf("WWWå®šåˆ¶å‚æ•°è®¾å®šæˆåŠŸ.<br>\n");
+	printf("[<a href='javascript:history.go(-2)'>è¿”å›</a>]");
 }

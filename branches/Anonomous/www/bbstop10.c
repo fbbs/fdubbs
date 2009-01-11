@@ -6,7 +6,7 @@ int main() {
 	char s1[256], s2[256], s3[256], s4[256],s5;
 	char brd[256], id[256], title[256], num[100];
 	init_all();
-	printf("<b><font style='font-size: 18pt'>½ñÈÕÊ®´óÈÈÃÅ»°Ìâ</font> ¡¤ %s </b>\n\n", BBSNAME);
+	printf("<b><font style='font-size: 18pt'>ä»Šæ—¥åå¤§çƒ­é—¨è¯é¢˜</font> Â· %s </b>\n\n", BBSNAME);
 	fp=fopen("etc/posts/day", "r");
 	if(fp==0) http_fatal("can't read data");
 	fgets(s1, 255, fp);
@@ -15,7 +15,7 @@ int main() {
 	printf("<center>\n");
 	printpretable();
 	printf("<table border=0 width=100%%>\n");
-	printf("<tr class=pt9h bgcolor=#cccccc align=center><td nowrap><b>Ãû´Î</b></td><td nowrap><b>ÌÖÂÛÇø</b></td><td nowrap><b>±êÌâ</b></td><td nowrap><b>×÷Õß</b></td><td nowrap><b>ÆªÊı</b></td></tr>\n");
+	printf("<tr class=pt9h bgcolor=#cccccc align=center><td nowrap><b>åæ¬¡</b></td><td nowrap><b>è®¨è®ºåŒº</b></td><td nowrap><b>æ ‡é¢˜</b></td><td nowrap><b>ä½œè€…</b></td><td nowrap><b>ç¯‡æ•°</b></td></tr>\n");
 	int cc=0;
 	for(n=1; n<=10; n++) 
 	{
@@ -27,7 +27,7 @@ int main() {
 		if(fgets(s1, 255, fp)<=0) 
 			break;
 		strsncpy(title, s1+27, 60);
-		printf("<tr class=%s><td nowrap>µÚ %2d Ãû</td><td nowrap><a href=bbsdoc?board=%s><b>%s</b></a></td><td width=100\%><a href='bbstfind?board=%s&title=%s'>%42.42s</a></td><td nowrap align=center><a href=bbsqry?userid=%s><b>%12s</b></a></td><td nowrap>%s</td></tr>\n",
+		printf("<tr class=%s><td nowrap>ç¬¬ %2d å</td><td nowrap><a href=bbsdoc?board=%s><b>%s</b></a></td><td width=100\%><a href='bbstfind?board=%s&title=%s'>%42.42s</a></td><td nowrap align=center><a href=bbsqry?userid=%s><b>%12s</b></a></td><td nowrap>%s</td></tr>\n",
 			((cc++)%2)?"pt9dc":"pt9lc" ,n, brd, brd, brd, nohtml(title), nohtml(title), id, id, num);
 	}
 	printf("</table>");

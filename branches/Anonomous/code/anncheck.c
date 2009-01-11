@@ -18,76 +18,76 @@ int intArrDirsHead;
 int intArrDirsTail;
 FILE *noexist, *toolong, *toodeep, *loop;
 
-//ÅĞ¶ÏÒ»¸öÂ·¾¶ÊÇ·ñ´æÔÚÇÒÊÇÄ¿Â¼£¬Èç¹ûÊÇ´æÔÚµÄÄ¿Â¼Ôò·µ»Ø1£¬·ñÔò·µ»Ø0¡£
+//åˆ¤æ–­ä¸€ä¸ªè·¯å¾„æ˜¯å¦å­˜åœ¨ä¸”æ˜¯ç›®å½•ï¼Œå¦‚æœæ˜¯å­˜åœ¨çš„ç›®å½•åˆ™è¿”å›1ï¼Œå¦åˆ™è¿”å›0ã€‚
 int isDir(char *strFileName){
 	struct stat st;
 	return ( stat( strFileName, &st ) == 0 && S_ISDIR( st.st_mode ) );
 }
 
-//ÅĞ¶ÏÒ»¸öÂ·¾¶ÊÇ·ñ´æÔÚ£¬Èç¹ûÊÇ´æÔÚµÄÔò·µ»Ø1£¬·ñÔò·µ»Ø0¡£
+//åˆ¤æ–­ä¸€ä¸ªè·¯å¾„æ˜¯å¦å­˜åœ¨ï¼Œå¦‚æœæ˜¯å­˜åœ¨çš„åˆ™è¿”å›1ï¼Œå¦åˆ™è¿”å›0ã€‚
 int isExist(char *strPath){
 	struct stat st;
 	return ( stat( strPath, &st ) == 0 );
 }
 
-//¼ì²éÒ»¸öÄ¿Â¼
+//æ£€æŸ¥ä¸€ä¸ªç›®å½•
 convertDir(int intDirIndex){
 
 	char strBuf[STRLEN], strHtmDirName[STRLEN], strPath[STRLEN], *ptr;
 	FILE *fl;
 
-	//.NamesÖĞ¶Á³öÎÄ¼şÁĞ±í
+	//.Namesä¸­è¯»å‡ºæ–‡ä»¶åˆ—è¡¨
 	sprintf( strBuf, "%s/%s", arrDirs[ intDirIndex ], DOTNAMES );
 	if( fl = fopen( strBuf, "rt" ) ){
 
 		while( !feof( fl ) ){
 
-			//µÃµ½ÏÂÒ»ĞĞµÄÄÚÈİ
+			//å¾—åˆ°ä¸‹ä¸€è¡Œçš„å†…å®¹
 			fgets( strBuf, STRLEN, fl );
 			if( feof( fl ) ) break;
 
-			//È¡µÃÒ»¸öÎÄ¼şÏÔÊ¾Ãû£¬È·±£¸ñÊ½µÄÕıÈ·ĞÔ
+			//å–å¾—ä¸€ä¸ªæ–‡ä»¶æ˜¾ç¤ºåï¼Œç¡®ä¿æ ¼å¼çš„æ­£ç¡®æ€§
 			strBuf[ strlen( strBuf ) - 1 ] = '\0';
 			if( ( ptr = strstr( strBuf, "Name=" ) ) && strlen( strBuf ) > 5 ){
 
-				//µÃµ½½ô½Ó×Å Name= µÄÄÇÒ»ĞĞµÄÄÚÈİ
+				//å¾—åˆ°ç´§æ¥ç€ Name= çš„é‚£ä¸€è¡Œçš„å†…å®¹
 				fgets( strBuf, STRLEN, fl );
 				if( feof( fl ) ) break;
 				strBuf[ strlen( strBuf ) - 1 ] = '\0';
 
-				//È¡µÃÒ»¸öÎÄ¼şÃû£¬¸ñÊ½Ó¦¸ÃÊÇ Path=~/ £¬ ¸ù¾İÊÇ·ñ°üº¬ .. ÌŞ³ıÑ­»·Ä¿Â¼
+				//å–å¾—ä¸€ä¸ªæ–‡ä»¶åï¼Œæ ¼å¼åº”è¯¥æ˜¯ Path=~/ ï¼Œ æ ¹æ®æ˜¯å¦åŒ…å« .. å‰”é™¤å¾ªç¯ç›®å½•
 				if( ( ptr = strstr( strBuf, "Path=~/" ) ) && strlen( strBuf ) > 7 ){
 					strcpy( strPath, ptr + 7 );
 					if( strstr( strPath, "/" ) || strstr( strPath, "\\" ) ){
-						//¸ø³ö¾«»ªÇøÄ¿Â¼³ö´í±¨¸æ
-						fprintf( loop, "Ë÷ÒıÎÄ¼şÓĞÑ­»·Ä¿Â¼£º%s\n\n", arrDirs[ intDirIndex ] );
+						//ç»™å‡ºç²¾ååŒºç›®å½•å‡ºé”™æŠ¥å‘Š
+						fprintf( loop, "ç´¢å¼•æ–‡ä»¶æœ‰å¾ªç¯ç›®å½•ï¼š%s\n\n", arrDirs[ intDirIndex ] );
 					}else{
 
-						//Éú³ÉÈ«Â·¾¶
+						//ç”Ÿæˆå…¨è·¯å¾„
 						sprintf( strBuf , "%s/%s", arrDirs[ intDirIndex ], strPath );
 
-						//ÅĞ¶ÏÕâ¸öÎÄ¼şÊÇ·ñÊÇÄ¿Â¼¡£Èç¹ûÊÇÄ¿Â¼Ôò·ÅÈë´ı´¦ÀíÄ¿Â¼¶ÓÁĞÖĞ£¬·ñÔò·ÅÈë´ı´¦ÀíÎÄµµ¶ÓÁĞÖĞ¡£
+						//åˆ¤æ–­è¿™ä¸ªæ–‡ä»¶æ˜¯å¦æ˜¯ç›®å½•ã€‚å¦‚æœæ˜¯ç›®å½•åˆ™æ”¾å…¥å¾…å¤„ç†ç›®å½•é˜Ÿåˆ—ä¸­ï¼Œå¦åˆ™æ”¾å…¥å¾…å¤„ç†æ–‡æ¡£é˜Ÿåˆ—ä¸­ã€‚
 						if( isDir( strBuf ) ){
 							if( strlen( strBuf ) > 130 )
-								fprintf( toolong, "Â·¾¶Ãû¹ı³¤£º%s\n\n", strBuf );
-							//½«Ä¿Â¼ÃûĞ´Èë´ı´¦ÀíÄ¿Â¼¶ÓÁĞ
+								fprintf( toolong, "è·¯å¾„åè¿‡é•¿ï¼š%s\n\n", strBuf );
+							//å°†ç›®å½•åå†™å…¥å¾…å¤„ç†ç›®å½•é˜Ÿåˆ—
 							strcpy( arrDirs[ intArrDirsTail ], strBuf );
 							dirLayers[ intArrDirsTail ] = dirLayers[ intDirIndex ] + 1;
 							if( dirLayers[ intArrDirsTail ] > 9 )
-								fprintf( toodeep, "Ä¿Â¼²ã´ÎÌ«Éî£º%s\n\n", strBuf );
+								fprintf( toodeep, "ç›®å½•å±‚æ¬¡å¤ªæ·±ï¼š%s\n\n", strBuf );
 							intArrDirsTail ++;
 						}else if( isExist( strBuf ) ){
 							if( strlen( strBuf ) > 130 )
-								fprintf( toolong, "Â·¾¶Ãû¹ı³¤£º%s\n\n", strBuf );
+								fprintf( toolong, "è·¯å¾„åè¿‡é•¿ï¼š%s\n\n", strBuf );
 						}else{
-							//´íÎóÄ¿Â¼Ïî±¨¸æ
-							fprintf( noexist, "²»´æÔÚµÄÂ·¾¶£º%s\n\n", strBuf );
+							//é”™è¯¯ç›®å½•é¡¹æŠ¥å‘Š
+							fprintf( noexist, "ä¸å­˜åœ¨çš„è·¯å¾„ï¼š%s\n\n", strBuf );
 						}
 
 					}
 				}else if( strlen( strBuf ) == 7 ){
-					//¸ø³ö¾«»ªÇø¿ÕÄ¿Â¼±¨¸æ
-					fprintf( noexist, "Ë÷ÒıÎÄ¼şÓĞ¿ÕÄ¿Â¼£º%s\n\n", arrDirs[ intDirIndex ] );
+					//ç»™å‡ºç²¾ååŒºç©ºç›®å½•æŠ¥å‘Š
+					fprintf( noexist, "ç´¢å¼•æ–‡ä»¶æœ‰ç©ºç›®å½•ï¼š%s\n\n", arrDirs[ intDirIndex ] );
 				}
 			}
 
@@ -97,12 +97,12 @@ convertDir(int intDirIndex){
 
 	intArrDirsHead ++;
 
-	//¹Ø±Õ.Names
+	//å…³é—­.Names
 	fclose( fl );
 
 }
 
-//±éÀúÒ»¸ö°æµÄ¾«»ªÇø
+//éå†ä¸€ä¸ªç‰ˆçš„ç²¾ååŒº
 void convertBoard(char *strBoardName){
 
 	char strBuf[STRLEN];
@@ -119,36 +119,36 @@ void convertBoard(char *strBoardName){
 
 }
 
-//±éÀúÒ»¸öÇøµÄËùÓĞ°æÃæ
+//éå†ä¸€ä¸ªåŒºçš„æ‰€æœ‰ç‰ˆé¢
 void convertPart(char *strPartName){
 
 	char strBuf[STRLEN], strBoardName[STRLEN];
 	FILE *fl;
 
-	//ÓÃls½«Ä¿Â¼ÖĞµÄÎÄ¼şÃûÁĞ±í´æÈëBBSDISKPATHÖĞµÄlist_txtÎÄ¼şÖĞ
+	//ç”¨lså°†ç›®å½•ä¸­çš„æ–‡ä»¶ååˆ—è¡¨å­˜å…¥BBSDISKPATHä¸­çš„list_txtæ–‡ä»¶ä¸­
 	sprintf( strBuf, "ls %s%s > %sboard_txt", BBSDISKPATH, strPartName, BBSDISKPATH );
 	system( strBuf );
 
-	//´Ólist_txtÖĞ¶Á³öÎÄ¼şÁĞ±í
+	//ä»list_txtä¸­è¯»å‡ºæ–‡ä»¶åˆ—è¡¨
 	sprintf( strBuf, "%sboard_txt", BBSDISKPATH );
 	if( fl = fopen( strBuf, "rt" ) )
 		while( !feof( fl ) ){
 
-			//È¡µÃÒ»¸ö×Ö·û´®
+			//å–å¾—ä¸€ä¸ªå­—ç¬¦ä¸²
 			fgets( strBuf, STRLEN, fl );
 			if( feof( fl ) ) break;
 
-			//µÃµ½°üº¬ÇøÃûµÄ°æÃû£¬¼°°æµÄÂ·¾¶Ãû
+			//å¾—åˆ°åŒ…å«åŒºåçš„ç‰ˆåï¼ŒåŠç‰ˆçš„è·¯å¾„å
 			strBuf[ strlen(strBuf) - 1 ] = '\0';
 			sprintf( strBoardName , "%s/%s", strPartName, strBuf );
 			sprintf( strBuf , "%s%s", BBSDISKPATH, strBoardName );
 
-			//ÅĞ¶ÏÕâ¸öÎÄ¼şÊÇ·ñÊÇÄ¿Â¼¡£Èç¹ûÊÇÄ¿Â¼Ôòµ÷ÓÃconvertBoard£¬¼ì²éÕâ¸ö°æµÄ¾«»ªÇø¡£
+			//åˆ¤æ–­è¿™ä¸ªæ–‡ä»¶æ˜¯å¦æ˜¯ç›®å½•ã€‚å¦‚æœæ˜¯ç›®å½•åˆ™è°ƒç”¨convertBoardï¼Œæ£€æŸ¥è¿™ä¸ªç‰ˆçš„ç²¾ååŒºã€‚
 			if( isDir( strBuf ) ) convertBoard( strBoardName );
 
 		}
 
-	//¹Ø±Õlist_txt
+	//å…³é—­list_txt
 	fclose(fl);
 
 }
@@ -157,24 +157,24 @@ main(){
 
 	char strBuf[STRLEN];
 
-	//´ò¿ª´æ·Å²éÑ¯½á¹ûµÄ¸÷¸öÎÄ¼ş
+	//æ‰“å¼€å­˜æ”¾æŸ¥è¯¢ç»“æœçš„å„ä¸ªæ–‡ä»¶
 	sprintf( strBuf, "%snoexist", LOGPATH );
 	if( ( noexist = fopen(strBuf, "w") ) == NULL ) exit(0);
-	fprintf( noexist, "Ä¿Â¼ÁĞ±íÊ¼£º\n\n" );
+	fprintf( noexist, "ç›®å½•åˆ—è¡¨å§‹ï¼š\n\n" );
 
 	sprintf( strBuf, "%stoolong", LOGPATH );
 	if( ( toolong = fopen(strBuf, "w") ) == NULL ) exit(0);
-	fprintf( toolong, "Ä¿Â¼ÁĞ±íÊ¼£º\n\n" );
+	fprintf( toolong, "ç›®å½•åˆ—è¡¨å§‹ï¼š\n\n" );
 
 	sprintf( strBuf, "%stoodeep", LOGPATH );
 	if( ( toodeep = fopen(strBuf, "w") ) == NULL ) exit(0);
-	fprintf( toodeep, "Ä¿Â¼ÁĞ±íÊ¼£º\n\n" );
+	fprintf( toodeep, "ç›®å½•åˆ—è¡¨å§‹ï¼š\n\n" );
 
 	sprintf( strBuf, "%sloop", LOGPATH );
 	if( ( loop = fopen(strBuf, "w") ) == NULL ) exit(0);
-	fprintf( loop, "Ä¿Â¼ÁĞ±íÊ¼£º\n\n" );
+	fprintf( loop, "ç›®å½•åˆ—è¡¨å§‹ï¼š\n\n" );
 
-	//¼ì²éËùÓĞ¾«»ªÇøµÄÄ¿Â¼
+	//æ£€æŸ¥æ‰€æœ‰ç²¾ååŒºçš„ç›®å½•
 	convertPart( "system.faq" );
 	convertPart( "ccu.faq" );
 	convertPart( "comp.faq" );
@@ -188,13 +188,13 @@ main(){
 	convertPart( "other.faq" );
 	convertPart( "soc.faq" );
 
-	//¹Ø±ÕÎÄ¼ş
-	fprintf( noexist, "Ä¿Â¼ÁĞ±íÖÕ¡£\n\n" );
+	//å…³é—­æ–‡ä»¶
+	fprintf( noexist, "ç›®å½•åˆ—è¡¨ç»ˆã€‚\n\n" );
 	fclose(noexist);
-	fprintf( toolong, "Ä¿Â¼ÁĞ±íÖÕ¡£\n\n" );
+	fprintf( toolong, "ç›®å½•åˆ—è¡¨ç»ˆã€‚\n\n" );
 	fclose(toolong);
-	fprintf( toodeep, "Ä¿Â¼ÁĞ±íÖÕ¡£\n\n" );
+	fprintf( toodeep, "ç›®å½•åˆ—è¡¨ç»ˆã€‚\n\n" );
 	fclose(toodeep);
-	fprintf( loop, "Ä¿Â¼ÁĞ±íÖÕ¡£\n\n" );
+	fprintf( loop, "ç›®å½•åˆ—è¡¨ç»ˆã€‚\n\n" );
 	fclose(loop);
 }

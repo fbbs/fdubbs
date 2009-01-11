@@ -5,13 +5,13 @@ int main() {
 	char  *ptr;
 	struct boardheader *brd;
 	init_all();
-	printf("<b>É¾³ıĞÅ¼ş ¡¤ %s </b><br>\n",BBSNAME);
+	printf("<b>åˆ é™¤ä¿¡ä»¶ Â· %s </b><br>\n",BBSNAME);
 	printpretable_lite();
 	if(!loginok) 
-		http_fatal("ÇëÏÈµÇÂ¼");
+		http_fatal("è¯·å…ˆç™»å½•");
 	mode=atoi(getparm("mode"));
 	if(mode<=0 || mode>1) 
-		http_fatal("´íÎóµÄ²ÎÊı");
+		http_fatal("é”™è¯¯çš„å‚æ•°");
 	printf("<table>");
 	for(i=0; i<parm_num && i<40; i++) 
 	{
@@ -25,9 +25,9 @@ int main() {
 	}
 	printf("</table>");
 	if(total<=0) 
-		printf("ÇëÏÈÑ¡¶¨ÎÄÕÂ<br>\n");
+		printf("è¯·å…ˆé€‰å®šæ–‡ç« <br>\n");
 	printposttable_lite();
-	printf("<br><a href=bbsmail>·µ»ØĞÅ¼şÄ£Ê½</a>");
+	printf("<br><a href=bbsmail>è¿”å›ä¿¡ä»¶æ¨¡å¼</a>");
 	http_quit();
 }
 
@@ -37,12 +37,12 @@ int do_del(char * file) {
         char path[80], *id,buf[256]; 
 		
         int num=0; 
-        if(loginok == 0) http_fatal("ÄúÉĞÎ´µÇÂ¼"); 
+        if(loginok == 0) http_fatal("æ‚¨å°šæœªç™»å½•"); 
         id=currentuser.userid; 
-        if(strncmp(file, "M.", 2) || strstr(file, "..")) http_fatal("´íÎóµÄ²ÎÊı"); 
+        if(strncmp(file, "M.", 2) || strstr(file, "..")) http_fatal("é”™è¯¯çš„å‚æ•°"); 
         sprintf(path, "mail/%c/%s/.DIR", toupper(id[0]), id); 
         fp=fopen(path, "r"); 
-        if(fp==0) http_fatal("´íÎóµÄ²ÎÊı2"); 
+        if(fp==0) http_fatal("é”™è¯¯çš„å‚æ•°2"); 
         while(1) { 
                 if(fread(&f, sizeof(f), 1, fp)<=0) break; 
 		//added by iamfat 2002.08.10
@@ -55,12 +55,12 @@ int do_del(char * file) {
                         sprintf(path, "mail/%c/%s/%s", toupper(id[0]), id, f.filename); 
                         unlink(path); 
                         
-						printf("<tr><td>%s  <td>±êÌâ:%s <td>É¾³ı³É¹¦.\n", f.owner, nohtml(f.title));
+						printf("<tr><td>%s  <td>æ ‡é¢˜:%s <td>åˆ é™¤æˆåŠŸ.\n", f.owner, nohtml(f.title));
 					
 						return 0;
 			    } 
         } 
         fclose(fp); 
-        http_fatal("ĞÅ¼ş²»´æÔÚ, ÎŞ·¨É¾³ı"); 
+        http_fatal("ä¿¡ä»¶ä¸å­˜åœ¨, æ— æ³•åˆ é™¤"); 
 } 
 

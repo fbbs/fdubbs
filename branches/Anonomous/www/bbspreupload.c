@@ -24,34 +24,34 @@ int main()
 	char board[80];
 	init_all();
 	strsncpy(board, getparm("board"), 30);
-	printf("<title>ÉÏ´«ÎÄ¼ş</title>\n");
+	printf("<title>ä¸Šä¼ æ–‡ä»¶</title>\n");
 	if(!loginok) 
-		http_fatal("´Ò´Ò¹ı¿ÍÎŞÈ¨ÏŞÉÏ´«ÎÄ¼ş");
+		http_fatal("åŒ†åŒ†è¿‡å®¢æ— æƒé™ä¸Šä¼ æ–‡ä»¶");
 	if(!has_read_perm(&currentuser, board)) 
-		http_fatal("´íÎóµÄÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	if(!has_post_perm(&currentuser, board)) 
-		http_fatal("¸ÃÓÃ»§ÔÚÕâ¸ö°æÃæÎŞÈ¨ÏŞÉÏ´«ÎÄ¼ş");
+		http_fatal("è¯¥ç”¨æˆ·åœ¨è¿™ä¸ªç‰ˆé¢æ— æƒé™ä¸Šä¼ æ–‡ä»¶");
 	strsncpy(board, getparm("board"), 80);
 	printf("<script lang='Javascript'>	\n");
 	printf("function clickup()			\n");
 	printf("{	if(document.forms['upform'].elements['up'].value)	\n");
 	printf("		document.forms['upform'].submit();	\n");
 	printf("	else	\n");
-	printf("		alert('Äã»¹Ã»ÓĞÑ¡ÖĞÉÏ´«ÎÄ¼ş°É,:)')\n");
+	printf("		alert('ä½ è¿˜æ²¡æœ‰é€‰ä¸­ä¸Šä¼ æ–‡ä»¶å§,:)')\n");
 	printf("}	\n");
 	printf("</script>	\n");
-	printf("<b>ÉÏ´«ÎÄ¼şÖÁ%sÌÖÂÛÇø ¡¤ %s [Ê¹ÓÃÕß: %s] <b><br>\n", board, BBSNAME, currentuser.userid);
+	printf("<b>ä¸Šä¼ æ–‡ä»¶è‡³%sè®¨è®ºåŒº Â· %s [ä½¿ç”¨è€…: %s] <b><br>\n", board, BBSNAME, currentuser.userid);
 	printpretable_lite();
-	printf("·şÎñÆ÷×ÊÔ´ÓĞÏŞ£¬Îª½ÚÊ¡¿Õ¼ä£¬ÇëÎğÉÏ´«¹ı´óµÄÎÄ¼ş¡£ÇëÎğÉÏ´«Óë°æÃæÎŞ¹ØµÄÎÄ¼ş¡£<br>\n");
-	printf("Ä¿Ç°±¾°æµ¥¸öÉÏ´«ÎÄ¼ş´óĞ¡ÏŞÖÆÎª%-2.1fK×Ö½Ú. <br>\n",(float)(maxlen(board)/1024));
-	printf("Çë×ñÊØ¹ú¼Ò·¨ÂÉ£¬<font color=red>ÑÏ½ûÉÏ´«·Ç·¨×ÊÁÏºÍ¿ÉÄÜµ¼ÖÂ¾À·×µÄ×ÊÁÏ</font>¡£<br>\n");
+	printf("æœåŠ¡å™¨èµ„æºæœ‰é™ï¼Œä¸ºèŠ‚çœç©ºé—´ï¼Œè¯·å‹¿ä¸Šä¼ è¿‡å¤§çš„æ–‡ä»¶ã€‚è¯·å‹¿ä¸Šä¼ ä¸ç‰ˆé¢æ— å…³çš„æ–‡ä»¶ã€‚<br>\n");
+	printf("ç›®å‰æœ¬ç‰ˆå•ä¸ªä¸Šä¼ æ–‡ä»¶å¤§å°é™åˆ¶ä¸º%-2.1fKå­—èŠ‚. <br>\n",(float)(maxlen(board)/1024));
+	printf("è¯·éµå®ˆå›½å®¶æ³•å¾‹ï¼Œ<font color=red>ä¸¥ç¦ä¸Šä¼ éæ³•èµ„æ–™å’Œå¯èƒ½å¯¼è‡´çº çº·çš„èµ„æ–™</font>ã€‚<br>\n");
 	printf("<form method=post name=upform action=bbsupload enctype='multipart/form-data'>\n");
 	printf("<table>\n");
-	printf("<tr><td>ÉÏ´«ÎÄ¼ş: <td><input type=file name=up>");
+	printf("<tr><td>ä¸Šä¼ æ–‡ä»¶: <td><input type=file name=up>");
 	printf("<input type=hidden name=board value='%s'>", board);
 	printf("</table>\n");
 	printposttable_lite();
-	printf("<input type=button value='ÉÏ´«' onclick='clickup()'> \n");
+	printf("<input type=button value='ä¸Šä¼ ' onclick='clickup()'> \n");
 	printf("</form>");
 	http_quit();
 }

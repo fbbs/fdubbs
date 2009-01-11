@@ -30,7 +30,7 @@ int main() {
 	strsncpy(board, getparm("b"), 32);
 	strsncpy(file, getparm("f"), 32);
     /*
-     * ÏÂÃæ´úÂëÓÃÓÚÌí¼ÓÌû×ÓµÄ°æÃæÑéÖ¤£¬Óëbbsdoc.cÖĞµÄÑéÖ¤´úÂëÀàËÆ,added by polygon
+     * ä¸‹é¢ä»£ç ç”¨äºæ·»åŠ å¸–å­çš„ç‰ˆé¢éªŒè¯ï¼Œä¸bbsdoc.cä¸­çš„éªŒè¯ä»£ç ç±»ä¼¼,added by polygon
      */
 	struct boardheader *x1;
         x1=getbcache(board);
@@ -38,7 +38,7 @@ int main() {
                          && (x1->flag & BOARD_READ_FLAG )
                              && !has_BM_perm(&currentuser, board)
                                  && !isclubmember(currentuser.userid, board))
-                        http_fatal("Äú²»ÊÇ¾ãÀÖ²¿°æ %s µÄ³ÉÔ±£¬ÎŞÈ¨·ÃÎÊ¸Ã°æÃæ", board);
+                        http_fatal("æ‚¨ä¸æ˜¯ä¿±ä¹éƒ¨ç‰ˆ %s çš„æˆå‘˜ï¼Œæ— æƒè®¿é—®è¯¥ç‰ˆé¢", board);
     /*
      * ended --polygon
      * */
@@ -46,34 +46,34 @@ int main() {
 	printf("<center>\n");
 	if(!has_read_perm(&currentuser, board))
 	{
-		printf("<b>ÎÄÕÂÔÄ¶Á ¡¤ %s </b></center><br>\n",BBSNAME);
+		printf("<b>æ–‡ç« é˜…è¯» Â· %s </b></center><br>\n",BBSNAME);
 		printpretable_lite();
-		http_fatal("´íÎóµÄÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	}
 	strcpy(board, getbcache(board)->filename);
-	printf("<b>ÎÄÕÂÔÄ¶Á ¡¤ %s [ÌÖÂÛÇø: %s]</b></center><br>\n", BBSNAME, board);
+	printf("<b>æ–‡ç« é˜…è¯» Â· %s [è®¨è®ºåŒº: %s]</b></center><br>\n", BBSNAME, board);
 	if(strncmp(file, "M.", 2) && strncmp(file, "G.", 2)&&strncmp(file,"T.",2) )
 	{
 		printpretable_lite();
-		http_fatal("´íÎóµÄ²ÎÊı1");
+		http_fatal("é”™è¯¯çš„å‚æ•°1");
 	}
 	if(strstr(file, "..") || strstr(file, "/")) 
 	{
 		printpretable_lite();
-		http_fatal("´íÎóµÄ²ÎÊı2");
+		http_fatal("é”™è¯¯çš„å‚æ•°2");
 	}
 	sprintf(dir, "boards/%s/.DIR", board);
 	total=file_size(dir)/sizeof(x);
 	if(total<=0) 
 	{
 		printpretable_lite();
-		http_fatal("´ËÌÖÂÛÇø²»´æÔÚ»òÕßÎª¿Õ");
+		http_fatal("æ­¤è®¨è®ºåŒºä¸å­˜åœ¨æˆ–è€…ä¸ºç©º");
 	}
 	in = inboard(board, ".DIR", file);
 	in += inboard(board, ".NOTICE", file);
 	if (in == 0){
 		printpretable_lite();
-		http_fatal("´íÎóµÄÎÄÕÂ");
+		http_fatal("é”™è¯¯çš„æ–‡ç« ");
 	}
 	#ifdef CERTIFYMODE
 		fp=fopen(dir, "r+");
@@ -88,7 +88,7 @@ int main() {
 		if(x.accessed[1]&FILE_UNCERTIFIED)
 		{
 			printpretable_lite();
-			http_fatal("±¾ÎÄÉĞÎ´Í¨¹ıÉóÅú");
+			http_fatal("æœ¬æ–‡å°šæœªé€šè¿‡å®¡æ‰¹");
 		}
 	#endif
 	printpretable();
@@ -96,20 +96,20 @@ int main() {
 	sprintf(filename, "boards/%s/%s", board, file);
 	if(!showcontent(filename))
 	{
-		printf("±¾ÎÄ²»´æÔÚ»òÕßÒÑ±»É¾³ı");
+		printf("æœ¬æ–‡ä¸å­˜åœ¨æˆ–è€…å·²è¢«åˆ é™¤");
 		printf("</pre>\n</table>\n");
 		printposttable();
-		printf("<br><center><a href=/cgi-bin/bbs/bbsdoc?board=%s><img border=0 src=/images/button/home.gif align=absmiddle> ±¾ÌÖÂÛÇø</a></center>", board);
+		printf("<br><center><a href=/cgi-bin/bbs/bbsdoc?board=%s><img border=0 src=/images/button/home.gif align=absmiddle> æœ¬è®¨è®ºåŒº</a></center>", board);
 		http_quit();
 	}
 	printf("</table>\n");  //pre
 	printposttable();
 	printf("<center>\n");
-	printf("<a href=/cgi-bin/bbs/bbsdoc?board=%s><img border=0 src=/images/button/home.gif align=absmiddle> ±¾ÌÖÂÛÇø</a>  ", board);
-	printf("<a href=/cgi-bin/bbs/bbsfwd?board=%s&file=%s>×ª¼Ä/ÍÆ¼ö</a>  ", board, file);
-	printf("<a href=/cgi-bin/bbs/bbsccc?board=%s&file=%s>×ªÌù</a>  ", board, file);
-	printf("<a onclick='return confirm(\"ÄúÕæµÄÒªÉ¾³ı±¾ÎÄÂğ?\")' href=bbsdel?board=%s&file=%s>É¾³ıÎÄÕÂ</a>  ", board, file);
-	printf("<a href=/cgi-bin/bbs/bbsedit?board=%s&file=%s><img border=0 src=/images/button/edit.gif align=absmiddle>ĞŞ¸ÄÎÄÕÂ</a>  ", board, file);
+	printf("<a href=/cgi-bin/bbs/bbsdoc?board=%s><img border=0 src=/images/button/home.gif align=absmiddle> æœ¬è®¨è®ºåŒº</a>  ", board);
+	printf("<a href=/cgi-bin/bbs/bbsfwd?board=%s&file=%s>è½¬å¯„/æ¨è</a>  ", board, file);
+	printf("<a href=/cgi-bin/bbs/bbsccc?board=%s&file=%s>è½¬è´´</a>  ", board, file);
+	printf("<a onclick='return confirm(\"æ‚¨çœŸçš„è¦åˆ é™¤æœ¬æ–‡å—?\")' href=bbsdel?board=%s&file=%s>åˆ é™¤æ–‡ç« </a>  ", board, file);
+	printf("<a href=/cgi-bin/bbs/bbsedit?board=%s&file=%s><img border=0 src=/images/button/edit.gif align=absmiddle>ä¿®æ”¹æ–‡ç« </a>  ", board, file);
 	fp=fopen(dir, "r+");
 	if(fp==0) 
 		http_fatal("dir error2");
@@ -117,13 +117,13 @@ int main() {
 	{
 		fseek(fp, sizeof(x)*(num-2), SEEK_SET);
 		fread(&x, sizeof(x), 1, fp);
-		printf("<a href=/cgi-bin/bbs/bbscon?b=%s&f=%s&n=%d><img border=0 src=/images/button/up.gif align=absmiddle>ÉÏÒ»Æª</a>  ", board, x.filename, num-1);
+		printf("<a href=/cgi-bin/bbs/bbscon?b=%s&f=%s&n=%d><img border=0 src=/images/button/up.gif align=absmiddle>ä¸Šä¸€ç¯‡</a>  ", board, x.filename, num-1);
 	}
 	if(num<total) 
 	{
 		fseek(fp, sizeof(x)*(num), SEEK_SET);
     	fread(&x, sizeof(x), 1, fp);
-    	printf("<a href=/cgi-bin/bbs/bbscon?b=%s&f=%s&n=%d><img border=0 src=/images/button/down.gif align=absmiddle>ÏÂÒ»Æª</a>  ", board, x.filename, num+1);
+    	printf("<a href=/cgi-bin/bbs/bbscon?b=%s&f=%s&n=%d><img border=0 src=/images/button/down.gif align=absmiddle>ä¸‹ä¸€ç¯‡</a>  ", board, x.filename, num+1);
 	}
 	if(num>0 && num<=total) 
 	{
@@ -156,8 +156,8 @@ int main() {
 		//added by iamfat 2002.08.10
 		//check_anonymous(x.owner);
 		//added end.
-    printf("[<a href='/cgi-bin/bbs/bbspst?board=%s&file=%s&userid=%s&id=%d&gid=%d&title=Re: %s '><img border=0 src=/images/button/edit.gif align=absmiddle>»ØÎÄÕÂ</a>] ",board, file, x.owner, x.id, x.gid, entity_char(ptr));
-	printf("[<a href='/cgi-bin/bbs/bbsgfind?board=%s&gid=%d '>Í¬Ö÷ÌâÔÄ¶Á</a>] \n", board, x.gid);
+    printf("[<a href='/cgi-bin/bbs/bbspst?board=%s&file=%s&userid=%s&id=%d&gid=%d&title=Re: %s '><img border=0 src=/images/button/edit.gif align=absmiddle>å›æ–‡ç« </a>] ",board, file, x.owner, x.id, x.gid, entity_char(ptr));
+	printf("[<a href='/cgi-bin/bbs/bbsgfind?board=%s&gid=%d '>åŒä¸»é¢˜é˜…è¯»</a>] \n", board, x.gid);
    	printf("</center>\n"); 
 	http_quit();
 }

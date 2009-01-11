@@ -67,19 +67,19 @@ int main() {
 	}
 	if(!strcasecmp(s1, "/h")) {
 		printf("<pre>\n");
-		printf("³¬¼¶¿ØÖÆÌ¨ÃüÁî<hr color=green>\n");
-		printf("/q [userid]           ²éÑ¯ÍøÓÑ\n");
-		printf("/s [userid] [msg]     ·¢ËÍÑ¶Ï¢\n");
-		printf("/m [userid] [title]   ·¢ËÍĞÅ¼ş\n");
-		printf("/logout               ×¢ÏúµÇÂ¼\n");
-		printf("/top10                ²é¿´10´ó\n");
-		printf("/g [board]            Ìø×ªµ½°æÃæ\n");
-		printf("/l                    »·¹ËËÄ·½\n");
-		printf("/f                    ²éÑ¯ÎÄÕÂ\n");
-		printf("/z [word]             ²éÖĞÓ¢ÎÄ×Öµä\n");
-		printf("/i [ip]               IPµØÖ·²éÑ¯\n");
-		printf("/h                    ÏÔÊ¾±¾°ïÖú½çÃæ\n");
-		printf("http://xx.xx.xx       Ìø×ªµ½urlµØÖ·\n\n");
+		printf("è¶…çº§æ§åˆ¶å°å‘½ä»¤<hr color=green>\n");
+		printf("/q [userid]           æŸ¥è¯¢ç½‘å‹\n");
+		printf("/s [userid] [msg]     å‘é€è®¯æ¯\n");
+		printf("/m [userid] [title]   å‘é€ä¿¡ä»¶\n");
+		printf("/logout               æ³¨é”€ç™»å½•\n");
+		printf("/top10                æŸ¥çœ‹10å¤§\n");
+		printf("/g [board]            è·³è½¬åˆ°ç‰ˆé¢\n");
+		printf("/l                    ç¯é¡¾å››æ–¹\n");
+		printf("/f                    æŸ¥è¯¢æ–‡ç« \n");
+		printf("/z [word]             æŸ¥ä¸­è‹±æ–‡å­—å…¸\n");
+		printf("/i [ip]               IPåœ°å€æŸ¥è¯¢\n");
+		printf("/h                    æ˜¾ç¤ºæœ¬å¸®åŠ©ç•Œé¢\n");
+		printf("http://xx.xx.xx       è·³è½¬åˆ°urlåœ°å€\n\n");
 		printf("</pre>\n");
 		http_quit();
 	}
@@ -88,5 +88,5 @@ int main() {
 		printf("%s", buf);
 		http_quit();
 	}
-	http_fatal("Î´ÖªÃüÁî");
+	http_fatal("æœªçŸ¥å‘½ä»¤");
 }

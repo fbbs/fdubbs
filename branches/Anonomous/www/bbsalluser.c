@@ -13,11 +13,11 @@ int main() {
 			total++;
 		}
 	}
-	printf("<center>%s -- ËùÓĞÊ¹ÓÃÕßÁĞ±í [ÓÃ»§×ÜÊı: %d]<hr color=green>\n", BBSNAME, total);
+	printf("<center>%s -- æ‰€æœ‰ä½¿ç”¨è€…åˆ—è¡¨ [ç”¨æˆ·æ€»æ•°: %d]<hr color=green>\n", BBSNAME, total);
 	start=atoi(getparm("start"));
 	if(start>total || start<0) start=0;
 	printf("<table width=610 border=1>\n");
-	printf("<tr><td>±àºÅ<td>ºÃÓÑ<td>Ê¹ÓÃÕß´úºÅ<td>êÇ³Æ<td>ÉÏÕ¾´ÎÊı<td>ÎÄÕÂÊı<td>×î½ü¹âÁÙÊ±¼ä\n");
+	printf("<tr><td>ç¼–å·<td>å¥½å‹<td>ä½¿ç”¨è€…ä»£å·<td>æ˜µç§°<td>ä¸Šç«™æ¬¡æ•°<td>æ–‡ç« æ•°<td>æœ€è¿‘å…‰ä¸´æ—¶é—´\n");
 	fp=fopen(".PASSWDS", "r");
 	for(i=0; i<20; i++) {
 		if(start+i>total-1) break;
@@ -25,16 +25,16 @@ int main() {
 		fseek(fp, sizeof(struct userec)*p, SEEK_SET);
 		if(fread(&x, sizeof(x), 1, fp)<=0) break;
 		printf("<tr><td>%d<td>%s<td><a href=bbsqry?userid=%s>%s</a><td>%s<td>%d<td>%d<td>%s\n",
-			start+i+1, isfriend(x.userid) ? "<font color=green>¡Ì</font>" : " ", x.userid, 
+			start+i+1, isfriend(x.userid) ? "<font color=green>âˆš</font>" : " ", x.userid, 
 			x.userid, nohtml(x.username), x.numlogins, x.numposts, Ctime(x.lastlogin)+4);
 	}
 	printf("</table><hr color=green>\n");
-	if(start>0) printf("[<a href=bbsalluser?start=0>µÚÒ»Ò³</a>] ");
-	if(start>0) printf("[<a href=bbsalluser?start=%d>ÉÏÒ»Ò³</a>] ", start-20<0 ? 0 : start-20);
-	if(start<total-19) printf("[<a href=bbsalluser?start=%d>ÏÂÒ»Ò³</a>]", start+20);
-	if(start<total-19) printf("[<a href=bbsalluser?start=%d>×îºóÒ»Ò³</a>]\n", total-19);
+	if(start>0) printf("[<a href=bbsalluser?start=0>ç¬¬ä¸€é¡µ</a>] ");
+	if(start>0) printf("[<a href=bbsalluser?start=%d>ä¸Šä¸€é¡µ</a>] ", start-20<0 ? 0 : start-20);
+	if(start<total-19) printf("[<a href=bbsalluser?start=%d>ä¸‹ä¸€é¡µ</a>]", start+20);
+	if(start<total-19) printf("[<a href=bbsalluser?start=%d>æœ€åä¸€é¡µ</a>]\n", total-19);
 	printf("<form action=bbsalluser>\n");
-	printf("<input type=submit value=Ìø×ªµ½>");
-	printf("µÚ<input name=start type=text size=5>¸öÊ¹ÓÃÕß\n");
+	printf("<input type=submit value=è·³è½¬åˆ°>");
+	printf("ç¬¬<input name=start type=text size=5>ä¸ªä½¿ç”¨è€…\n");
 	printf("</form>\n");
 }

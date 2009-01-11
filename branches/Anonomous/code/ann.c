@@ -22,19 +22,19 @@ int intArrDirsTail;
 char arrFiles[MAXDIRFILES][STRLEN];
 int intArrFilesCount;
 
-//ÅĞ¶ÏÒ»¸öÂ·¾¶ÊÇ·ñ´æÔÚÇÒÊÇÄ¿Â¼£¬Èç¹ûÊÇ´æÔÚµÄÄ¿Â¼Ôò·µ»Ø1£¬·ñÔò·µ»Ø0¡£
+//åˆ¤æ–­ä¸€ä¸ªè·¯å¾„æ˜¯å¦å­˜åœ¨ä¸”æ˜¯ç›®å½•ï¼Œå¦‚æœæ˜¯å­˜åœ¨çš„ç›®å½•åˆ™è¿”å›1ï¼Œå¦åˆ™è¿”å›0ã€‚
 int isDir(char *strFileName){
 	struct stat st;
 	return ( stat( strFileName, &st ) == 0 && S_ISDIR( st.st_mode ) );
 }
 
-//ÅĞ¶ÏÒ»¸öÂ·¾¶ÊÇ·ñ´æÔÚ£¬Èç¹ûÊÇ´æÔÚµÄÔò·µ»Ø1£¬·ñÔò·µ»Ø0¡£
+//åˆ¤æ–­ä¸€ä¸ªè·¯å¾„æ˜¯å¦å­˜åœ¨ï¼Œå¦‚æœæ˜¯å­˜åœ¨çš„åˆ™è¿”å›1ï¼Œå¦åˆ™è¿”å›0ã€‚
 int isExist(char *strPath){
 	struct stat st;
 	return ( stat( strPath, &st ) == 0 );
 }
 
-//½«Ò»¸öÕûÊılongInt×ª»»ÎªÒ»¸ö³¤¶ÈÎªintLengthµÄ×Ö·û´®strInt£¬³¤¶ÈÎªintLength
+//å°†ä¸€ä¸ªæ•´æ•°longIntè½¬æ¢ä¸ºä¸€ä¸ªé•¿åº¦ä¸ºintLengthçš„å­—ç¬¦ä¸²strIntï¼Œé•¿åº¦ä¸ºintLength
 void longToStr( long longInt, char *strInt, int intLength){
 
 
@@ -49,7 +49,7 @@ void longToStr( long longInt, char *strInt, int intLength){
 
 }
 
-//½«unixÎÄ¼ş×ª»»ÎªhtmÎÄ¼ş
+//å°†unixæ–‡ä»¶è½¬æ¢ä¸ºhtmæ–‡ä»¶
 convertFiles(char *strHtmDirName){
 
 	char strBuf[STRLEN], strTemp[STRLEN], ch;
@@ -57,19 +57,19 @@ convertFiles(char *strHtmDirName){
 	FILE *fin, *fout;
 
 	for( intCount = 0; intCount < intArrFilesCount; intCount ++ ){
-		//½«Ô­À´ÎÄ¼şÖĞµÄËùÓĞ»Ø³µÌæ»»Îª<br>£¬ËùÓĞ¿Õ¸ñÌæ»»Îª&nbsp;¡£ÔİÊ±²»×öHTMLEncoding¡£
+		//å°†åŸæ¥æ–‡ä»¶ä¸­çš„æ‰€æœ‰å›è½¦æ›¿æ¢ä¸º<br>ï¼Œæ‰€æœ‰ç©ºæ ¼æ›¿æ¢ä¸º&nbsp;ã€‚æš‚æ—¶ä¸åšHTMLEncodingã€‚
 		fin = fopen( arrFiles[ intCount ], "rt" );
 		longToStr( intCount, strTemp, 6 );
 		sprintf( strBuf, "%s/%s.htm", strHtmDirName, strTemp );
 		fout = fopen ( strBuf, "wt" );
 		if( fin && fout ){
-			//ÕâÀïÊäÈëÒ»Ğ©±ØĞëµÄÍ·ĞÅÏ¢
+			//è¿™é‡Œè¾“å…¥ä¸€äº›å¿…é¡»çš„å¤´ä¿¡æ¯
 			fprintf( fout, "<html>\n<head>\n" );
-			fprintf( fout, "<title>¸´µ©´óÑ§ÈÕÔÂ¹â»ªÕ¾¡Ã¾«»ªÇø</title>\n" );
+			fprintf( fout, "<title>å¤æ—¦å¤§å­¦æ—¥æœˆå…‰åç«™âˆ¶ç²¾ååŒº</title>\n" );
 			fprintf( fout, "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=GB2312\">\n" );
 			fprintf( fout, "</head>\n\n" );
 			fprintf( fout, "<body>\n" );
-			fprintf( fout, "\n<center><h1>¸´µ©´óÑ§ÈÕÔÂ¹â»ªÕ¾¡Ã¾«»ªÇø</h1></center>\n\n" );
+			fprintf( fout, "\n<center><h1>å¤æ—¦å¤§å­¦æ—¥æœˆå…‰åç«™âˆ¶ç²¾ååŒº</h1></center>\n\n" );
 			while( !feof( fin ) ){
 				ch = fgetc( fin );
 				if( ch == '\n' ){
@@ -81,8 +81,8 @@ convertFiles(char *strHtmDirName){
 				else
 					fputc( ch, fout );
 			}
-			//ÕâÀïÊäÈëÒ»Ğ©±ØĞëµÄÎ²ĞÅÏ¢
-			fprintf( fout, "\n<center><h1>¸´µ©´óÑ§ÈÕÔÂ¹â»ªÕ¾¡Ã¾«»ªÇø</h1></center>\n" );
+			//è¿™é‡Œè¾“å…¥ä¸€äº›å¿…é¡»çš„å°¾ä¿¡æ¯
+			fprintf( fout, "\n<center><h1>å¤æ—¦å¤§å­¦æ—¥æœˆå…‰åç«™âˆ¶ç²¾ååŒº</h1></center>\n" );
 			fprintf( fout, "</body>\n</html>\n" );
 		}
 		fclose( fout );
@@ -93,7 +93,7 @@ convertFiles(char *strHtmDirName){
 
 }
 
-//×ª»»Ò»¸öÄ¿Â¼£¬½«Ä¿Â¼ÖĞµÄËùÓĞÎÄ¼ş×ªÎªhtm£¬½«ËùÓĞÄ¿Â¼Ñ¹µ½¶ÓÁĞÖĞ
+//è½¬æ¢ä¸€ä¸ªç›®å½•ï¼Œå°†ç›®å½•ä¸­çš„æ‰€æœ‰æ–‡ä»¶è½¬ä¸ºhtmï¼Œå°†æ‰€æœ‰ç›®å½•å‹åˆ°é˜Ÿåˆ—ä¸­
 convertDir(int intDirIndex){
 
 	char strBuf[STRLEN], strHtmDirName[STRLEN], strName[STRLEN], strPath[STRLEN];
@@ -101,73 +101,73 @@ convertDir(int intDirIndex){
 	FILE *fl, *indexFile;
 	int intFlag;
 
-	//½¨Á¢htmÄ¿Â¼
+	//å»ºç«‹htmç›®å½•
 	longToStr( intDirIndex, strBuf, 6 );
 	sprintf( strHtmDirName, "%s%s", TARWORKPATH, strBuf );
 	mkdir(strHtmDirName, 0755);
 
 	intFlag = 0;
 
-	//´ò¿ªindex.htmÎÄ¼ş
+	//æ‰“å¼€index.htmæ–‡ä»¶
 	sprintf( strBuf, "%s/%s", strHtmDirName, DOTINDEX );
 	if( indexFile = fopen( strBuf, "wt" ) ){
 
-		//ÕâÀïÊäÈëÒ»Ğ©±ØĞëµÄÍ·ĞÅÏ¢
+		//è¿™é‡Œè¾“å…¥ä¸€äº›å¿…é¡»çš„å¤´ä¿¡æ¯
 		fprintf( indexFile, "<html>\n<head>\n" );
-		fprintf( indexFile, "<title>¸´µ©´óÑ§ÈÕÔÂ¹â»ªÕ¾¡Ã¾«»ªÇø</title>\n" );
+		fprintf( indexFile, "<title>å¤æ—¦å¤§å­¦æ—¥æœˆå…‰åç«™âˆ¶ç²¾ååŒº</title>\n" );
 		fprintf( indexFile, "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=GB2312\">\n" );
 		fprintf( indexFile, "</head>\n\n" );
 		fprintf( indexFile, "<body>\n" );
-		fprintf( indexFile, "\n<center><h1>¸´µ©´óÑ§ÈÕÔÂ¹â»ªÕ¾¡Ã¾«»ªÇø</h1></center>\n\n" );
+		fprintf( indexFile, "\n<center><h1>å¤æ—¦å¤§å­¦æ—¥æœˆå…‰åç«™âˆ¶ç²¾ååŒº</h1></center>\n\n" );
 
-		//.NamesÖĞ¶Á³öÎÄ¼şÁĞ±í
+		//.Namesä¸­è¯»å‡ºæ–‡ä»¶åˆ—è¡¨
 		sprintf( strBuf, "%s/%s", arrDirs[ intDirIndex ], DOTNAMES );
 if(isExist(strBuf))        //modified by wlm(2003-03-29)
 {		if( fl = fopen( strBuf, "rt" ) ){
 
 			while( !feof( fl ) ){
 
-				//µÃµ½ÏÂÒ»ĞĞµÄÄÚÈİ
+				//å¾—åˆ°ä¸‹ä¸€è¡Œçš„å†…å®¹
 				fgets( strBuf, STRLEN, fl );
 				if( feof( fl ) ) break;
 
-				//È¡µÃÒ»¸öÎÄ¼şÏÔÊ¾Ãû£¬¸ù¾İÊÇ·ñ°üº¬ (BM: ***) ÌŞ³ıÖ»ÓĞ°ßÖñ¡¢×Ü¹Ü¡¢Õ¾³¤¿É¼ûµÄÄÚÈİ
+				//å–å¾—ä¸€ä¸ªæ–‡ä»¶æ˜¾ç¤ºåï¼Œæ ¹æ®æ˜¯å¦åŒ…å« (BM: ***) å‰”é™¤åªæœ‰æ–‘ç«¹ã€æ€»ç®¡ã€ç«™é•¿å¯è§çš„å†…å®¹
 				strBuf[ strlen( strBuf ) - 1 ] = '\0';
 				if( ( ptr = strstr( strBuf, "Name=" ) ) && strlen( strBuf ) > 5 
 					&& !strstr( strBuf, "(BM: SYSOPS)" ) && !strstr( strBuf, "(BM: OBOARDS)" )
 					&& !strstr( strBuf, "(BM: BMS)" ) && !strstr( strBuf, "(BM: SECRET)" ) ){
 					strcpy( strName, ptr + 5 );
 
-					//µÃµ½½ô½Ó×Å Name= µÄÄÇÒ»ĞĞµÄÄÚÈİ
+					//å¾—åˆ°ç´§æ¥ç€ Name= çš„é‚£ä¸€è¡Œçš„å†…å®¹
 					fgets( strBuf, STRLEN, fl );
 					if( feof( fl ) ) break;
 					strBuf[ strlen( strBuf ) - 1 ] = '\0';
 
-					//È¡µÃÒ»¸öÎÄ¼şÃû£¬¸ñÊ½Ó¦¸ÃÊÇ Path=~/ £¬ ¸ù¾İÊÇ·ñ°üº¬ .. ÌŞ³ıÑ­»·Ä¿Â¼
+					//å–å¾—ä¸€ä¸ªæ–‡ä»¶åï¼Œæ ¼å¼åº”è¯¥æ˜¯ Path=~/ ï¼Œ æ ¹æ®æ˜¯å¦åŒ…å« .. å‰”é™¤å¾ªç¯ç›®å½•
 					if( ( ptr = strstr( strBuf, "Path=~/" ) ) && strlen( strBuf ) > 7 ){
 						strcpy( strPath, ptr + 7 );
 						if( !strstr( strPath, "/" ) && !strstr( strPath, "\\" ) && strPath[0] != '.' ){
 
-							//Éú³ÉÈ«Â·¾¶
+							//ç”Ÿæˆå…¨è·¯å¾„
 							sprintf( strBuf , "%s/%s", arrDirs[ intDirIndex ], strPath );
 
-							//ÅĞ¶ÏÕâ¸öÎÄ¼şÊÇ·ñÊÇÄ¿Â¼¡£Èç¹ûÊÇÄ¿Â¼Ôò·ÅÈë´ı´¦ÀíÄ¿Â¼¶ÓÁĞÖĞ£¬·ñÔò·ÅÈë´ı´¦ÀíÎÄµµ¶ÓÁĞÖĞ¡£
+							//åˆ¤æ–­è¿™ä¸ªæ–‡ä»¶æ˜¯å¦æ˜¯ç›®å½•ã€‚å¦‚æœæ˜¯ç›®å½•åˆ™æ”¾å…¥å¾…å¤„ç†ç›®å½•é˜Ÿåˆ—ä¸­ï¼Œå¦åˆ™æ”¾å…¥å¾…å¤„ç†æ–‡æ¡£é˜Ÿåˆ—ä¸­ã€‚
 							if( isDir( strBuf ) ){
-								//½«Ä¿Â¼ÃûĞ´Èë´ı´¦ÀíÄ¿Â¼¶ÓÁĞ
+								//å°†ç›®å½•åå†™å…¥å¾…å¤„ç†ç›®å½•é˜Ÿåˆ—
 								strcpy( arrDirs[ intArrDirsTail ], strBuf );
-								//½«Ä¿Â¼ÃûĞ´Èëindex.htmÖĞ
+								//å°†ç›®å½•åå†™å…¥index.htmä¸­
 								longToStr( intArrDirsTail, strBuf, 6 );
 								fprintf( indexFile, "<a href=""../%s/%s"">%s</a><br>\n", strBuf, DOTINDEX, strName );
 								intArrDirsTail ++;
-								intFlag = 1;	//¸ÃÄ¿Â¼²»Îª¿Õ
+								intFlag = 1;	//è¯¥ç›®å½•ä¸ä¸ºç©º
 							}else if( isExist( strBuf ) ){
-								//½«ÎÄµµÃûĞ´Èë´ı´¦ÀíÎÄµµ¶ÓÁĞ
+								//å°†æ–‡æ¡£åå†™å…¥å¾…å¤„ç†æ–‡æ¡£é˜Ÿåˆ—
 								strcpy( arrFiles[ intArrFilesCount ], strBuf );
-								//½«ÎÄµµÃûĞ´Èëindex.htmÖĞ
+								//å°†æ–‡æ¡£åå†™å…¥index.htmä¸­
 								longToStr( intArrFilesCount, strBuf, 6 );
 								fprintf( indexFile, "<a href=""%s.htm"">%s</a><br>\n", strBuf, strName );
 								intArrFilesCount ++;
-								intFlag = 1;	//¸ÃÄ¿Â¼²»Îª¿Õ
+								intFlag = 1;	//è¯¥ç›®å½•ä¸ä¸ºç©º
 							}
 
 						}
@@ -183,26 +183,26 @@ if(isExist(strBuf))        //modified by wlm(2003-03-29)
 
 		intArrDirsHead ++;
 
-		//¹Ø±Õ.Names
+		//å…³é—­.Names
 		fclose( fl );
      }   //if(isExist(strBuf))
 
 	}    //if(indexFile=fopen(strBuf,"wt"))
 
 
-	//ÕâÀïÊäÈëÒ»Ğ©±ØĞëµÄÎ²ĞÅÏ¢
+	//è¿™é‡Œè¾“å…¥ä¸€äº›å¿…é¡»çš„å°¾ä¿¡æ¯
 	if( intFlag )
-		fprintf( indexFile, "\n<center><h1>¸´µ©´óÑ§ÈÕÔÂ¹â»ªÕ¾¡Ã¾«»ªÇø</h1></center>\n" );
+		fprintf( indexFile, "\n<center><h1>å¤æ—¦å¤§å­¦æ—¥æœˆå…‰åç«™âˆ¶ç²¾ååŒº</h1></center>\n" );
 	else
-		fprintf( indexFile, "\n<center>Ä¿Ç°Ã»ÓĞÎÄÕÂ</center>\n" );
+		fprintf( indexFile, "\n<center>ç›®å‰æ²¡æœ‰æ–‡ç« </center>\n" );
 	fprintf( indexFile, "</body>\n</html>\n" );
 
-	//¹Ø±Õ.index.htm
+	//å…³é—­.index.htm
 	fclose( indexFile );
 
 }
 
-//±éÀúÒ»¸ö°æµÄ¾«»ªÇø
+//éå†ä¸€ä¸ªç‰ˆçš„ç²¾ååŒº
 void convertBoard(char *strBoardName){
 
 	char strBuf[STRLEN];
@@ -230,9 +230,9 @@ void convertBoard(char *strBoardName){
         strBuf[length]='\0';
 	if( indexFile = fopen( strBuf, "wt" ) ){
 
-		//ÊäÈë¸ùÄ¿Â¼µÄindex.htm
+		//è¾“å…¥æ ¹ç›®å½•çš„index.htm
 		fprintf( indexFile, "<html><head>\n" );
-		fprintf( indexFile, "<title>¸´µ©´óÑ§ÈÕÔÂ¹â»ªÕ¾¡Ã¾«»ªÇø</title>\n" );
+		fprintf( indexFile, "<title>å¤æ—¦å¤§å­¦æ—¥æœˆå…‰åç«™âˆ¶ç²¾ååŒº</title>\n" );
 		fprintf( indexFile, "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=GB2312\">\n" );
 		fprintf( indexFile, "<script>\n" );
 		fprintf( indexFile, "function redirect(){window.location = \"000000/index.htm\"}\n" );
@@ -242,12 +242,12 @@ void convertBoard(char *strBoardName){
 	}
 	fclose( indexFile );
 
-	//½«Éú³ÉµÄ¾«»ªÇøÄÚÈİ´ò°üµ½anntrash
+	//å°†ç”Ÿæˆçš„ç²¾ååŒºå†…å®¹æ‰“åŒ…åˆ°anntrash
 	sprintf( strBuf, "tar cf - * |gzip >%s%s.tgz", WWWDISKPATH, strBoardName );
 	system( strBuf );
 }
 
-//±éÀúÒ»¸öÇøµÄËùÓĞ°æÃæ
+//éå†ä¸€ä¸ªåŒºçš„æ‰€æœ‰ç‰ˆé¢
 void convertPart(char *strPartName){
 
 	char strBuf[STRLEN], strBoardName[STRLEN];
@@ -256,30 +256,30 @@ void convertPart(char *strPartName){
         mkdir(TARWORKPATH, 0755);
         chdir(TARWORKPATH);
  
-	//ÓÃls½«Ä¿Â¼ÖĞµÄÎÄ¼şÃûÁĞ±í´æÈëTRASHPATHÖĞµÄlist_txtÎÄ¼şÖĞ
+	//ç”¨lså°†ç›®å½•ä¸­çš„æ–‡ä»¶ååˆ—è¡¨å­˜å…¥TRASHPATHä¸­çš„list_txtæ–‡ä»¶ä¸­
 	sprintf( strBuf, "ls %s%s > %sboard_txt", BBSDISKPATH, strPartName, TRASHPATH );
 	system( strBuf );
 
-	//´Ólist_txtÖĞ¶Á³öÎÄ¼şÁĞ±í
+	//ä»list_txtä¸­è¯»å‡ºæ–‡ä»¶åˆ—è¡¨
 	sprintf( strBuf, "%sboard_txt", TRASHPATH );
 	if( fl = fopen( strBuf, "rt" ) )
 		while( !feof( fl ) ){
 
-			//È¡µÃÒ»¸ö×Ö·û´®
+			//å–å¾—ä¸€ä¸ªå­—ç¬¦ä¸²
 			fgets( strBuf, STRLEN, fl );
 			if( feof( fl ) ) break;
 
-			//µÃµ½°üº¬ÇøÃûµÄ°æÃû£¬¼°°æµÄÂ·¾¶Ãû
+			//å¾—åˆ°åŒ…å«åŒºåçš„ç‰ˆåï¼ŒåŠç‰ˆçš„è·¯å¾„å
 			strBuf[ strlen(strBuf) - 1 ] = '\0';
 			sprintf( strBoardName , "%s/%s", strPartName, strBuf );
 			sprintf( strBuf , "%s%s", BBSDISKPATH, strBoardName );
 
-			//ÅĞ¶ÏÕâ¸öÎÄ¼şÊÇ·ñÊÇÄ¿Â¼¡£Èç¹ûÊÇÄ¿Â¼Ôòµ÷ÓÃconvertBoard£¬¶ÔÕâ¸ö°æ´ò°ü¡£
+			//åˆ¤æ–­è¿™ä¸ªæ–‡ä»¶æ˜¯å¦æ˜¯ç›®å½•ã€‚å¦‚æœæ˜¯ç›®å½•åˆ™è°ƒç”¨convertBoardï¼Œå¯¹è¿™ä¸ªç‰ˆæ‰“åŒ…ã€‚
 			if( isDir( strBuf ) ) convertBoard( strBoardName );
 
 		}
 
-	//¹Ø±Õlist_txt
+	//å…³é—­list_txt
 	fclose(fl);
 
 }
@@ -290,7 +290,7 @@ main(){
 	rmdir(TRASHPATH);
 	rmdir(TARWORKPATH);
 	mkdir(TRASHPATH, 0755);
-	//0ÇøµÄ¾«»ªÖ»¶ÔÖ¸¶¨µÄÒ»Ğ©°æ´ò°ü
+	//0åŒºçš„ç²¾ååªå¯¹æŒ‡å®šçš„ä¸€äº›ç‰ˆæ‰“åŒ…
 	convertBoard( "system.faq/Announce" );
 	convertBoard( "system.faq/BBS_Dev" );
 	convertBoard( "system.faq/BBS_Help" );
@@ -302,7 +302,7 @@ main(){
 	convertBoard( "system.faq/Test" );
 //	convertBoard( "system.faq/Zzzzz" );
 
-	//ÆäËûÇøµÄ¾«»ª¶ÔÕû¸öÇø´ò°ü
+	//å…¶ä»–åŒºçš„ç²¾åå¯¹æ•´ä¸ªåŒºæ‰“åŒ…
 	//convertPart( "system.faq" );
 	convertPart( "ccu.faq" );
 	convertPart( "campus.faq" );
@@ -317,7 +317,7 @@ main(){
 	//convertPart( "other.faq" );
 	//convertPart( "soc.faq" );
 
-	//ÇåÀíanntrash
+	//æ¸…ç†anntrash
 	rmdir(TRASHPATH);
 
 }

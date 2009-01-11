@@ -66,7 +66,7 @@
 </BODY></HTML>
 </xsl:template>
 
-  <!--Item ×Ü¿ò¼Ü-->
+  <!--Item æ€»æ¡†æž¶-->
   <xsl:template match="item">
 	  <BR/>
       <TABLE width="85%" border="1" cellpadding="8" cellspacing="0">
@@ -85,7 +85,7 @@
       <BR/>
   </xsl:template>
 
-  <!--ItemÄÚÈÝÄ£°å-->
+  <!--Itemå†…å®¹æ¨¡æ¿-->
   <xsl:template match="description">
       <TR>
         <TD class="content_text">

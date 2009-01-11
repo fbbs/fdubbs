@@ -7,7 +7,7 @@ void showrecomm(char *board) {
 	init_all();
 	
 	strsncpy(path,anno_path_of(board),511);
-	if(strstr(path, "..") || strstr(path, "SYSHome")) http_fatal("´ËÄ¿Â¼²»´æÔÚ");
+	if(strstr(path, "..") || strstr(path, "SYSHome")) http_fatal("æ­¤ç›®å½•ä¸å­˜åœ¨");
 	sprintf(names, "0Announce%s/.recommend/.Names", path);
 	fp=fopen(names, "r");
 	board=getbfroma(path);
@@ -25,9 +25,9 @@ void showrecomm(char *board) {
 			sprintf(file[total-1], "%s", trim(buf+6));
 		}
 	}
-	if(strstr(title, "BM: SYSOPS") && !(currentuser.userlevel & PERM_SYSOP)) http_fatal("´íÎóµÄÄ¿Â¼");
-	if(strstr(title, "BM: OBOARDS") && !(currentuser.userlevel & PERM_OBOARDS)) http_fatal("´íÎóµÄÄ¿Â¼");
-	if(strstr(title, "BM: BMS") && !has_BM_perm(&currentuser, board)) http_fatal("´íÎóµÄÄ¿Â¼");
+	if(strstr(title, "BM: SYSOPS") && !(currentuser.userlevel & PERM_SYSOP)) http_fatal("é”™è¯¯çš„ç›®å½•");
+	if(strstr(title, "BM: OBOARDS") && !(currentuser.userlevel & PERM_OBOARDS)) http_fatal("é”™è¯¯çš„ç›®å½•");
+	if(strstr(title, "BM: BMS") && !has_BM_perm(&currentuser, board)) http_fatal("é”™è¯¯çš„ç›®å½•");
 	
 	buf[0]=0;
 	if(total<=0)return;
@@ -35,7 +35,7 @@ void showrecomm(char *board) {
 	for(i=0; i<total; i++) {
 		char *id;
 		/* if(strstr(name[i], "SYSOPS")) continue; */
-		//ÒÔÉÏ´úÂëÓÉroly×¢ÊÍµô£¬ÒòÎªÕ¾³¤¿ÉÒÔ·ÃÎÊ¸ÃÄ¿Â¼  2002.01.03
+		//ä»¥ä¸Šä»£ç ç”±rolyæ³¨é‡Šæ‰ï¼Œå› ä¸ºç«™é•¿å¯ä»¥è®¿é—®è¯¥ç›®å½•  2002.01.03
 		
 		index++;
 		if(strlen(name[i])<=39) {
@@ -49,10 +49,10 @@ void showrecomm(char *board) {
 		}
 		
 		/*  add by roly 2002.01.03
-		 *  ¸ù¾İÄ¿Â¼µÄ×÷ÕßÒÔ¼°ÓÃ»§È¨ÏŞÅĞ¶ÏÊÇ·ñÏÔÊ¾ 
+		 *  æ ¹æ®ç›®å½•çš„ä½œè€…ä»¥åŠç”¨æˆ·æƒé™åˆ¤æ–­æ˜¯å¦æ˜¾ç¤º 
 		 */		
 		if (!strncmp(id,"SYSOPS",6) && !(currentuser.userlevel & PERM_SYSOP)) continue;
-		//modified by iamfat 2002.10.18 ±£Ö¤BMSÄ¿Â¼±¾°æ°æÖ÷¿É¼û
+		//modified by iamfat 2002.10.18 ä¿è¯BMSç›®å½•æœ¬ç‰ˆç‰ˆä¸»å¯è§
 		if (!strncmp(id,"BMS",3) && !has_BM_perm(&currentuser, board))continue;
 		//if(!strncmp(id,"BMS",3) && !(currentuser.userlevel & PERM_BOARDS)) continue;
 		if (!strncmp(id,"OBOARDS",7) && !(currentuser.userlevel & PERM_OBOARDS)) continue;
@@ -62,9 +62,9 @@ void showrecomm(char *board) {
 		sprintf(buf, "0Announce%s%s", path, file[i]);
 		if(!file_exist(buf))  continue;
 		} else if(file_isdir(buf)) {
-			printf("[Ä¿Â¼] <a href=bbs0an?path=%s%s>%s</a><br>", path, file[i], nohtml(name[i]));
+			printf("[ç›®å½•] <a href=bbs0an?path=%s%s>%s</a><br>", path, file[i], nohtml(name[i]));
 		} else {
-			printf("[ÎÄ¼ş] <td><a href=bbsanc?path=%s%s>%s</a>", path, file[i], nohtml(name[i]));
+			printf("[æ–‡ä»¶] <td><a href=bbsanc?path=%s%s>%s</a>", path, file[i], nohtml(name[i]));
 		}
 	}
 	printposttable();

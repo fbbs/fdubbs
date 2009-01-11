@@ -20,7 +20,7 @@ int main() {
 	printf("		<td width=100%%>\n");
 	*/
    	printf("<table bgcolor=#ffffff cellpadding=0 cellspacing=1 width=100%% nowrap>\n");
-   	//printf("<tr class=pt9h align=center ><td><b>区号</b></td><td><b>类别</b></td><td><b>描述</b></td></tr>\n");
+   	//printf("<tr class=pt9h align=center ><td><b>鍖哄彿</b></td><td><b>绫诲埆</b></td><td><b>鎻忚堪</b></td></tr>\n");
 	//printf("<tr><td colspan=3 width=100%%><hr noshade color=#000000 width=100%% height=1></td></tr>\n");
    	//int cc=0;
 	//j=0;
@@ -35,7 +35,7 @@ int main() {
 		else
       			printf("%s", secname[i][0]);
 		printf("</a> %s", secname[i][1]);
-		printf("&nbsp;&nbsp;&nbsp;<a href=bbsboa?%d>更多版面...</a><br>", i);
+		printf("&nbsp;&nbsp;&nbsp;<a href=bbsboa?%d>鏇村鐗堥潰...</a><br>", i);
 		sprintf(path,"%s/info/egroup%d/recommend", BBSHOME, i);
 		if(dashf(path))
 		{

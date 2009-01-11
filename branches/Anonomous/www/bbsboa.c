@@ -19,7 +19,7 @@ int main() {
     int parent_bid = 0;
 	init_all();
 	sec1=atoi(getsenv("QUERY_STRING"));
-	if(sec1<0 || sec1>=SECNUM) http_fatal("´íÎóµÄ²ÎÊı");
+	if(sec1<0 || sec1>=SECNUM) http_fatal("é”™è¯¯çš„å‚æ•°");
 	if(atoi(getparm("my_def_mode"))!=0) cgi="bbstdoc";
 	/* rqq: 2006.2.14: allow board directory listing via the
      * board=boardname parameter. NOTE: this implementation 
@@ -64,7 +64,7 @@ int main() {
 
 	sprintf(path,"%s/info/egroup%d/banner.jpg",BBSHOME, sec1);
 	if (parent) {
-        printf("<font style='font-size: 18pt'>%s</font> ¡¤",
+        printf("<font style='font-size: 18pt'>%s</font> Â·",
                parent->title + 10);
     }
     else if(dashf(path)) {
@@ -72,21 +72,21 @@ int main() {
                "align=absmiddle height=32>", sec1);
     } 
     else {
-        printf("<font style='font-size: 18pt'>%s</font> ¡¤",
+        printf("<font style='font-size: 18pt'>%s</font> Â·",
             secname[sec1][0]);
     }
     
     if (parent)
-        printf(" %s °æÃæÄ¿Â¼ </b>",  BBSNAME);
+        printf(" %s ç‰ˆé¢ç›®å½• </b>",  BBSNAME);
     else
-        printf(" %s ·ÖÀàÌÖÂÛÇø </b>",  BBSNAME);
+        printf(" %s åˆ†ç±»è®¨è®ºåŒº </b>",  BBSNAME);
 
 	 //if(dashf(path)) 
 	//	printf("<img src=/info/egroup%d/banner.jpg align=absmiddle height=32>", sec1);
 	//else
-	//	printf("<font style='font-size: 18pt'>%s</font> ¡¤",secname[sec1]);
+	//	printf("<font style='font-size: 18pt'>%s</font> Â·",secname[sec1]);
 	
-//	printf(" %s ·ÖÀàÌÖÂÛÇø </b>",  BBSNAME);
+//	printf(" %s åˆ†ç±»è®¨è®ºåŒº </b>",  BBSNAME);
 
 	sprintf(path,"%s/info/egroup%d/headline.txt",BBSHOME, sec1);
 	if(!parent && dashf(path))
@@ -100,7 +100,7 @@ int main() {
 	}
 	printpretable();
 	printf("<table width=100% bgcolor=#ffffff>\n");
-	printf("<tr class=pt9h align=center><td nowrap><b>ĞòºÅ</b></td><td nowrap><b>Î´<td nowrap><b>ÌÖÂÛÇøÃû³Æ</b></td><td nowrap><b>¸üĞÂÊ±¼ä</b></td><td><b>Àà±ğ</b></td><td nowrap><b>ÖĞÎÄÃèÊö</b></td><td nowrap><b>°æÖ÷</b></td><td nowrap><b>ÎÄÕÂÊı\n");
+	printf("<tr class=pt9h align=center><td nowrap><b>åºå·</b></td><td nowrap><b>æœª<td nowrap><b>è®¨è®ºåŒºåç§°</b></td><td nowrap><b>æ›´æ–°æ—¶é—´</b></td><td><b>ç±»åˆ«</b></td><td nowrap><b>ä¸­æ–‡æè¿°</b></td><td nowrap><b>ç‰ˆä¸»</b></td><td nowrap><b>æ–‡ç« æ•°\n");
 	int cc=0;
 	for(i=0; i<total; i++) {
 		char buf[100];
@@ -110,12 +110,12 @@ int main() {
 		 /* print index */
 		printf("<tr class=%s valign=top><td align=right nowrap>%d</td>",
                        ((cc++)%2)?"pt9dc":"pt9lc", i+1);	
-		//printf("<tr class=%s valign=top><td align=right nowrap>%d<td nowrap>%s",((cc++)%2)?"pt9dc":"pt9lc", i+1, board_read(data[i].filename) ? "¡ó" : "¡ô");
+		//printf("<tr class=%s valign=top><td align=right nowrap>%d<td nowrap>%s",((cc++)%2)?"pt9dc":"pt9lc", i+1, board_read(data[i].filename) ? "â—‡" : "â—†");
 		/* print brc flag */
         if (isgroup) 
             printf("<td nowrap>-</td>");
         else
-            printf("<td nowrap>%s", board_read(data[i].filename) ? "¡ó" : "¡ô");
+            printf("<td nowrap>%s", board_read(data[i].filename) ? "â—‡" : "â—†");
        
        if (isgroup)
             printf("<td nowrap><a href=%s?board=%s><b>[ %s ]</b></a>", 
@@ -130,7 +130,7 @@ int main() {
             printf("<td nowrap>%12.12s", 4+Ctime(file_time(buf)));
 		//printf("<td nowrap>%12.12s", 4+Ctime(file_time(buf)));
 		  /* print category */
-        printf("<td nowrap>%6.6s", (isgroup?"[Ä¿Â¼]":data[i].title+1));
+        printf("<td nowrap>%6.6s", (isgroup?"[ç›®å½•]":data[i].title+1));
 		//printf("<td nowrap>%6.6s", data[i].title+1);
 		/* print display name */
         printf("</td><td width=100%%><a href=%s?board=%s><b>%s</b></a><br>", 
@@ -138,7 +138,7 @@ int main() {
 		//printf("</td><td width=100%%><a href=%s?board=%s><b>%s</b></a><br>", cgi, data[i].filename, data[i].title+10);
 		showrecommend(data[i].filename, 3,0);
 		ptr=strtok(data[i].BM, " ,;");
-		if(ptr==0) ptr=(isgroup?"-":"³ÏÕ÷°æÖ÷ÖĞ"); //ptr="³ÏÕ÷°æÖ÷ÖĞ";
+		if(ptr==0) ptr=(isgroup?"-":"è¯šå¾ç‰ˆä¸»ä¸­"); //ptr="è¯šå¾ç‰ˆä¸»ä¸­";
 		printf("</td><td nowrap align=center><a href=bbsqry?userid=%s><b>%s</b></a>", ptr, ptr);
 		printf("</td><td nowrap align=right>%d\n", filenum(data[i].filename));
 	}

@@ -5,7 +5,7 @@ int main() {
 	struct userec x;
 	int logins=0, posts=0, stays=0, lifes=0, total=0;
 	init_all();
-	if(!loginok) http_fatal("´Ò´Ò¹ı¿Í²»¼ÓÈëÅÅÃû");
+	if(!loginok) http_fatal("åŒ†åŒ†è¿‡å®¢ä¸åŠ å…¥æ’å");
 	fp=fopen(".PASSWDS", "r");
 	while(1) {
 		if(fread(&x, sizeof(x), 1, fp)<=0) break;
@@ -19,25 +19,25 @@ int main() {
 	}
 	fclose(fp);
 	printf("<center>\n");
-	printf("<font style='font-size: 18pt'>%s</font> ¡¤ %s ¸öÈËÅÅÃûÍ³¼Æ\n", currentuser.userid, BBSNAME);
+	printf("<font style='font-size: 18pt'>%s</font> Â· %s ä¸ªäººæ’åç»Ÿè®¡\n", currentuser.userid, BBSNAME);
 	
 	printf("<table border=0 width=400>\n");
 	printf("	<tr height=6><td background=/images/b.gif width=100%%></td></tr>\n");
 	printf("	<tr><td>\n");
 
 	printf("<table width=100%%>\n");
-	printf("<tr class=pt9h><td>ÏîÄ¿<td>ÊıÖµ<td>È«Õ¾ÅÅÃû<td>Ïà¶Ô±ÈÀı\n");
-	printf("<tr class=pt9lc><td>±¾Õ¾ÍøÁä<td>%dÌì<td>%d<td>TOP %5.2f%%", 
+	printf("<tr class=pt9h><td>é¡¹ç›®<td>æ•°å€¼<td>å…¨ç«™æ’å<td>ç›¸å¯¹æ¯”ä¾‹\n");
+	printf("<tr class=pt9lc><td>æœ¬ç«™ç½‘é¾„<td>%då¤©<td>%d<td>TOP %5.2f%%", 
 		(time(0)-currentuser.firstlogin)/86400, lifes, (lifes*100.)/total);
-	printf("<tr class=pt9dc><td>ÉÏÕ¾´ÎÊı<td>%d´Î<td>%d<td>TOP %5.2f%%",
+	printf("<tr class=pt9dc><td>ä¸Šç«™æ¬¡æ•°<td>%dæ¬¡<td>%d<td>TOP %5.2f%%",
 		currentuser.numlogins, logins, logins*100./total);
-	printf("<tr class=pt9lc><td>·¢±íÎÄÕÂ<td>%d´Î<td>%d<td>TOP %5.2f%%",
+	printf("<tr class=pt9lc><td>å‘è¡¨æ–‡ç« <td>%dæ¬¡<td>%d<td>TOP %5.2f%%",
 		currentuser.numposts, posts, posts*100./total);
-	printf("<tr class=pt9dc><td>ÔÚÏßÊ±¼ä<td>%d·Ö<td>%d<td>TOP %5.2f%%",
+	printf("<tr class=pt9dc><td>åœ¨çº¿æ—¶é—´<td>%dåˆ†<td>%d<td>TOP %5.2f%%",
 		currentuser.stay/60, stays, stays*100./total);
 	printf("</table>");
 	printposttable_lite();
-	printf("<br>×ÜÓÃ»§Êı: %d", total);
+	printf("<br>æ€»ç”¨æˆ·æ•°: %d", total);
 	printf("</center>\n");
 	http_quit();
 }

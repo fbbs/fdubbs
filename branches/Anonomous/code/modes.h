@@ -77,7 +77,7 @@
 #define GAME            52
 #define HYTELNET        53
 #define WNOTEPAD	54
-#define BBSPAGER	55	/* edwardc.990429 for ÍøÂ·´«ºô */
+#define BBSPAGER	55	/* edwardc.990429 for ç½‘è·¯ä¼ å‘¼ */
 #define M_BLACKJACK	56 
 #define M_XAXB		57
 #define M_DICE		58

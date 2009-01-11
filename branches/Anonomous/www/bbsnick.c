@@ -4,20 +4,20 @@ int main() {
 	int i;
 	unsigned char nick[80];
 	init_all();
-	printf("<b>ÁÙÊ±¸Ä±äêÇ³Æ(»·¹ËËÄ·½ÓĞĞ§) ¡¤ %s <b>\n",BBSNAME);
+	printf("<b>ä¸´æ—¶æ”¹å˜æ˜µç§°(ç¯é¡¾å››æ–¹æœ‰æ•ˆ) Â· %s <b>\n",BBSNAME);
 	if(!loginok)
 	{
 		printpretable_lite();
 		printf("<br>");
-		http_fatal("´Ò´Ò¹ı¿ÍÎŞ·¨¸Ä±äêÇ³Æ");
+		http_fatal("åŒ†åŒ†è¿‡å®¢æ— æ³•æ”¹å˜æ˜µç§°");
 	}
 	strsncpy(nick, getparm("nick"), 30);
 	if(nick[0]==0) {
-		printf(" [Ê¹ÓÃÕß: %s]\n", currentuser.userid);
+		printf(" [ä½¿ç”¨è€…: %s]\n", currentuser.userid);
 		printpretable_lite();
-		printf("<form action=bbsnick>ĞÂêÇ³Æ<input name=nick size=24 maxlength=24 type=text value='%s'> \n", 
+		printf("<form action=bbsnick>æ–°æ˜µç§°<input name=nick size=24 maxlength=24 type=text value='%s'> \n", 
 			u_info->username);
-		printf("<input type=submit value=È·¶¨>");
+		printf("<input type=submit value=ç¡®å®š>");
 		printf("</form>");
 		printposttable_lite();
 		http_quit();
@@ -25,9 +25,9 @@ int main() {
 	for(i=0; nick[i]; i++)
 		if(nick[i]<32 || nick[i]==255) nick[i]=' ';
 	strsncpy(u_info->username, nick, 32);
-	printf(" [Ê¹ÓÃÕß: %s]\n", currentuser.userid);
+	printf(" [ä½¿ç”¨è€…: %s]\n", currentuser.userid);
 	printpretable_lite();
-	printf("ÁÙÊ±±ä¸üêÇ³Æ³É¹¦");
+	printf("ä¸´æ—¶å˜æ›´æ˜µç§°æˆåŠŸ");
 	printposttable_lite();
 	http_quit();
 }

@@ -6,22 +6,22 @@ int main() {
 	char path[80], userid[80];
 	struct override f[200];
 	init_all();
-   	if(!loginok) http_fatal("ÄúÉĞÎ´µÇÂ¼£¬ÇëÏÈµÇÂ¼");
+   	if(!loginok) http_fatal("æ‚¨å°šæœªç™»å½•ï¼Œè¯·å…ˆç™»å½•");
    	sprintf(path, "home/%c/%s/friends", toupper(currentuser.userid[0]), currentuser.userid);
-   	printf("<b>É¾³ıºÃÓÑ ¡¤ %s [Ê¹ÓÃÕß: %s]</b>\n", BBSNAME, currentuser.userid);
+   	printf("<b>åˆ é™¤å¥½å‹ Â· %s [ä½¿ç”¨è€…: %s]</b>\n", BBSNAME, currentuser.userid);
 	printf("<center>\n");
 	printpretable_lite();
 	strsncpy(userid, getparm("userid"), 13);
 	if(userid[0]==0) {
 		printf("<form action=bbsfdel>\n");
-		printf("ÇëÊäÈëÓûÉ¾³ıµÄºÃÓÑÕÊºÅ: <input type=text><br>\n");
+		printf("è¯·è¾“å…¥æ¬²åˆ é™¤çš„å¥½å‹å¸å·: <input type=text><br>\n");
 		printf("<input type=submit>\n");
 		printf("</form>");
 		http_quit();
 	}
    	loadfriend(currentuser.userid);
-	if(friendnum<=0) http_fatal("ÄúÃ»ÓĞÉè¶¨ÈÎºÎºÃÓÑ");
-   	if(!isfriend(userid)) http_fatal("´ËÈË±¾À´¾Í²»ÔÚÄúµÄºÃÓÑÃûµ¥Àï");
+	if(friendnum<=0) http_fatal("æ‚¨æ²¡æœ‰è®¾å®šä»»ä½•å¥½å‹");
+   	if(!isfriend(userid)) http_fatal("æ­¤äººæœ¬æ¥å°±ä¸åœ¨æ‚¨çš„å¥½å‹åå•é‡Œ");
    	for(i=0; i<friendnum; i++) {
 		if(strcasecmp(fff[i].id, userid)) {
 			memcpy(&f[total], &fff[i], sizeof(struct override));
@@ -31,6 +31,6 @@ int main() {
    	fp=fopen(path, "w");
    	fwrite(f, sizeof(struct override), total, fp);
    	fclose(fp);
-   	printf("[%s]ÒÑ´ÓÄúµÄºÃÓÑÃûµ¥ÖĞÉ¾³ı.<br>\n <a href=bbsfall>·µ»ØºÃÓÑÃûµ¥</a>", userid);
+   	printf("[%s]å·²ä»æ‚¨çš„å¥½å‹åå•ä¸­åˆ é™¤.<br>\n <a href=bbsfall>è¿”å›å¥½å‹åå•</a>", userid);
 	http_quit();
 }

@@ -28,7 +28,7 @@ int main() {
 		total++;
 	}
 
-	printf("<b>%s ¡¤ ÔÚÏßÓÃ»§Í³¼Æ [ÔÚÏß×ÜÈËÊı: %dÈË]</b>\n", BBSNAME, total);
+	printf("<b>%s Â· åœ¨çº¿ç”¨æˆ·ç»Ÿè®¡ [åœ¨çº¿æ€»äººæ•°: %däºº]</b>\n", BBSNAME, total);
 
 	printf("<table align=center border=0 cellpadding=0 cellspacing=0 width=350>\n");
 	printf("	<tr height=6>\n");
@@ -60,31 +60,31 @@ int main() {
 		else mTelnet ++;
 	}
 	printf("<table border=0 width=100%%>\n");
-	printf("<tr class=pt9h><td><b>¸´µ©Ğ£ÄÚÓÃ»§</font><td align=right><b>%4d", cInFudan);
+	printf("<tr class=pt9h><td><b>å¤æ—¦æ ¡å†…ç”¨æˆ·</font><td align=right><b>%4d", cInFudan);
 	
-	printf("<tr class=pt9lc><td>&nbsp;&nbsp;&nbsp;ÄÏÇøÓÃ»§<td align=right>%4d", cSouth);
-	printf("<tr class=pt9dc><td>&nbsp;&nbsp;&nbsp;±±ÇøÓÃ»§<td align=right>%4d", cNorth);
-    printf("<tr class=pt9lc><td>&nbsp;&nbsp;&nbsp;¶«ÇøÓÃ»§<td align=right>%4d", cEast);
-	printf("<tr class=pt9dc><td>&nbsp;&nbsp;&nbsp;·ãÁÖĞ£ÇøÓÃ»§<td align=right>%4d",cMedic);
-	printf("<tr class=pt9lc><td>&nbsp;&nbsp;&nbsp;ÕÅ½­Ğ£ÇøÓÃ»§<td align=right>%4d", cZhangJ);
-	printf("<tr class=pt9lc><td>&nbsp;&nbsp;&nbsp;TelnetÓÃ»§<td align=right>%4d", mcInTelnet);
-	printf("<tr class=pt9dc><td>&nbsp;&nbsp;&nbsp;WWWÓÃ»§<td align=right>%4d", mcInWeb);
+	printf("<tr class=pt9lc><td>&nbsp;&nbsp;&nbsp;å—åŒºç”¨æˆ·<td align=right>%4d", cSouth);
+	printf("<tr class=pt9dc><td>&nbsp;&nbsp;&nbsp;åŒ—åŒºç”¨æˆ·<td align=right>%4d", cNorth);
+    printf("<tr class=pt9lc><td>&nbsp;&nbsp;&nbsp;ä¸œåŒºç”¨æˆ·<td align=right>%4d", cEast);
+	printf("<tr class=pt9dc><td>&nbsp;&nbsp;&nbsp;æ«æ—æ ¡åŒºç”¨æˆ·<td align=right>%4d",cMedic);
+	printf("<tr class=pt9lc><td>&nbsp;&nbsp;&nbsp;å¼ æ±Ÿæ ¡åŒºç”¨æˆ·<td align=right>%4d", cZhangJ);
+	printf("<tr class=pt9lc><td>&nbsp;&nbsp;&nbsp;Telnetç”¨æˆ·<td align=right>%4d", mcInTelnet);
+	printf("<tr class=pt9dc><td>&nbsp;&nbsp;&nbsp;WWWç”¨æˆ·<td align=right>%4d", mcInWeb);
 
 //	printf("<tr class=pt9lc><td>&nbsp;&nbsp;<td>&nbsp;&nbsp;&nbsp");
-	printf("<tr class=pt9h ><td><b>¸´µ©Ğ£ÍâÓÃ»§</font><td align=right><b>%4d", cOutFudan);
-	printf("<tr class=pt9lc><td>&nbsp;&nbsp;&nbsp;TelnetÓÃ»§<td align=right>%4d", mcOutTelnet);
-	printf("<tr class=pt9dc><td>&nbsp;&nbsp;&nbsp;WWWÓÃ»§<td align=right>%4d", mcOutWeb);
+	printf("<tr class=pt9h ><td><b>å¤æ—¦æ ¡å¤–ç”¨æˆ·</font><td align=right><b>%4d", cOutFudan);
+	printf("<tr class=pt9lc><td>&nbsp;&nbsp;&nbsp;Telnetç”¨æˆ·<td align=right>%4d", mcOutTelnet);
+	printf("<tr class=pt9dc><td>&nbsp;&nbsp;&nbsp;WWWç”¨æˆ·<td align=right>%4d", mcOutWeb);
 
 //	printf("<tr class=pt9lc><td>&nbsp;&nbsp;<td>&nbsp;&nbsp;&nbsp");
-	printf("<tr class=pt9h><td><b>ºÏ¼Æ:</font><td align=right><b>");
-	printf("<tr class=pt9lc><td>&nbsp;&nbsp;&nbsp;TelnetÓÃ»§ºÏ¼Æ<td align=right>%4d", mTelnet);
-	printf("<tr class=pt9dc><td>&nbsp;&nbsp;&nbsp;WWWÓÃ»§ºÏ¼Æ<td align=right>%4d", mWeb);
+	printf("<tr class=pt9h><td><b>åˆè®¡:</font><td align=right><b>");
+	printf("<tr class=pt9lc><td>&nbsp;&nbsp;&nbsp;Telnetç”¨æˆ·åˆè®¡<td align=right>%4d", mTelnet);
+	printf("<tr class=pt9dc><td>&nbsp;&nbsp;&nbsp;WWWç”¨æˆ·åˆè®¡<td align=right>%4d", mWeb);
 	printf("</tr>\n");
 	printf("</table>");
 	
 	printposttable();			
 	printf("<br>");
-	printf("[<a href='javascript:history.go(-1)'>·µ»Ø</a>]  ");
+	printf("[<a href='javascript:history.go(-1)'>è¿”å›</a>]  ");
 	printf("</center>\n");
 	http_quit();
 }

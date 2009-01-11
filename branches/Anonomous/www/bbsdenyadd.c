@@ -76,22 +76,22 @@ int main() {
 	char exp[80], board[80], *userid;
 	int dt;
 	init_all();
-   	if(!loginok) http_fatal("ÄúÉĞÎ´µÇÂ¼, ÇëÏÈµÇÂ¼");
+   	if(!loginok) http_fatal("æ‚¨å°šæœªç™»å½•, è¯·å…ˆç™»å½•");
 	strsncpy(board, getparm("board"), 30);
 	strsncpy(exp, getparm("exp"), 30);
 	dt=atoi(getparm("dt"));
-	if(!has_read_perm(&currentuser, board)) http_fatal("´íÎóµÄÌÖÂÛÇø");
-	if(!has_BM_perm(&currentuser, board)) http_fatal("ÄúÎŞÈ¨½øĞĞ±¾²Ù×÷");
+	if(!has_read_perm(&currentuser, board)) http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
+	if(!has_BM_perm(&currentuser, board)) http_fatal("æ‚¨æ— æƒè¿›è¡Œæœ¬æ“ä½œ");
 	loaddenyuser(board);
 	userid=getparm("userid");
 	if(userid[0]==0) return show_form(board);
-	if(getuser(userid)==0) http_fatal("´íÎóµÄÊ¹ÓÃÕßÕÊºÅ");
+	if(getuser(userid)==0) http_fatal("é”™è¯¯çš„ä½¿ç”¨è€…å¸å·");
 	strcpy(userid, getuser(userid)->userid);
-	if(dt<1 || dt>150) http_fatal("ÇëÊäÈë±»·âÌìÊı(1-150)");
-	if(exp[0]==0) http_fatal("ÇëÊäÈë·âÈËÔ­Òò");
+	if(dt<1 || dt>150) http_fatal("è¯·è¾“å…¥è¢«å°å¤©æ•°(1-150)");
+	if(exp[0]==0) http_fatal("è¯·è¾“å…¥å°äººåŸå› ");
    	for(i=0; i<denynum; i++)
-		if(!strcasecmp(denyuser[i].id, userid)) http_fatal("´ËÓÃ»§ÒÑ¾­±»·â");
-	if(denynum>40) http_fatal("Ì«¶àÈË±»·âÁË");
+		if(!strcasecmp(denyuser[i].id, userid)) http_fatal("æ­¤ç”¨æˆ·å·²ç»è¢«å°");
+	if(denynum>40) http_fatal("å¤ªå¤šäººè¢«å°äº†");
 	strsncpy(denyuser[denynum].id, userid, 13);
 	//strsncpy(denyuser[denynum].exp, exp, 30);
 	//denyuser[denynum].free_time=time(0)+dt*86400;
@@ -99,21 +99,21 @@ int main() {
 	/* added by roly 02.03.22 */
 	daytime = time(0)+dt*86400;
 	tmtime=gmtime(&daytime);
-        sprintf(denyuser[denynum].description, "%-40s %02dÄê%02dÔÂ%02dÈÕ½â",
+        sprintf(denyuser[denynum].description, "%-40s %02då¹´%02dæœˆ%02dæ—¥è§£",
 		 exp , tmtime->tm_year%100, tmtime->tm_mon+1,tmtime->tm_mday);
 	/* added end */
 	savedenyuser(board);
-	printf("·â½û %s ³É¹¦<br>\n", userid);
+	printf("å°ç¦ %s æˆåŠŸ<br>\n", userid);
 	inform(board, userid, exp, dt);
-	printf("[<a href=bbsdenyall?board=%s>·µ»Ø±»·âÕÊºÅÃûµ¥</a>]", board);
+	printf("[<a href=bbsdenyall?board=%s>è¿”å›è¢«å°å¸å·åå•</a>]", board);
 	http_quit();
 }
 
 int show_form(char *board) {
-	printf("<center>%s -- °æÎñ¹ÜÀí [ÌÖÂÛÇø: %s]<hr color=green>\n", BBSNAME, board);
+	printf("<center>%s -- ç‰ˆåŠ¡ç®¡ç† [è®¨è®ºåŒº: %s]<hr color=green>\n", BBSNAME, board);
 	printf("<form action=bbsdenyadd><input type=hidden name=board value='%s'>", board);
-	printf("·â½ûÊ¹ÓÃÕß<input name=userid size=12> ±¾°æPOSTÈ¨ <input name=dt size=2> Ìì, Ô­Òò<input name=exp size=20>\n");
-	printf("<input type=submit value=È·ÈÏ></form>");
+	printf("å°ç¦ä½¿ç”¨è€…<input name=userid size=12> æœ¬ç‰ˆPOSTæƒ <input name=dt size=2> å¤©, åŸå› <input name=exp size=20>\n");
+	printf("<input type=submit value=ç¡®è®¤></form>");
 }
 
 int inform(char *board, char *user, char *exp, int dt) {
@@ -125,21 +125,21 @@ int inform(char *board, char *user, char *exp, int dt) {
 	daytime = time(0)+dt*86400;
 	tmtime=gmtime(&daytime);
 
-	sprintf(title, "È¡Ïû %s ÔÚ %s °æµÄ POST È¨Á¦", user, board);
+	sprintf(title, "å–æ¶ˆ %s åœ¨ %s ç‰ˆçš„ POST æƒåŠ›", user, board);
 	sprintf(path, "tmp/%d.tmp", getpid());
 	fp=fopen(path, "w");
-	fprintf(fp, "¡¾±¾¹«¸æÓÉ×Ô¶¯·¢ĞÅÏµÍ³×Ô¶¯ÕÅÌù¡¿\n\n");
-	//fprintf(fp, "%s±»°æÎñÈËÔ±[%s]·â½ûÁË±¾°æPOSTÈ¨[%d]Ìì.\n", user, currentuser.userid, dt);
-	//fprintf(fp, "Ô­ÒòÊÇ: %s\n", exp);
-	fprintf(fp, "Ö´ĞĞÈË  : %s\n·âÈËÔ­Òò: %s\n±»·âÌìÊı: %d\n½â·âÈÕÆÚ: [%02dÄê%02dÔÂ%02dÈÕ]\n½â·â·½Ê½£º·¢ĞÅÉêÇë\n", 
+	fprintf(fp, "ã€æœ¬å…¬å‘Šç”±è‡ªåŠ¨å‘ä¿¡ç³»ç»Ÿè‡ªåŠ¨å¼ è´´ã€‘\n\n");
+	//fprintf(fp, "%sè¢«ç‰ˆåŠ¡äººå‘˜[%s]å°ç¦äº†æœ¬ç‰ˆPOSTæƒ[%d]å¤©.\n", user, currentuser.userid, dt);
+	//fprintf(fp, "åŸå› æ˜¯: %s\n", exp);
+	fprintf(fp, "æ‰§è¡Œäºº  : %s\nå°äººåŸå› : %s\nè¢«å°å¤©æ•°: %d\nè§£å°æ—¥æœŸ: [%02då¹´%02dæœˆ%02dæ—¥]\nè§£å°æ–¹å¼ï¼šå‘ä¿¡ç”³è¯·\n", 
          	currentuser.userid,exp,dt,tmtime->tm_year%100,tmtime->tm_mon+1,tmtime->tm_mday);
 
 
 	
 	fclose(fp);
-	post_article(board, title, path, "deliver", "×Ô¶¯·¢ĞÅÏµÍ³", "×Ô¶¯·¢ĞÅÏµÍ³", -1, -1, -1);
-	post_article("Notice",title,path,"deliver", "×Ô¶¯·¢ĞÅÏµÍ³", "×Ô¶¯·¢ĞÅÏµÍ³", -1, -1, -1);
+	post_article(board, title, path, "deliver", "è‡ªåŠ¨å‘ä¿¡ç³»ç»Ÿ", "è‡ªåŠ¨å‘ä¿¡ç³»ç»Ÿ", -1, -1, -1);
+	post_article("Notice",title,path,"deliver", "è‡ªåŠ¨å‘ä¿¡ç³»ç»Ÿ", "è‡ªåŠ¨å‘ä¿¡ç³»ç»Ÿ", -1, -1, -1);
 	post_mail(user, title, path, currentuser.userid, currentuser.username, fromhost, -1);
 	unlink(path);
-	printf("ÏµÍ³ÒÑ¾­·¢ĞÅÍ¨ÖªÁË%s.<br>\n", user);
+	printf("ç³»ç»Ÿå·²ç»å‘ä¿¡é€šçŸ¥äº†%s.<br>\n", user);
 }

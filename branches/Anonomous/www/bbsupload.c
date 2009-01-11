@@ -75,9 +75,9 @@ void addtodir(char *board, char *tmpfile)
 	FILE * fp;
 
 	init_all();
-	printf("<title>ÉÏ´«ÎÄ¼ş</title>\n");
+	printf("<title>ä¸Šä¼ æ–‡ä»¶</title>\n");
 	if(!loginok) 
-		http_fatal("´Ò´Ò¹ı¿ÍÎŞ·¨Ö´ĞĞ±¾²Ù×÷£¬ÇëÏÈµÇÂ¼");
+		http_fatal("åŒ†åŒ†è¿‡å®¢æ— æ³•æ‰§è¡Œæœ¬æ“ä½œï¼Œè¯·å…ˆç™»å½•");
 	x.reid=1;
 	strsncpy(x.owner, currentuser.userid, 13);
 	strsncpy(x.filename, tmpfile, 100);
@@ -86,20 +86,20 @@ void addtodir(char *board, char *tmpfile)
 	sprintf(file,"%s/upload/%s/%s",BBSHOME,board,x.filename);
 	sprintf(dir,"%s/upload/%s/.DIR",BBSHOME,board);
 	if(!has_post_perm(&currentuser, board)) 
-		http_fatal("´íÎóµÄÌÖÂÛÇø»òÎŞÈ¨ÉÏ´«ÎÄ¼şÖÁ±¾ÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒºæˆ–æ— æƒä¸Šä¼ æ–‡ä»¶è‡³æœ¬è®¨è®ºåŒº");
 	if(!file_exist(file)) 
-		http_fatal("´íÎóµÄÎÄ¼şÃû");
+		http_fatal("é”™è¯¯çš„æ–‡ä»¶å");
 	x.id=file_size(file);
 	if(x.id>maxlen(board)) 
 	{
 		unlink(file);
-		http_fatal("ÎÄ¼ş´óĞ¡³¬¹ı×î´óÎÄ¼şÏŞÖÆ");
+		http_fatal("æ–‡ä»¶å¤§å°è¶…è¿‡æœ€å¤§æ–‡ä»¶é™åˆ¶");
 	}
 	fp=fopen(dir, "a");
 	if(fp==NULL)
 	{
 		unlink(file);
-		http_fatal("ÄÚ²¿´íÎó:Ğ´ÎÄ¼ş´íÎó");
+		http_fatal("å†…éƒ¨é”™è¯¯:å†™æ–‡ä»¶é”™è¯¯");
 	}
 	fwrite(&x, sizeof(struct dir), 1, fp);
 	fclose(fp);
@@ -108,7 +108,7 @@ void addtodir(char *board, char *tmpfile)
 	sprintf(log,"%s/upload.log",BBSHOME);
 	f_append(log, buf);
 
-	printf("ÎÄ¼şÉÏ´«³É¹¦, ÏêÏ¸ĞÅÏ¢ÈçÏÂ:");
+	printf("æ–‡ä»¶ä¸Šä¼ æˆåŠŸ, è¯¦ç»†ä¿¡æ¯å¦‚ä¸‹:");
 	printpretable_lite();
 	{
 		float my_size=x.id;
@@ -127,17 +127,17 @@ void addtodir(char *board, char *tmpfile)
 		}else{
 			sprintf(sizestr,"%dB",(int)(my_size));
 		}
-		printf("ÎÄ¼ş´óĞ¡: %s<br>\n", sizestr);
+		printf("æ–‡ä»¶å¤§å°: %s<br>\n", sizestr);
 	}
-	printf("ÎÄ¼şÃû³Æ: %s<br>\n", x.filename);
-	printf("ÉÏ´«ÈËID: %s<br>\n", x.owner);
-	printf("ÉÏ´«Ê±¼ä: %s<br>\n", cn_Ctime(time(0)));
-	printf("ÉÏ´«°æÃæ: %s<br>\n", board);
-	printf("ÉÏ´«ÎÄ¼ş½«×Ô¶¯ÔÚÎÄÕÂÖĞÌí¼Óhttp://×ªÒå,<br>\n");
-	printf("Çë±£³Ö×Ô¶¯Ìí¼Ó²¿·ÖÔ­Ñù(ËäÈ»¿´ÆğÀ´ÏñÂÒÂë),<br>\n");
-	printf("ÔÚwww½çÃæÏÂ×ªÒå²¿·Ö½«×Ô¶¯×ª»»Îª¶ÔÓ¦µÄÁ´½Ó/Í¼Æ¬.\n");
+	printf("æ–‡ä»¶åç§°: %s<br>\n", x.filename);
+	printf("ä¸Šä¼ äººID: %s<br>\n", x.owner);
+	printf("ä¸Šä¼ æ—¶é—´: %s<br>\n", cn_Ctime(time(0)));
+	printf("ä¸Šä¼ ç‰ˆé¢: %s<br>\n", board);
+	printf("ä¸Šä¼ æ–‡ä»¶å°†è‡ªåŠ¨åœ¨æ–‡ç« ä¸­æ·»åŠ http://è½¬ä¹‰,<br>\n");
+	printf("è¯·ä¿æŒè‡ªåŠ¨æ·»åŠ éƒ¨åˆ†åŸæ ·(è™½ç„¶çœ‹èµ·æ¥åƒä¹±ç ),<br>\n");
+	printf("åœ¨wwwç•Œé¢ä¸‹è½¬ä¹‰éƒ¨åˆ†å°†è‡ªåŠ¨è½¬æ¢ä¸ºå¯¹åº”çš„é“¾æ¥/å›¾ç‰‡.\n");
 	printposttable_lite();
-	printf("<a href='#' onclick='return closewin()'>·µ»Ø</a>\n");
+	printf("<a href='#' onclick='return closewin()'>è¿”å›</a>\n");
 	printf("<script language='JavaScript'>\n");
 	printf("<!--					\n");
 	printf("function closewin()		\n");
@@ -166,13 +166,13 @@ int main()
 	if(content_len>UPLOAD_MAX) 
 	{
 		if(content_len>UPLOAD_MAX+1024)			//data other than binary file would take about 1K Bytes
-			http_fatal("ÎÄ¼ş´óĞ¡³¬¹ı×î´óÏŞÖÆ");
+			http_fatal("æ–‡ä»¶å¤§å°è¶…è¿‡æœ€å¤§é™åˆ¶");
 		content_len=UPLOAD_MAX;
 	}
 	
 	buf=malloc(content_len);
 	if(buf==0) 
-		http_fatal("ÄÚ²¿´íÎó£ºÉêÇëÄÚ´æ³ö´í");
+		http_fatal("å†…éƒ¨é”™è¯¯ï¼šç”³è¯·å†…å­˜å‡ºé”™");
 	
 	fgets(http_boundary, 200, stdin);		
 	fgets(buf_alt, 256, stdin);				//line containing 'filename="xxxx"'
@@ -181,7 +181,7 @@ int main()
 	if(filename==0) 
 	{
 		free(buf);
-		http_fatal("ÄÚ²¿´íÎó£ºÎÄ¼şÃûÎ´Öª");
+		http_fatal("å†…éƒ¨é”™è¯¯ï¼šæ–‡ä»¶åæœªçŸ¥");
 	}
 	
 	p=strrchr(filename, '\\');				//windows path symbol
@@ -197,15 +197,15 @@ int main()
 	if(strlen(p)>70)
 	{
 		free(buf);
-		http_fatal("ÄÚ²¿´íÎó: ÎÄ¼şÃû¹ı³¤");
+		http_fatal("å†…éƒ¨é”™è¯¯: æ–‡ä»¶åè¿‡é•¿");
 	}
 	
-	/* ÎÄ¼şÀ©Õ¹Ãû¼ì²é£¬Ö»ÔÊĞí.jpg/.bmp/.gif/.png/.jpeg/.jfif¸ñÊ½ */
+	/* æ–‡ä»¶æ‰©å±•åæ£€æŸ¥ï¼Œåªå…è®¸.jpg/.bmp/.gif/.png/.jpeg/.jfifæ ¼å¼ */
 	/* added by money 2003.12.22 */
 	if (strlen(filename) < 4)
 	{
 		free(buf);
-		http_fatal("ÄÚ²¿´íÎó: ÎÄ¼şÃû¹ı¶Ì");
+		http_fatal("å†…éƒ¨é”™è¯¯: æ–‡ä»¶åè¿‡çŸ­");
 	}
 	for (i=1; i<5; i++)
 	if (filename[strlen(filename)-i] >= 97)
@@ -219,7 +219,7 @@ int main()
 		    strncmp(postfix,".PDF",4) )
 	{
 		free(buf);
-		http_fatal("ÄÚ²¿´íÎó: ÎÄ¼ş±ØĞëÊÇÍ¼Æ¬ÎÄ¼ş»òPDF ÎÄ¼ş");
+		http_fatal("å†…éƒ¨é”™è¯¯: æ–‡ä»¶å¿…é¡»æ˜¯å›¾ç‰‡æ–‡ä»¶æˆ–PDF æ–‡ä»¶");
 	}
 	/* add end */
 	
@@ -236,20 +236,20 @@ int main()
 	if(file_len<0)							//not using strstr() 'cause it won't work properly in binary data mode
 	{
 		free(buf);
-		http_fatal("ÄÚ²¿´íÎó£º½âÎöhttpÊı¾İ¸ñÊ½´íÎó");
+		http_fatal("å†…éƒ¨é”™è¯¯ï¼šè§£æhttpæ•°æ®æ ¼å¼é”™è¯¯");
 	}
 	
 	if(file_len-2>UPLOAD_MAX)
 	{
 		free(buf);
-		http_fatal("ÎÄ¼ş´óĞ¡³¬¹ı×î´óÎÄ¼şÏŞÖÆ");
+		http_fatal("æ–‡ä»¶å¤§å°è¶…è¿‡æœ€å¤§æ–‡ä»¶é™åˆ¶");
 	}
 	p=buf+file_len;
 	sprintf(temp_filename, "%s/tmp/%d.upload", BBSHOME,getpid());
 	if((fp=fopen(temp_filename,"w+"))==NULL)
 	{
 		free(buf);
-		http_fatal("ÄÚ²¿´íÎó£ºÎÄ¼ş´ò¿ª´íÎó");
+		http_fatal("å†…éƒ¨é”™è¯¯ï¼šæ–‡ä»¶æ‰“å¼€é”™è¯¯");
 	}
 	fwrite(p,1,strlen(p),fp);
 	rewind(fp);
@@ -266,12 +266,12 @@ int main()
 	if(file_len-2>maxlen(board))
 	{
 		free(buf);
-		http_fatal("ÎÄ¼ş´óĞ¡³¬¹ı×î´óÎÄ¼şÏŞÖÆ");
+		http_fatal("æ–‡ä»¶å¤§å°è¶…è¿‡æœ€å¤§æ–‡ä»¶é™åˆ¶");
 	}
 	if(BoardQuota(board))
 	{
 		free(buf);
-		http_fatal("°æÃæ³¬ÏŞ ÎŞ·¨ÉÏ´«");
+		http_fatal("ç‰ˆé¢è¶…é™ æ— æ³•ä¸Šä¼ ");
 	}
 	//name_check(filename);
 //	sprintf(temp_filename,"%s/upload/%s/%s",BBSHOME, board, ofname);

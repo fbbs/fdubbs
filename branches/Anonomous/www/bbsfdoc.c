@@ -19,7 +19,7 @@ char *getsize(char *board)
 			return str;
 		}
 	}
-	strcpy(str, "Î´Öª");
+	strcpy(str, "æœªçŸ¥");
 	return str;
 }
 
@@ -43,7 +43,7 @@ char* getall(char *board)
 			return str;
 		}	
         }
-	strcpy(str, "Î´Öª");
+	strcpy(str, "æœªçŸ¥");
         return str;
 }
 
@@ -57,11 +57,11 @@ int main()
 	init_all();
 	strsncpy(board, getparm("board"), 30);
 	if(!has_read_perm(&currentuser, board)) 
-		http_fatal("´íÎóµÄÌÖÂÛÇø");
+		http_fatal("é”™è¯¯çš„è®¨è®ºåŒº");
 	sprintf(dir,"%s/upload/%s/.DIR",BBSHOME,board);
 	fp=fopen(dir, "rb");
 	if(fp==0) 
-		http_fatal("Ã»ÓĞÕÒµ½ÎÄ¼ş");
+		http_fatal("æ²¡æœ‰æ‰¾åˆ°æ–‡ä»¶");
 	while(total<30000) 
 	{
 		if(fread(&xx, sizeof(xx), 1, fp)<=0) 
@@ -84,10 +84,10 @@ int main()
 	start = start - 1;
 	if(start<0) 
 		start=0;
-	printf("<b><font style='font-size: 18pt'>%s</font> ¡¤ %s ÉÏ´«ÎÄ¼şÇø</b> Ä¿Ç°ÈİÁ¿[%s] ÒÑÓÃ[%s]<br>\n", board, BBSNAME, getall(board), getsize(board));
+	printf("<b><font style='font-size: 18pt'>%s</font> Â· %s ä¸Šä¼ æ–‡ä»¶åŒº</b> ç›®å‰å®¹é‡[%s] å·²ç”¨[%s]<br>\n", board, BBSNAME, getall(board), getsize(board));
 	printf("<td width=15%% align=right>\n");
 	printf("<form name=form1 action=bbsfdoc?board=%s method=post>", board);
-	printf("<input border=0 src=/images/button/forward.gif type=image align=absmiddle> µÚ <input class=thinborder type=text name=start size=4> Æª");
+	printf("<input border=0 src=/images/button/forward.gif type=image align=absmiddle> ç¬¬ <input class=thinborder type=text name=start size=4> ç¯‡");
 	 printf("</form></td>\n");
 	printf("<style>                                        \n");
 	printf("div.frame {height: 450px;}                      \n");
@@ -102,7 +102,7 @@ int main()
 	printpretable();
 	printf("<table width=100%% border=0>");
 	printf("<tr valign=top><td><table bgcolor=#ffffff width=100%%>");
-	printf("<tr class=pt9h><td>ĞòºÅ</td><td>ÎÄ¼şÃû</td><td>ÉÏ´«Õß</td><td>Ê±¼ä</td><td>´óĞ¡</td><td>¹ÜÀí</td><td>Ô¤ÀÀ</td></tr>\n");
+	printf("<tr class=pt9h><td>åºå·</td><td>æ–‡ä»¶å</td><td>ä¸Šä¼ è€…</td><td>æ—¶é—´</td><td>å¤§å°</td><td>ç®¡ç†</td><td>é¢„è§ˆ</td></tr>\n");
 	for(i=start; i<start+20 && i<total; i++) 
 	{
 		char url_filename[256];
@@ -131,7 +131,7 @@ int main()
 			}
 			printf("<td>%s</td>\n", sizestr);
 		}
-		printf("<td><a onclick='return confirm(\"È·¶¨É¾³ıÂğ?\")' href=bbsdelf?board=%s&file=%s&start=%d>É¾³ı</a></td>\n", board, url_filename, start);
+		printf("<td><a onclick='return confirm(\"ç¡®å®šåˆ é™¤å—?\")' href=bbsdelf?board=%s&file=%s&start=%d>åˆ é™¤</a></td>\n", board, url_filename, start);
 		printf("<td>");
 		{
 			if(strstr(x[i].filename, ".gif") || strstr(x[i].filename, ".jpg") || strstr(x[i].filename, ".jpeg") || strstr(x[i].filename, ".png") || strstr(x[i].filename, ".bmp")
@@ -151,13 +151,13 @@ int main()
 	printf("<div class=frame><img name=myimg class=frame src='/upload/blank.gif'>");
 	printf("</center></td></tr></table>");
 	printposttable();
-	printf("<a href='javascript:location=location'><img border=0 src=/images/button/reload.gif align=absmiddle>Ë¢ĞÂ</a> ");
-	printf("<a href=bbsdoc?board=%s>±¾ÌÖÂÛÇø</a> ",board);
-//	printf("<a href=bbspreupload?board=%s>ÉÏ´«ÎÄ¼ş</a> ", board);
+	printf("<a href='javascript:location=location'><img border=0 src=/images/button/reload.gif align=absmiddle>åˆ·æ–°</a> ");
+	printf("<a href=bbsdoc?board=%s>æœ¬è®¨è®ºåŒº</a> ",board);
+//	printf("<a href=bbspreupload?board=%s>ä¸Šä¼ æ–‡ä»¶</a> ", board);
 	if(start>0) 
-		printf("<a href=bbsfdoc?board=%s&start=%d><img border=0 src=/images/button/up.gif align=absmiddle>ÉÏÒ»Ò³</a> ", board, start-19);
+		printf("<a href=bbsfdoc?board=%s&start=%d><img border=0 src=/images/button/up.gif align=absmiddle>ä¸Šä¸€é¡µ</a> ", board, start-19);
 	if(start<total-20) 
-		printf("<a href=bbsfdoc?board=%s&start=%d><img border=0 src=/images/button/down.gif align=absmiddle>ÏÂÒ»Ò³</a> ", board, start+19);
+		printf("<a href=bbsfdoc?board=%s&start=%d><img border=0 src=/images/button/down.gif align=absmiddle>ä¸‹ä¸€é¡µ</a> ", board, start+19);
 	
 	http_quit();
 }
