@@ -41,7 +41,7 @@ struct postrec {
     char author[AUTHORSIZE];              /* author name */
     char board[BOARDSIZE];               /* board name */
     char title[TITLESIZE];               /* title name */
-    int gid;
+    unsigned int gid;
     time_t date;                  /* last post's date */
     int number;                   /* post number */
 };
@@ -50,7 +50,7 @@ struct postlist {
     char author[AUTHORSIZE];              /* author name */
     char board[BOARDSIZE];               /* board name */
     char title[TITLESIZE];               /* title name */
-    int gid;
+    unsigned int gid;
     time_t date;                  /* last post's date */
     int number;                   /* post number */
 	struct postlist  *bnext, *prev, *next;

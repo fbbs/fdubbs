@@ -294,7 +294,7 @@ extern char genbuf[1024]; /* generally used global buffer */
 extern jmp_buf byebye; /* Used for exception condition like I/O error*/
 
 extern char save_title[]; /* These are used by the editor when inserting */
-extern int save_gid;
+extern unsigned int save_gid;
 extern char save_filename[]; /* header information */
 extern int in_mail;
 extern int dumb_term;
