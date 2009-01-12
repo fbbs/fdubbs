@@ -1942,9 +1942,9 @@ int show_file_info(int ent, struct fileheader *fileinfo, char *direct) {
 	prints("阅读状态:     %s\n", unread ? "未读" : "已读");
 	prints("文章类型:     %s\n", type);
 	prints("大    小:     %d 字节\n", filestat.st_size);
-	prints("文 章 id:     %d\n", fileinfo->id);
-	prints("文 章gid:     %d\n", fileinfo->gid);
-	prints("文章reid:     %d\n", fileinfo->reid);
+	prints("文 章 id:     %u\n", fileinfo->id);
+	prints("文 章gid:     %u\n", fileinfo->gid);
+	prints("文章reid:     %u\n", fileinfo->reid);
 	len = strlen(weblink);
 	prints("URL 地址:\n", weblink);
 	for (i = 0; i < len; i += 78) {
