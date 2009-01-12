@@ -690,7 +690,7 @@ int read_file(char *filename) {
 	return 0;
 }
 
-int save_gid;
+unsigned int save_gid;
 char save_title[STRLEN];
 //char    save_filename[4096];
 int in_mail;
@@ -702,7 +702,7 @@ int write_posts() {
 		char author[IDLEN + 1];
 		char board[18];
 		char title[62];
-		int gid;
+		unsigned int gid;
 		time_t date;
 		int number;
 	} postlog;
