@@ -56,11 +56,16 @@ struct postlist {
 	struct postlist  *bnext, *prev, *next;
 }*bucket[HASHSIZE],*toppost;
 
+static struct boards_bucket_node {
+	char board[BOARDSIZE];
+	int times;
+	struct boards_bucket_node *next;
+} *boards_bucket[HASHSIZE];
 
-int	hash(char *key) {
+int	hash(char *key, int len) {
     int i, value = 0;
 
-    for (i = 0; key[i] && i < TITLESIZE; i++)
+    for (i = 0; key[i] && i < len; i++)
         value += key[i] < 0 ? -key[i] : key[i];
 
     value = value % HASHSIZE;
@@ -221,6 +226,78 @@ void load_stat(char *fname, size_t size) {
     }
 }
 
+static int boards_get_times(char *board_name)
+{
+	struct boards_bucket_node *new_node, *t;
+	int h;
+
+	h = hash(board_name, BOARDSIZE);
+	t = boards_bucket[h];
+	while (t) {
+		if (!strncmp(t->board, board_name, BOARDSIZE))
+			return ++t->times;
+		t = t->next;
+	}
+
+	new_node = malloc(sizeof(struct boards_bucket_node));
+	if (!new_node)
+		return 0;
+	strncpy(new_node->board, board_name, BOARDSIZE);
+	new_node->times = 1;
+	new_node->next = boards_bucket[h];
+	boards_bucket[h] = new_node;
+
+	return new_node->times;
+}
+
+/*
+ * every board can only on top ten posts at most 3 times
+ */
+void remove_duplicate_boards()
+{
+	struct postlist *cur;
+	int i;
+
+	cur = toppost->next;
+	while (cur != toppost)
+	{
+		if (boards_get_times(cur->board) > 3) {
+			/* delete this post from bucket */
+			struct postlist **t, *tmp;
+			t = &bucket[cur->gid % HASHSIZE];
+			while (*t) {
+				if (cur->gid == (*t)->gid &&
+					!strncmp(cur->board, (*t)->board, BOARDSIZE)) {
+					*t = (*t)->bnext;
+					break;
+				}
+			}
+
+			/* delete this post from toppost */
+			del_rec(cur->prev, cur->next);
+			tmp = cur;
+			cur = tmp->next;
+
+			/* free the space */
+			free(tmp);
+
+			continue;
+		}
+		cur = cur->next;
+	}
+
+	/* free boards_bucket */
+	for (i = 0; i < HASHSIZE; i++) {
+		struct boards_bucket_node *node, *t;
+
+		node = boards_bucket[i];
+		while (node) {
+			t = node->next;
+			free(node);
+			node = t;
+		}
+	}
+}
 
 void poststat(int mytype) {
 	FILE *fp;
@@ -262,6 +339,8 @@ void poststat(int mytype) {
 		
 		//再读取 tmp/.post.old
 		load_stat(dstfile, -1);
+
+		remove_duplicate_boards();
 	}
 	//统计周五十大
 	else if (mytype > 0 && mytype < 4)
