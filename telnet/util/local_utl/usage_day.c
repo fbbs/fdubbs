@@ -33,7 +33,7 @@ int report()
         return ;
 }
 /* Added by deardragon 1999.12.2 */
-void getdatestring( time_t now)
+void get_date_string( time_t now)
 {
         struct tm *tm;
         char weeknum[7][3]={"天","一","二","三","四","五","六"};
@@ -157,7 +157,7 @@ time_t now;
   sprintf(buftime,"20%02d年%02d月%02d日",tmtime->tm_year%100, tmtime->tm_mon+1,tmtime->tm_mday);
 
   //printf("buftime:%s",buftime);
-  getdatestring(now);
+  get_date_string(now);
   sprintf(date,"%14.14s",datestring);
 
 /* added by roly */

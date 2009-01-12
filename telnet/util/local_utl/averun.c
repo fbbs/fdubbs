@@ -15,7 +15,7 @@
 
 /* Added by deardragon 1999.12.2 */
 char	datestring[30];
-void getdatestring( time_t now)
+void get_date_string( time_t now)
 {
         struct tm *tm;
         char weeknum[7][3]={"天","一","二","三","四","五","六"};
@@ -46,7 +46,7 @@ int     draw_pic()
         time_t  now;
 	
 	now = time(0);
-	getdatestring(now);
+	get_date_string(now);
         if ((fp = fopen(AVEFLE, "r")) == NULL)
                 return -1;
         else
