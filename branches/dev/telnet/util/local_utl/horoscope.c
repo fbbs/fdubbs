@@ -8,7 +8,7 @@
 
 /* Added by deardragon 1999.12.2 */
 char	datestring[30];
-void getdatestring( time_t now)
+void get_date_string( time_t now)
 {
         struct tm *tm;
         char weeknum[7][3]={"天","一","二","三","四","五","六"};
@@ -79,7 +79,7 @@ main()
   fclose(fp);
 
   now=time(0);
-  getdatestring(now);
+  get_date_string(now);
   for (i = 0; i < 12; i++)
   {
     if (mhoro[i] > max)

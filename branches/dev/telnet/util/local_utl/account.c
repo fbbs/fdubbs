@@ -13,7 +13,7 @@ struct {
 }       st;
 
 /* Added by deardragon 1999.12.2 */
-void getdatestring( time_t now)
+void get_date_string( time_t now)
 {
         //char weeknum[7][3]={"天","一","二","三","四","五","六"};
 
@@ -53,7 +53,7 @@ char   *argv[];
 		return 1;
 	}
 	now = time(0);
-	getdatestring(now);
+	get_date_string(now);
 	sprintf(date, "%s", datestring);
 	while (fgets(buf, 256, fp)) {
 		hour = atoi(buf + 7);	//时数

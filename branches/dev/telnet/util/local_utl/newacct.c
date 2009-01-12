@@ -14,7 +14,7 @@ struct
 
 /* Added by deardragon 1999.12.2 */
 char	datestring[30];
-void getdatestring( time_t now)
+void get_date_string( time_t now)
 {
         struct tm *tm;
         char weeknum[7][3]={"Ìì","Ò»","¶ş","Èı","ËÄ","Îå","Áù"};
@@ -51,7 +51,7 @@ main(argc, argv)
   }
 
   now=time(0);
-  //getdatestring(now);
+  //get_date_string(now);
   date=ctime(&now);
   while (fgets(buf, 256, fp))
   {
@@ -110,7 +110,7 @@ main(argc, argv)
     }
     fprintf(fp, "[1;36m©¦\n");
   }
-  getdatestring(now);
+  get_date_string(now);
   fprintf(fp,"  [37m0[36m©¸©¤©¤©¤[37m %s ±¾ÈÕĞÂÔöÈË¿ÚÍ³¼Æ [36m©¤©¤©¤©¤[37m%s[36m©¤©¼\n"
        "   [;36m  00 01 02 03 04 05 06 07 08 09 10 11 [1;32m12 13 14 15 16 17 18 19 20 21 22 23\n\n"
        "                     [33m1 [31m¡ö [33m= [37m%-5d [33m±¾ÈÕÉêÇëĞÂÕÊºÅÈËÊı£º[37m%-9d[m\n"
