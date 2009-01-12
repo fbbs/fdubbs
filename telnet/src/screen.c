@@ -583,6 +583,7 @@ void prints(char *fmt, ...) {
 	va_list ap;
 	char *bp;
 	register int i, count, hd, indx;
+	unsigned n;
 	va_start(ap, fmt);
 	while (*fmt != '\0') {
 		if (*fmt == '%') {
@@ -664,6 +665,42 @@ void prints(char *fmt, ...) {
 						while (i >= dec[indx]) {
 							count++;
 							i -= dec[indx];
+						}
+						indx++;
+						if (indx == 10)
+							hd = 0;
+						if (hd && !count)
+							continue;
+						hd = 0;
+						outc('0' + count);
+					}
+					if (val >= len && sgn < 0) {
+						register int slen;
+						for (slen = val - len; slen > 0; slen--)
+							outc(' ');
+					}
+					break;
+				case 'u':
+					n = va_arg(ap, unsigned int);
+
+					for (indx = 0; indx < 10; indx++)
+						if (n >= dec[indx])
+							break;
+					if (n == 0)
+						len = 1;
+					else
+						len = 10 - indx;
+					if (val >= len && sgn > 0) {
+						register int slen;
+						for (slen = val - len; slen > 0; slen--)
+							outc(' ');
+					}
+					hd = 1, indx = 0;
+					while (indx < 10) {
+						count = 0;
+						while (n >= dec[indx]) {
+							count++;
+							n -= dec[indx];
 						}
 						indx++;
 						if (indx == 10)
