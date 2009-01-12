@@ -293,7 +293,10 @@ void poststat(int mytype) {
 	}
 
     sprintf(srcfile, "etc/posts/%s", myfile[mytype]);
-    if( (fp = fopen(srcfile, "w"))!=NULL ) {
+	fp = fopen(srcfile, "w");
+	if (!fp)
+		fprintf(stderr, "file %s not exists!\n", srcfile);
+	else {
         fprintf(fp, "                [1;34m-----[37m=====[41m ±¾%s´óÈÈÃÅ»°Ìâ [40m=====[34m-----[0m\n\n", mytitle[mytype]);
 
 		tmppost = toppost->next;
