@@ -136,59 +136,29 @@ void sort_all(){
 */
 
 
-void search(struct postlist *rec) {
-    struct postlist *tmppost;
-	//struct postlist *s;
-    int 	h;
-	//int		found = 0;
+void search(struct postlist *rec)
+{
+    struct postlist *t;
+    int h;
 
-    //¼ÆËãtitleµÄhashÖiµ
-	//h = hash(rec->title);
 	h = rec->gid % HASHSIZE;
-	//Èç¹ûbucketÎª¿Õ
-	rec->bnext = NULL;
-	if (bucket[h] == NULL)
-	{
-		//bucketµÄµÚÒ»ÏîÎªrecord
-		bucket[h] = rec;
-		//recordµÄÏÂÒ»¸öÎª¿Õ
-		//rec¼ÓÈëtoppostµÄË«Á¬±íÖĞ
-		add_rec(rec,toppost->prev, toppost );
-		sort(rec);
-	}else{
-		//ÁÙÊ±±äÁ¿ÎªbucketµÄµÚÒ»¸ö
-	    tmppost = bucket[h];
-		//Èç¹ûtmppost·Ç¿Õ£¬²¢ÇÒtmppostºÍrecµÄ°æÃû²»Í¬»òtitle²»Í¬
-		while (1) 
-		{
-			//ÕÒµ½ÁË
-			if (tmppost->gid == rec->gid && !strcmp(tmppost->board, rec->board))
-			{
-				//Ôö¼Ópost number
-				tmppost->number += rec->number;
-				//È¡½ÏÍíµÄdate
-				if (tmppost->date < rec->date){
-					tmppost->date = rec->date;
-				}
-				sort(tmppost);
-				return;
-			}
-			//Ã»ÕÒµ½
-			if (tmppost->bnext == NULL)
-			{
-				//ËÑË÷ÍêÁĞ±í£¬rec¼ÓÈëÁĞ±íµ×²¿
-				tmppost->bnext = rec;
-				add_rec(rec,toppost->prev, toppost );
-				sort(rec);
-				return;
-			}
-			else
-			{
-				//ËÑË÷ÏÂÒ»Ìõ¼ÇÂ¼
-				tmppost = tmppost->bnext;
-			}
+	t = bucket[h];
+	while (t) {
+		if (t->gid == rec->gid &&
+			!strncmp(t->board, rec->board, BOARDSIZE)) {
+			t->number += rec->number;
+			if (t->date < rec->date)
+				t->date = rec->date;
+			sort(t);
+			free(rec);
+			return;
 		}
+		t = t->bnext;
 	}
+	rec->bnext = bucket[h];
+	bucket[h] = t;
+	add_rec(rec, toppost->prev, toppost);
+	sort(rec);
 }
 
 //´ÓfnameÖĞ¶ÁÈ¡¼ÇÂ¼£¬²¢ÎªÃ¿¸ö¼ÇÂ¼ÔÚlistÖĞÕÒµ½ÊÊµ±µÄÎ»ÖÃ
