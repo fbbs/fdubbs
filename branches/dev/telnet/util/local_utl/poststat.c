@@ -170,9 +170,6 @@ void search(struct postlist *rec) {
 				if (tmppost->date < rec->date){
 					tmppost->date = rec->date;
 				}
-				else{
-					tmppost->date = rec->date;
-				}
 				sort(tmppost);
 				return;
 			}
