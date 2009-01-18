@@ -778,7 +778,7 @@ int show_board_info(char *board) {
 #endif
 		prints("俱 乐 部:     %s\n", (bp->flag & BOARD_CLUB_FLAG) ? (bp-> flag
 				& BOARD_READ_FLAG) ? "读限制俱乐部" : "普通俱乐部" : "非俱乐部");
-		prints("now id  :     %d\n", bs->nowid);
+		prints("now id  :     %u\n", bs->nowid);
 		prints("读写限制:     %s\n", (bp->flag & BOARD_POST_FLAG) ? "限制发文"
 				: (bp->level ==0) ? "没有限制" : "限制阅读");
 	}
