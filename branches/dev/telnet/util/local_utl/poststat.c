@@ -192,9 +192,9 @@ static int boards_get_times(char *board_name)
 }
 
 /*
- * every board can only on top ten posts at most 3 times
+ * every board can only on top ten posts at most @nr times
  */
-void remove_duplicate_boards()
+void remove_duplicate_boards(int nr)
 {
 	struct postlist *cur;
 	int i;
@@ -202,7 +202,7 @@ void remove_duplicate_boards()
 	cur = toppost->next;
 	while (cur != toppost)
 	{
-		if (boards_get_times(cur->board) > 3) {
+		if (boards_get_times(cur->board) > nr) {
 			/* delete this post from bucket */
 			struct postlist **t, *tmp;
 			t = &bucket[cur->gid % HASHSIZE];
@@ -281,7 +281,7 @@ void poststat(int mytype) {
 		//再读取 tmp/.post.old
 		load_stat(dstfile, -1);
 
-		remove_duplicate_boards();
+		remove_duplicate_boards(3);
 	}
 	//统计周五十大
 	else if (mytype > 0 && mytype < 4)
