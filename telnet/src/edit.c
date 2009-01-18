@@ -1451,6 +1451,7 @@ void vedit_key(int ch) {
 				redraw_everything = YEA;
 				break;
 			case Ctrl('Q'):/* call help screen */
+				showansi = 1;
 				show_help("help/edithelp");
 				redraw_everything = YEA;
 				break;
