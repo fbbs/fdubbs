@@ -109,32 +109,6 @@ void sort(struct postlist *rec)
 	del_rec(rec->prev, rec->next);
 	add_rec(rec, tmppost, tmppost->next);
 }
-/*
-//链表插入什么方法比较高效啊？头晕了-_-b
-//1.0版先只实现一个顺序搜索
-//效率太差，不要了
-void sort_all(){
-	struct postlist *prev = toppost->next, *post = prev->next, *next;
-	int count = 0;
-	while (post != toppost)
-	{
-		count++;
-		next = post->next;
-		prev = post->prev;
-		while (prev->number < post->number && prev != toppost)
-		{
-			prev = prev->prev;
-		}
-		if (prev != post->prev)
-		{
-			del_rec(post->prev, post->next);
-			add_rec(post, prev, prev->next);
-		}
-		post = next;
-	}
-}
-*/
-
 
 void search(struct postlist *rec)
 {
