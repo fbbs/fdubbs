@@ -1,0 +1,43 @@
+0,15,30,45 * * * * /home/bbs/bin/@stat/poststat /home/bbs
+5 0 * * * /bin/cp /home/bbs/0Announce/bbslist/day /home/bbs/0Announce/bbslist/day.last
+
+###### 本日新增帐号 ######
+0 * * * * /home/bbs/bin/@stat/newacct >> /home/bbs/0Announce/bbslist/newacct.err
+59 23 * * * /bin/mv /home/bbs/0Announce/bbslist/newacct.today /home/bbs/0Announce/bbslist/newacct.last
+
+###### 星座、生肖统计 #####
+0 0 * * * /home/bbs/bin/@stat/horoscope >>/home/bbs/0Announce/bbslist/horoscope.err
+0 0 * * * /home/bbs/bin/@stat/birthday >>/home/bbs/0Announce/bbslist/birthday
+###### 精华区索引 ######
+0 1 1,16 * * /home/bbs/bin/@stat/AnnIndex >/home/bbs/0Announce/bbslist/AnnIndex.out
+59 0 * * * /home/bbs/@backup/autocp.sh
+0 5 * * * /home/bbs/@tools/cleartrash.sh
+0 0 * * * /home/bbs/bin/@stat/badbms >> /home/bbs/0Announce/bbslist/badbms.err
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * uptime >> /home/bbs/uptime.log
+
+###### 检查特权账号 ######
+0 0 * * * /home/bbs/bin/@check/checkbm>/home/bbs/0Announce/bbslist/new/checkbm
+0 0 * * * /home/bbs/bin/@check/check_perm l>/home/bbs/0Announce/bbslist/new/checklong
+0 0 * * * /home/bbs/bin/@check/check_perm s>/home/bbs/0Announce/bbslist/new/checkspe
+0 0 * * * /home/bbs/bin/@check/check_perm a>/home/bbs/0Announce/bbslist/new/checkadmin
+0 0 * * * /home/bbs/bin/@check/check_perm i>/home/bbs/0Announce/bbslist/new/checkinner
+10 0 * * * /home/bbs/bin/@check/check_perm b>/home/bbs/0Announce/bbslist/new/checkbm
+1 0 * * * /home/bbs/bin/@check/check_perm b>/home/bbs/0Announce/groups/system.faq/SysOp/checkbm
+1 0 * * * /home/bbs/bin/@check/check_perm a>/home/bbs/0Announce/groups/system.faq/SysOp/checkadmin
+##### 版主工作检查 ######
+0 0 * * * /home/bbs/bin/@stat/showbm>/home/bbs/0Announce/bbslist/bmstat
+
+####### 讨论区使用率统计 ######
+58 23 * * * /home/bbs/bin/@stat/usage_day 0 ; /home/bbs/bin/@stat/usage_day 1
+55 23 * * * /bin/mv /home/bbs/0Announce/bbslist/board_day1 /home/bbs/0Announce/bbslist/board_day1.last
+55 23 * * * /bin/mv /home/bbs/0Announce/bbslist/board_day2 /home/bbs/0Announce/bbslist/board_day2.last
+
+###### 版主工作检查 ######
+0 4 * * * /home/bbs/bin/@stat/statBM day>/home/bbs/0Announce/bbslist/statBM
+5 4 * * * /home/bbs/bin/@stat/statBM update
+10 4 * * * /home/bbs/bin/@stat/statBM month>/home/bbs/0Announce/bbslist/statBM.month
+10 4 * * * /home/bbs/bin/@stat/statBM week>/home/bbs/0Announce/bbslist/statBM.week
+10 4 * * * /home/bbs/bin/@stat/statBM year>/home/bbs/0Announce/bbslist/statBM.year
+0 0 * * * /home/bbs/bin/@stat/showbm>/home/bbs/0Announce/bbslist/bmstat
+10 5 * * * /home/bbs/bin/@stat/bmresult /home/bbs/.BOARDS /home/bbs/0Announce/bbslist/statBM.year /home/bbs/0Announce/bbslist/statbmZONE/
+
