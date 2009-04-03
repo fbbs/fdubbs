@@ -6,17 +6,19 @@ int main() {
 	struct fileheader x;
 	int num, tmp, total;
 	init_all();
-	strsncpy(file, getparm("file"), 32);
-	num=atoi(getparm("num"));
+	//strsncpy(file, getparm("file"), 32);
+	strcpy(file, getparm("file"));
+    num=atoi(getparm("num"));
 	printf("<center>\n");
 	id=currentuser.userid;
 	printf("阅读信件 · %s [使用者: %s]\n", BBSNAME, id);
-	if(strncmp(file, "M.", 2)) 
+    
+    if(strncmp(file, "M.", 2) && file[0] != 's') 
 	{
 		printpretable_lite();
 		http_fatal("错误的参数1");
 	}
-	if(strstr(file, "..") || strstr(file, "/")) 
+	if((strstr(file, "..") || strstr(file, "/")) && file[0] != 's') 
 	{
 		printpretable_lite();
 		http_fatal("错误的参数2");
@@ -31,7 +33,11 @@ int main() {
 	printpretable();
 	printf("<table width=100%% border=0>\n");
 	printf("<tr><td>\n<pre class=ansi>");
-	sprintf(path, "mail/%c/%s/%s", toupper(id[0]), id, file);
+    /****sharedmail****/
+    if(file[0] == 's')
+        strcpy(path, file);
+    else
+	    sprintf(path, "mail/%c/%s/%s", toupper(id[0]), id, file);
 	fp=fopen(path, "r");
 	if(fp==0) 
 	{
