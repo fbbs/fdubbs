@@ -83,7 +83,8 @@ int autoreport(char *title,char *str,int toboard,char *userid,int mode)
 //		if(toboard) Postfile( fname,currboard,title,1);
 		if(toboard) {
     		if(mode == 1){
-			Postfile( fname,currboard,title,3);    	//由BMS发表的任命公?		} else if (mode == 2){
+			Postfile( fname,currboard,title,3);    	//由BMS发表的任命公告
+			} else if (mode == 2){
 			Postfile( fname,currboard,title,2);
 		} else{
 			//mode ==
