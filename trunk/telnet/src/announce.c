@@ -996,7 +996,7 @@ int a_Rangefunc(MENU *pm) {
 /* added by roly 02.05.15 */
 /* msg用来判断是否提示已完成操作 */
 /* menuitem 用于在执行range a_a_Import的是否传入pm->now的值 */
-a_a_Import(MENU *pm, int msg, int menuitem) {
+int a_a_Import(MENU *pm, int msg, int menuitem) {
 	ITEM *item;
 	char fpath[PATHLEN], annpath[512], fname[512], dfname[512], *ip,
 			genbuf[1024];
