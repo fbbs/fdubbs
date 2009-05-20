@@ -58,7 +58,7 @@ int ci_strnbcmp(register char *s1, register char *s2, int n) {
 /* Restrictid support * match in three style: prefix*, *suffix, prefix*suffix. */
 /* Prefix and suffix can't contain *. */
 /* Modified by Amigo 2001.03.13. Add buffer strUID for userid. Replace all userid with strUID. */
-int ex_strcmp(char *restrictid, char *userid) {
+static int ex_strcmp(const char *restrictid, const char *userid) {
 
 	/* Modified by Amigo 2001.03.13. Add definition for strUID. */
 	char strBuf[STRLEN ], strUID[STRLEN ], *ptr;
@@ -108,9 +108,9 @@ int bad_user_id(const char *userid)
 {
 	FILE *fp;
 	char buf[STRLEN];
-	char *ptr, ch;
+	const char *ptr = userid;
+	char ch;
 
-	ptr = userid;
 	while ( (ch = *ptr++) != '\0') {
 		if ( !isalnum(ch) && ch != '_')
 			return 1;
