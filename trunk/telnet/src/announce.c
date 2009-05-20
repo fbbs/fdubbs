@@ -876,7 +876,7 @@ void a_RangeDelete(MENU *pm, int num1, int num2) {
 
 	//add by fangu 2003.2.26, add log
 	sprintf(genbuf, "%s %s从 '%10.10s..' 删除第%d到第%d篇\n",
-			get_short_date(time(0)), currentuser.userid, pm->mtitle);
+			get_short_date(time(0)), currentuser.userid, pm->mtitle, num1, num2);
 	file_append(ANN_LOG_PATH, genbuf);
 	bm_log(currentuser.userid, currboard, BMLOG_DOANN, 1);
 	//sprintf(genbuf, "ANN RANGE_DEL %s",fpath);
