@@ -2098,7 +2098,7 @@ int save_import_path() {
 
 int load_import_path() {
 	FILE *fp;
-	int count;
+	int count = 0;
 	sethomefile(genbuf, currentuser.userid, "annpath");
 	if (fp = fopen(genbuf, "r")) {
 		count
