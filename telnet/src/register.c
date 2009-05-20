@@ -1,29 +1,3 @@
-//deardrago 2000.09.27  over
-/*
- Pirate Bulletin Board System
- Copyright (C) 1990, Edward Luke, lush@Athena.EE.MsState.EDU
- Eagles Bulletin Board System
- Copyright (C) 1992, Raymond Rocker, rocker@rock.b11.ingr.com
- Guy Vega, gtvega@seabass.st.usm.edu
- Dominic Tynes, dbtynes@seabass.st.usm.edu
- Firebird Bulletin Board System
- Copyright (C) 1996, Hsien-Tsung Chang, Smallpig.bbs@bbs.cs.ccu.edu.tw
- Peng Piaw Foong, ppfoong@csie.ncu.edu.tw
- 
- This program is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 1, or (at your option)
- any later version.
- 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- */
-/*
- $Id: register.c 366 2007-05-12 16:35:51Z danielfree $
- */
-
 #include <gd.h>
 #include <gdfontl.h>
 #include "bbs.h"
@@ -130,34 +104,8 @@ int ex_strcmp(char *restrictid, char *userid) {
  configure ".badname" to restrict user id 
  */
 
-int bad_user_id(char *userid) {
-	/*
-	 FILE   *fp;
-	 char    buf[STRLEN], ptr2[IDLEN + 2],*ptr, ch;
-
-	 ptr = userid;
-	 while ((ch = *ptr++) != '\0') {
-	 if (!isalnum(ch) && ch != '_')
-	 return 1;
-	 }
-	 if( !strcasecmp(userid,BBSID) ) return 1;
-	 if ((fp = fopen(".badname", "r")) != NULL) {
-	 strtolower(ptr2, userid);
-	 while (fgets(buf, STRLEN, fp) != NULL) {
-	 ptr = strtok(buf, " \n\t\r");
-	 if (ptr != NULL && *ptr != '#'){
-	 if(  (ptr[0] == '*' && strstr(ptr2, &ptr[1]) != NULL)
-	 ||(ptr[0] != '*' && !strcmp(ptr2,ptr)) ) {
-	 fclose(fp); 
-	 return 1;
-	 }
-	 }
-	 }
-	 fclose(fp);
-	 }
-	 return 0;
-	 */
-
+int bad_user_id(const char *userid)
+{
 	FILE *fp;
 	char buf[STRLEN];
 	char *ptr, ch;
@@ -400,24 +348,14 @@ int getnewuserid() {
 	memset(&utmp, 0, sizeof(utmp));
 	strcpy(utmp.userid, "new");
 	utmp.lastlogin = time(0);
-	/*
-	 if (lseek(fd, (off_t)(sizeof(utmp) * (i - 1)), SEEK_SET) == -1) {
-	 flock(fd, LOCK_UN);
-	 close(fd);
-	 return -1;
-	 }
-	 write(fd, &utmp, sizeof(utmp));
-	 //setuserid(i, utmp.userid);
-	 flock(fd, LOCK_UN);
-	 close(fd);
-	 */
 	substitut_record(PASSFILE, &utmp, sizeof(struct userec), i);
 	return i;
 }
 
 //	userid全字母返回0,否则返回1
-int id_with_num(char userid[IDLEN + 1]) {
-	char *s;
+int id_with_num(const char *userid)
+{
+	const char *s;
 	for (s = userid; *s != '\0'; s++)
 		if (*s < 1 || !isalpha(*s))
 			return 1;
@@ -475,7 +413,8 @@ const char *generate_verify_num() {
 }
 #endif
 
-void new_register() {
+void new_register(void)
+{
 	struct userec newuser;
 	char passbuf[STRLEN];
 	int allocid, tried;
@@ -522,25 +461,27 @@ void new_register() {
 		sleep(sec);
 
 		if (strcmp(verify_num, verify_code)) {
-			sprintf(log, "verify '%s' error with code %s!=%s from %s",
+			snprintf(log, sizeof(log), "verify '%s' error with code %s!=%s from %s",
 					passbuf, verify_num, verify_code, fromhost);
 			report(log);
 			prints("抱歉, 您输入的验证码不正确.\n");
 			continue;
 		}
 
-		sprintf(log, "verify '%s' with code %s from %s ", passbuf,
+		snprintf(log, sizeof(log), "verify '%s' with code %s from %s ", passbuf,
 				verify_code, fromhost);
 		report(log);
 
 #endif
+		char path[STRLEN];
+		sethomepath(path, passbuf);
 		if (id_with_num(passbuf)) {
 			prints("帐号必须全为英文字母!\n");
 		} else if (strlen(passbuf) < 2) {
 			prints("帐号至少需有两个英文字母!\n");
 		} else if ((*passbuf == '\0') || bad_user_id(passbuf)) {
 			prints("抱歉, 您不能使用这个字作为帐号。 请想过另外一个。\n");
-		} else if (dosearchuser(passbuf)) {
+		} else if (dosearchuser(passbuf) || dashd(path)) {
 			prints("此帐号已经有人使用\n");
 		} else
 			break;
@@ -615,14 +556,6 @@ void new_register() {
 
 	newuser.flags[1] = 0;
 	newuser.firstlogin = newuser.lastlogin = time(0);
-	/* added by roly */
-	sprintf(genbuf, "/bin/rm -fr %s/mail/%c/%s", BBSHOME,
-			toupper(newuser.userid[0]), newuser.userid) ;
-	system(genbuf);
-	sprintf(genbuf, "/bin/rm -fr %s/home/%c/%s", BBSHOME,
-			toupper(newuser.userid[0]), newuser.userid) ;
-	system(genbuf);
-	/* add end */
 
 	allocid = getnewuserid();
 	if (allocid > MAXUSERS || allocid <= 0) {
