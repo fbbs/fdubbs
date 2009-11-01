@@ -1,4 +1,4 @@
-#include "BBSLIB.inc"
+#include "libweb.h"
 
 int main() 
 {
@@ -7,8 +7,8 @@ int main()
 	struct fileheader x;
 	int num, tmp, total;
 	init_all();
-	strsncpy(board, getparm("board"), 32);
-	strsncpy(file, getparm("file"), 32);
+	strlcpy(board, getparm("board"), 32);
+	strlcpy(file, getparm("file"), 32);
 	num=atoi(getparm("num"));
 	printf("<center>\n");
 	if(!has_read_perm(&currentuser, board)) 
@@ -36,22 +36,6 @@ int main()
 		printpretable_lite();
 		http_fatal("此讨论区不存在或者为空");
 	}
-	#ifdef CERTIFYMODE
-		fp=fopen(dir, "r+");
-		if(fp==0) 
-		{
-			printpretable_lite();
-			http_fatal("dir error2");
-		}
-		fseek(fp, sizeof(x)*num, SEEK_SET);
-		fread(&x, sizeof(x), 1, fp);
-		fclose(fp);
-		if(x.accessed[1]&FILE_UNCERTIFIED)
-		{
-			printpretable_lite();
-			http_fatal("本文尚未通过审批");
-		}
-	#endif
 	printpretable();
 	printf("<table width=100%% border=0>\n");
 	printf("<tr><td>\n<pre>");

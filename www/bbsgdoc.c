@@ -1,4 +1,4 @@
-#include "BBSLIB.inc"
+#include "libweb.h"
 int main() {
 	FILE *fp;
 	char board[80], dir[80], *ptr;
@@ -7,7 +7,7 @@ int main() {
 	char path[256];
 	int i, start, total;
  	init_all();
-	strsncpy(board, getparm("board"), 32);
+	strlcpy(board, getparm("board"), 32);
 	x1=getbcache(board);
 	if(x1==0)
 	{
@@ -86,12 +86,7 @@ int main() {
 		printf("<td>%12.12s", Ctime(atoi(x.filename+2))+4);
 		//fix bug: œ‘ æbug by DeepOcean
 		printf("<td><a href=bbsgcon?board=%s&file=%s&num=%d>%s%s</a>\n",	board, x.filename, start+i,	strncmp(x.title, "Re: ", 4) ? "°Ò " : "",
-		#ifdef CERTIFYMODE
-			(x.accessed[1]&FILE_UNCERTIFIED)?"[…–Œ¥…Û≈˙]":nohtml(x.title)
-		#else
-			nohtml(x.title)
-		#endif
-		);
+			nohtml(x.title));
 		/*
 		#ifdef SPARC
 			,*(int*)(x.title+72));//modified by roly from 73 to 72 for sparc solaris

@@ -1,4 +1,4 @@
-#include "BBSLIB.inc"
+#include "libweb.h"
 
 int main() {
 	FILE *fp;
@@ -9,12 +9,12 @@ int main() {
 	init_all();
 	printf("<center>%s -- ╟ФдзндубкякВ<hr color=green><br>\n", BBSNAME);
 	type=atoi(getparm("type"));
-	strsncpy(board, getparm("board"), 30);
+	strlcpy(board, getparm("board"), 30);
 	if(type==0) return show_form(board);
-	strsncpy(title, getparm("title"), 60);
-	strsncpy(title2, getparm("title2"), 60);
-	strsncpy(title3, getparm("title3"), 60);
-	strsncpy(userid, getparm("userid"), 60);
+	strlcpy(title, getparm("title"), 60);
+	strlcpy(title2, getparm("title2"), 60);
+	strlcpy(title3, getparm("title3"), 60);
+	strlcpy(userid, getparm("userid"), 60);
 	dt=atoi(getparm("dt"));
 	if(!strcasecmp(getparm("mg"), "on")) mg=1;
 	if(!strcasecmp(getparm("og"), "on")) og=1;
@@ -49,10 +49,10 @@ int main() {
 		//added by iamfat 2002.08.10
 		//check_anonymous(x.owner);
 		//added end.
-		if(title[0] && !strcasestr(x.title, trim(title))) continue;
-		if(title2[0] && !strcasestr(x.title, trim(title2))) continue;
+		if(title[0] && !strcasestr_gbk(x.title, trim(title))) continue;
+		if(title2[0] && !strcasestr_gbk(x.title, trim(title2))) continue;
 		if(userid[0] && strcasecmp(x.owner, trim(userid))) continue;
-		if(title3[0] && strcasestr(x.title, trim(title3))) continue;
+		if(title3[0] && strcasestr_gbk(x.title, trim(title3))) continue;
 		if(abs(time(0)-atoi(x.filename+2))>dt*86400) continue;
 		if(mg && !(x.accessed[0] & FILE_MARKED) && !(x.accessed[0] & FILE_DIGEST)) continue;
 		if(og && !strncmp(x.title, "Re: ", 4)) continue;
