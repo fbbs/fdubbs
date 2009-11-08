@@ -231,3 +231,18 @@ void strtourl(char *url, const char *str)
 	}
 	*url = '\0';
 }
+
+//字符串HASH函数，用于用户信息的快速查找
+//HASH_FA、HASH_FB、HASH_SIZE在bbs.h中定义
+unsigned int strhash(char *str)
+{
+    unsigned int hash = 0;
+    while (*str)
+    {
+        hash += hash * HASH_FA + (*str++);
+        hash *= HASH_FB;
+    }
+    hash %= HASHSIZE;
+    return hash;
+}
+
