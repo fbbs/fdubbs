@@ -406,4 +406,8 @@ typedef struct {
 #include "func.h"
 #include "../lib/goodbrd.h"
 
+#define HASH_FA 31 //Hash factor a
+#define HASH_FB 7 //Hash factor b
+#define HASH_SIZE 100003 //Hash size
+
 #endif /* of _BBS_H_ */
