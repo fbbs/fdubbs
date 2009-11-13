@@ -1,5 +1,5 @@
 #include "bbs.h"
-#include <crypt.h>
+#include <unistd.h>
 
 #ifndef MD5
 #ifndef DES

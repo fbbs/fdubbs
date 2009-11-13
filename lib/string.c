@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
+#include "bbs.h"
 
 /**
  * Convert string to lower case.
@@ -262,7 +263,7 @@ unsigned int strhash(char *str)
         hash += hash * HASH_FA + upper2lower_map[(unsigned char)(*str++)];
         hash *= HASH_FB;
     }
-    hash %= HASHSIZE;
+    hash %= HASH_SIZE;
     return hash;
 }
 

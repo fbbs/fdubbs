@@ -1,5 +1,3 @@
-#include <gd.h>
-#include <gdfontl.h>
 #include "bbs.h"
 
 #ifndef DLM
@@ -285,68 +283,14 @@ int id_with_num(const char *userid)
 	return 0;
 }
 
-#ifndef FDQUAN
-const char *generate_verify_num() {
-	/* Declare the image */
-	gdImagePtr im;
-	/* Declare output files */
-	//FILE *gifout;
-	/* Declare color indexes */
-	int black;
-	int white;
-	int x, y, z;
-	int rd;
-	static char s[10];
-
-	/* Allocate the image: 64 pixels across by 64 pixels tall */
-	im = gdImageCreate(40, 16);
-
-	/* Allocate the color black (red, green and blue all minimum).
-	 Since this is the first color in a new image, it will
-	 be the background color. */
-	black = gdImageColorAllocate(im, 0, 0, 0);
-
-	white = gdImageColorAllocate(im, 255, 255, 255);
-
-	srandom(time(0)%getpid());
-
-	rd=random()%(100000);
-	sprintf(s, "%05d", rd);
-	gdImageString(im, gdFontGetLarge(), 0, 0, s, white);
-	for (z=0; z<20; z++) {
-		x=random()%(im->sx);
-		y=random()%(im->sy);
-		gdImageSetPixel(im, x, y, white);
-	}
-	for (y=0; y<im->sy; y++) {
-		for (x=0; x<im->sx; x++) {
-			if (gdImageGetPixel(im, x, y))
-				outc('o');
-			else
-				outc(' ');
-		}
-		outc('\n');
-	}
-
-	gdImageDestroy(im);
-
-	oflush();
-
-	return s;
-}
-#endif
-
 void new_register(void)
 {
 	struct userec newuser;
 	char passbuf[STRLEN];
 	int allocid, tried;
-#ifndef FDQUAN
 	char verify_code[IDLEN+1];
-	const char *verify_num;
-	int sec;
-	char log[100];
-#endif
+    int sec = 0;
+    char log[100];
 	if (dashf("NOREGISTER")) {
 		ansimore("NOREGISTER", NA);
 		pressreturn();
@@ -361,7 +305,6 @@ void new_register(void)
 			refresh();
 			longjmp(byebye, -1);
 		}
-#ifndef FDQUAN
 		getdata(22, 0, "您是否仔细阅读过本站Announce版精华区x-3目录所列站规执行办法并表示同意[y/N]",
 				verify_code, IDLEN + 1, DOECHO, YEA);
 
@@ -369,33 +312,18 @@ void new_register(void)
 			exit(0);
 		}
 
-		verify_num=generate_verify_num();
-		getdata(0, 0, "请输入上面显示的数字: ", verify_code, IDLEN + 1, DOECHO, YEA);
-#endif
 		getdata(0, 0, "请输入帐号名称 (Enter User ID, \"0\" to abort): ",
 				passbuf, IDLEN + 1, DOECHO, YEA);
 		if (passbuf[0] == '0') {
 			longjmp(byebye, -1);
 		}
-#ifndef FDQUAN
 		sec=random()%5;
 		prints("为避免与其他注册者冲突...请耐心等候%d秒...\n", sec);
 		oflush();
 		sleep(sec);
 
-		if (strcmp(verify_num, verify_code)) {
-			snprintf(log, sizeof(log), "verify '%s' error with code %s!=%s from %s",
-					passbuf, verify_num, verify_code, fromhost);
-			report(log, currentuser.userid);
-			prints("抱歉, 您输入的验证码不正确.\n");
-			continue;
-		}
-
-		snprintf(log, sizeof(log), "verify '%s' with code %s from %s ", passbuf,
-				verify_code, fromhost);
 		report(log, currentuser.userid);
 
-#endif
 		char path[HOMELEN];
 		sethomepath(path, passbuf);
 		if (id_with_num(passbuf)) {
