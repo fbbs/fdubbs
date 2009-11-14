@@ -405,6 +405,5 @@ typedef struct {
 
 #define HASH_FA 31 //Hash factor a
 #define HASH_FB 7 //Hash factor b
-#define UCACHE_HASH_SIZE 100003
 
 #endif /* of _FBBS_BBS_H */

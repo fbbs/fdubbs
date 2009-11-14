@@ -157,16 +157,28 @@ struct BCACHE { //版面的缓冲?
 	time_t inboarduptime;
 };
 
+#define UCACHE_HASH_SIZE 100003
+
 struct UCACHE { //用户的缓冲
 	char userid[MAXUSERS ][IDLEN + 1 ];
-	int number;	// last occupied slot in 'userid' array.
+    int number; //用户数量
 	time_t uptime;
-	/* add by stiger */
-	int next[MAXUSERS];
-	int prev[MAXUSERS];
-	int hash[26][26][256];
+	int alphakey[256][256]; //字母序索引
+	int hashkey[UCACHE_HASH_SIZE]; //HASH KEY
+
+    //普通双向链表，使用时表示上/下一个已使用的位置，空闲时表示上/下一个空闲的位置
+    int prev[MAXUSERS];
+    int next[MAXUSERS];
+    //hash双向链表
+    int h_prev[MAXUSERS];
+    int h_next[MAXUSERS];
+    //字母序双向链表
+    int a_prev[MAXUSERS];
+    int a_next[MAXUSERS];
+
+    int first_used; //第一个使用的位置
+    int first_available; //第一个空闲的用户位置
 	struct userec passwd[MAXUSERS]; //内存映射的数目太多了一点?
-	/* add end */
 	int status[MAXUSERS];
 };
 

@@ -35,108 +35,138 @@ int dosearchuser(const char *userid, struct userec *user, int *unum)
 	return *unum = 0;
 }
 
-// Returns hashkey of 'userid'.
-// The hashkey is the sum of ASCII codes of the third to the last letter
-// in uppercase.
-// a1 is 0~25 (A-Z or a-z respectively) for the first letter.
-// a2 is 0~25 (A-Z or a-z respectively) for the second letter.
-int uhashkey(const char *userid, int *a1, int *a2)
+int uhashkey(char *id)
 {
-	const char *c = userid;
-	int key = 0;
+    int key = (int)strhash(id) % UCACHE_HASH_SIZE;
+    return key;
+}
 
-	if (*c >= 'a' && *c <= 'z') {
-		*a1 = *c - 'a';
-	} else if ( *c >= 'A' && *c <= 'Z') {
-		*a1 = *c - 'A';
-	} else {
-		*a1 = 0;
-	}
-	c++;
+int linkinsert(int i)
+{
+    //HASH链表
+    int key = uhashkey(uidshm->userid[i - 1]);
+    if (uidshm->hashkey[key] > 0)
+        uidshm->h_prev[uidshm->hashkey[key] - 1] = i;
+    uidshm->h_next[i - 1] = uidshm->hashkey[key];
+    uidshm->h_prev[i - 1] = 0;
+    uidshm->hashkey[key] = count;
 
-	if ( *c >= 'a' && *c <= 'z') {
-		*a2 = *c - 'a';
-	} else if ( *c >= 'A' && *c <= 'Z') {
-		*a2 = *c - 'A';
-	} else {
-		*a2 = 0;
-	}
-	c++;
+    //字母序队列
+    int *p = &uidshm->alphakey[tolower(uidshm->userid[i-1][0])][tolower(uidshm->userid[i-1][1])];
+    if (*p > 0)
+        uidshm->a_prev[*p - 1] = i;
+    uidshm->a_next[i - 1] = *p;
+    uidshm->a_prev[i - 1] = 0;
+    *p = i;
 
-	while (*c != '\0') {
-		key += toupper(*c);
-		c++;
-	}
-	return key % 256;
+    //普通双向链表
+    if (uidshm->prev[i - 1])
+        uidshm->next[uidshm->prev[i - 1] - 1] = uidshm->next[i - 1];
+    else
+        uidshm->first_available = uidshm->next[i - 1];
+    if (uidshm->next[i - 1])
+        uidshm->prev[uidshm->next[i - 1] - 1] = uidshm->prev[i - 1];
+
+    if (uidshm->first_used)
+        uidshm->prev[uidshm->first_used - 1] = i;
+    uidshm->next[i - 1] = uidshm->first_used;
+    uidshm->prev[i - 1] = 0;
+    uidshm->first_used = i;
+
+    //修改计数
+    uidshm->number++;
+
+    return 1;
+}
+
+int linkdel(int i)
+{
+    //HASH链表
+    if (uidshm->h_prev[i - 1])
+        uidshm->h_next[uidshm->h_prev[i - 1] - 1] = uidshm->h_next[i - 1];
+    else
+        uidshm->hashkey[uhashkey(uidshm->userid[i - 1])] = uidshm->h_next[i - 1];
+
+    if (uidshm->h_next[i - 1])
+        uidshm->h_prev[uidshm->h_next[i - 1] - 1] = uidshm->h_prev[i - 1];
+
+
+    //字母序链表
+    if (uidshm->a_prev[i - 1])
+        uidshm->a_next[uidshm->a_prev[i - 1] - 1] = uidshm->a_next[i - 1];
+    else
+        uidshm->alphakey[tolower(uidshm->userid[i-1][0])][tolower(uidshm->userid[i-1][1])] = 
+            uidshm->a_next[i - 1];
+
+    if (uidshm->a_next[i - 1])
+        uidshm->a_prev[uidshm->a_next[i - 1] - 1] = uidshm->a_prev[i - 1];
+
+
+    //普通双向链表
+    if (uidshm->prev[i - 1])
+        uidshm->next[uidshm->prev[i - 1] - 1] = uidshm->next[i - 1];
+    else
+        uidshm->first_used = uidshm->next[i - 1];
+    if (uidshm->next[i - 1])
+        uidshm->prev[uidshm->next[i - 1] - 1] = uidshm->prev[i - 1];
+
+    if (uidshm->first_available)
+        uidshm->prev[uishm->first_available - 1] = i;
+    uidshm->next[i - 1] = uidshm->first_available;
+    uidshm->prev[i - 1] = 0;
+    uidshm->first_available = i;
+
+
+    //修改计数
+    uidshm->number--;
+    
+
+    return 1;
 }
 
 // Put userid(in struct uentp) into cache for all users.
 // Find a proper entry of user hash.
 static int fillucache(const struct userec *uentp, int count)
 {
-	int a1, a2;
-	int key;
 
-	if (count < MAXUSERS) {
-		strlcpy(uidshm->userid[count++], uentp->userid, sizeof(uidshm->userid[0]));
-		if(uentp->userid[0] != '\0') {
-			key = uhashkey(uentp->userid, &a1, &a2);
-			if (uidshm->hash[a1][a2][key] == 0) {
-				// If the hash entry is empty, put 'count' in it.
-				uidshm->hash[a1][a2][key] = count;
-			} else {
-				// Put 'count' into the doubly linked list.
-				int i = uidshm->hash[a1][a2][key];
-				while (uidshm->next[i - 1] != 0)
-					i = uidshm->next[i - 1];
-				uidshm->next[i - 1] = count;
-				uidshm->prev[count - 1] = i;
-			}
-			return 1;
-		}
-	}
-	return 0;
+    if (count < MAXUSERS)
+    {
+        strlcpy(uidshm->userid[count++], uentp->userid, sizeof(uidshm->userid[0]));
+        if(uentp->userid[0] != '\0')
+            return linkinsert(count);
+        else
+        {
+            if (uidshm->first_available)
+                uidshm->prev[uidshm->first_available - 1] = count;
+            uidshm->next[count - 1] = uidshm->first_available;
+            uidshm->prev[count - 1] = 0;
+            uidshm->first_available = count;
+        }
+    }
+    return 0;
 }
 
-/* hash 删除 */
 int del_uidshm(int num, char *userid)
 {
-	int a1, a2;
-	int key;
 	int i;
 
 	if (num <= 0 || num > MAXUSERS)
 		return 0;
 
-	key = uhashkey(userid, &a1, &a2);
-	i=uidshm->hash[a1][a2][key];
-	if (i<=0)
-		return 0;
-	for (; i!=num && i>0; i=uidshm->next[i-1])
-		;
+	i = searchuser(userid);
+
+    //无此用户
 	if (i!= num || i<=0)
 		return 0;
-	if (uidshm->next[i-1]) {
-		if (uidshm->prev[i-1]) {
-			uidshm->next[ uidshm->prev[i-1]-1 ] = uidshm->next[i-1];
-			uidshm->prev[ uidshm->next[i-1]-1 ] = uidshm->prev[i-1];
-		} else {
-			uidshm->hash[a1][a2][key] = uidshm->next[i-1];
-			uidshm->prev[ uidshm->next[i-1]-1 ] = 0;
-		}
-	} else {
-		if (uidshm->prev[i-1]) {
-			uidshm->next[ uidshm->prev[i-1]-1 ] = 0;
-		} else {
-			uidshm->hash[a1][a2][key] = 0;
-		}
-	}
-	uidshm->next[i-1]=0;
-	uidshm->prev[i-1]=0;
-	uidshm->userid[i-1][0]='\0';
+
+    //从链表中删除
+    linkdel(i);
+
+    //标记为删除
+	uidshm->userid[i - 1][0]='\0';
+
 	return 1;
 }
-/* endof hash删除 */
 
 // Places an exclusive lock on file 'lockname'.
 // Returns file descriptor if OK, -1 on error.
@@ -201,17 +231,21 @@ int load_ucache(void)
 
 	// Initialize 'userid' and hash.
 	memset(uidshm->userid, 0, sizeof(uidshm->userid));
-	memset(uidshm->hash, 0, sizeof(uidshm->hash));
-	memset(uidshm->next, 0, sizeof(uidshm->next));
-	memset(uidshm->prev, 0, sizeof(uidshm->prev));
+	memset(uidshm->hashkey, 0, sizeof(uidshm->hash));
+    memset(uidshm->alphakey, 0, sizeof(uidshm->alphakey));
+    memset(uidshm->h_prev, 0, sizeof(uidshm->h_prev));
+    memset(uidshm->h_next, 0, sizeof(uidshm->h_next));
+    memset(uidshm->a_prev, 0, sizeof(uidshm->a_prev));
+    memset(uidshm->a_next, 0, sizeof(uidshm->a_next));
+    memset(uidshm->prev, 0, sizeof(uidshm->prev));
+    memset(uidshm->next, 0, sizeof(uidshm->next));
+    uidshm->first_used = 0;
+    uidshm->first_available = 0;
+    uidshm->number = 0;
 
 	// Fill cache.
-	int last = 0;
-	for (i = 0; i < MAXUSERS; i++) {
-		if (fillucache(&(uidshm->passwd[i]), i))
-			last = i;
-	}
-	uidshm->number = ++last;
+	for (i = 0; i < MAXUSERS; i++)
+		fillucache(&(uidshm->passwd[i]), i);
 	uidshm->uptime = time(NULL);
 
 	// Unlock cache.
@@ -254,47 +288,43 @@ int resolve_ucache(void)
 
 void setuserid(int num, char *userid)
 {
-	if (num > 0 && num <= MAXUSERS) {
-		if (num > uidshm->number)
-			uidshm->number = num;
-		strlcpy(uidshm->userid[num - 1], userid, IDLEN + 1);
-		/* hash 填充 */
-		if (strcmp(userid, "new") ) {
-			int a1, a2;
-			int key;
+    if (num > 0 && num <= MAXUSERS)
+    {
+        strlcpy(uidshm->userid[num - 1], userid, IDLEN + 1);
+        /* hash 填充 */
+        if (strcmp(userid, "new") )
+        {
+            int a1, a2;
+            int key;
 
-			key = uhashkey(userid, &a1, &a2);
-			if (uidshm->hash[a1][a2][key] == 0) {
-				uidshm->hash[a1][a2][key] = num;
-				uidshm->next[num-1]=0;
-				uidshm->prev[num-1]=0;
-			} else {
-				int i;
-				for (i=uidshm->hash[a1][a2][key]; uidshm->next[i-1]; i
-						=uidshm->next[i-1])
-					;//找到一个空位置
+            key = uhashkey(userid, &a1, &a2);
+            if (uidshm->hash[a1][a2][key] == 0)
+            {
+                uidshm->hash[a1][a2][key] = num;
+                uidshm->next[num-1]=0;
+                uidshm->prev[num-1]=0;
+            }
+            else
+            {
+                int i;
+                for (i=uidshm->hash[a1][a2][key]; uidshm->next[i-1]; i
+                        =uidshm->next[i-1])
+                    ;//找到一个空位置
 
-				uidshm->next[i-1] = num;
-				uidshm->prev[num-1] = i;
-				uidshm->next[num-1] = 0;
-			}
-		}
-		/* end of hash 填充 */
-	}
+                uidshm->next[i-1] = num;
+                uidshm->prev[num-1] = i;
+                uidshm->next[num-1] = 0;
+            }
+        }
+        /* end of hash 填充 */
+    }
 }
 
 int searchnewuser(void)
 {
-	register int num, i;
-	if (resolve_ucache() == -1)
-		return 0;
-	num = uidshm->number;
-	for (i = 0; i < num; i++)
-		if (uidshm->userid[i][0] == '\0')
-			return i + 1;
-	if (num < MAXUSERS)
-		return (num + 1);
-	return 0;
+    if (resolve_ucache() == -1)
+        return 0;
+    return uidshm->first_available;
 }
 
 // Get 'userid' according to ('uid' - 1).
@@ -309,22 +339,20 @@ int getuserid(char *userid, int uid, size_t len)
 // Returns the place of 'userid' in cache for all users, 0 if not found.
 int searchuser(const char *userid)
 {
-	register int i;
-	int a1, a2;
+	int i;
 	int key;
 
 	if (resolve_ucache() == -1)
 		return 0;
-	key = uhashkey(userid, &a1, &a2);
-	i = uidshm->hash[a1][a2][key];
-	while (i) {
-		if (!strncasecmp(userid, uidshm->userid[i - 1],
-				sizeof(uidshm->userid[0]))) {
-			return i;
-		}
-		i = uidshm->next[i - 1];
+	key = uhashkey(userid);
+	i = uidshm->hashkey[key];
+	while (i)
+    {
+		if (!strncasecmp(userid, uidshm->userid[i - 1],	sizeof(uidshm->userid[0])))
+			break;
+		i = uidshm->h_next[i - 1];
 	}
-	return 0;
+	return i;
 }
 
 // Gets struct userec in cache for all users according to 'userid'.
