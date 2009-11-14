@@ -290,7 +290,6 @@ void new_register(void)
 	int allocid, tried;
 	char verify_code[IDLEN+1];
     int sec = 0;
-    char log[100];
 	if (dashf("NOREGISTER")) {
 		ansimore("NOREGISTER", NA);
 		pressreturn();
@@ -321,8 +320,6 @@ void new_register(void)
 		prints("为避免与其他注册者冲突...请耐心等候%d秒...\n", sec);
 		oflush();
 		sleep(sec);
-
-		report(log, currentuser.userid);
 
 		char path[HOMELEN];
 		sethomepath(path, passbuf);
