@@ -1,5 +1,5 @@
-#ifndef _GLOSSARY_H_
-#define _GLOSSARY_H_
+#ifndef _FBBS_GLOSSARY_H
+#define _FBBS_GLOSSARY_H
 
 // 描述经验值等级
 #define GLY_CEXP0 		"没等级"
@@ -80,4 +80,5 @@
 #define GLY_MONEY6		"一方财霸"
 #define GLY_MONEY7		"水站财神"
 
-#endif
+#endif //_FBBS_GLOSSARY_H
+

@@ -1,5 +1,5 @@
-#ifndef FB_MODES_H
-#define FB_MODES_H
+#ifndef _FBBS_MODES_H
+#define _FBBS_MODES_H
 
 enum {
 	IDLE = 0,
@@ -65,4 +65,4 @@ enum {
 	BBSST_UPLOAD = 71,
 	WWW = 0x40000000,
 };
-#endif // FB_MODES_H
+#endif // _FBBS_MODES_H

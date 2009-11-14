@@ -1,5 +1,5 @@
-#ifndef FB_BBSERRNO_H
-#define FB_BBSERRNO_H
+#ifndef _FBBS_BBSERRNO_H
+#define _FBBS_BBSERRNO_H
 
 enum {
 	BBS_EINVAL  = -1,  ///< Invalid argument.
@@ -27,5 +27,5 @@ enum {
 	BBS_ERMQE   = -23, ///< Recipient's mail quota exceeded.
 };
 
-#endif // FB_BBSERRNO_H
+#endif // _FBBS_BBSERRNO_H
 

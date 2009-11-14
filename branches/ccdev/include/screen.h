@@ -20,6 +20,9 @@
  GNU General Public License for more details.
  */
 
+#ifndef _FBBS_SCREEN_H
+#define _FBBS_SCREEN_H
+
 /* Maximum Screen width in chars */
 #define LINELEN (1024)
 
@@ -37,3 +40,6 @@ struct screenline {
 	unsigned char eso; /* end stand out */
 	unsigned char data[LINELEN];
 };
+
+#endif //_FBBS_SCREEN_H
+
