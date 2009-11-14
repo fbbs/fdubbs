@@ -1,5 +1,5 @@
-#ifndef FB_LIBBBS_H
-#define FB_LIBBBS_H
+#ifndef _FBBS_LIBBBS_H
+#define _FBBS_LIBBBS_H
 
 #include <string.h>
 #include <stdbool.h>
@@ -123,4 +123,4 @@ int do_mail_file(const char *recv, const char *title, const char *header,
 		const char *text, int len, const char *source);
 int mail_file(const char *file, const char *recv, const char *title);
 
-#endif // FB_LIBBBS_H
+#endif // _FBBS_LIBBBS_H

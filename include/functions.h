@@ -1,5 +1,5 @@
-#ifndef _FUNCTIONS_H_
-#define _FUNCTIONS_H_
+#ifndef _FBBS_FUNCTIONS_H
+#define _FBBS_FUNCTIONS_H
 
 #ifdef FDQUAN
 #define ENABLE_SHOWONLINE
@@ -72,5 +72,5 @@
 #define BBS_RETURN(x) {signal(SIGBUS, SIG_IGN);return (x);}
 #define BBS_RETURN_VOID {signal(SIGBUS, SIG_IGN);return;}
 
-#endif 
-/* _FUNCTIONS_H_ */
+#endif /* _FBBS_FUNCTIONS_H */
+

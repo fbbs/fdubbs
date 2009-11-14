@@ -25,6 +25,9 @@
 
 /* These are all the permissions available in the BBS */
 
+#ifndef _FBBS_PERMISSIONS_H
+#define _FBBS_PERMISSIONS_H
+
 #define PERM_LOGIN      0x1
 #define PERM_TALK       0x2
 #define PERM_MAIL       0x4
@@ -212,3 +215,5 @@ char *user_definestr[] = {
 	NULL
 };
 #endif
+
+#endif //_FBBS_PERMISSIONS_H

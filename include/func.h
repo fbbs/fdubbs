@@ -1,7 +1,7 @@
 // Function declarations.
 
-#ifndef FB_FUNC_H
-#define FB_FUNC_H
+#ifndef _FBBS_FUNC_H
+#define _FBBS_FUNC_H
 
 #include "bbs.h"
 
@@ -125,4 +125,4 @@ int convert_g2b(int ch);
 int convert_b2g(int ch);
 #endif // ALLOWSWITCHCODE
 
-#endif // FB_FUNC_H
+#endif // _FBBS_FUNC_H

@@ -1,5 +1,5 @@
-#ifndef FB_STRUCT_H
-#define FB_STRUCT_H
+#ifndef _FBBS_STRUCT_H
+#define _FBBS_STRUCT_H
 
 #include "config.h"
 
@@ -267,4 +267,4 @@ struct sysheader {
 	char *buf;
 	int menu, key, len;
 };
-#endif //FB_STRUCT_H
+#endif //_FBBS_STRUCT_H

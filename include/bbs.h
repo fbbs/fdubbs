@@ -1,5 +1,5 @@
-#ifndef  _BBS_H_
-#define _BBS_H_
+#ifndef  _FBBS_BBS_H
+#define _FBBS_BBS_H
 
 /* Global includes, needed in almost every source file... */
 #include <stdio.h>
@@ -15,9 +15,6 @@
 #include <time.h>
 #include <strings.h>
 #include <limits.h>
-#ifndef BSD44
-#include <stdlib.h>
-#endif
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -410,4 +407,4 @@ typedef struct {
 #define HASH_FB 7 //Hash factor b
 #define UCACHE_HASH_SIZE 100003
 
-#endif /* of _BBS_H_ */
+#endif /* of _FBBS_BBS_H */

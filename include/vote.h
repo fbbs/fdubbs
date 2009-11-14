@@ -20,6 +20,9 @@
  GNU General Public License for more details.
  */
 
+#ifndef _FBBS_VOTE_H
+#define _FBBS_VOTE_H
+
 #define VOTE_YN         (1)
 #define VOTE_SINGLE     (2)
 #define VOTE_MULTI      (3)
@@ -42,3 +45,6 @@ struct votebal {
 	int totalitems;
 	time_t opendate;
 };
+
+#endif //_FBBS_VOTE_H
+

@@ -2,6 +2,9 @@
  $Id: chat.h 2 2005-07-14 15:06:08Z root $
  */
 
+#ifndef _FBBS_CHAT_H
+#define _FBBS_CHAT_H
+
 #define MY_BBS_NAME   "日月光华"
 #define MY_BBS_DOMAIN "bbs.fudan.edu.cn"
 
@@ -39,4 +42,6 @@
  */
 
 #define BADCIDCHARS " *:/%"
+
+#endif //_FBBS_CHAT_H
 

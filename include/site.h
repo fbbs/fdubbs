@@ -24,6 +24,9 @@ CVS: $Id: config.h 323 2006-10-27 14:13:52Z danielfree $
 */
 /* FIREBIRD BBS 3.0 CONFIGURATION VARIABLES */
 
+#ifndef _FBBS_SITE_H
+#define _FBBS_SITE_H
+
 #define BBSVERSION      "¡²FB2000 v-Distribution¡³"
 
 //#define USE_SHMFS
@@ -229,3 +232,6 @@ If configure cannot found it propery, it will assign "/usr/lib/sendmail"
 for default.
 */
 #define	SENDMAIL "/usr/lib/sendmail"
+
+#endif //_FBBS_SITE_H
+
