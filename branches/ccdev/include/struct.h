@@ -28,21 +28,9 @@ struct userec {
 	// TODO: remove noteline
 	int noteline;             ///< will be removed soon.
 	time_t firstlogin;       ///< time of first login.
-#if SIZEOF_TIME_T == 4
-	char pad1[4];
-#endif
 	time_t lastlogin;        ///< time of last login.
-#if SIZEOF_TIME_T == 4
-	char pad2[4];
-#endif
 	time_t lastlogout;       ///< time of last logout.
-#if SIZEOF_TIME_T == 4
-	char pad3[4];
-#endif
 	time_t dateforbet;       ///< loan deadline.
-#if SIZEOF_TIME_T == 4
-	char pad4[4];
-#endif
 	// TODO: remove notedate
 	int64_t notedate;         ///< will be removed soon.
 	char userid[EXT_IDLEN];   ///< userid.

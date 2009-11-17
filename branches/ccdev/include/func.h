@@ -46,7 +46,7 @@ extern struct UTMPFILE *utmpshm;
 extern struct userec lookupuser;
 int cmpuids(void *uid, void *up);
 int dosearchuser(const char *userid, struct userec *user, int *unum);
-int uhashkey(const char *userid, int *a1, int *a2);
+int uhashkey(const char *userid);
 int del_uidshm(int num, char *userid);
 int load_ucache(void);
 int substitut_record(char *filename, void *rptr, size_t size, int id);
