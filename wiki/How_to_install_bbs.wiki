@@ -30,7 +30,7 @@ Last Changed Date: 2007-11-05 05:07:32 +0000 (Mon, 05 Nov 2007)
 sudo groupadd -g 9999 bbs
 为BBS 创建一个系统的组( GROUP )
 
-sudo adduser --home /home/bbs --uid 9999 --group bbs --disabled-login bbs
+sudo adduser --home /home/bbs --uid 9999 --ingroup bbs --disabled-login bbs
 为BBS 创建一个系统的帐号( USER )
 
 sudo passwd bbs
