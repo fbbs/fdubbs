@@ -57,7 +57,7 @@ line 150:  #define MAXUSERS 25000 把这个值再改小一些
 =================
 add by biggertigerLu on 21-04-10
 debian lenny needs following packages:
-
+make, gcc, libgd2-xpm-dev, automake, libtool, libfcgi-dev
 ./bootstrap
 ./configure --enable-debug --enable-www
 make && make install
