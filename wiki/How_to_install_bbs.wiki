@@ -54,10 +54,18 @@ line 150:  #define MAXUSERS 25000 把这个值再改小一些
 
 3.
 编译代码的话就在telnet目录下 make update
+=================
+add by biggertigerLu on 21-04-10
+debian lenny needs following packages:
+
+./bootstrap
+./configure --enable-debug --enable-www
+make && make install
+=================
 (如果是第一次编译则是make install, 以后修改了代码就直接make update)
 会将编译好的二进制文件放到 /home/bbs/bin 下 ( 默认情况  路径修改参见config.h)
 运行bbs的方法如下( debian/ubuntu ):
 sudo /home/bbs/bin/miscd daemon
 sudo /home/bbs/bin/bbsd 23
-
+然后注册一下SYSOP和guest
 然后就登录自己的23端口吧:)
