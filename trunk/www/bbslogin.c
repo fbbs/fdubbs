@@ -1,268 +1,201 @@
-#include "BBSLIB.inc"
+#include "libweb.h"
 
-int main() {
-	char fname[STRLEN];//added by roly 02.05.10 
-	int pid, n, t;
-	char buf[256], id[20], pw[20];
-	struct userec *x;
-	FILE *fp;
-	init_all();
-	strsncpy(id, getparm("id"), 13);
-        strsncpy(pw, getparm("pw"), 13);
-	if(loginok && strcasecmp(id, currentuser.userid)) {
-		http_fatal("系统检测到目前您的计算机上已经登录有一个帐号 %s，请先退出.(%s)", 
-			currentuser.userid, "选择正常logout, 或者关闭所有浏览器窗口");
+static int check_multi(const struct userec *user)
+{
+	int i, total = 0;
+	int uid = searchuser(user->userid);
+	for (i = 0; i < MAXACTIVE; i++) {
+		if (utmpshm->uinfo[i].active == 0)
+			continue;
+		if (utmpshm->uinfo[i].uid == uid)
+			total++;
 	}
-	x=getuser(id);
-	if(x==0) http_fatal("错误的使用者帐号");
-	if(strcasecmp(id, "guest")) {
-		int total;
-		time_t stay;
-		time_t recent;
-		time_t now;
-		if(!checkpasswd(x->passwd, pw)) {
-			if(pw[0]!=0) sleep(2);
-		/* added by roly 02.05.10 to add bad login in telnet */
-			sprintf(buf, "%-12.12s %s @%s\n", id, cn_Ctime(time(0)), fromhost);
-			sethomefile(fname,id,"logins.bad"); 
-            		f_append(fname, buf); 
-        	/* added end */                
-			f_append("logins.bad", buf);
-			http_fatal("密码错误");
-		}
-		total=check_multi(x);
-		if(!user_perm(x, PERM_LOGIN))
-			http_fatal("此帐号已被停机, 若有疑问, 请用其他帐号在sysop版询问.");
-		if(file_has_word(".bansite", fromhost)) {
-			http_fatal("对不起, 本站不欢迎来自 [%s] 的登录. <br>若有疑问, 请与SYSOP联系.", fromhost);
-		}
-		now=time(0);
-		if(total>1)
-		{
-			recent=x->lastlogout;
-			if(x->lastlogin>recent)recent=x->lastlogin;
-			stay=now-recent;
-			if(stay<0)stay=0;
-		}
-		else stay=0;
-		t=x->lastlogin;
-		x->lastlogin=now;
-		x->stay+=stay;
-		save_user_data(x);
-		//add for NR autopost id:US.   eefree 06.9.8 
-		if (strcasecmp(id,"US") ) {
-			if(abs(t-time(0))<60) http_fatal("两次登录间隔过密!");
-		}//add end
-		x->numlogins++;
-		strsncpy(x->lasthost, fromhost, 16);
-		save_user_data(x);
-		currentuser=*x;
-	}
-	sprintf(buf, "ENTER %s", fromhost);
-	do_report("usies", buf);
-	n=0;
-	if(!loginok && strcasecmp(id, "guest"))	wwwlogin(x);
-	redirect(FIRST_PAGE);
+	return total;
 }
 
-int wwwlogin(struct userec *user) {
-	FILE *fp;
-	char buf[80];
-	int pid, n, tmp;
-	struct user_info *u;
-/* patch added by roly */
-	if(!(currentuser.userlevel & PERM_REGISTER)) { 
-                char file[256]; 
-                sprintf(file, "home/%c/%s/register", 
-                        toupper(currentuser.userid[0]), currentuser.userid); 
-                if(file_exist(file)) { 
-                        currentuser.userlevel |=PERM_DEFAULT; 
-                        save_user_data(&currentuser); 
-                } 
-        }  
-/* add end */
-        fp=fopen("tmp/.UTMP.lock", "a");
-	FLOCK(fileno(fp), LOCK_EX);
-	for(n=0; n<MAXACTIVE; n++) {
-		if(shm_utmp->uinfo[n].active == 0) {
-			u=&(shm_utmp->uinfo[n]);
-			u_info=u;
-			pid=fork();
- 			if(pid<0) http_fatal("can't fork");
- 			if(pid==0) {
-				wwwagent();
-				exit(0);
-			}
-			bzero(u, sizeof(struct user_info));
-			u->active=1;
-			u->uid=getusernum(user->userid)+1;
-			u->pid=pid;
-			u->mode=10001;
-/* added by roly 02.05.19 for dispaly friend char when look in telnet mode 
-			getfriendstr(u);
- add end */
-        		if(user_perm(&currentuser, PERM_LOGINCLOAK) &&
-			(currentuser.flags[0] & CLOAK_FLAG))
-                		u->invisible = YEA;
-        		u->pager = 0;
-        		if(currentuser.userdefine & DEF_FRIENDCALL)
-				u->pager|=FRIEND_PAGER;
-        		if(currentuser.flags[0] & PAGER_FLAG) {
-                		u->pager|=ALL_PAGER;
-                		u->pager|=FRIEND_PAGER;
-			}
-        		if(currentuser.userdefine & DEF_FRIENDMSG)
-				u->pager|=FRIENDMSG_PAGER;
-        		if(currentuser.userdefine & DEF_ALLMSG) {
-                		u->pager|=ALLMSG_PAGER;
-                		u->pager|=FRIENDMSG_PAGER;
-        		}
-				
-			SpecialID(u->userid, fromhost);
-			   
-			strsncpy(u->from, fromhost, 24);
-#ifdef SPARC
-			*(int*)(u->from+30)=time(0);
+static int wwwlogin(struct userec *user, const char *ref)
+{
+	if (!(currentuser.userlevel & PERM_REGISTER)) {
+		char file[HOMELEN]; 
+		sethomefile(file, currentuser.userid, "register");
+		if (dashf(file)) {
+			currentuser.userlevel |= PERM_DEFAULT;
+			save_user_data(&currentuser);
+		}
+	}
+
+	struct user_info info;
+	memset(&info, 0, sizeof(info));
+	info.active = 1;
+	info.uid = searchuser(user->userid);
+	info.pid = getpid();
+	info.mode = WWW | LOGIN;
+	if (HAS_PERM(PERM_LOGINCLOAK)
+			&& (currentuser.flags[0] & CLOAK_FLAG))
+		info.invisible = YEA;
+	info.pager = 0;
+	if (DEFINE(DEF_FRIENDCALL))
+		info.pager |= FRIEND_PAGER;
+	if (DEFINE(PAGER_FLAG)) {
+		info.pager |= ALL_PAGER;
+		info.pager |= FRIEND_PAGER;
+	}
+	if (DEFINE(DEF_FRIENDMSG))
+		info.pager |= FRIENDMSG_PAGER;
+	if (DEFINE(DEF_ALLMSG)) {
+		info.pager |= ALLMSG_PAGER;
+		info.pager |= FRIENDMSG_PAGER;
+	}
+
+// TODO:...
+	strlcpy(info.from, fromhost, 24);
+// login start..
+#ifdef SPARC 
+	*(int*)(info.from + 30) = time(NULL);
 #else
-			*(int*)(u->from+32)=time(0);
+	*(int*)(info.from + 32) = time(NULL);
 #endif
-            u->from[22] = DEFINE(DEF_NOTHIDEIP)?'S':'H';
+	info.from[22] = DEFINE(DEF_NOTHIDEIP) ? 'S' : 'H';
 
-			u->idle_time=time(0);
-			//Modified by IAMFAT 2002.06.05
-			//strsncpy(u->username, user->username, 20);
-			strcpy(u->username, user->username);
-			//strsncpy(u->userid, user->userid, 13);
-			strcpy(u->userid, user->userid);
-			tmp=rand()%100000000;
-			u->utmpkey=tmp;
-			sprintf(buf, "%d", n+1);
-			setcookie("utmpnum", buf);
-			sprintf(buf, "%d", tmp);
-			setcookie("utmpkey", buf);
-			setcookie("utmpuserid", currentuser.userid);
-			set_my_cookie();
-			FLOCK(fileno(fp), LOCK_UN);
-			fclose(fp);
-			shm_ucache->status[u->uid-1]++;
-			return 0;
+	info.idle_time = time(NULL);
+	strlcpy(info.username, user->username, sizeof(info.username));
+	strlcpy(info.userid, user->userid, sizeof(info.userid));
+
+	int utmpkey = rand() % 100000000;
+	info.utmpkey = utmpkey;
+
+	int fd = open("tmp/.UTMP.lock", O_RDWR | O_CREAT, 0600);
+	if (fd < 0)
+		return BBS_EINTNL;
+	if (flock(fd, LOCK_EX) == -1) {
+		close(fd);
+		return BBS_EINTNL;
+	}
+
+	struct user_info *up = utmpshm->uinfo;
+	int n;
+	for (n = 0; n < MAXACTIVE; n++, up++) {
+		if (!up->active) {
+			*up = info;
+			uidshm->status[up->uid - 1]++;
+			break;
 		}
 	}
-	FLOCK(fileno(fp), LOCK_UN);
-	fclose(fp);
-	http_fatal("抱歉，目前在线用户数已达上限，无法登录。请稍后再来。");
-}
-
-void add_msg() {
-        int i;
-        FILE *fp;
-        char buf[129], file[256], *id=currentuser.userid;
-        sprintf(file, "touch home/%c/%s/wwwmsg.flush", toupper(id[0]), id);
-        system(file);
-        sprintf(file, "home/%c/%s/msgfile", toupper(id[0]), id);
-        i=file_size(file)/129;
-        if(get_record(&buf, 129, i-1, file)<=0) return;
-        sprintf(file, "home/%c/%s/wwwmsg", toupper(id[0]), id);
-        fp=fopen(file, "a");
-        fwrite(buf, 129, 1, fp);
-        fclose(fp);
-}
-
-/* added by roly 02.05.17 for add friend list into uinfo //not completed
-int
-getfriendstr(struct user_info *uinfo)
-{
-	int     i;
-	struct override *tmp;
-	memset(uinfo->friend, 0, sizeof(uinfo->friend));
-	setuserfile(genbuf, "friends");
-	sprintf(genbuf,"%s/%s/%s/friends",BBSHOME,toupper(currentuser.userid[0]),currentuser.userid(0));
-	uinfo->fnum = get_num_records(genbuf, sizeof(struct override));
-	if (uinfo->fnum <= 0)
-		return 0;
-	uinfo->fnum = (uinfo->fnum >= MAXFRIENDS) ? MAXFRIENDS : uinfo->fnum;
-	tmp = (struct override *) calloc(sizeof(struct override), uinfo->fnum);
-	get_records(genbuf, tmp, sizeof(struct override), 1, uinfo->fnum);
-	for (i = 0; i < uinfo->fnum; i++) {
-		uinfo->friend[i] = searchuser(tmp[i].id);
-	}
-	free(tmp);
-	//update_ulist(uinfo, utmpent);
-}
-
-int
-searchuser(userid)
-char   *userid;
-{
-	register int i;
-	resolve_ucache();
-	for (i = 0; i < uidshm->number; i++)
-		if (!ci_strncmp(userid, uidshm->userid[i], IDLEN + 1))
-			return i + 1;
+	flock(fd, LOCK_UN);
+	close(fd);
+	if (n >= MAXACTIVE)
+		return BBS_E2MANY;
+	
+	const char *referer = ref;
+	if (*referer == '\0')
+		referer = "sec";
+	// TODO: these cookies should be merged into one.
+	printf("Content-type: text/html; charset=%s\n"
+			"Set-cookie: utmpnum=%d\nSet-cookie: utmpkey=%d\n"
+			"Set-cookie: utmpuserid=%s\nLocation: %s\n\n",
+			CHARSET, n + 1, utmpkey, currentuser.userid, referer);
 	return 0;
 }
 
- add end */
-
-void abort_program() {
-/* modified by roly   patch of NJU 0.9 */
-        int stay=0; 
-        struct userec *x; 
-	int loginstart;
-        if(!strcmp(u_info->userid, currentuser.userid)) { 
-#ifdef SPARC
-				loginstart=*(int*)(u_info->from+30); 
-#else
-				loginstart=*(int*)(u_info->from+32); 
-#endif
-				shm_ucache->status[u_info->uid-1]--;
-                bzero(u_info, sizeof(struct user_info)); 
-        } 
-        //if(stay>7200) stay=7200; 
-        x=getuser(currentuser.userid); 
-        if(x) { 
-		time_t now=time(0);
-		time_t recent;
-		recent=loginstart;
-		if(x->lastlogout>recent)recent=x->lastlogout;
-		if(x->lastlogin>recent)recent=x->lastlogin;
-		stay=now-recent;
-		//stay=now-loginstart;
-		if(stay<0)stay=0;
-                x->stay+=stay; 
-                x->lastlogout=now; 
-                save_user_data(x); 
-        }
-        exit(0); 
+static const char *get_login_referer(void)
+{
+	const char *referer = get_referer();
+	const char *ref;
+	if (!strcmp(referer, "/") || !strcmp(referer, "/index.htm"))
+		ref = "sec";
+	else
+		ref = referer;
+	return ref;
 }
 
-int wwwagent() {
-	int i;
-	for(i=0; i<1024; i++) close(i);
-	for(i=0; i<NSIG; i++) signal(i, SIG_IGN);
-	signal(SIGUSR2, add_msg);
-	signal(SIGHUP, abort_program);
-	signal(SIGABRT, abort_program);
-	while(1) {
-		sleep(60);
-		if(abs(time(0) - u_info->idle_time)>600) {
-			//f_append("err", "idle timeout");
-			abort_program();
+static int login_screen(void)
+{
+	http_header();
+	const char *ref = get_login_referer();
+	printf("<meta http-equiv='Content-Type' content='text/html; charset=gb2312' />"
+			"<link rel='stylesheet' type='text/css' href='/css/bbs.css' />"
+			"<title>用户登录 - "BBSNAME"</title></head>"
+			"<body><form action='login' method='post'>"
+			"<label for='id'>帐号</label><input type='text' name='id' /><br />"
+			"<label for='pw'>密码</label><input type='password' name='pw' /><br />"
+			"<input type='hidden' name='ref' value='%s'/>"
+			"<input type='submit' value='登录' />"
+			"</form></body></html>", ref);
+	return 0;
+}
+
+int bbslogin_main(void)
+{
+	char fname[STRLEN];
+	char buf[256], id[IDLEN + 1], pw[PASSLEN];
+	struct userec user;
+
+	if (parse_post_data() < 0)
+		return BBS_EINVAL;
+	strlcpy(id, getparm("id"), sizeof(id));
+	if (*id == '\0')
+		return login_screen();
+	strlcpy(pw, getparm("pw"), sizeof(pw));
+	if (loginok && !strcasecmp(id, currentuser.userid)) {
+		const char *ref = get_login_referer();
+		printf("Location: %s\n\n", ref);
+		return 0;
+	}
+	if (getuserec(id, &user) == 0)
+		return BBS_ENOUSR;
+
+	user.numlogins++;
+	if (strcasecmp(id, "guest")) {
+		int total;
+		time_t stay, recent, now, t;
+		if (!checkpasswd(user.passwd, pw)) {
+			sprintf(buf, "%-12.12s %s @%s\n", user.userid,
+					getdatestring(time(NULL), DATE_ZH), fromhost);
+			sethomefile(fname, user.userid, "logins.bad"); 
+			file_append(fname, buf);
+			file_append("logins.bad", buf);
+			return BBS_EWPSWD;
 		}
-	}
-	exit(0);
-}
 
-int check_multi(struct userec *user) {
-	int i, total=0;
-	//if(currentuser.userlevel & PERM_SYSOP) return;
-	for(i=0; i<MAXACTIVE; i++) {
-		if(shm_utmp->uinfo[i].active==0) continue;
-		if(!strcasecmp(shm_utmp->uinfo[i].userid, user->userid)) total++;
+		total = check_multi(&user);
+		if (!HAS_PERM2(PERM_SYSOPS, &user) && total >= 2)
+			return BBS_ELGNQE;
+
+		if (!HAS_PERM2(PERM_LOGIN, &user))
+			return BBS_EACCES;
+
+		now = time(NULL);
+		// Do not count frequent logins.
+		if (now - user.lastlogin < 20 * 60
+				&& user.numlogins >= 100)
+			user.numlogins--;
+		if (total > 1) {
+			recent = user.lastlogout;
+			if (user.lastlogin > recent)
+				recent = user.lastlogin;
+			stay = now - recent;
+			if (stay < 0)
+				stay = 0;
+		} else {
+			stay = 0;
+		}
+		t = user.lastlogin;
+		user.lastlogin = now;
+		user.stay += stay;
+#ifdef CHECK_FREQUENTLOGIN
+		if (!HAS_PERM(PERM_SYSOPS)
+				&& abs(t - time(NULL)) < 10) {
+			report("Too Frequent", user.userid);
+			return BBS_ELFREQ;
+		}
+#endif
+		strlcpy(user.lasthost, fromhost, sizeof(user.lasthost));
+		save_user_data(&user);
+		currentuser = user;
 	}
-	//add for NR autopost id:US.   eefree 06.9.8 
-	if (strcasecmp(user->userid,"US") ) {
-		if(!(user->userlevel&PERM_SYSOPS) && total>=2) http_fatal("您已经登录了2个窗口。为了保证他人利益，此次连线将被取消。");
-	}//add end
-	return total;
+
+	log_usies("ENTER", fromhost, &user);
+	if (!loginok && strcasecmp(id, "guest"))
+		wwwlogin(&user, getparm("ref"));
+	return 0;
 }

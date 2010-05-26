@@ -1,4 +1,4 @@
-#include "BBSLIB.inc"
+#include "libweb.h"
 
 int main() {
 	int i, total=0, mode;
@@ -9,7 +9,7 @@ int main() {
 	printpretable_lite();
 
 	if(!loginok) http_fatal("请先登录");
-	strsncpy(board, getparm("board"), 60);
+	strlcpy(board, getparm("board"), 60);
 	mode=atoi(getparm("mode"));
 	brd=getbcache(board);
 	if(brd==0) http_fatal("错误的讨论区");
@@ -54,17 +54,15 @@ int do_del(char *board, char *file) {
 		//added end.
 		if(!strcmp(f.filename, file)) {
                         del_record(dir, sizeof(struct fileheader), num);
-//                      sprintf(buf, "\n※ %s 于 %s 删除[FROM: %s]", currentuser.userid, Ctime(time(0))+4, fromhost);
-//modified by iamfat 2002.08.01
-//                      sprintf(buf, "\n※ %s 于 %16.16s 删除[FROM: %s]", currentuser.userid, cn_Ctime(time(0))+6, fromhost);
-//                      f_append(path, buf);
                         sprintf(dir, strcmp(id, f.owner)?"boards/%s/.TRASH":"boards/%s/.JUNK", board);
                         strcpy(f.szEraser, id);
                         f.timeDeleted=time(0);
-                        append_record(&f, sizeof(struct fileheader), dir);
+						append_record(dir, &f, sizeof(f));
  			printf("<tr><td>%s  <td>标题:%s <td>删除成功.\n", f.owner, nohtml(f.title));
+			getuser(f.owner);
+			u = &lookupuser;
 			u=getuser(f.owner);
-			if(!junkboard(board) && u) {
+			if(!junkboard(getbcache(board)) && u) {
 				if(u->numposts>0) u->numposts--;
 				save_user_data(u);
 			}

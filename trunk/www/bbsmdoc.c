@@ -1,4 +1,4 @@
-#include "BBSLIB.inc"
+#include "libweb.h"
 
 int my_t_lines;
 
@@ -10,7 +10,7 @@ int main()
 	struct fileheader x;
 	int i, start, total;
  	init_all();
-	strsncpy(board, getparm("board"), 32);
+	strlcpy(board, getparm("board"), 32);
 	x1=getbcache(board);
 	if(x1==0) 
 	{
