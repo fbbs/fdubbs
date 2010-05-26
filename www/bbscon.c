@@ -1,163 +1,143 @@
-#include "BBSLIB.inc"
-#include "boardrc.inc"
-int inboard(char *board, char* dirname , char* file){
-	char dir[256];
-	int total;
-	struct fileheader x;
-	FILE *fp;
-	sprintf(dir, "boards/%s/%s", board, dirname);
-	total=file_size(dir)/sizeof(x);
-	if(total)
-	{
-		fp=fopen(dir, "r+");
-		while(fread (&x, sizeof (x), 1, fp)&& strncmp(x.filename, file, 19));
-		if (feof (fp) && strncmp (x.filename, file, 19) ){
-			fclose(fp);
-			return 0;
-		}
-		fclose(fp);
-	}
-	return 1;
-					
+#include "libweb.h"
+
+static int cmp_fid(void *arg, void *buf)
+{
+	struct fileheader *fp = buf;
+	unsigned int *fid = arg;
+	return (fp->id == *fid);
 }
 
-int main() {
-	FILE *fp;
-	char buf[512], board[80], dir[80], file[80], filename[80], *ptr;
-	struct fileheader x;
-	int num, tmp, total, in = 0;
-	init_all();
-	strsncpy(board, getparm("b"), 32);
-	strsncpy(file, getparm("f"), 32);
-    /*
-     * 下面代码用于添加帖子的版面验证，与bbsdoc.c中的验证代码类似,added by polygon
-     */
-	struct boardheader *x1;
-        x1=getbcache(board);
-             if ((x1->flag & BOARD_CLUB_FLAG)
-                         && (x1->flag & BOARD_READ_FLAG )
-                             && !has_BM_perm(&currentuser, board)
-                                 && !isclubmember(currentuser.userid, board))
-                        http_fatal("您不是俱乐部版 %s 的成员，无权访问该版面", board);
-    /*
-     * ended --polygon
-     * */
-    num=atoi(getparm("n"));
-	printf("<center>\n");
-	if(!has_read_perm(&currentuser, board))
-	{
-		printf("<b>文章阅读 · %s </b></center><br>\n",BBSNAME);
-		printpretable_lite();
-		http_fatal("错误的讨论区");
-	}
-	strcpy(board, getbcache(board)->filename);
-	printf("<b>文章阅读 · %s [讨论区: %s]</b></center><br>\n", BBSNAME, board);
-	if(strncmp(file, "M.", 2) && strncmp(file, "G.", 2)&&strncmp(file,"T.",2) )
-	{
-		printpretable_lite();
-		http_fatal("错误的参数1");
-	}
-	if(strstr(file, "..") || strstr(file, "/")) 
-	{
-		printpretable_lite();
-		http_fatal("错误的参数2");
-	}
-	sprintf(dir, "boards/%s/.DIR", board);
-	total=file_size(dir)/sizeof(x);
-	if(total<=0) 
-	{
-		printpretable_lite();
-		http_fatal("此讨论区不存在或者为空");
-	}
-	in = inboard(board, ".DIR", file);
-	in += inboard(board, ".NOTICE", file);
-	if (in == 0){
-		printpretable_lite();
-		http_fatal("错误的文章");
-	}
-	#ifdef CERTIFYMODE
-		fp=fopen(dir, "r+");
-		if(fp==0) 
-		{
-			printpretable_lite();
-			http_fatal("dir error2");
+// Find post whose id = 'fid'.
+// If 'fid' > any post's id, return 'end',
+// otherwise, return the minimum one among all post whose id > 'fid'.
+const struct fileheader *dir_bsearch(const struct fileheader *begin, 
+		const struct fileheader *end, unsigned int fid)
+{
+	const struct fileheader *mid;
+	while (begin < end) {
+		mid = begin + (end - begin) / 2;
+		if (mid->id == fid) {
+			return mid;
 		}
-		fseek(fp, sizeof(x)*num, SEEK_SET);
-	    fread(&x, sizeof(x), 1, fp);
-		fclose(fp);
-		if(x.accessed[1]&FILE_UNCERTIFIED)
-		{
-			printpretable_lite();
-			http_fatal("本文尚未通过审批");
+		if (mid->id < fid) {
+			begin = mid + 1;
+		} else {
+			end = mid;
 		}
-	#endif
-	printpretable();
-	printf("<table width=100%% border=0 cellspacing=3>\n");
-	sprintf(filename, "boards/%s/%s", board, file);
-	if(!showcontent(filename))
-	{
-		printf("本文不存在或者已被删除");
-		printf("</pre>\n</table>\n");
-		printposttable();
-		printf("<br><center><a href=/cgi-bin/bbs/bbsdoc?board=%s><img border=0 src=/images/button/home.gif align=absmiddle> 本讨论区</a></center>", board);
-		http_quit();
 	}
-	printf("</table>\n");  //pre
-	printposttable();
-	printf("<center>\n");
-	printf("<a href=/cgi-bin/bbs/bbsdoc?board=%s><img border=0 src=/images/button/home.gif align=absmiddle> 本讨论区</a>  ", board);
-	printf("<a href=/cgi-bin/bbs/bbsfwd?board=%s&file=%s>转寄/推荐</a>  ", board, file);
-	printf("<a href=/cgi-bin/bbs/bbsccc?board=%s&file=%s>转贴</a>  ", board, file);
-	printf("<a onclick='return confirm(\"您真的要删除本文吗?\")' href=bbsdel?board=%s&file=%s>删除文章</a>  ", board, file);
-	printf("<a href=/cgi-bin/bbs/bbsedit?board=%s&file=%s><img border=0 src=/images/button/edit.gif align=absmiddle>修改文章</a>  ", board, file);
-	fp=fopen(dir, "r+");
-	if(fp==0) 
-		http_fatal("dir error2");
-	if(num>1) 
-	{
-		fseek(fp, sizeof(x)*(num-2), SEEK_SET);
-		fread(&x, sizeof(x), 1, fp);
-		printf("<a href=/cgi-bin/bbs/bbscon?b=%s&f=%s&n=%d><img border=0 src=/images/button/up.gif align=absmiddle>上一篇</a>  ", board, x.filename, num-1);
+	return begin;
+}
+
+bool bbscon_search(const struct boardheader *bp, unsigned int fid,
+		int action, struct fileheader *fp)
+{
+	if (bp == NULL || fp == NULL)
+		return false;
+	char dir[HOMELEN];
+	setbfile(dir, bp->filename, DOT_DIR);
+	mmap_t m;
+	m.oflag = O_RDONLY;
+	if (mmap_open(dir, &m) < 0)
+		return false;
+	struct fileheader *begin = m.ptr, *end;
+	end = begin + (m.size / sizeof(*begin));
+	const struct fileheader *f = dir_bsearch(begin, end, fid);
+	if (f != end && f->id == fid) {
+		unsigned int gid = f->gid;
+		switch (action) {
+			case 'p':  // previous post
+				--f;
+				break;
+			case 'n':  // next post
+				++f;
+				break;
+			case 'b':  // previous post of same thread
+				while (--f >= begin && f->gid != gid)
+					; // null statement
+				break;
+			case 'a':  // next post of same thread
+				while (++f < end && f->gid != gid)
+					; // null statement
+				break;
+			default:
+				break;
+		}
+		if (f >= begin && f < end)
+			*fp = *f;
+		else
+			f = NULL;
 	}
-	if(num<total) 
-	{
-		fseek(fp, sizeof(x)*(num), SEEK_SET);
-    	fread(&x, sizeof(x), 1, fp);
-    	printf("<a href=/cgi-bin/bbs/bbscon?b=%s&f=%s&n=%d><img border=0 src=/images/button/down.gif align=absmiddle>下一篇</a>  ", board, x.filename, num+1);
+	mmap_close(&m);
+	return (f != NULL);
+}
+
+int bbscon_main(void)
+{
+	int bid = strtol(getparm("bid"), NULL, 10);
+	struct boardheader *bp = getbcache2(bid);
+	if (bp == NULL || !hasreadperm(&currentuser, bp))
+		return BBS_ENOBRD;
+	if (bp->flag & BOARD_DIR_FLAG)
+		return BBS_EINVAL;
+	unsigned int fid = strtoul(getparm("f"), NULL, 10);
+	char *action = getparm("a");
+	bool sticky = *getparm("s");
+
+	struct fileheader fh;
+	if (sticky) {
+		char file[HOMELEN];
+		setbfile(file, bp->filename, NOTICE_DIR);
+		if (!search_record(file, &fh, sizeof(fh), cmp_fid, &fid))
+			return BBS_ENOFILE;
+	} else {
+		if (!bbscon_search(bp, fid, *action, &fh))
+			return BBS_ENOFILE;
 	}
-	if(num>0 && num<=total) 
-	{
-		//modified by roly from "num>0 && num<total"
-		fseek(fp, sizeof(x)*(num-1), SEEK_SET);
-		fread(&x, sizeof(x), 1, fp);
-		#ifdef SPARC
-			(*(int*)(x.title+72))++; //modified by roly from 73 to 72 for sparc solaris
-			if(*(int*)(x.title+72)>1000000)
-				(*(int*)(x.title+72))=0;//modified by roly from 73 to 72 for sparc solaris
-		#else
-			(*(int*)(x.title+73))++; //modified by roly from 73 to 72 for sparc solaris
-			if(*(int*)(x.title+73)>1000000)
-				(*(int*)(x.title+73))=0;//modified by roly from 73 to 72 for sparc solaris
-		#endif
-		//fseek(fp, sizeof(x)*(num-1), SEEK_SET);
-		//fwrite(&x, sizeof(x), 1, fp);
-		brc_init(currentuser.userid, board);
-		brc_add_read(x.filename);
-		brc_update(currentuser.userid, board);
-	}
-	fclose(fp);
-    ptr=x.title;
-    if(!strncmp(ptr, "Re: ", 4)) 
-		ptr+=4;
-	ptr[60]=0;
-	/* added by roly */
-	
-	/* add end */
-		//added by iamfat 2002.08.10
-		//check_anonymous(x.owner);
-		//added end.
-    printf("[<a href='/cgi-bin/bbs/bbspst?board=%s&file=%s&userid=%s&id=%d&gid=%d&title=Re: %s '><img border=0 src=/images/button/edit.gif align=absmiddle>回文章</a>] ",board, file, x.owner, x.id, x.gid, entity_char(ptr));
-	printf("[<a href='/cgi-bin/bbs/bbsgfind?board=%s&gid=%d '>同主题阅读</a>] \n", board, x.gid);
-   	printf("</center>\n"); 
-	http_quit();
+	fid = fh.id;
+
+	xml_header("bbs");
+	printf("<bbscon link='con' bid='%d' ", bid);
+	print_session();
+	printf(">");
+	printf("<po fid='%u'", fid);
+	if (sticky)
+		printf(" sticky='1'");
+	if (fh.reid != fh.id)
+		printf(" reid='%u' gid='%u'>", fh.reid, fh.gid);
+	else
+		printf(">");
+	char file[HOMELEN];
+	setbfile(file, bp->filename, fh.filename);
+	xml_printfile(file, stdout);
+	printf("</po></bbscon>");
+
+	brc_fcgi_init(currentuser.userid, bp->filename);
+	brc_addlist(fh.filename);
+	brc_update(currentuser.userid, bp->filename);
+	return 0;
+}
+
+int bbsgcon_main(void)
+{
+	int bid = strtol(getparm("bid"), NULL, 10);
+	struct boardheader *bp = getbcache2(bid);
+	if (bp == NULL || !hasreadperm(&currentuser, bp))
+		return BBS_ENOBRD;
+	if (bp->flag & BOARD_DIR_FLAG)
+		return BBS_EINVAL;
+	char *f = getparm("f");
+	if (strstr(f, "..") || strstr(f, "/") || strncmp(f, "G.", 2))
+		return BBS_EINVAL;
+	xml_header("bbs");
+	printf("<bbscon link='gcon' bid='%d' ", bid);
+	print_session();
+	printf("><po>");
+	char file[HOMELEN];
+	setbfile(file, bp->filename, f);
+	xml_printfile(file, stdout);
+	printf("</po></bbscon>", bid);
+	brc_fcgi_init(currentuser.userid, bp->filename);
+	brc_addlist(f);
+	brc_update(currentuser.userid, bp->filename);
+	return 0;
 }

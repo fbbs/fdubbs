@@ -1,39 +1,161 @@
-#include "BBSLIB.inc"
+#include "libweb.h"
 
-int main() {
-	int i; 
-	init_all();
+/**
+ * Print override information.
+ * @param buf the starting address of override struct.
+ * @param count not used.
+ * @param args not used.
+ * @return 0.
+ */
+static int print_override(void *buf, int count, void *args)
+{
+	override_t *ov = buf;
+	printf("<ov id='%s'>", ov->id);
+	xml_fputs(ov->exp, stdout);
+	printf("</ov>");
+	return 0;
+}
 
-	/* added by roly  2002.05.10 去掉cache */
-	printf("<meta http-equiv=\"pragma\" content=\"no-cache\">");
-	/* add end */
+int bbsfall_main(void)
+{
+	if (!loginok)
+		return BBS_ELGNREQ;
+	xml_header("bbs");
+	printf("<bbsfall ");
+	print_session();
+	printf(">");
+	char file[HOMELEN];
+	sethomefile(file, currentuser.userid, "friends");
+	apply_record(file, print_override, sizeof(override_t), NULL, false,
+			false, true);
+	printf("</bbsfall>");
+	return 0;
+}
 
-   	if(!loginok) http_fatal("您尚未登录, 请先登录");
-	loadfriend(currentuser.userid);
-    	printf("<center>\n");
-  	printf("<b>好友名单 · %s [使用者: %s]</b><br>\n", BBSNAME, currentuser.userid);
-   	printf("您共设定了 %d 位好友<br>", friendnum);
-	
-	printf("<table align=center border=0 cellpadding=0 cellspacing=0 width=400>\n");
-	printf("	<tr height=6>\n");
-	printf("		<td width=6><img border=0 src='/images/lt.gif'></td>\n");
-	printf("		<td background='/images/t.gif' width=100%%></td>\n");
-	printf("		<td width=6><img border=0 src='/images/rt.gif'></td>\n");
-	printf("	</tr>\n");
-	printf("	<tr  height=100%%>\n");
-	printf("		<td width=6 background='/images/l.gif'>\n");
-	printf("		<td width=100%%>\n");
+static int cmpname(void *arg, void *buf)
+{
+	override_t *ov = (override_t *)buf;
+	return !strncasecmp(arg, ov->id, sizeof(ov->id));
+}
 
-   	printf("<table width=100%% border=0  bgcolor=#ffffff><tr class=pt9h ><td><font color=white>序号<td><font color=white>好友代号<td><font color=white>好友说明<td><font color=white>删除好友");
-   	int cc=0;
-	for(i=0; i<friendnum; i++) {
-		printf("<tr class=%s><td>%d",((cc++)%2)?"pt9dc":"pt9lc" , i+1);
-		printf("<td><a href=bbsqry?userid=%s>%s</a>", fff[i].id, fff[i].id);
-		printf("<td>%s\n", nohtml(fff[i].exp));
-		printf("<td>[<a onclick='return confirm(\"确实删除吗?\")' href=bbsfdel?userid=%s>删除</a>]", fff[i].id);
+static int cmp_override(const void *key, const void *buf)
+{
+	override_t *ov = (override_t *)buf;
+	return strncasecmp(((override_t *)key)->id, ov->id, sizeof(ov->id));
+}
+
+int bbsfadd_main(void)
+{
+	if (!loginok)
+		return BBS_ELGNREQ;
+	const char *id = getparm("id");
+	const char *desc = getparm("desc");
+	if (*id != '\0') {
+		override_t ov;
+		memset(&ov, 0, sizeof(ov));
+		strlcpy(ov.id, id, sizeof(ov.id));
+		if (!searchuser(ov.id))
+			return BBS_ENOUSR;
+		strlcpy(ov.exp, desc, sizeof(ov.exp));
+		char file[HOMELEN];
+		sethomefile(file, currentuser.userid, "friends");
+		if (get_num_records(file, sizeof(ov)) == MAXFRIENDS)
+			return BBS_EFRNDQE;
+		// TODO: be atomic
+		if (!search_record(file, NULL, sizeof(ov), cmpname, ov.id))
+			append_record(file, &ov, sizeof(ov));
+		printf("Location: fall\n\n");
+		return 0;
 	}
-   	printf("</table>\n");
-	printposttable();
-	printf("[<a href=bbsfadd>添加新的好友</a>]</center>\n");
-	http_quit();
+	xml_header("bbs");
+	printf("<bbsfadd ");
+	print_session();
+	printf(">%s</bbsfadd>", id);
+	return 0;
+}
+
+int bbsfdel_main(void)
+{
+	if (!loginok)
+		return BBS_ELGNREQ;
+	char *user = getparm("u");
+	if (*user != '\0') {
+		char file[HOMELEN];
+		sethomefile(file, currentuser.userid, "friends");
+		record_t r;
+		if (record_open(file, O_RDWR, &r) < 0)
+			return BBS_EINTNL;
+		override_t key;
+		strlcpy(key.id, user, sizeof(key.id));
+		override_t *ptr =
+				record_search(&r, &key, sizeof(key), lsearch, cmp_override);
+		if (ptr != NULL)
+			record_delete(&r, ptr, sizeof(*ptr));
+		record_close(&r);
+	}
+	printf("Location: fall\n\n");
+	return 0;
+}
+
+static void override_info(void)
+{
+	char file[HOMELEN];
+	sethomefile(file, currentuser.userid, "friends");
+	mmap_t m;
+	m.oflag = O_RDONLY;
+	if (mmap_open(file, &m) < 0)
+		return;
+	hash_t ht;
+	if (hash_create(&ht, 0, NULL) < 0) {
+		mmap_close(&m);
+		return;
+	}
+	int count = m.size / sizeof(override_t);
+	if (count > 0) {
+		override_t *ov = m.ptr;
+		for (int i = 0; i < count; i++) {
+			hash_set(&ht, ov->id, HASH_KEY_STRING, ov->id);
+			ov++;
+		}
+		time_t now = time(NULL);
+		struct user_info *uinfo = utmpshm->uinfo;
+		struct userec *user;
+		const char *ip;
+		int idle;
+		for (int i = 0; i < MAXACTIVE; ++i) {
+			if (uinfo->active
+					&& !(uinfo->invisible && !HAS_PERM(PERM_SEECLOAK))
+					&& hash_get(&ht, uinfo->userid, HASH_KEY_STRING)) {
+				user = uidshm->passwd + (uinfo->uid - 1);
+				if (HAS_DEFINE(user->userdefine, DEF_NOTHIDEIP))
+					ip = mask_host(uinfo->from);
+				else
+					ip = "......";
+				if (uinfo->mode == BBSNET)
+					idle = 0;
+				else
+					idle = (now - uinfo->idle_time) / 60;
+				printf("<ov id='%s' action='%s' idle='%d' ip='%s'>",
+						uinfo->userid, mode_type(uinfo->mode), idle, ip);
+				xml_fputs(uinfo->username, stdout);
+				printf("</ov>");
+			}
+			uinfo++;
+		}
+	}
+	hash_destroy(&ht);
+	mmap_close(&m);
+}
+
+int bbsovr_main(void)
+{
+	if (!loginok)
+		return BBS_ELGNREQ;
+	xml_header("bbs");
+	printf("<bbsovr ");
+	print_session();
+	printf(">");
+	override_info();
+	printf("</bbsovr>");
+	return 0;
 }
