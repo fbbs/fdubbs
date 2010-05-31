@@ -124,40 +124,6 @@ void setcalltime( void )
 	calltime = time(0) + ttt * 60;
 }
 
-int readln(int fd, char *buf)
-{
-	int     len, bytes, in_esc, ch;
-	len = bytes = in_esc = 0;
-	while (1) {
-		if (more_num >= more_size) {
-			more_size = read(fd, more_buf, MORE_BUFSIZE);
-			if (more_size == 0)  break;
-			more_num = 0;
-		}
-		ch = more_buf[more_num++];
-		bytes++;
-		if (ch == '\n' || bytes > 255) break;
-		else if (ch == '\t') {
-			do {
-				len++, *buf++ = ' ';
-			} while ((len % 4) != 0);
-		} else if (ch == '') {
-			if (showansi) *buf++ = ch;
-			in_esc = 1;
-		} else if (in_esc) {
-			if (showansi) *buf++ = ch;
-			if (strchr("[0123456789;,", ch) == NULL) in_esc = 0;
-		} else if (isprint2(ch)) {
-			if (len > 79) break;
-			len++;
-			*buf++ = ch;
-		}
-	}
-	*buf++ = ch;
-	*buf = '\0';
-	return bytes;
-}
-
 int morekey( void )
 {
 	int     ch;
@@ -220,34 +186,6 @@ int morekey( void )
 	}
 }
 
-int seek_nth_line(int fd, int no)  // ´ÓÎÄ¼þÍ·¶Áµ½µÚ no ÐÐ( ¶¨Î»µ½ no ÐÐ )
-{
-	int     n_read, line_count, viewed;
-	char   *p, *end;
-	lseek(fd, 0, SEEK_SET);
-	line_count = viewed = 0;
-
-	if (no > 0)
-		while (1) {
-			n_read = read(fd, more_buf, MORE_BUFSIZE);
-			if(n_read<=0)break;
-			p = more_buf;
-			end = p + n_read;
-			for (; p < end && line_count < no; p++)
-				if (*p == '\n')line_count++;
-
-			if (line_count >= no) {
-				viewed += (p - more_buf);
-				lseek(fd, (off_t) viewed, SEEK_SET);
-				break;
-			} else
-				viewed += n_read;
-		} 
-
-	more_num = MORE_BUFSIZE + 1;	/* invalidate the readln()'s buffer */
-
-	return viewed;
-}
 /*Add by SmallPig*/
 int countln(char *fname)
 {
@@ -366,129 +304,15 @@ void R_monitor()
 		alarm(10);
 }
 
-static int rawmore(char *filename, int promptend, int row, int numlines, int stuffmode)
-{
-	extern int t_lines;
-	struct stat st;
-	int     fd, tsize;
-	char    buf[256];
-	int     i, ch, viewed, pos, isin = NA, titleshow = NA;
-	int     numbytes;
-	int     curr_row = row;
-	int     linesread = 0;
-
-	if ((fd = open(filename, O_RDONLY)) == -1) {
-		return -1;
-	}
-	if (fstat(fd, &st)) {
-		return -1;
-	}
-
-	tsize = st.st_size;
-	more_size = more_num = 0; 
-	clrtobot();
-	i = pos = viewed = 0;
-
-	numbytes = readln(fd, buf);
-
-	curr_row++;
-	linesread++;
-	while (numbytes) {
-		if (linesread <= numlines || numlines == 0) {
-			viewed += numbytes;
-			if (!titleshow && (!strncmp(buf, "¡õ ÒýÓÃ", 7))
-					||(!strncmp(buf, "==>", 3)) 
-					|| (!strncmp(buf, "¡¾ ÔÚ", 5))
-					||(!strncmp(buf, "¡ù ÒýÊö", 7))) {
-				prints("[1;33m%s[m", buf);
-				titleshow = YEA;
-			} else if (buf[0] != ':' && buf[0] != '>') {
-				if (isin == YEA) { 
-					isin = NA;
-					prints("[m");
-				}
-				if (check_stuffmode() || stuffmode == YEA) 
-					showstuff(buf);
-				else
-					prints("%s", buf);
-			} else { 
-				prints("[36m");
-				if (check_stuffmode() || stuffmode == YEA)
-					showstuff(buf);
-				else
-					prints("%s", buf);
-				isin = YEA;
-			}
-			i++;
-			pos++;
-			if (pos == t_lines) {
-				scroll();
-				pos--;
-			}
-			numbytes = readln(fd, buf); 
-			curr_row++;
-			linesread++;
-			if (numbytes == 0) break;
-			if (i == t_lines - 1) {
-				if (showansi) {
-					move(t_lines - 1, 0);
-					prints("[0m[m");
-					refresh();
-				}
-				move(t_lines - 1, 0);
-				clrtoeol();
-				prints("[1;44;32mÏÂÃæ»¹ÓÐà¸ (%d%%)[33m   ©¦ ½áÊø ¡û <q> ©¦ ¡ü/¡ý/PgUp/PgDn ÒÆ¶¯ ©¦ ? ¸¨ÖúËµÃ÷ ©¦     [m", (viewed * 100) / tsize);
-				ch = morekey();
-				move(t_lines - 1, 0);
-				clrtoeol();
-				refresh();
-				if (ch == KEY_LEFT) { 
-					close(fd);
-					return ch;
-				} else if (ch == KEY_RIGHT) {
-					i = 1;
-				} else if (ch == KEY_DOWN) {
-					i = t_lines - 2;
-				} else if (ch == KEY_PGUP || ch == KEY_UP) {
-					clear();
-					i = pos = 0;
-					curr_row -= (ch == KEY_PGUP) ? (2 * t_lines - 2) : (t_lines + 1);
-					if (curr_row < 0) {
-						close(fd);
-						return ch;
-					}
-					viewed = seek_nth_line(fd, curr_row);
-					numbytes = readln(fd, buf);
-					curr_row++;
-				} else if (ch == 'H') {
-					show_help("help/morehelp");
-					i = pos = 0;
-					curr_row -= (t_lines);
-					if (curr_row < 0)
-						curr_row = 0;
-					viewed = seek_nth_line(fd, curr_row);
-					numbytes = readln(fd, buf);
-					curr_row++;
-				}
-			}
-		} else break;	/* More Than Want */
-	}
-	close(fd);
-	if (promptend) {
-		pressanykey();
-	}
-	return 0;
-}
-
-// Following lines are added for supporting showing arbitrary length lines.
-
 enum {
 	/** A ::linenum_t will be assigned for every block. */
 	LINENUM_BLOCK_SIZE = 4096, 
 	DEFAULT_TERM_WIDTH = 80,   ///< Default terminal width.
-	TAB_STOP = 4,     ///< Columns of a tab stop.
-	IS_QUOTE = 0x1,   ///< The line is part of quotation if this bit is set.
-	HAS_TABSTOP = 0x2 ///< The line has tab stop(s) if this bit is set.
+	TAB_STOP = 4,       ///< Columns of a tab stop.
+	IS_QUOTE = 0x1,     ///< The line is part of quotation if this bit is set.
+	HAS_TABSTOP = 0x2,  ///< The line has tab stop(s) if this bit is set.
+	NO_QUOTE = 0x1,     ///< Show quote with normal style.
+	NO_EMPHASIZE = 0x2, ///< Show emphasized text with normal style.
 };
 
 /** Line number cache structure. */
@@ -499,7 +323,7 @@ typedef struct linenum_t {
 } linenum_t;
 
 /** Mmap_more stream structure. */
-typedef struct mmap_more_file_t {
+typedef struct more_file_t {
 	char *buf;        ///< Starting address of the text.
 	size_t size;      ///< Length of the text.
 	linenum_t *ln;    ///< Starting address of line number cache.
@@ -510,60 +334,57 @@ typedef struct mmap_more_file_t {
 	char *begin;      ///< Starting address of last fetched line.
 	char *end;        ///< Off-the-end pointer of last fetched line.
 	int prop;         ///< Properties of last fetched line.
-} mmap_more_file_t;
+	int opt;          ///< Options of the more file.
+} more_file_t;
+
+typedef int (*more_open_t)(const char *, more_file_t *);
+
+typedef int (*more_prompt_t)(more_file_t *);
+
+typedef int (*more_handler_t)(more_file_t *, int);
 
 /**
- * Open a file as mmap_more stream.
+ * Open a file as more stream.
  * @param file File to open.
  * @param width Line width.
- * @return an ::mmap_more_file_t pointer on success, NULL on error.
+ * @param func A function to fill the stream with file content.
+ * @return an ::more_file_t pointer on success, NULL on error.
  */
-static mmap_more_file_t *mmap_more_open(const char *file, int width)
+static more_file_t *more_open(const char *file, int width, more_open_t func)
 {
-	mmap_t m;
-	m.oflag = O_RDONLY;
-	if (mmap_open(file, &m) < 0)
+	more_file_t *more = malloc(sizeof(*more));
+	if (more == NULL)
 		return NULL;
-	mmap_more_file_t *d = malloc(sizeof(*d));
-	if (d == NULL) {
-		mmap_close(&m);
+
+	memset(more, 0, sizeof(*more));
+	more->total = -1;
+	more->width = width;
+
+	if ((*func)(file, more) != 0) {
+		free(more);
 		return NULL;
 	}
-	memset(d, 0, sizeof(*d));
-	d->total = -1;
-	d->width = width;
-	d->size = m.size;
-	d->ln_size = m.size / LINENUM_BLOCK_SIZE + 1; // at least one block
-	d->buf = malloc(m.size + d->ln_size * sizeof(linenum_t));
-	if (d->buf != NULL) {
-		memcpy(d->buf, m.ptr, m.size);
-		mmap_close(&m);
-		d->ln = (linenum_t *)(d->buf + m.size);
-		memset(d->ln, 0, d->ln_size * sizeof(linenum_t));
-		return d;
-	}
-	mmap_close(&m);
-	return NULL;
+	return more;
 }
 
 /**
- * Close mmap_more stream.
- * @param d The mmap_more stream.
+ * Close more stream.
+ * @param d The more stream.
  */
-static void mmap_more_close(mmap_more_file_t *d)
+static void more_close(more_file_t *more)
 {
-	if (d->buf != NULL)
-		free(d->buf);
-	free(d);
+	if (more->buf != NULL)
+		free(more->buf);
+	free(more);
 }
 
 /**
- * Get next line from mmap_more stream.
+ * Get next line from more stream.
  * On success, d->begin, d->row, d->prop is set and returned.
- * @param[in,out] d The mmap_more stream.
+ * @param[in,out] d The more stream.
  * @return Size of string, -1 on error.
  */
-static ssize_t mmap_more_getline(mmap_more_file_t *d)
+static ssize_t more_getline(more_file_t *d)
 {
 	static const char code[] = "[0123456789;";
 	if (d->width < 2) {
@@ -661,11 +482,11 @@ static ssize_t mmap_more_getline(mmap_more_file_t *d)
 
 /**
  * Get the strarting address of given line.
- * @param d The mmap_more stream.
+ * @param d The more stream.
  * @param line Line number.
  * @return The strarting address of given line.
  */
-static char *mmap_more_seek(mmap_more_file_t *d, int line)
+static char *more_seek(more_file_t *d, int line)
 {
 	if (line < 0)
 		line = 0;
@@ -687,7 +508,7 @@ static char *mmap_more_seek(mmap_more_file_t *d, int line)
 		d->end = lnptr->offset;
 	}
 	while (d->line < line) {
-		if (mmap_more_getline(d) <= 0)
+		if (more_getline(d) <= 0)
 			break;			
 	}
 	return d->begin;
@@ -695,11 +516,11 @@ static char *mmap_more_seek(mmap_more_file_t *d, int line)
 }
 
 /**
- * Get count of lines of given mmap_more stream.
- * @param d The mmap_more stream.
+ * Get count of lines of given more stream.
+ * @param d The more stream.
  * @return Count of lines.
  */
-static int mmap_more_countline(mmap_more_file_t *d)
+static int more_countline(more_file_t *d)
 {
 	if (d->total >= 0)
 		return d->total;
@@ -725,7 +546,7 @@ static int mmap_more_countline(mmap_more_file_t *d)
 	}
 
 	while (d->total < 0)
-		mmap_more_getline(d);
+		more_getline(d);
 
 	// Restore status
 	d->begin = begin;
@@ -737,10 +558,10 @@ static int mmap_more_countline(mmap_more_file_t *d)
 }
 
 /**
- * Print current line in an mmap_more stream.
- * @param d The mmap_more stream.
+ * Print current line in an more stream.
+ * @param d The more stream.
  */
-static void mmap_more_puts(mmap_more_file_t *d)
+static void more_puts(more_file_t *d)
 {
 	char *ptr;
 	int offset = 0;
@@ -762,61 +583,94 @@ static void mmap_more_puts(mmap_more_file_t *d)
 }
 
 /**
- * Article reading function for telnet.
- * @param file File to show.
- * @param promptend Whether immediately ask user to press any key.
- * @param line The start line (on screen) of the article area.
- * @param numlines Lines shown at most, 0 means no limit.
- * @param stuffmode todo..
- * @return Last dealt key, -1 on error.
+ *
  */
-static int rawmore2(const char *file, int promptend, int line, int numlines, int stuffmode)
+static int more_open_file(const char *file, more_file_t *more)
 {
-	mmap_more_file_t *d = mmap_more_open(file, DEFAULT_TERM_WIDTH);
-	if (d == NULL)
+	mmap_t m;
+	m.oflag = O_RDONLY;
+	if (mmap_open(file, &m) < 0)
 		return -1;
 
-	clrtobot();
+	more->size = m.size;
+	more->ln_size = m.size / LINENUM_BLOCK_SIZE + 1; // at least one block
+	more->buf = malloc(m.size + more->ln_size * sizeof(linenum_t));
+	if (more->buf != NULL) {
+		memcpy(more->buf, m.ptr, m.size);
+		mmap_close(&m);
+		more->ln = (linenum_t *)(more->buf + m.size);
+		memset(more->ln, 0, more->ln_size * sizeof(linenum_t));
+		return 0;
+	}
+
+	mmap_close(&m);
+	return -1;
+}
+
+static int more_prompt_file(more_file_t *more)
+{
+	prints("\033[0;1;44;32mÏÂÃæ»¹ÓÐà¸(%d%%) µÚ(%d-%d)ÐÐ \033[33m|"
+			" l ÉÏÆª | b e ¿ªÍ·Ä©Î² | g Ìø×ª | h °ïÖú\033[K\033[m",
+			(more->end - more->buf) * 100 / more->size,
+			more->line - t_lines + 2, more->line);
+	return 0;
+}
+
+static int is_emphasize(const char *str)
+{
+	return (!strncmp(str, "¡¾ ÔÚ", sizeof("¡¾ ÔÚ") - 1)
+			|| !strncmp(str, "==>", 3)
+			|| !strncmp(str, "¡õ ÒýÓÃ", sizeof("¡õ ÒýÓÃ") - 1)
+			|| !strncmp(str, "¡ù ÒýÊö", sizeof("¡ù ÒýÊö") - 1));
+}
+
+static int is_quotation(const char *str)
+{
+	return (!strncmp(str, ": ", 2) || !strncmp(str, "> ", 2));
+}
+
+static int more_main(more_file_t *more, bool promptend, int line, int lines,
+		int stuff, more_prompt_t prompt, more_handler_t handler)
+{
 	int lines_read = 1, pos = 0, i = 0, ch = 0;
 	bool is_quote, is_wrapped, colored = false;
 	int new_row;
-	char *buf_end = d->buf + d->size;
+	char *buf_end = more->buf + more->size;
 	char linebuf[7];
+
+	clrtobot();
 	// TODO: stuffmode
 	while (true) {
-		is_quote = d->prop & IS_QUOTE;
+		is_quote = more->prop & IS_QUOTE;
 		while (i++ < t_lines - 1) {
 			// Get a line
-			if (mmap_more_getline(d) <= 0) {
-				mmap_more_close(d);
+			if (more_getline(more) <= 0) {
 				if (promptend)
 					pressanykey();
 				return ch;
 			}
 			lines_read++;
-			if (numlines == 0 || lines_read <= numlines) {
-				if (!strncmp(d->begin, "¡õ ÒýÓÃ", 7)
-						|| !strncmp(d->begin, "==>", 3)
-						|| !strncmp(d->begin, "¡¾ ÔÚ", 5)
-						|| !strncmp(d->begin, "¡ù ÒýÊö", 7)) {
-					prints("\033[1;33m");
-					mmap_more_puts(d);
+			if (lines == 0 || lines_read <= lines) {
+				if (!(more->opt & NO_EMPHASIZE) && is_emphasize(more->begin)) {
+					outs("\033[1;33m");
+					more_puts(more);
 					colored = true;
 				} else {
-					is_wrapped = (d->begin != d->buf) && (*(d->begin - 1) != '\n');
-					if (is_quote || (!is_wrapped && ((!strncmp(d->begin, ": ", 2)
-							|| !strncmp(d->begin, "> ", 2))))) {
+					is_wrapped = (more->begin != more->buf)
+							&& (*(more->begin - 1) != '\n');
+					if (!(more->opt & NO_QUOTE) && (is_quote
+							|| (!is_wrapped && is_quotation(more->begin)))) {
 						is_quote = true;
-						prints("\033[0;36m");
+						outs("\033[0;36m");
 						colored = true;
 					} else {
 						if (colored) {
-							prints("\033[m");
+							outs("\033[m");
 							colored = false;
 						}
 					}
-					mmap_more_puts(d);
-					is_wrapped = (*(d->end - 1) != '\n');
+					more_puts(more);
+					is_wrapped = (*(more->end - 1) != '\n');
 					if (is_quote && !is_wrapped)
 						is_quote = false;
 				}
@@ -826,33 +680,31 @@ static int rawmore2(const char *file, int promptend, int line, int numlines, int
 					--pos;
 				}
 			} 			else {
-				mmap_more_close(d);
 				if (promptend)
 					pressanykey();
 				refresh();
 				return ch;
 			}
 		}
+
 		// Reaching end by KEY_END can be rolled back.
-		if (d->end == buf_end && ch != KEY_END) {
-			mmap_more_close(d);
+		if (more->end == buf_end && ch != KEY_END) {
 			if (promptend)
 				pressanykey();
 			return ch;
 		}
+
 		// If screen is filled, wait for user command.
 		move(t_lines - 1, 0);
 		clrtoeol();
-		prints("\033[0;1;44;32mÏÂÃæ»¹ÓÐà¸(%d%%) µÚ(%d-%d)ÐÐ \033[33m|"
-				" l ÉÏÆª | b e ¿ªÍ·Ä©Î² | g Ìø×ª | h °ïÖú\033[K\033[m",
-				(d->end - d->buf) * 100 / d->size, d->line - t_lines + 2, d->line);
+		(*prompt)(more);
+
 		ch = morekey();
 		move(t_lines - 1, 0);
 		clrtoeol();
 		refresh();
 		switch (ch) {
 			case KEY_LEFT:
-				mmap_more_close(d);
 				return ch;
 				break;
 			case KEY_RIGHT:
@@ -864,190 +716,195 @@ static int rawmore2(const char *file, int promptend, int line, int numlines, int
 			case KEY_PGUP:
 				clear();
 				i = pos = 0;
-				new_row = d->line - (2 * t_lines - 3);
-				if (new_row < 0) {
-					mmap_more_close(d);
+				new_row = more->line - (2 * t_lines - 3);
+				if (new_row < 0)
 					return ch;
-				}
-				mmap_more_seek(d, new_row);
+				more_seek(more, new_row);
 				break;
 			case KEY_UP:
 				clear();
 				i = pos = 0;
-				new_row = d->line - t_lines;
+				new_row = more->line - t_lines;
 				if (new_row < 0) {
-					mmap_more_close(d);
 					return ch;
 				}
-				mmap_more_seek(d, new_row);
+				more_seek(more, new_row);
 				break;
 			case KEY_HOME:
 				clear();
 				i = pos = 0;
-				mmap_more_seek(d, 0);
+				more_seek(more, 0);
 				break;
 			case 'R':
 			case KEY_END:
-				mmap_more_countline(d);
-				i = t_lines - 1 - (d->total - d->line);
+				more_countline(more);
+				i = t_lines - 1 - (more->total - more->line);
 				if (i < 0)
 					i = 0;
 				if (i == t_lines - 1)
 					break;
-				mmap_more_seek(d, d->total - (t_lines - 1) + i);
+				more_seek(more, more->total - (t_lines - 1) + i);
 				break;
 			case 'G':
-				getdata(t_lines - 1, 0, "Ìø×ªµ½µÄÐÐºÅ:", linebuf, sizeof(linebuf), true, true);
+				getdata(t_lines - 1, 0, "Ìø×ªµ½µÄÐÐºÅ:", linebuf,
+						sizeof(linebuf), true, true);
 				new_row = strtol(linebuf, NULL, 10) - 1;
 				if (new_row < 0)
 					new_row = 0;
-				mmap_more_seek(d, new_row);
-				if (d->total >= 0 && new_row >= d->total)
-					mmap_more_seek(d, d->total - 1);
+				more_seek(more, new_row);
+				if (more->total >= 0 && new_row >= more->total)
+					more_seek(more, more->total - 1);
 				clear();
 				i = pos = 0;
 				break;
 			case 'H':
 				show_help("help/morehelp");
 				i = pos = 0;
-				new_row = d->line - t_lines + 1;
+				new_row = more->line - t_lines + 1;
 				if (new_row < 0)
 					new_row = 0;
-				mmap_more_seek(d, new_row);
+				more_seek(more, new_row);
 				break;
 			case 'L':
-				mmap_more_close(d);
 				return KEY_PGUP;
 				break;
 			default:
+				if (handler) {
+					ch = (*handler)(more, ch);
+					if (ch)
+						return ch;
+				}
 				break;
 			}
 	}
-	mmap_more_close(d);
 	if (promptend)
 		pressanykey();
 	return ch;
 }
 
-// Added end.
-
-int mesgmore(char *filename, int promptend, int row, int numlines)
+/**
+ * Article reading function for telnet.
+ * @param file File to show.
+ * @param promptend Whether immediately ask user to press any key.
+ * @param line The start line (on screen) of the article area.
+ * @param numlines Lines shown at most, 0 means no limit.
+ * @param stuffmode todo..
+ * @return Last dealt key, -1 on error.
+ */
+static int rawmore2(const char *file, int promptend, int line, int numlines, int stuffmode)
 {
-	extern int t_lines;
-	struct stat st;
-	int     fd, tsize;
-	char    buf[256];
-	int     i, ch, viewed, pos, isin = NA;
-	int     numbytes;
-	int     curr_row = row;
-	int     linesread = 0;
-	char    title[256];
+	more_file_t *more = more_open(file, DEFAULT_TERM_WIDTH, more_open_file);
+	if (more == NULL)
+		return -1;
+	int ch = more_main(more, promptend, line, numlines, stuffmode,
+			more_prompt_file, NULL);
+	more_close(more);
+	return ch;
+}
 
-	if ((fd = open(filename, O_RDONLY)) == -1)  return -1;
-	if (fstat(fd, &st)) return -1;
+static int more_open_msg(const char *file, more_file_t *more)
+{
+	more->opt |= NO_QUOTE | NO_EMPHASIZE;
 
-	tsize = st.st_size;
-	more_size = more_num = 0; 
+	FILE *fp = fopen(file, "r");
+	if (fp == NULL)
+		return -1;
+	flock(fileno(fp), LOCK_EX);
+	fseek(fp, 0, SEEK_END);
+	int size = ftell(fp);
 
-	clrtobot();
-	i = pos = viewed = 0;
-	numbytes = readln(fd, buf);
-	curr_row++;
-	linesread++;
-	while (numbytes) {
-		if (linesread <= numlines || numlines == 0) {
-			viewed += numbytes; 
-			if (check_stuffmode())
-				showstuff(buf);
-			else {
-				/* Modified by Ashinmarch on 2007.12.01, used to support multi-line msg
-				 * msghead(with ansi) and msg content(no ansi but multi-line) should be
-				 * differentiated.
-				 */
-				if(buf[0] == '\033') //msg head
-					prints("%s",buf);
-				else   //msg
-					show_data(buf, LINE_LEN - 1, curr_row, 0);
+	int len = 0;
+	char head[LINE_BUFSIZE], buf[LINE_BUFSIZE];
+	more->buf = malloc(size);
+	if (more->buf != NULL) {
+		fseek(fp, 0, SEEK_SET);
+		while (fgets(head, sizeof(head), fp) && fgets(buf, sizeof(buf), fp)) {
+			// truncate head.
+			memcpy(more->buf + len, head, 71);
+			len += 71;
+			memcpy(more->buf + len, "\033[K\033[m\n", 7);
+			len += 7;
+			len += strlcpy(more->buf + len, buf, size - len);
+			if (len > size) {
+				len = size;
+				break;
 			}
-			isin = YEA;
-			i++;
-			pos++;
-			if (pos == t_lines) {
-				scroll();
-				pos--;
-			}
-			numbytes = readln(fd, buf);
-			curr_row++;
-			linesread++;
-			if (numbytes == 0) break;
-			if (i == t_lines - 1) {
-				if (showansi) {
-					move(t_lines - 1, 0);
-					prints("[0m[m");
-					refresh();
-				}
-				move(t_lines - 1, 0);
-				clrtoeol();
-				prints("[0m[1;44;32m(%d%%) ÊÇ·ñ¼ÌÐø [[1;37mY/n[1;32m]   ±£Áô <[1;37mr[32m>    Çå³ý <[1;37mc[1;32m>   ¼Ä»ØÐÅÏä <[1;37mm[1;32m>                      [m", (viewed * 100) / tsize);
-				ch = morekey();
-				move(t_lines - 1, 0);
-				clrtoeol();
-				refresh();
-				if (ch == KEY_LEFT) {
-					close(fd);
-					return ch;
-				} else if (ch == KEY_RIGHT) {
-					i = 1;
-				} else if (ch == KEY_DOWN) {
-					i = t_lines - 2;
-				} else if (ch == KEY_PGUP || ch == KEY_UP) {
-					clear();
-					i = pos = 0;
-					curr_row -= (ch == KEY_PGUP)?(2*t_lines - 2) : (t_lines + 1);
-					if (curr_row < 0) {
-						close(fd);
-						return ch;
-					}
-					viewed = seek_nth_line(fd, curr_row);
-					numbytes = readln(fd, buf);
-					curr_row++;
-				} else if (ch == 'H') {
-					show_help("help/msghelp");
-					i = pos = 0;
-					curr_row -= (t_lines);
-					if (curr_row < 0)
-						curr_row = 0;
-					viewed = seek_nth_line(fd, curr_row);
-					numbytes = readln(fd, buf);
-					curr_row++;
-				} else if (ch == 'C') {
-					if (askyn("È·¶¨ÒªÇå³ýÂð£¿", NA, YEA) == YEA) {
-						close(fd);
-						unlink(filename);
-					}
-					return ch;
-				} else if (ch == 'M') {
-					if (askyn("È·¶¨Òª¼Ä»ØÂð£¿", NA, YEA) == YEA) {
-						close(fd);
-						sprintf(title, "[%s] ËùÓÐÑ¶Ï¢±¸·Ý", getdatestring(time(NULL), DATE_ZH));
-						mail_file(filename, currentuser.userid, title);
-						unlink(filename);
-					}
-					return ch;
-				} else if (ch == 'N' || ch == 'R') {
-					close(fd);
-					return ch;
-				} else if (ch == 'Y') {
-					i = 1;
-				}
-			}
-		} else break;	/* More Than Want */
-	} 
+		}
+		flock(fileno(fp), LOCK_UN);
+		fclose(fp);
 
-	close(fd); 
-	if (promptend == YEA || pos < t_lines)
-		msgmorebar(filename);
+		more->size = len;
+		more->ln_size = len / LINENUM_BLOCK_SIZE + 1;
+		more->buf = realloc(more->buf, len + more->ln_size * sizeof(linenum_t));
+		if (more->buf == NULL)
+			return -1;
+		more->ln = (linenum_t *)(more->buf + len);
+		memset(more->ln, 0, more->ln_size * sizeof(linenum_t));
+	} else {
+		return -1;
+	}
+	return 0;
+}
 
+static int more_prompt_msg(more_file_t *more)
+{
+	prints("\033[0;1;44;32mÑ¶Ï¢ä¯ÀÀÆ÷ (%d%%) µÚ(%d-%d)ÐÐ \033[33m| "
+			"c Çå³ý | m ¼Ä»ØÐÅÏä | b e ¿ªÍ·Ä©Î² | g Ìø×ª\033[K\033[m",
+			(more->end - more->buf) * 100 / more->size,
+			more->line - t_lines + 2, more->line);
+	return 0;
+}
+
+static int more_handle_msg(more_file_t *more, int ch)
+{
+	switch (ch) {
+		case 'C':
+			if (askyn("È·¶¨ÒªÇå³ýÂð£¿", NA, YEA))
+				return ch;
+			break;
+		case 'M':
+			if (askyn("È·¶¨Òª¼Ä»ØÂð£¿", NA, YEA))
+				return ch;
+			break;
+	}
+	return 0;
+}
+
+int msg_more(void)
+{
+	char file[HOMELEN], title[STRLEN];
+	if (!strcmp(currentuser.userid, "guest"))
+		return 0;
+#ifdef LOG_MY_MESG
+	setuserfile(file, "msgfile.me");
+#else
+	setuserfile(file, "msgfile");
+#endif
+	modify_user_mode(LOOKMSGS);
+
+	int ch;
+	more_file_t *more = more_open(file, DEFAULT_TERM_WIDTH, more_open_msg);
+	if (more == NULL) {
+		presskeyfor("Ã»ÓÐÈÎºÎµÄÑ¶Ï¢´æÔÚ...", t_lines - 1);
+	} else {
+		clear();
+		ch = more_main(more, false, 0, 0, false, more_prompt_msg,
+				more_handle_msg);
+		switch (ch) {
+			case 'C':
+				unlink(file);
+				break;
+			case 'M':
+				snprintf(title, sizeof(title), "[%s] ËùÓÐÑ¶Ï¢±¸·Ý",
+						getdatestring(time(NULL), DATE_ZH));
+				mail_file(file, currentuser.userid, title);
+				unlink(file);
+				break;
+			default:
+				break;
+		}
+	}
+	clear();
 	return ch;
 }
 
@@ -1071,7 +928,7 @@ int ansimore(char *filename, int promptend)
 int ansimore2(char *filename, int promptend, int row, int numlines)
 {
 	int     ch;
-	ch = rawmore(filename, promptend, row, numlines, NA);
+	ch = rawmore2(filename, promptend, row, numlines, NA);
 	refresh();
 	return ch;
 }
@@ -1081,7 +938,7 @@ int ansimore3(char *filename, int promptend)
 {
 	int     ch;
 	clear();
-	ch = rawmore(filename, promptend, 0, 0, YEA);
+	ch = rawmore2(filename, promptend, 0, 0, YEA);
 	move(t_lines - 1, 0);
 	prints("[0m[m");
 	refresh();

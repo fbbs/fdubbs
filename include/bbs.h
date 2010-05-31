@@ -112,7 +112,6 @@
 #define ULIST_BASE   ".UTMP"       /* Names of users currently on line */
 extern char ULIST[];
 
-#define FLUSH       ".PASSFLUSH"   /* Stores date for user cache flushing */
 #define BOARDS      ".BOARDS"      /* File containing list of boards */
 #define DOT_DIR     ".DIR"         /* Name of Directory file info */
 #define THREAD_DIR  ".THREAD"      /* Name of Thread file info */
@@ -183,19 +182,18 @@ extern char ULIST[];
 #define BOARD_CUSTOM_FLAG	0x80000000		//收藏夹自定义目录 defined by cometcaptor 2007-04-16 因为是目录是自定义，故选用标志的最高位，和标准的属性分开
 #define ZAPPED  		0x1         /* For boards...tells if board is Zapped */
 
-/* these are flags in userec.flags[0] */
-#define PAGER_FLAG   	0x1   /* true if pager was OFF last session */
-#define CLOAK_FLAG   	0x2   /* true if cloak was ON last session */
-#define SIG_FLAG     	0x8   /* true if sig was turned OFF last session */
-#define BRDSORT_FLAG 	0x20  /* true if the boards sorted alphabetical */
-#define BRDSORT_ONLINE 	0x40
-#define GIVEUPBBS_FLAG  0x80  /* true if the user give up BBs now (2003.04.22 stephen)*/
-#define ACTIVE_BOARD 	0x200 /* true if user toggled active movie board on */
+/** These are flags in userec.flags[0] */
+enum {
+	PAGER_FLAG     = 0x1,  ///< True if pager was OFF last session.
+	CLOAK_FLAG     = 0x2,  ///< True if cloak was ON last session.
+	BRD_HIDEREAD   = 0x4,  ///< True if read boards are hidden.
+	BRDSORT_UPDATE = 0x8,  ///< True if boards are sorted by update time.
+	BRDSORT_UDEF   = 0x10, ///< True if boards are sorted in user-defined order.
+	BRDSORT_FLAG   = 0x20, ///< True if boards are sorted alphabetical.
+	BRDSORT_ONLINE = 0x40, ///< True if boards are sorted by online users.
+	GIVEUPBBS_FLAG = 0x80, ///< True if the user gives up BBS now.
+};
 
-#define MULTI_LOGINS	2	/* 同时可上站 ID 数 */
-#ifndef FDQUAN
-#define IPMAXLOGINS		5	// 同IP同时上站ID数
-#endif
 #define DEF_VALUE		"★★ 欢迎光临日月光华站! ★★"
 #define DEF_FILE		"etc/whatdate"
 
@@ -225,22 +223,23 @@ enum {
 
 #include "modes.h"              /* The list of valid user modes */
 
-#define DONOTHING       0       /* Read menu command return states */
-#define FULLUPDATE      1       /* Entire screen was destroyed in this oper*/
-#define PARTUPDATE      2       /* Only the top three lines were destroyed */
-#define DOQUIT          3       /* Exit read menu was executed */
-#define NEWDIRECT       4       /* Directory has changed, re-read files */
-#define READ_NEXT       5       /* Direct read next file */
-#define READ_PREV       6       /* Direct read prev file */
-#define GOTO_NEXT       7       /* Move cursor to next */
-#define DIRCHANGED      8       /* Index file was changed */
-#define MODECHANGED     9       /* ... */
-#define READ_AGAIN		10
+enum {
+	DONOTHING   = 0,  /* Read menu command return states */
+    FULLUPDATE  = 1,  /* Entire screen was destroyed in this oper*/
+    PARTUPDATE  = 2,  /* Only the top three lines were destroyed */
+	DOQUIT      = 3,  /* Exit read menu was executed */
+	NEWDIRECT   = 4,  /* Directory has changed, re-read files */
+	READ_NEXT   = 5,  /* Direct read next file */
+	READ_PREV   = 6,  /* Direct read prev file */
+	GOTO_NEXT   = 7,  /* Move cursor to next */
+	DIRCHANGED  = 8,  /* Index file was changed */
+	MODECHANGED = 9,  /* ... */
+	READ_AGAIN  = 10,
+	MINIUPDATE  = 11,
+};
 
 #define I_TIMEOUT   (-2)         /* Used for the getchar routine select call */
 #define I_OTHERDATA (-333)       /* interface, (-3) will conflict with chinese */
-
-#define SCREEN_SIZE (23)         /* Used by read menu  */
 
 #define BMLOGLEN			32
 #define BMLOG_STAYTIME		0			//停留时间

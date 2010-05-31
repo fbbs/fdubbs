@@ -42,7 +42,7 @@ int thread_down();
 /*int     deny_user();*/
 int into_myAnnounce();
 int show_user_notes();
-int show_allmsgs();
+int msg_more();
 int show_author();
 int SR_first_new();
 int SR_last();
@@ -50,7 +50,6 @@ int SR_first();
 int SR_read();
 int SR_author();
 int Q_Goodbye();
-int t_friends();
 int s_msg();
 int G_SENDMODE = NA;
 int show_file_info();
@@ -1073,13 +1072,10 @@ struct one_key mail_comms[] = { 'd', mail_del, 'D', mail_del_range, 'b',
 		'?', t_search_up, '\'', post_search_down, '\"', post_search_up,
 		']', thread_down, '[', thread_up, Ctrl('A'), show_author,
 		Ctrl('N'), SR_first_new, '\\', SR_last, '=', SR_first, 'l',
-		show_allmsgs, Ctrl('C'), do_cross, Ctrl('S'), SR_read, 'n',
+		msg_more, Ctrl('C'), do_cross, Ctrl('S'), SR_read, 'n',
 		SR_first_new, 'p', SR_read, Ctrl('X'), SR_read, Ctrl('U'),
 		SR_author, 'h', mailreadhelp, Ctrl('J'), mailreadhelp, '!',
 		Q_Goodbye, 'S', s_msg, '*', show_file_info, 'Z', send_msg,
-//Removed by iamfat 2002.06.11
-		//duplicated function with 'o'
-		//	'f', t_friends,
 		'\0', NULL };
 
 int m_read() {

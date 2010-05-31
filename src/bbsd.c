@@ -14,10 +14,18 @@
 #include <sys/ioctl.h>
 #endif
 #ifdef SSHBBS
-#include <libssh/libssh.h>
-#include <libssh/server.h>
+#include "libssh/libssh.h"
+#include "libssh/server.h"
 #endif // SSHBBS
 #include "bbs.h"
+
+#ifndef NSIG
+#ifdef _NSIG
+#define NSIG _NSIG
+#else
+#define NSIG 65
+#endif
+#endif
 
 #ifdef SSHBBS
 #define KEYS_FOLDER BBSHOME"/etc/ssh"
@@ -44,6 +52,28 @@ char genbuf[1024]; ///< global buffer for strings.
 #ifdef SSHBBS
 ssh_channel ssh_chan;
 #endif // SSHBBS
+
+typedef void (*sighandler_t)(int);
+
+static sighandler_t fb_signal(int signum, sighandler_t handler)
+{
+	struct sigaction act, oact;
+	act.sa_handler = handler;
+	sigemptyset(&act.sa_mask);
+	act.sa_flags = 0;
+	if (signum == SIGALRM) {
+#ifdef SA_INTERRUPT
+		act.sa_flags |= SA_INTERRUPT;
+#endif
+	} else {
+#ifdef  SA_RESTART
+		act.sa_flags |= SA_RESTART;
+#endif
+	}
+	if (sigaction(signum, &act, &oact) < 0)
+		return(SIG_ERR);
+	return(oact.sa_handler);
+}
 
 /**
  * Get remote ip address.
@@ -149,7 +179,7 @@ static int bbsd_log(const char *str)
 // TODO: rewrite this
 static void telnet_init(void)
 {
-	static char svr[] = { IAC, WILL, TELOPT_ECHO, IAC, WILL, TELOPT_SGA };
+	static unsigned char svr[] = { IAC, WILL, TELOPT_ECHO, IAC, WILL, TELOPT_SGA };
 	write_stdout(svr, sizeof(svr));
 }
 
@@ -326,8 +356,8 @@ int main(int argc, char *argv[])
 	char buf[STRLEN];
 
 	start_daemon();
-	signal(SIGCHLD, reapchild);
-	signal(SIGTERM, close_daemon);
+	fb_signal(SIGCHLD, reapchild);
+	fb_signal(SIGTERM, close_daemon);
 
 #ifdef SSHBBS
 	ssh_bind sshbind = ssh_bind_new();

@@ -2,18 +2,15 @@
 #include <gdfontl.h>
 #include "bbs.h"
 
-#ifndef DLM
-#undef  ALLOWGAME
-#endif
+enum {
+	MAX_NEW_TRIES = 9,
+	MAX_SET_PASSWD_TRIES = 7,
+	MIN_PASSWD_LENGTH = 4
+};
 
-#ifdef FDQUAN
-#define ALLOWGAME
-#endif
 //modified by money 2002.11.15
 extern char fromhost[60];
 extern time_t login_start_time;
-extern char *cexpstr();
-time_t system_time;
 
 #ifdef ALLOWSWITCHCODE
 extern int convcode;
@@ -131,157 +128,21 @@ int bad_user_id(const char *userid)
 
 int getnewuserid(void)
 {
-	struct userec utmp;
-	char genbuf_rm[STRLEN]; //added by roly 02.03.22
-#ifndef SAVELIVE
-	struct userec zerorec;
-	int size;
-#endif
-	struct stat st;
-	int fd, val, i;
-	/* Following line added by Amigo 2002.04.03. Change clean account time. */
-	struct tm *area;
-	FILE *fdtmp, *log;
-	char nname[50];
-	int exp, perf; /* Add by SmallPig */
-	system_time = time(0);
-	/* Following line added by Amigo 2002.04.03. Change clean account time. */
-	area = localtime(&system_time);
-#ifndef SAVELIVE
-	/* Following line modified by Amigo 2002.04.03. Change clean account time. */
-	/*   if (stat("tmp/killuser", &st)==-1 || st.st_mtime+3600 < system_time){ */
-	if (stat("tmp/killuser", &st)==-1 || ( (st.st_mtime+72000
-			< system_time) && (area->tm_hour < 12) && (area->tm_hour > 5) )) {
-		if ((fd = open("tmp/killuser", O_RDWR | O_CREAT, 0600)) == -1)
-			return -1;
-		write(fd, getdatestring(system_time, DATE_ZH), 29);
-		close(fd);
-		log = fopen("tomb/log", "w+");
-		if (log == NULL)
-			return -1;	
-		strcpy(nname, "tmp/bbs.killid");
-		fdtmp = fopen(nname, "w+");
-		log_usies("CLEAN", "dated users.", &currentuser);
-		prints("寻找新帐号中, 请稍待片刻...\n");
-		memset(&zerorec, 0, sizeof(zerorec));
-		//      if ((fd = open(PASSFILE, O_RDWR | O_CREAT, 0600)) == -1)
-		//        return -1;
-		//      flock(fd, LOCK_EX);
-		size = sizeof(utmp);
-		for (i = 0; i < MAXUSERS; i++) {
-			//         if (read(fd, &utmp, size) != size) break;
-			getuserbyuid( &utmp, i+1);
-			val = compute_user_value(&utmp);
-			if (utmp.userid[0] != '\0' && val < 0) {
-				utmp.userid[IDLEN]=0; //added by iamfat 2004.01.05 to avoid overflow
-				sprintf(genbuf, "#%d %-12s %14.14s %d %d %d", i + 1,
-						utmp.userid, getdatestring(utmp.lastlogin, DATE_ZH), utmp.numlogins,
-						utmp.numposts, val);
-				log_usies("KILL ", genbuf, &currentuser);
-				sprintf(genbuf, "mail/%c/%s", toupper(utmp.userid[0]),
-						utmp.userid);
-				fprintf(fdtmp,
-						"\033[1;37m%s \033[m(\033[1;33m%s\033[m) 共上站 \033[1;32m%d\033[m 次 [\033[1;3%dm%s\033[m]\n",
-						utmp.userid, utmp.username, utmp.numlogins,
-						(utmp.gender == 'F') ? 5 : 6,
-						horoscope(utmp.birthmonth, utmp.birthday));
-				fprintf(fdtmp,
-						"上 次 在:[\033[1;32m%s\033[m] 从 [\033[1;32m%s\033[m] 到本站一游。\n",
-						getdatestring(utmp.lastlogin, DATE_ZH), (utmp.lasthost[0]=='\0' ? "(不详)"
-								: utmp.lasthost));
-				fprintf(fdtmp, "离站时间:[\033[1;32m%s\033[m] ", getdatestring(utmp.lastlogout, DATE_ZH));
+	struct userec user;
+	memset(&user, 0, sizeof(user));
+	strlcpy(user.userid, "new", sizeof(user.userid));
 
-				exp = countexp(&utmp);
-				perf = countperf(&utmp);
-				fprintf(fdtmp, "表现值:"
-#ifdef SHOW_PERF
-						"%d(\033[1;33m%s\033[m)"
-#else
-						"[\033[1;33m%s\033[m]"
-#endif
-						" 信箱:[\033[5;1;32m%2s\033[m]\n"
-#ifdef SHOW_PERF
-						, perf
-#endif
-						, cperf(perf),
-						(check_query_mail(genbuf) == 1) ? "信" : "  ");
-#ifdef ALLOWGAME
-				fprintf(fdtmp, "银行存款: [\033[1;32m%d元\033[m] "
-						"目前贷款: [\033[1;32m%d元\033[m](\033[1;33m%s\033[m) "
-						"经验值：[\033[1;32m%d\033[m](\033[1;33m%s\033[m)。\n",
-						utmp.money,utmp.bet,
-						cmoney(utmp.money-utmp.bet),exp,cexpstr(exp));
-				fprintf(fdtmp, "文 章 数: [\033[1;32m%d\033[m] "
-						"奖章数: [\033[1;32m%d\033[m](\033[1;33m%s\033[m) "
-						"生命力：[\033[1;32m%d\033[m] "
-						"网龄[\033[1;32m%d天\033[m]\n\n", utmp.numposts,
-						utmp.nummedals,cnummedals(utmp.nummedals),
-						compute_user_value(&utmp),(time (0) - utmp.firstlogin) / 86400);
-#else
-				fprintf(fdtmp, "文 章 数:[\033[1;32m%d\033[m] 经 验 值:"
-#ifdef SHOWEXP
-						"%d(\033[1;33m%-10s\033[m)"
-#else
-						"[\033[1;33m%-10s\033[m]"
-#endif
-						" 生命力:[\033[1;32m%d\033[m] 网龄[\033[1;32m%d天\033[m]\n\n",
-						utmp.numposts,
-#ifdef SHOWEXP
-						exp,
-#endif
-						cexpstr(exp), compute_user_value(&utmp),
-						(time(0) - utmp.firstlogin) / 86400);
-#endif
-				fprintf(log, "%s\n", utmp.userid);
-				sprintf(genbuf, "mail/%c/%s", toupper(utmp.userid[0]), utmp.userid);
-				sprintf(genbuf_rm, "%s~", genbuf);
-				rename(genbuf, genbuf_rm);
-				sprintf(genbuf, "home/%c/%s", toupper(utmp.userid[0]), utmp.userid);
-				sprintf(genbuf_rm, "%s~", genbuf);
-				rename(genbuf, genbuf_rm);
-				substitut_record(PASSFILE, &zerorec,
-						sizeof(struct userec), i+1);
-				del_uidshm(i+1, utmp.userid);
-			}
-		}
-		fclose(log);
-		fclose(fdtmp);
-		char *str = getdatestring(system_time, NA);
-		sprintf(genbuf, "[%8.8s %6.6s] 本日随风飘逝的ID", str + 6, str + 23);
-		Postfile(nname, "newcomers", genbuf, 1);
-		touchnew();
-	}
-#endif   // of SAVELIVE
-	//   if ((fd = open(PASSFILE, O_RDWR | O_CREAT, 0600)) == -1) return -1;
-	//   flock(fd, LOCK_EX);
-	i = searchnewuser();
-	fromhost[59]=0; //added by iamfat 2004.01.05 to avoid overflow
-	sprintf(genbuf, "uid %d from %s", i, fromhost);
+	int i = searchnewuser();
+
+	char buf[STRLEN];
+	snprintf(buf, sizeof(buf), "uid %d from %s", i, fromhost);
 	log_usies("APPLY", genbuf, &currentuser);
-	if (i <= 0 || i > MAXUSERS) {
-		//      flock(fd, LOCK_UN);
-		//      close(fd);
-		prints("抱歉, 使用者帐号已经满了, 无法注册新的帐号.\n\r");
-		val = (st.st_mtime - system_time + 3660) / 60;
-		prints("请等待 %d 分钟後再试一次, 祝您好运.\n\r", val);
-		sleep(2);
-		exit(1);
-	}
-	memset(&utmp, 0, sizeof(utmp));
-	strcpy(utmp.userid, "new");
-	utmp.lastlogin = time(0);
-	substitut_record(PASSFILE, &utmp, sizeof(struct userec), i);
-	return i;
-}
 
-//	userid全字母返回0,否则返回1
-int id_with_num(const char *userid)
-{
-	const char *s;
-	for (s = userid; *s != '\0'; s++)
-		if (*s < 1 || !isalpha(*s))
-			return 1;
-	return 0;
+	if (i <= 0 || i > MAXUSERS)
+		return i;
+
+	substitut_record(PASSFILE, &user, sizeof(user), i);
+	return i;
 }
 
 #ifndef FDQUAN
@@ -335,141 +196,163 @@ const char *generate_verify_num() {
 }
 #endif
 
+/**
+ *
+ */
+static bool strisalpha(const char *str)
+{
+	for (const char *s = str; *s != '\0'; s++)
+		if (!isalpha(*s))
+			return false;
+	return true;
+}
+
+/**
+ *
+ */
+static const char *invalid_userid(const char *userid)
+{
+	if (!strisalpha(userid))
+		return "帐号必须全为英文字母!\n";
+	if (strlen(userid) < 2)
+		return "帐号至少需有两个英文字母!\n";
+	if (bad_user_id(userid))
+		return "抱歉, 您不能使用这个字作为帐号。\n";
+	return NULL;
+}
+
+/**
+ *
+ */
+static void fill_new_userec(struct userec *user, const char *userid,
+		const char *passwd, bool usegbk)
+{
+	memset(user, 0, sizeof(*user));
+	strlcpy(user->userid, userid, sizeof(user->userid));
+	strlcpy(user->passwd, genpasswd(passwd), ENCPASSLEN);
+
+	user->gender = 'X';
+#ifdef ALLOWGAME
+	user->money = 1000;
+#endif
+	user->userdefine = ~0;
+	if (!strcmp(userid, "guest")) {
+		user->userlevel = 0;
+		user->userdefine &= ~(DEF_FRIENDCALL | DEF_ALLMSG | DEF_FRIENDMSG);
+	} else {
+		user->userlevel = PERM_LOGIN;
+		user->flags[0] = PAGER_FLAG;
+	}
+	user->userdefine &= ~(DEF_NOLOGINSEND);
+
+	if (!usegbk)
+		user->userdefine &= ~DEF_USEGB;
+
+	user->flags[1] = 0;
+	user->firstlogin = user->lastlogin = time(NULL);
+}
+
 void new_register(void)
 {
-	struct userec newuser;
-	char passbuf[STRLEN];
-	int allocid, tried;
+	char userid[IDLEN + 1], passwd[PASSLEN], passbuf[PASSLEN], log[STRLEN];
 #ifndef FDQUAN
-	char verify_code[IDLEN+1];
+	char code[IDLEN+1];
 	const char *verify_num;
 	int sec;
-	char log[100];
 #endif
+
 	if (dashf("NOREGISTER")) {
 		ansimore("NOREGISTER", NA);
 		pressreturn();
-		exit(1);
+		return;
 	}
+
 	ansimore("etc/register", NA);
-	tried = 0;
+
+#ifndef FDQUAN
+	if (!askyn("您是否同意本站Announce版精华区x-3目录所列站规?", false, false))
+		return 0;
+#endif
+
+	int tried = 0;
 	prints("\n");
 	while (1) {
 		if (++tried >= 9) {
 			prints("\n拜拜，按太多下  <Enter> 了...\n");
 			refresh();
-			longjmp(byebye, -1);
+			return;
 		}
+
 #ifndef FDQUAN
-		getdata(22, 0, "您是否仔细阅读过本站Announce版精华区x-3目录所列站规执行办法并表示同意[y/N]",
-				verify_code, IDLEN + 1, DOECHO, YEA);
-
-		if (verify_code[0] != 'Y' && verify_code[0] != 'y') {
-			exit(0);
-		}
-
-		verify_num=generate_verify_num();
-		getdata(0, 0, "请输入上面显示的数字: ", verify_code, IDLEN + 1, DOECHO, YEA);
+		verify_num = generate_verify_num();
+		getdata(0, 0, "请输入上面显示的数字: ", code, IDLEN + 1, DOECHO, YEA);
 #endif
+
 		getdata(0, 0, "请输入帐号名称 (Enter User ID, \"0\" to abort): ",
-				passbuf, IDLEN + 1, DOECHO, YEA);
-		if (passbuf[0] == '0') {
-			longjmp(byebye, -1);
+				userid, sizeof(userid), DOECHO, YEA);
+		if (userid[0] == '0')
+			return;
+		const char *errmsg = invalid_userid(userid);
+		if (errmsg != NULL) {
+			outs(errmsg);
+			continue;
 		}
+
 #ifndef FDQUAN
-		sec=random()%5;
-		prints("为避免与其他注册者冲突...请耐心等候%d秒...\n", sec);
+		sec = random() % 5;
+		prints("为避免与其他注册者冲突...请耐心等候 %d 秒...\n", sec);
 		oflush();
 		sleep(sec);
 
-		if (strcmp(verify_num, verify_code)) {
+		if (strcmp(verify_num, code)) {
 			snprintf(log, sizeof(log), "verify '%s' error with code %s!=%s from %s",
-					passbuf, verify_num, verify_code, fromhost);
+					userid, verify_num, code, fromhost);
 			report(log, currentuser.userid);
 			prints("抱歉, 您输入的验证码不正确.\n");
 			continue;
 		}
 
-		snprintf(log, sizeof(log), "verify '%s' with code %s from %s ", passbuf,
-				verify_code, fromhost);
+		snprintf(log, sizeof(log), "verify '%s' with code %s from %s ", userid,
+				code, fromhost);
 		report(log, currentuser.userid);
-
 #endif
+
 		char path[HOMELEN];
-		sethomepath(path, passbuf);
-		if (id_with_num(passbuf)) {
-			prints("帐号必须全为英文字母!\n");
-		} else if (strlen(passbuf) < 2) {
-			prints("帐号至少需有两个英文字母!\n");
-		} else if ((*passbuf == '\0') || bad_user_id(passbuf)) {
-			prints("抱歉, 您不能使用这个字作为帐号。 请想过另外一个。\n");
-		} else if (dosearchuser(passbuf, &currentuser, &usernum) || dashd(path)) {
+		sethomepath(path, userid);
+		if (dosearchuser(userid, &currentuser, &usernum) || dashd(path))
 			prints("此帐号已经有人使用\n");
-		} else
+		else
 			break;
 	}
 
-	memset(&newuser, 0, sizeof(newuser));
-	strcpy(newuser.userid, passbuf);
-	strcpy(passbuf, "");
-
-	/*2003.04.30 modified by stephen to add new-users' setting passwd limit*/
-	for (tried = 0; tried <=7; tried ++) {
-		getdata(0, 0, "请设定您的密码 (Setup Password): ", passbuf, PASSLEN,
-				NOECHO, YEA);
-		if (strlen(passbuf) < 4 || !strcmp(passbuf, newuser.userid)) {
+	for (tried = 0; tried <= MAX_SET_PASSWD_TRIES; ++tried) {
+		passbuf[0] = '\0';
+		getdata(0, 0, "请设定您的密码 (Setup Password): ", passbuf,
+				sizeof(passbuf), NOECHO, YEA);
+		if (strlen(passbuf) < 4 || !strcmp(passbuf, userid)) {
 			prints("密码太短或与使用者代号相同, 请重新输入\n");
 			continue;
 		}
-		strlcpy(newuser.passwd, passbuf, PASSLEN);
+		strlcpy(passwd, passbuf, PASSLEN);
 		getdata(0, 0, "请再输入一次您的密码 (Reconfirm Password): ", passbuf,
 				PASSLEN, NOECHO, YEA);
-		if (strncmp(passbuf, newuser.passwd, PASSLEN) != 0) {
+		if (strncmp(passbuf, passwd, PASSLEN) != 0) {
 			prints("密码输入错误, 请重新输入密码.\n");
 			continue;
 		}
-		passbuf[8] = '\0';
-#ifdef ENCPASSLEN
-
-		strlcpy(newuser.passwd, genpasswd(passbuf), ENCPASSLEN);
-#else
-
-		strlcpy(newuser.passwd, genpasswd(passbuf), PASSLEN);
-#endif
-
+		passwd[8] = '\0';
 		break;
 	}
-	if (tried == 8) {
-		sleep(1);
-		exit(1);
-	}
-	/*2003.04.30 modify end*/
+	if (tried > MAX_SET_PASSWD_TRIES)
+		return;
 
-	newuser.gender = 'X';
-#ifdef ALLOWGAME
-
-	newuser.money = 1000;
-#endif
-
-	newuser.userdefine = -1;
-	if (!strcmp(newuser.userid, "guest")) {
-		newuser.userlevel = 0;
-		newuser.userdefine &= ~(DEF_FRIENDCALL | DEF_ALLMSG
-				| DEF_FRIENDMSG);
-	} else {
-		newuser.userlevel = PERM_LOGIN;
-		newuser.flags[0] = PAGER_FLAG;
-	}
-
-	newuser.userdefine &= ~(DEF_NOLOGINSEND);
+	struct userec newuser;
 #ifdef ALLOWSWITCHCODE
-
-	if (convcode)
-	newuser.userdefine&=~DEF_USEGB;
+	fill_new_userec(&newuser, userid, passwd, !convcode);
+#else
+	fill_new_userec(&newuser, userid, passwd, true);
 #endif
 
-	newuser.flags[1] = 0;
-	newuser.firstlogin = newuser.lastlogin = time(0);
 	/* added by roly */
 	sprintf(genbuf, "/bin/rm -fr %s/mail/%c/%s", BBSHOME,
 			toupper(newuser.userid[0]), newuser.userid) ;
@@ -479,31 +362,27 @@ void new_register(void)
 	system(genbuf);
 	/* add end */
 
-	allocid = getnewuserid();
+	int allocid = getnewuserid();
 	if (allocid > MAXUSERS || allocid <= 0) {
 		prints("No space for new users on the system!\n\r");
-		exit(1);
+		return;
 	}
 	setuserid(allocid, newuser.userid);
-	if (substitut_record(PASSFILE, &newuser, sizeof(newuser), allocid)
-			== -1) {
+	if (substitut_record(PASSFILE, &newuser, sizeof(newuser), allocid) == -1) {
 		prints("too much, good bye!\n");
-		oflush();
-		sleep(2);
-		exit(1);
+		return;
 	}
 	if (!dosearchuser(newuser.userid, &currentuser, &usernum)) {
 		prints("User failed to create\n");
-		oflush();
-		sleep(2);
-		exit(1);
+		return;
 	}
-	sprintf(genbuf, "new account from %s", fromhost);
-	report(genbuf, currentuser.userid);
-	prints("请重新登陆 %s 并填写注册信息\n", newuser.userid);
-	pressanykey();
-	exit(0);
 
+	snprintf(log, sizeof(log), "new account from %s", fromhost);
+	report(log, currentuser.userid);
+
+	prints("请重新登录 %s 并填写注册信息\n", newuser.userid);
+	pressanykey();
+	return;
 }
 
 int invalid_email(char *addr) {

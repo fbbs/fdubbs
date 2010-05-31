@@ -575,7 +575,7 @@ static void channel_rcv_request(ssh_session session) {
 
 /*
  * channel_handle() is called by packet_wait(), for example when there is
- * channel informations to handle.
+ * channel information to handle.
  */
 void channel_handle(ssh_session session, int type){
   enter_function();
@@ -1818,7 +1818,7 @@ int channel_read_buffer(ssh_channel channel, ssh_buffer buffer, uint32_t count,
   }
 
   if (count == 0) {
-    /* write the ful buffer informations */
+    /* write the ful buffer information */
     if (buffer_add_data(buffer, buffer_get_rest(stdbuf),
           buffer_get_rest_len(stdbuf)) < 0) {
       leave_function();
@@ -2007,9 +2007,10 @@ int channel_poll(ssh_channel channel, int is_stderr){
     stdbuf = channel->stderr_buffer;
   }
 
-  while (buffer_get_rest_len(stdbuf) == 0 && channel->remote_eof == 0) {
-    if (ssh_handle_packets(channel->session) <= 0) {
-      break;
+  if (buffer_get_rest_len(stdbuf) == 0 && channel->remote_eof == 0) {
+    if (ssh_handle_packets(channel->session) == SSH_ERROR) {
+      leave_function();
+      return SSH_ERROR;
     }
   }
 

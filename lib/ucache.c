@@ -499,14 +499,18 @@ int apply_ulist(int (*fptr)())
 	return 0;
 }
 
-int search_ulist(struct user_info *uentp, int (*fptr)(), int farg)
+int search_ulist(struct user_info *uentp,
+		int (*fptr)(int, const struct user_info *), int farg)
 {
 	int i;
+	const struct user_info *up;
 	resolve_utmp();
 	for (i = 0; i < USHM_SIZE; i++) {
-		*uentp = utmpshm->uinfo[i];
-		if ((*fptr) (farg, uentp))
-		return i + 1;
+		up = utmpshm->uinfo + i;
+		if ((*fptr) (farg, up)) {
+			*uentp = *up;
+			return i + 1;
+		}
 	}
 	return 0;
 }
@@ -565,4 +569,14 @@ int count_online(void)
 		if (utmpshm->uinfo[i].active)
 			total++;
 	return total;
+}
+
+/**
+ *
+ */
+int cmpfnames(void *user, void *over)
+{
+	const char *userid = user;
+	struct override *ov = over;
+	return !strcasecmp(userid, ov->id);
 }

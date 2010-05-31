@@ -677,7 +677,7 @@ ssh_private_key privatekey_from_file(ssh_session session, const char *filename,
   switch (type) {
     case TYPE_DSS:
       if (passphrase == NULL) {
-        if (session->callbacks->auth_function) {
+        if (session->callbacks && session->callbacks->auth_function) {
           auth_cb = session->callbacks->auth_function;
           auth_ud = session->callbacks->userdata;
 
@@ -778,6 +778,20 @@ ssh_private_key privatekey_from_file(ssh_session session, const char *filename,
   privkey->rsa_priv = rsa;
 
   return privkey;
+}
+
+/**
+ * @brief returns the type of a private key
+ * @param privatekey[in] the private key handle
+ * @returns one of TYPE_RSA,TYPE_DSS,TYPE_RSA1
+ * @returns 0 if the type is unknown
+ * @see privatekey_from_file
+ * @see ssh_userauth_offer_pubkey
+ */
+int ssh_privatekey_type(ssh_private_key privatekey){
+  if (privatekey==NULL)
+    return 0;
+  return privatekey->type;
 }
 
 /* same that privatekey_from_file() but without any passphrase things. */
@@ -1116,8 +1130,6 @@ int ssh_try_publickey_from_file(ssh_session session, const char *keyfile,
 
 ssh_string try_publickey_from_file(ssh_session session, struct ssh_keys_struct keytab,
     char **privkeyfile, int *type) {
-  char *public;
-  char *private;
   const char *priv;
   const char *pub;
   char *new;
@@ -1138,21 +1150,15 @@ ssh_string try_publickey_from_file(ssh_session session, struct ssh_keys_struct k
     }
   }
 
-  /* are them readable ? */
-  public=dir_expand_dup(session,pub,1);
-  private=dir_expand_dup(session,priv,1);
-  //snprintf(public, sizeof(public), "%s/%s", session->sshdir, pub);
-  //snprintf(private, sizeof(private), "%s/%s", session->sshdir, priv);
-
-  ssh_log(session, SSH_LOG_PACKET, "Trying to open publickey %s", public);
-  if (!ssh_file_readaccess_ok(public)) {
-    ssh_log(session, SSH_LOG_PACKET, "Failed to open publickey %s", public);
+  ssh_log(session, SSH_LOG_PACKET, "Trying to open publickey %s", pub);
+  if (!ssh_file_readaccess_ok(pub)) {
+    ssh_log(session, SSH_LOG_PACKET, "Failed to open publickey %s", pub);
     goto error;
   }
 
-  ssh_log(session, SSH_LOG_PACKET, "Trying to open privatekey %s", private);
-  if (!ssh_file_readaccess_ok(private)) {
-    ssh_log(session, SSH_LOG_PACKET, "Failed to open privatekey %s", private);
+  ssh_log(session, SSH_LOG_PACKET, "Trying to open privatekey %s", priv);
+  if (!ssh_file_readaccess_ok(priv)) {
+    ssh_log(session, SSH_LOG_PACKET, "Failed to open privatekey %s", priv);
     goto error;
   }
 
@@ -1162,26 +1168,24 @@ ssh_string try_publickey_from_file(ssh_session session, struct ssh_keys_struct k
    * We are sure both the private and public key file is readable. We return
    * the public as a string, and the private filename as an argument
    */
-  pubkey = publickey_from_file(session, public, type);
+  pubkey = publickey_from_file(session, pub, type);
   if (pubkey == NULL) {
     ssh_log(session, SSH_LOG_PACKET,
         "Wasn't able to open public key file %s: %s",
-        public,
+        pub,
         ssh_get_error(session));
     goto error;
   }
 
-  new = realloc(*privkeyfile, strlen(private) + 1);
+  new = realloc(*privkeyfile, strlen(priv) + 1);
   if (new == NULL) {
     string_free(pubkey);
     goto error;
   }
 
-  strcpy(new, private);
+  strcpy(new, priv);
   *privkeyfile = new;
 error:
-  SAFE_FREE(public);
-  SAFE_FREE(private);
   return pubkey;
 }
 
@@ -1556,6 +1560,7 @@ int ssh_is_server_known(ssh_session session) {
   FILE *file = NULL;
   char **tokens;
   char *host;
+  char *hostport;
   const char *type;
   int match;
   int ret = SSH_SERVER_NOT_KNOWN;
@@ -1579,8 +1584,11 @@ int ssh_is_server_known(ssh_session session) {
   }
 
   host = lowercase(session->host);
-  if (host == NULL) {
-    ssh_set_error(session, SSH_FATAL, "Not enough space!");
+  hostport = ssh_hostport(host,session->port);
+  if (host == NULL || hostport == NULL) {
+    ssh_set_error_oom(session);
+    SAFE_FREE(host);
+    SAFE_FREE(hostport);
     leave_function();
     return SSH_SERVER_ERROR;
   }
@@ -1594,10 +1602,15 @@ int ssh_is_server_known(ssh_session session) {
       break;
     }
     match = match_hashed_host(session, host, tokens[0]);
+    if (match == 0){
+    	match = match_hostname(hostport, tokens[0], strlen(tokens[0]));
+    }
     if (match == 0) {
       match = match_hostname(host, tokens[0], strlen(tokens[0]));
     }
-
+    if (match == 0) {
+      match = match_hashed_host(session, hostport, tokens[0]);
+    }
     if (match) {
       /* We got a match. Now check the key type */
       if (strcmp(session->current_crypto->server_pubkey_type, type) != 0) {
@@ -1628,6 +1641,7 @@ int ssh_is_server_known(ssh_session session) {
   } while (1);
 
   SAFE_FREE(host);
+  SAFE_FREE(hostport);
   if (file != NULL) {
     fclose(file);
   }
@@ -1637,10 +1651,15 @@ int ssh_is_server_known(ssh_session session) {
   return ret;
 }
 
-/** You generaly use it when ssh_is_server_known() answered SSH_SERVER_NOT_KNOWN
- * \brief write the current server as known in the known hosts file. This will create the known hosts file if it does not exist.
- * \param session ssh session
- * \return 0 on success, -1 on error
+/**
+ * @brief Write the current server as known in the known hosts file.
+ *
+ * This will create the known hosts file if it does not exist. You generaly use
+ * it when ssh_is_server_known() answered SSH_SERVER_NOT_KNOWN.
+ *
+ * @param[in]  session  The ssh session to use.
+ *
+ * @return              SSH_OK on success, SSH_ERROR on error.
  */
 int ssh_write_knownhost(ssh_session session) {
   ssh_string pubkey = session->current_crypto->server_pubkey;
@@ -1648,19 +1667,30 @@ int ssh_write_knownhost(ssh_session session) {
   char buffer[4096] = {0};
   FILE *file;
   char *dir;
+  char *host;
+  char *hostport;
   size_t len = 0;
+
+  if (session->host == NULL) {
+    ssh_set_error(session, SSH_FATAL,
+        "Can't write host in known hosts if the hostname isn't known");
+    return SSH_ERROR;
+  }
+
+  host = lowercase(session->host);
+  /* If using a nonstandard port, save the host in the [host]:port format */
+  if(session->port != 22){
+    hostport = ssh_hostport(host,session->port);
+    SAFE_FREE(host);
+    host=hostport;
+    hostport=NULL;
+  }
 
   if (session->knownhosts == NULL) {
     if (ssh_options_set(session, SSH_OPTIONS_KNOWNHOSTS, NULL) < 0) {
       ssh_set_error(session, SSH_FATAL, "Can't find a known_hosts file");
       return -1;
     }
-  }
-
-  if (session->host == NULL) {
-    ssh_set_error(session, SSH_FATAL,
-        "Cannot write host in known hosts if the hostname is unknown");
-    return -1;
   }
 
   /* Check if ~/.ssh exists and create it if not */
@@ -1684,6 +1714,7 @@ int ssh_write_knownhost(ssh_session session) {
     ssh_set_error(session, SSH_FATAL,
         "Couldn't open known_hosts file %s for appending: %s",
         session->knownhosts, strerror(errno));
+    SAFE_FREE(host);
     return -1;
   }
 
@@ -1703,6 +1734,7 @@ int ssh_write_knownhost(ssh_session session) {
     key = publickey_from_string(session, pubkey);
     if (key == NULL) {
       fclose(file);
+      SAFE_FREE(host);
       return -1;
     }
 
@@ -1711,6 +1743,7 @@ int ssh_write_knownhost(ssh_session session) {
     if (sexp == NULL) {
       publickey_free(key);
       fclose(file);
+      SAFE_FREE(host);
       return -1;
     }
     e = gcry_sexp_nth_mpi(sexp, 1, GCRYMPI_FMT_USG);
@@ -1718,6 +1751,7 @@ int ssh_write_knownhost(ssh_session session) {
     if (e == NULL) {
       publickey_free(key);
       fclose(file);
+      SAFE_FREE(host);
       return -1;
     }
 
@@ -1726,6 +1760,7 @@ int ssh_write_knownhost(ssh_session session) {
       publickey_free(key);
       bignum_free(e);
       fclose(file);
+      SAFE_FREE(host);
       return -1;
     }
     n = gcry_sexp_nth_mpi(sexp, 1, GCRYMPI_FMT_USG);
@@ -1734,6 +1769,7 @@ int ssh_write_knownhost(ssh_session session) {
       publickey_free(key);
       bignum_free(e);
       fclose(file);
+      SAFE_FREE(host);
       return -1;
     }
 
@@ -1758,12 +1794,13 @@ int ssh_write_knownhost(ssh_session session) {
 #endif
       publickey_free(key);
       fclose(file);
+      SAFE_FREE(host);
       return -1;
     }
 
     snprintf(buffer, sizeof(buffer),
         "%s %d %s %s\n",
-        session->host,
+        host,
         rsa_size << 3,
         e_string,
         n_string);
@@ -1783,18 +1820,19 @@ int ssh_write_knownhost(ssh_session session) {
     pubkey_64 = bin_to_base64(pubkey->string, string_len(pubkey));
     if (pubkey_64 == NULL) {
       fclose(file);
+      SAFE_FREE(host);
       return -1;
     }
 
     snprintf(buffer, sizeof(buffer),
         "%s %s %s\n",
-        session->host,
+        host,
         session->current_crypto->server_pubkey_type,
         pubkey_64);
 
     SAFE_FREE(pubkey_64);
   }
-
+  SAFE_FREE(host);
   len = strlen(buffer);
   if (fwrite(buffer, len, 1, file) != 1 || ferror(file)) {
     fclose(file);

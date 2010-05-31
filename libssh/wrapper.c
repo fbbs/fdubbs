@@ -614,6 +614,11 @@ static void aes_decrypt(struct crypto_struct *cipher, void *in, void *out,
   AES_cbc_encrypt(in, out, len, cipher->key, IV, AES_DECRYPT);
 }
 
+#ifndef BROKEN_AES_CTR
+/* OpenSSL until 0.9.7c has a broken AES_ctr128_encrypt implementation which
+ * increments the counter from 2^64 instead of 1. It's better not to use it
+ */
+
 /** @internal
  * @brief encrypts/decrypts data with stream cipher AES_ctr128. 128 bits is actually
  * the size of the CTR counter and incidentally the blocksize, but not the keysize.
@@ -631,6 +636,7 @@ static void aes_ctr128_encrypt(struct crypto_struct *cipher, void *in, void *out
    */
   AES_ctr128_encrypt(in, out, len, cipher->key, IV, tmp_buffer, &num);
 }
+#endif /* BROKEN_AES_CTR */
 #endif /* HAS_AES */
 
 #ifdef HAS_DES
@@ -722,6 +728,7 @@ static struct crypto_struct ssh_ciphertab[] = {
   },
 #endif /* HAS_BLOWFISH */
 #ifdef HAS_AES
+#ifndef BROKEN_AES_CTR
   {
     "aes128-ctr",
     16,
@@ -755,6 +762,7 @@ static struct crypto_struct ssh_ciphertab[] = {
     aes_ctr128_encrypt,
     aes_ctr128_encrypt
   },
+#endif /* BROKEN_AES_CTR */
   {
     "aes128-cbc",
     16,
@@ -1001,7 +1009,8 @@ int crypt_set_algorithms_server(ssh_session session){
     /* out */
     server = session->server_kex.methods[SSH_CRYPT_S_C];
     client = session->client_kex.methods[SSH_CRYPT_S_C];
-    match = ssh_find_matching(client, server);
+    /* That's the client algorithms that are more important */
+    match = ssh_find_matching(server,client);
 
     if(!match){
         ssh_set_error(session,SSH_FATAL,"Crypt_set_algorithms_server : no matching algorithm function found for %s",server);
@@ -1030,7 +1039,7 @@ int crypt_set_algorithms_server(ssh_session session){
     /* in */
     client=session->client_kex.methods[SSH_CRYPT_C_S];
     server=session->server_kex.methods[SSH_CRYPT_S_C];
-    match=ssh_find_matching(client,server);
+    match=ssh_find_matching(server,client);
     if(!match){
         ssh_set_error(session,SSH_FATAL,"Crypt_set_algorithms_server : no matching algorithm function found for %s",server);
         free(match);
@@ -1058,7 +1067,7 @@ int crypt_set_algorithms_server(ssh_session session){
     /* compression */
     client=session->client_kex.methods[SSH_CRYPT_C_S];
     server=session->server_kex.methods[SSH_CRYPT_C_S];
-    match=ssh_find_matching(client,server);
+    match=ssh_find_matching(server,client);
     if(match && !strcmp(match,"zlib")){
         ssh_log(session,SSH_LOG_PACKET,"enabling C->S compression");
         session->next_crypto->do_compress_in=1;
@@ -1067,7 +1076,7 @@ int crypt_set_algorithms_server(ssh_session session){
 
     client=session->client_kex.methods[SSH_CRYPT_S_C];
     server=session->server_kex.methods[SSH_CRYPT_S_C];
-    match=ssh_find_matching(client,server);
+    match=ssh_find_matching(server,client);
     if(match && !strcmp(match,"zlib")){
         ssh_log(session,SSH_LOG_PACKET,"enabling S->C compression\n");
         session->next_crypto->do_compress_out=1;
@@ -1076,7 +1085,7 @@ int crypt_set_algorithms_server(ssh_session session){
 
     server=session->server_kex.methods[SSH_HOSTKEYS];
     client=session->client_kex.methods[SSH_HOSTKEYS];
-    match=ssh_find_matching(client,server);
+    match=ssh_find_matching(server,client);
     if(match && !strcmp(match,"ssh-dss"))
         session->hostkeys=TYPE_DSS;
     else if(match && !strcmp(match,"ssh-rsa"))

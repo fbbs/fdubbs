@@ -38,7 +38,8 @@ enum ssh_config_opcode_e {
   SOC_CIPHERS,
   SOC_COMPRESSION,
   SOC_TIMEOUT,
-  SOC_PROTOCOL
+  SOC_PROTOCOL,
+  SOC_PROXYCOMMAND
 };
 
 struct ssh_config_keyword_table_s {
@@ -56,6 +57,7 @@ static struct ssh_config_keyword_table_s ssh_config_keyword_table[] = {
   { "compression", SOC_COMPRESSION },
   { "connecttimeout", SOC_TIMEOUT },
   { "protocol", SOC_PROTOCOL },
+  { "proxycommand", SOC_PROXYCOMMAND },
   { NULL, SOC_UNSUPPORTED }
 };
 
@@ -197,21 +199,25 @@ static int ssh_config_parse_line(ssh_session session, const char *line,
       }
       break;
     case SOC_PORT:
-      p = ssh_config_get_str(&s, NULL);
-      if (p && *parsing) {
-        ssh_options_set(session, SSH_OPTIONS_PORT_STR, p);
+      if (session->port == 22) {
+          p = ssh_config_get_str(&s, NULL);
+          if (p && *parsing) {
+              ssh_options_set(session, SSH_OPTIONS_PORT_STR, p);
+          }
       }
       break;
     case SOC_USERNAME:
-      p = ssh_config_get_str(&s, NULL);
-      if (p && *parsing) {
-        ssh_options_set(session, SSH_OPTIONS_USER, p);
+      if (session->username == NULL) {
+          p = ssh_config_get_str(&s, NULL);
+          if (p && *parsing) {
+            ssh_options_set(session, SSH_OPTIONS_USER, p);
+         }
       }
       break;
     case SOC_IDENTITY:
       p = ssh_config_get_str(&s, NULL);
       if (p && *parsing) {
-        ssh_options_set(session, SSH_OPTIONS_IDENTITY, p);
+        ssh_options_set(session, SSH_OPTIONS_ADD_IDENTITY, p);
       }
       break;
     case SOC_CIPHERS:
@@ -268,6 +274,12 @@ static int ssh_config_parse_line(ssh_session session, const char *line,
       i = ssh_config_get_int(&s, -1);
       if (i >= 0 && *parsing) {
         ssh_options_set(session, SSH_OPTIONS_TIMEOUT, &i);
+      }
+      break;
+    case SOC_PROXYCOMMAND:
+      p = ssh_config_get_str(&s, NULL);
+      if (p && *parsing) {
+        ssh_options_set(session, SSH_OPTIONS_PROXYCOMMAND, p);
       }
       break;
     case SOC_UNSUPPORTED:

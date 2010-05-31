@@ -114,8 +114,9 @@ struct ssh_session_struct {
     socket_t fd;
     int ssh2;
     int ssh1;
+    char *ProxyCommand;
 };
 
 int ssh_handle_packets(ssh_session session);
-
+void ssh_global_request_handle(ssh_session session);
 #endif /* SESSION_H_ */

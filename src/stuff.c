@@ -47,6 +47,37 @@ int pressreturn() {
 	return 0;
 }
 
+/**
+ * Ask for confirmation.
+ * @param str The prompt string.
+ * @param defa Default answer.
+ * @param gobottom True if prompt at the bottom of the screen.
+ * @return True if user answers "y", false if "n", default answer otherwise.
+ */
+bool askyn(const char *str, bool defa, bool gobottom)
+{
+	int x, y;
+	char buf[100];
+	char ans[3];
+	snprintf(buf, sizeof(buf), "%s %s", str, (defa) ? "(YES/no)? [Y]"
+			: "(yes/NO)? [N]");
+	if (gobottom)
+		move(t_lines - 1, 0);
+	getyx(&x, &y);
+	clrtoeol();
+	getdata(x, y, buf, ans, 2, DOECHO, YEA);
+	switch (ans[0]) {
+		case 'Y':
+		case 'y':
+			return true;
+		case 'N':
+		case 'n':
+			return false;
+		default:
+			return defa;
+	}
+}
+
 int msgmorebar(char *filename) {
 	extern int showansi;
 	char title[256];
@@ -79,25 +110,6 @@ int msgmorebar(char *filename) {
 	return ch;
 }
 
-int askyn(char str[STRLEN], int defa, int gobottom) {
-	int x, y;
-	char realstr[100];
-	char ans[3];
-	sprintf(realstr, "%s %s", str, (defa) ? "(YES/no)? [Y]"
-			: "(yes/NO)? [N]");
-	if (gobottom)
-		move(t_lines - 1, 0);
-	getyx(&x, &y);
-	clrtoeol();
-	getdata(x, y, realstr, ans, 2, DOECHO, YEA);
-	if (ans[0] != 'Y' && ans[0] != 'y' && ans[0] != 'N' && ans[0] != 'n') {
-		return defa;
-	} else if (ans[0] == 'Y' || ans[0] == 'y')
-		return 1;
-	else if (ans[0] == 'N' || ans[0] == 'n')
-		return 0;
-}
-
 void printdash(const char *mesg)
 {
 	char buf[80], *ptr;
@@ -123,12 +135,6 @@ void bell(void)
 	ochar(Ctrl('G'));
 }
 
-void touchnew() {
-	sprintf(genbuf, "touch by: %d\n", time(0));
-	file_append(FLUSH, genbuf);
-}
-/* rrr - Snagged from pbbs 1.8 */
-
 #define LOOKFIRST  (0)
 #define LOOKLAST   (1)
 #define QUOTEMODE  (2)
@@ -151,39 +157,4 @@ int deltree(char *dst) {
 		return 1;
 	} else
 		return 0;
-}
-
-int sem(int key) {
-	int val=1;
-	int semid;
-	semid=semget(key, 1, 0);
-	if (semid<0) {
-		semid=semget(key, 1, IPC_CREAT|0660);
-		if (semid<0) {
-			//errlog("[0x%x] semget\n",key);
-			return -1;
-		}
-		semctl(semid, 0, SETVAL, val);
-	}
-	return semid;
-}
-
-void d_sem(int semid) {
-	int val=0;
-	semctl(semid, 0, IPC_RMID, val);
-}
-
-int p_nowait(int semid) {
-	struct sembuf sb= { 0, -1, IPC_NOWAIT };
-	return semop(semid, &sb, 1);
-}
-
-void p(int semid) {
-	struct sembuf sb= { 0, -1, SEM_UNDO };
-	semop(semid, &sb, 1);
-}
-
-void v(int semid) {
-	struct sembuf sb= { 0, 1, 0 };
-	semop(semid, &sb, 1);
 }
