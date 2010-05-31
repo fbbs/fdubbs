@@ -35,6 +35,7 @@
 #ifdef _WIN32
 #define _WIN32_IE 0x0501 //SHGetSpecialFolderPath
 #include <winsock2.h> // Must be the first to include
+#include <ws2tcpip.h>
 #include <shlobj.h>
 #include <direct.h>
 #else
@@ -46,6 +47,7 @@
 
 #include "libssh/priv.h"
 #include "libssh/misc.h"
+#include "libssh/session.h"
 
 #ifdef HAVE_LIBGCRYPT
 #define GCRYPT_STRING "/gnutls"
@@ -144,6 +146,20 @@ int ssh_file_readaccess_ok(const char *file) {
   return 1;
 }
 #endif
+
+char *ssh_hostport(const char *host, int port){
+	char *dest;
+	size_t len;
+	if(host==NULL)
+		return NULL;
+	/* 3 for []:, 5 for 65536 and 1 for nul */
+	len=strlen(host) + 3 + 5 + 1;
+	dest=malloc(len);
+	if(dest==NULL)
+		return NULL;
+	snprintf(dest,len,"[%s]:%d",host,port);
+	return dest;
+}
 
 uint64_t ntohll(uint64_t a) {
 #ifdef WORDS_BIGENDIAN
@@ -478,5 +494,154 @@ int ssh_mkdir(const char *pathname, mode_t mode) {
   return r;
 }
 
-/** @} */
-/* vim: set ts=2 sw=2 et cindent: */
+/**
+ * @brief Expand a directory starting with a tilde '~'
+ *
+ * @param[in]  session  The ssh session to use.
+ *
+ * @param[in]  d        The directory to expand.
+ *
+ * @return              The expanded directory, NULL on error.
+ */
+char *ssh_path_expand_tilde(const char *d) {
+    char *h, *r;
+    const char *p;
+    size_t ld;
+    size_t lh = 0;
+
+    if (d[0] != '~') {
+        return strdup(d);
+    }
+    d++;
+
+    /* handle ~user/path */
+    p = strchr(d, '/');
+    if (p != NULL && p > d) {
+#ifdef _WIN32
+        return strdup(d);
+#else
+        struct passwd *pw;
+        size_t s = p - d;
+        char u[128];
+
+        if (s > sizeof(u)) {
+            return NULL;
+        }
+        memcpy(u, d, s);
+        u[s] = '\0';
+        pw = getpwnam(u);
+        if (pw == NULL) {
+            return NULL;
+        }
+        ld = strlen(p);
+        h = strdup(pw->pw_dir);
+#endif
+    } else {
+        ld = strlen(d);
+        p = (char *) d;
+        h = ssh_get_user_home_dir();
+    }
+    if (h == NULL) {
+        return NULL;
+    }
+    lh = strlen(h);
+
+    r = malloc(ld + lh + 1);
+    if (r == NULL) {
+        return NULL;
+    }
+
+    if (lh > 0) {
+        memcpy(r, h, lh);
+    }
+    memcpy(r + lh, p, ld);
+
+    return r;
+}
+
+char *ssh_path_expand_escape(ssh_session session, const char *s) {
+#define MAX_BUF_SIZE 4096
+    char host[NI_MAXHOST];
+    char buf[MAX_BUF_SIZE];
+    char *r, *x = NULL;
+    const char *p;
+    size_t i, l;
+
+    if (strlen(s) > MAX_BUF_SIZE) {
+        ssh_set_error(session, SSH_FATAL, "string to expand too long");
+        return NULL;
+    }
+
+    r = ssh_path_expand_tilde(s);
+    if (r == NULL) {
+        ssh_set_error_oom(session);
+        return NULL;
+    }
+
+    p = r;
+    buf[0] = '\0';
+
+    for (i = 0; *p != '\0'; p++) {
+        if (*p != '%') {
+            buf[i] = *p;
+            i++;
+            if (i > MAX_BUF_SIZE) {
+                return NULL;
+            }
+            buf[i] = '\0';
+            continue;
+        }
+
+        p++;
+        if (*p == '\0') {
+            break;
+        }
+
+        switch (*p) {
+            case 'd':
+                x = strdup(session->sshdir);
+                break;
+            case 'u':
+                x = ssh_get_local_username(session);
+                break;
+            case 'l':
+                if (gethostname(host, sizeof(host) == 0)) {
+                    x = strdup(host);
+                }
+                break;
+            case 'h':
+                x = strdup(session->host);
+                break;
+            case 'r':
+                x = strdup(session->username);
+                break;
+            default:
+                ssh_set_error(session, SSH_FATAL,
+                        "Wrong escape sequence detected");
+                return NULL;
+        }
+
+        if (x == NULL) {
+            ssh_set_error_oom(session);
+            return NULL;
+        }
+
+        i += strlen(x);
+        if (i > MAX_BUF_SIZE) {
+            ssh_set_error(session, SSH_FATAL,
+                    "String too long");
+            return NULL;
+        }
+        l = strlen(buf);
+        strcat(buf + l, x);
+        SAFE_FREE(x);
+    }
+
+    free(r);
+    return strdup(buf);
+#undef MAX_BUF_SIZE
+}
+
+/* @} */
+
+/* vim: set ts=4 sw=4 et cindent: */

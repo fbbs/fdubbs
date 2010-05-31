@@ -30,11 +30,8 @@ char someoneID[31];
 char topic[STRLEN] = "";
 int FFLL = 0;
 int noreply = 0;
-#ifdef MARK_X_FLAG
-int markXflag = 0;
-#endif
 int mailtoauther = 0;
-int totalusers, usercounter;
+int totalusers;
 char genbuf[1024];
 char quote_title[120], quote_board[120];
 char quote_file[120], quote_user[120];
@@ -72,7 +69,7 @@ int SR_read();
 int SR_author();
 int SR_BMfunc();
 int Q_Goodbye();
-int t_friends();
+int online_users_show_override();
 int s_msg();
 int send_msg();
 int b_notes_passwd();
@@ -84,7 +81,6 @@ extern int x_lockscreen();
 extern time_t login_start_time;
 extern char BoardName[];
 extern int cmpbnames();
-extern int toggle1, toggle2;
 extern char fromhost[];
 extern struct boardheader *getbcache();
 extern struct bstat *getbstat();
@@ -263,21 +259,6 @@ int uleveltochar(char *buf, unsigned int lvl) {
 	return 1;
 }
 
-void printutitle() {
-	move(2, 0);
-	prints("[1;44m ±à ºÅ  Ê¹ÓÃÕß´úºÅ   %-19s #%-4s #%-4s %8s    %-12s  [m\n",
-			"Ê¹ÓÃÕßêÇ³Æ",
-#ifdef ALLOWGAME
-			(toggle2 == 0) ? "ÉÏÕ¾" : (toggle2 == 1) ? "ÎÄÕÂ" : "´æ¿î",
-			(toggle2 == 0) ? "Ê±Êý" : (toggle2 == 1) ? "½±ÕÂ" : "ÐÅ¼þ",
-#else
-			(toggle2 == 0) ? "ÉÏÕ¾" : "ÎÄÕÂ", (toggle2 == 0) ? "Ê±Êý" : "ÐÅ¼þ",
-#endif
-			HAS_PERM(PERM_SEEULEVELS) ? " µÈ  ¼¶ " : "",
-			(toggle1 == 0) ? "×î½ü¹âÁÙÈÕÆÚ" : (toggle1 == 1) ? "×î½ü¹âÁÙµØµã"
-					: "ÕÊºÅ½¨Á¢ÈÕÆÚ");
-}
-
 int g_board_names(struct boardheader *fhdrp) {
 	if (!(fhdrp->flag & BOARD_DIR_FLAG)
 			&& ((fhdrp->flag & BOARD_POST_FLAG) || HAS_PERM(fhdrp->level)
@@ -314,7 +295,7 @@ void make_blist(int mode) {
 		apply_boards(g_all_names, &currentuser);
 }
 
-int Select() {
+int board_select() {
 	do_select(0, NULL, genbuf);
 	return 0;
 }
@@ -437,10 +418,11 @@ int do_cross(int ent, struct fileheader *fileinfo, char *direct) {
 	return FULLUPDATE;
 }
 
+extern int t_cmpuids(int uid, const struct user_info *up);
+
 // Show title when entering a board.
 static void readtitle(void)
 {
-	extern int t_cmpuids();
 	struct boardheader *bp;
 	struct bstat *bs;
 	int i, j, bnum, tuid;
@@ -479,20 +461,22 @@ static void readtitle(void)
 		strcpy(header, "³ÏÕ÷°æÖ÷ÖÐ");
 	} else {
 		strcpy(header, "°æÖ÷: ");
+
 		// Online BMs are shown in green, offline yellow, cloaking cyan
 		// (if currentuser have PERM_SEECLOAK, otherwise in yellow).
 		for (i = 0; i < bnum; i++) {
 			tuid = getuser(bmlists[i]);
-			search_ulist(&uin, t_cmpuids, tuid);
-			if (uin.active && uin.pid && !uin.invisible)
+			tuid = search_ulist(&uin, t_cmpuids, tuid);
+			if (tuid && uin.active && uin.pid && !uin.invisible)
 				sprintf(tmp, "\033[32m%s\033[33m ", bmlists[i]);
-			else if (uin.active && uin.pid && uin.invisible
+			else if (tuid && uin.active && uin.pid && uin.invisible
 					&& (HAS_PERM(PERM_SEECLOAK) || usernum == uin.uid))
 				sprintf(tmp, "\033[36m%s\033[33m ", bmlists[i]);
 			else
 				sprintf(tmp, "%s ", bmlists[i]);
 			strcat(header, tmp);
 		}
+
 	}
 	if (chkmail())
 		strcpy(title, "[ÄúÓÐÐÅ¼þ£¬°´ M ¿´ÐÂÐÅ]");
@@ -597,7 +581,7 @@ char *readdoent(int num, struct fileheader *ent) //Post list
 #endif
 #ifdef FDQUAN
 	struct user_info uin;
-	char idbuf[5] = "";
+	const char *idcolor = "";
 	extern int t_cmpuids();
 #endif
 	type = brc_unread(ent->filename) ?
@@ -659,17 +643,19 @@ char *readdoent(int num, struct fileheader *ent) //Post list
 	} else {
 		date = "";
 	}
+
 #ifdef FDQUAN
-	search_ulist(&uin, t_cmpuids, getuser(ent->owner));
-	if (!uin.active
-		|| (uin.active && uin.invisible && !HAS_PERM (PERM_SEECLOAK)))
-		strcpy(idbuf, "1;30");
-	else if(uin.invisible && HAS_PERM(PERM_SEECLOAK))
-		strcpy(idbuf, "1;36");
-	else if (uin.currbrdnum == getbnum (currboard, &currentuser)
-		|| !strcmp (uin.userid, currentuser.userid))
-		strcpy(idbuf, "1;37");
+	if (!search_ulist(&uin, t_cmpuids, getuser(ent->owner)) || !uin.active
+		|| (uin.active && uin.invisible && !HAS_PERM (PERM_SEECLOAK))) {
+		idcolor = "1;30";
+	} else if (uin.invisible && HAS_PERM(PERM_SEECLOAK)) {
+		idcolor = "1;36";
+	} else if (uin.currbrdnum == getbnum (currboard, &currentuser)
+		|| !strcmp (uin.userid, currentuser.userid)) {
+		idcolor = "1;37";
+	}
 #endif
+
 #ifdef COLOR_POST_DATE
 	mytm = localtime(&filetime);
 	sprintf (color, "\033[1;%dm", 30 + mytm->tm_wday + 1);
@@ -705,7 +691,7 @@ char *readdoent(int num, struct fileheader *ent) //Post list
 #endif
 				(FFLL & sameflag) ? (reflag ? "1;36" : "1;32") : "", num,
 #ifdef FDQUAN
-				typeprefix, type, typesufix, idbuf, ent->owner, color, date, 
+				typeprefix, type, typesufix, idcolor, ent->owner, color, date, 
 #else
 				typeprefix, type, typesufix, ent->owner, color, date, 
 #endif
@@ -723,7 +709,7 @@ char *readdoent(int num, struct fileheader *ent) //Post list
 			sprintf (buf,
 #ifdef FDQUAN
 					" \033[1;31m [¡Þ]\033[m %c \033[%sm%-12.12s %s%6.6s%c%s\033[%sm%-.49s\033[m",
-					type, idbuf, ent->owner, color, date,
+					type, idcolor, ent->owner, color, date,
 #else
 					" \033[1;31m [¡Þ]\033[m %c %-12.12s %s%6.6s%c%s\033[%sm%-.49s\033[m",
 					type, ent->owner, color, date,
@@ -741,7 +727,7 @@ char *readdoent(int num, struct fileheader *ent) //Post list
 #endif
 				(FFLL & sameflag) ? (reflag ? "1;36" : "1;32") : "", num,
 #ifdef FDQUAN
-				typeprefix, type, typesufix, idbuf, ent->owner, color, date,
+				typeprefix, type, typesufix, idcolor, ent->owner, color, date,
 #else
 				typeprefix, type, typesufix, ent->owner, color, date,
 #endif
@@ -1041,18 +1027,12 @@ int do_select(int ent, struct fileheader *fileinfo, char *direct) {
 	move(1, 0);
 	clrtoeol();
 	setbdir(direct, currboard);
-#ifdef NEWONLINECOUNT
 	if (uinfo.currbrdnum && brdshm->bstatus[uinfo.currbrdnum - 1].inboard> 0) {
 		brdshm->bstatus[uinfo.currbrdnum - 1].inboard--;
 	}
 	uinfo.currbrdnum = getbnum (bname, &currentuser);
 	update_ulist(&uinfo, utmpent);
 	brdshm->bstatus[uinfo.currbrdnum - 1].inboard++;
-#else
-	uinfo.currbrdnum = getbnum(currboard, &currentuser);
-	update_ulist(&uinfo, utmpent);
-	countbrdonline();
-#endif
 
 	return NEWDIRECT;
 }
@@ -2147,14 +2127,6 @@ int post_article(char *postboard, char *mailid) {
 		postfile.accessed[0] |= FILE_NOREPLY;
 		noreply = 0;
 	}
-#ifdef MARK_X_FLAG
-	if (markXflag) {
-		postfile.accessed[0] |= FILE_DELETED;
-		markXflag = 0;
-	} else {
-		postfile.accessed[0] &= ~FILE_DELETED;
-	}
-#endif
 	//added by iamfat 2003.03.19
 	if (mailtoauther) {
 		if (header.chk_anony) {
@@ -2297,14 +2269,6 @@ int edit_post(int ent, struct fileheader *fileinfo, char *direct) {
 	sprintf(genbuf, "%s/%s", buf, fileinfo->filename);
 	if (vedit(genbuf, NA, NA) == -1)
 		return FULLUPDATE;
-#ifdef MARK_X_FLAG
-	if (markXflag) {
-		fileinfo->accessed[0] |= FILE_DELETED;
-		markXflag = 0;
-	} else
-	fileinfo->accessed[0] &= ~FILE_DELETED;
-	substitute_record (direct, fileinfo, sizeof (*fileinfo), ent);
-#endif
 	if (!in_mail) {
 		sprintf(genbuf, "edited post '%s' on %s", fileinfo->title,
 				currboard);
@@ -3104,22 +3068,19 @@ int read_junk(int ent, struct fileheader *fileinfo, char *direct) {
 	return NEWDIRECT;
 }
 
-int show_online() {
-	extern int SHOWONEBRD;
-
+int show_online(void)
+{
+	if (currbp->flag & BOARD_ANONY_FLAG) {
+		// TODO: prompt at bottom.
+		return DONOTHING;
+	}
 #ifndef FDQUAN
-	struct boardheader *bp;
-	extern struct boardheader *getbcache();
-
-	bp = getbcache(currboard);
-	if (!(bp->flag & BOARD_CLUB_FLAG) || !(chkBM(currbp, &currentuser)
+	if (!(currbp->flag & BOARD_CLUB_FLAG) || !(chkBM(currbp, &currentuser)
 			|| isclubmember(currentuser.userid, currboard))) {
 		return DONOTHING;
 	}
 #endif
-	SHOWONEBRD = YEA;
-	t_friends();
-	SHOWONEBRD = NA;
+	online_users_show_board();
 	return FULLUPDATE;
 }
 
@@ -3158,11 +3119,11 @@ struct one_key read_comms[] = {
 		{'=', SR_first}, {Ctrl('S'), SR_read}, {'p', SR_read},
 		{Ctrl('U'), SR_author}, {'b', SR_BMfunc}, {Ctrl('T'), acction_mode},
 		{'t', thesis_mode}, {'!', Q_Goodbye}, {'S', s_msg},
-		{'f', new_flag_clear}, {'o', t_friends}, {'L', BM_range},
+		{'f', new_flag_clear}, {'o', online_users_show_override}, {'L', BM_range},
 		{'*', show_file_info}, {'Z', send_msg}, {'|', lock}, {'\0', NULL}
 };
 
-int Read() {
+int board_read() {
 	char buf[STRLEN];
 	char notename[STRLEN];
 	time_t usetime;
@@ -3200,18 +3161,12 @@ int Read() {
 
 	brc_initial(currentuser.userid, currboard);
 	setbdir(buf, currboard);
-#ifdef NEWONLINECOUNT
 	if (uinfo.currbrdnum && brdshm->bstatus[uinfo.currbrdnum - 1].inboard> 0) {
 		brdshm->bstatus[uinfo.currbrdnum - 1].inboard--;
 	}
 	uinfo.currbrdnum = getbnum (currboard, &currentuser);
 	update_ulist(&uinfo, utmpent);
 	brdshm->bstatus[uinfo.currbrdnum - 1].inboard++;
-#else
-	uinfo.currbrdnum = getbnum(currboard, &currentuser);
-	update_ulist(&uinfo, utmpent);
-	countbrdonline();
-#endif
 
 	setvfile(notename, currboard, "notes");
 	if (stat(notename, &st) != -1) {
@@ -3222,18 +3177,12 @@ int Read() {
 		}
 	}
 
-	//#ifdef ALWAYS_SHOW_BRDNOTE
-	//      if (dashf(notename))
-	//              ansimore3(notename, YEA);
-	//#else
-
 	if (vote_flag(currboard, '\0', 1 /* ¼ì²é¶Á¹ýÐÂµÄ±¸ÍüÂ¼Ã» */) == 0) {
 		if (dashf(notename)) {
 			ansimore(notename, YEA);
 			vote_flag(currboard, 'R', 1 /* Ð´Èë¶Á¹ýÐÂµÄ±¸ÍüÂ¼ */);
 		}
 	}
-	//#endif
 
 	usetime = time(0);
 	i_read(READING, buf, readtitle, readdoent, &read_comms[0],
@@ -3243,19 +3192,13 @@ int Read() {
 	bm_log(currentuser.userid, currboard, BMLOG_STAYTIME, time(0)
 			- usetime);
 	bm_log(currentuser.userid, currboard, BMLOG_INBOARD, 1);
-	//bcache_online_num(currboard, -1);
-#ifdef NEWONLINECOUNT
+
 	if (uinfo.currbrdnum && brdshm->bstatus[uinfo.currbrdnum - 1].inboard> 0) {
 		brdshm->bstatus[uinfo.currbrdnum - 1].inboard--;
 	}
 	uinfo.currbrdnum = 0;
 	update_ulist(&uinfo, utmpent);
 	bonlinesync (usetime);
-#else
-	uinfo.currbrdnum = 0;
-	update_ulist(&uinfo, utmpent);
-	countbrdonline();
-#endif
 
 	brc_update(currentuser.userid, currboard);
 	return 0;
@@ -3336,7 +3279,6 @@ void notepad() {
 /* youzi quick goodbye */
 int Q_Goodbye() {
 	extern int started;
-	extern int *zapbuf;
 	char fname[STRLEN];
 	int logouts;
 
@@ -3348,10 +3290,6 @@ int Q_Goodbye() {
 
 	/* add end */
 
-	//add if(zapbuf) to avoid zapbuff=NULL; iamfat 2004.01.12
-	if (zapbuf)
-		free(zapbuf);
-
 	setuserfile(fname, "msgfile");
 
 #ifdef LOG_MY_MESG
@@ -3362,7 +3300,7 @@ int Q_Goodbye() {
 	/* edwardc.990423 Ñ¶Ï¢ä¯ÀÀÆ÷ */
 	if (dashf(fname)) {
 		clear();
-		mesgmore(fname, NA, 0, 9999);
+		msg_more();
 	}
 	clear();
 	prints("\n\n\n\n");
@@ -3440,14 +3378,11 @@ int Q_Goodbye() {
 		u_exit();
 	}
 
-	//added by cometcaptor 2007-04-25 ÐÞÕý°æÃæÄÚ¿ìËÙÀëÕ¾Ôì³ÉÈËÊýÍ³¼ÆBUG
-#ifdef NEWONLINECOUNT
 	if (uinfo.currbrdnum && brdshm->bstatus[uinfo.currbrdnum - 1].inboard> 0) {
 		brdshm->bstatus[uinfo.currbrdnum - 1].inboard--;
 	}
 	uinfo.currbrdnum = 0;
 	update_ulist(&uinfo, utmpent);
-#endif
 
 	sleep(1);
 	exit(0);
@@ -3978,14 +3913,3 @@ int count_range(int ent, struct fileheader *fileinfo, char *direct) {
 }
 
 //End IAMFAT
-
-//added by iamfat 2003.03.20
-void log_DOTFILE(char *uid, char *str) {
-	char fname[STRLEN], buf[512];
-
-	sprintf(fname, "home/%c/%s/.FILE", toupper(uid[0]), uid);
-	sprintf(buf, "%16.16s %s\n", getdatestring(time(NULL), DATE_ZH) + 6, str);
-	file_append(fname, buf);
-}
-
-//added end

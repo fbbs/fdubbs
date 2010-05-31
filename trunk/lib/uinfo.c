@@ -201,12 +201,17 @@ const char *horoscope(char month, char day)
 	return ("²»Ïê×ù");
 }
 
-// Compute user's hp.
+/**
+ * Compute user's hp.
+ * @param urec User record.
+ * @return user's hp.
+ */
 int compute_user_value(const struct userec *urec)
 {
 	int value, value2;
-	value = (time(NULL) - urec->lastlogin);
-	value2 = (time(NULL) - urec->firstlogin);
+	time_t now = time(NULL);
+	value = (now - urec->lastlogin);
+	value2 = (now - urec->firstlogin);
 	// new user should register in 30 mins
 	if (strcmp(urec->userid, "new") == 0) {
 		return 30 * 60 - value;

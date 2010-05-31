@@ -10,16 +10,8 @@
 extern int RMSG;
 extern int msg_num;
 struct user_info *t_search();
-void r_msg();
 
 char buf2[MAX_MSG_SIZE+2];
-
-//ÔÚÔÄ¶ÁÐÅÏ¢ÆÚ¼ä£¬ÓÖÓÐÆäËûÐÅÏ¢·¢Èë£¬ÄÇÃ´ÒÔÏûÏ¢µÄÐÎÊ½Í¨Öªmsg_num++
-void count_msg(int notused)
-{
-	signal(SIGUSR2, count_msg);  
-	msg_num++;
-}
 
 //»ñÈ¡msg¼ÇÂ¼ÊýÄ¿
 int get_num_msgs(const char *filename)
@@ -115,29 +107,6 @@ int send_msg(int ent, const struct fileheader *fileinfo, char *direct)
 		do_sendmsg(uin, NULL, 0, uin->pid);
 	}
 	return FULLUPDATE;
-}
-
-int show_allmsgs(void)
-{
-	char fname[STRLEN];
-	if (!strcmp(currentuser.userid, "guest"))
-		return;
-#ifdef LOG_MY_MESG
-	setuserfile(fname, "msgfile.me");
-#else
-	setuserfile(fname, "msgfile");
-#endif
-	clear();
-	modify_user_mode(LOOKMSGS);
-	if (dashf(fname)) {
-		mesgmore(fname, YEA, 0, 9999);
-		clear();
-	} else {
-		move(5, 30);
-		prints("Ã»ÓÐÈÎºÎµÄÑ¶Ï¢´æÔÚ£¡£¡");
-		pressanykey();
-		clear();
-	}//if dashf(fname)
 }
 
 int do_sendmsg(const struct user_info *uentp, const char *msgstr, int mode, int userpid)
@@ -397,355 +366,6 @@ int friend_wall(void)
 	return 1;
 }
 
-void r_msg2(void)
-{
-	FILE   *fp;
-	char    bufhead[256];
-	char    msghead[256];
-	char    buf[MAX_MSG_SIZE+2];
-	char    msg[MAX_MSG_SIZE+2];
-	char    fname[STRLEN];
-	int     line, tmpansi;
-	int     y, x, ch, i, j;
-	int     MsgNum;
-	struct sigaction act;
-	int k;
-	int msg_line = 0;    
-
-	if (!strcmp(currentuser.userid,"guest"))
-		return;
-	getyx(&y, &x);
-	if (uinfo.mode == TALK)
-		line = t_lines / 2 - 1;
-	else
-		line = 0;
-	setuserfile(fname, "msgfile");
-	i = get_num_msgs(fname);
-	if (i == 0)
-		return;
-	signal(SIGUSR2, count_msg);
-	tmpansi = showansi;
-	showansi = 1;
-	oflush();
-	if (RMSG == NA) {
-		for(k = 0; k < MAX_MSG_LINE*2 + 2; k++) {   
-			saveline_buf(k, 0);
-		}
-	}
-	MsgNum = 0;
-	RMSG = YEA;
-	while (true) {
-		MsgNum = (MsgNum % i);
-		if ((fp = fopen(fname, "r")) == NULL) {
-			RMSG = NA;
-			if (msg_num)
-				r_msg();
-			else {
-				sigemptyset(&act.sa_mask);
-				act.sa_flags = SA_NODEFER;
-				act.sa_handler = r_msg;
-				sigaction(SIGUSR2, &act, NULL);
-			}
-			return;
-		}
-		for (j = 0; j < (i - MsgNum); j++) {
-			if (fgets(bufhead, 256, fp) == NULL || fgets(buf, MAX_MSG_SIZE + 2, fp) == NULL)
-				break;
-			else
-			{
-				strcpy(msghead, bufhead);
-				strcpy(msg,buf);
-			}
-		}
-		fclose(fp);
-		move(line, 0);
-		clrtoeol();
-		prints("%s", msghead);
-		move(line+1, 0);
-		clrtoeol();
-		msg_line = show_data(msg, LINE_LEN-1, line + 1, 0); 
-		refresh();
-		{
-			struct user_info *uin;
-			char    msgbuf[STRLEN];
-			int     good_id, send_pid;
-			char   *ptr, usid[STRLEN];
-			ptr = strrchr(msghead, '[');
-			send_pid = atoi(ptr + 1);
-			ptr = strtok(msghead + 12, " \033[");
-
-			if (ptr == NULL)
-				good_id = NA;
-			else if (!strcmp(ptr, currentuser.userid))
-				good_id = NA;
-			else {
-				strcpy(usid, ptr);
-				uin = t_search(usid, send_pid);
-				if (send_pid == 0)
-					send_pid = -1;
-				good_id = NA;
-				if (uin != NULL && ( uin->pid == send_pid || canmsg(uin) ))
-					good_id = YEA;
-			}
-			if (good_id == YEA) {
-				int userpid;
-				userpid = uin->pid;
-				move(msg_line, 0);
-				clrtoeol();
-				sprintf(msgbuf, "»ØÑ¶Ï¢¸ø %s: ", usid);
-				prints("%s", msgbuf);
-
-				move(msg_line+1, 0);
-				clrtoeol();
-				refresh();
-				multi_getdata(msg_line + 1, 0, LINE_LEN - 1, NULL, buf, MAX_MSG_SIZE + 1, MAX_MSG_LINE, 1, 0);
-				if (buf[0] == Ctrl('Z')) {
-					MsgNum++;
-					continue;
-				} else if (buf[0] == Ctrl('A')) {
-					MsgNum--;
-					if (MsgNum < 0)
-						MsgNum = i - 1;
-					continue;
-				}
-				if (buf[0] != '\0') {
-					if (do_sendmsg(uin, buf, 2, userpid) == 1)
-						sprintf(msgbuf, "\033[1;32m°ïÄúËÍ³öÑ¶Ï¢¸ø %s ÁË!\033[m", usid);
-					else
-						sprintf(msgbuf, "\033[1;32mÑ¶Ï¢ÎÞ·¨ËÍ³ö.\033[m");
-				} else
-					sprintf(msgbuf, "\033[1;33m¿ÕÑ¶Ï¢, ËùÒÔ²»ËÍ³ö.\033[m");
-				move(msg_line, 0);
-				clrtoeol();
-				refresh();
-				prints("%s", msgbuf);
-				refresh();
-				if (!strstr(msgbuf, "°ïÄú"))
-					sleep(1);
-			} else {
-				sprintf(msgbuf, "\033[1;32mÕÒ²»µ½·¢Ñ¶Ï¢µÄ %s! Çë°´ÉÏ:[^Z ¡ü] »òÏÂ:[^A ¡ý] »òÆäËû¼üÀë¿ª.\033[m", usid);
-				move(msg_line, 0);
-				clrtoeol();
-				refresh();
-				prints("%s", msgbuf);
-				refresh();
-				if ((ch = igetkey()) == Ctrl('Z')) {
-					MsgNum++;
-					continue;
-				}
-				if (ch == Ctrl('A')) {
-					MsgNum--;
-					if (MsgNum < 0)
-						MsgNum = i - 1;
-					continue;
-				}
-			}
-		}
-		break;
-	}
-	for(k = 0; k < MAX_MSG_LINE * 2 + 2; k++) {
-		saveline_buf(k, 1);
-	}
-	showansi = tmpansi;
-	move(y, x);
-	refresh();
-	RMSG = NA;
-	if (msg_num)
-		r_msg();
-	else {
-		sigemptyset(&act.sa_mask);
-		act.sa_flags = SA_NODEFER;
-		act.sa_handler = r_msg;
-		sigaction(SIGUSR2, &act, NULL);
-	}
-	return;
-}
-
-void r_msg(int notused)
-{
-	FILE   *fp;
-	char    bufhead[256];
-	char    msghead[256];
-	char    buf[MAX_MSG_SIZE+2];
-	char    mustbak_title[80];
-	char    msg[MAX_MSG_SIZE+2];
-	char    fname[STRLEN];
-	int     line, tmpansi;
-	int     y, x, i, j, premsg;
-	char    ch;
-	struct sigaction act;
-
-	int k;
-	int msg_line = 0;
-
-	signal(SIGUSR2, count_msg);
-	msg_num++;
-	getyx(&y, &x);
-	tmpansi = showansi;
-	showansi = 1;
-	if (uinfo.mode == TALK)
-		line = t_lines / 2 - 1;
-	else
-		line = 0;
-	if (DEFINE(DEF_MSGGETKEY)) {
-		oflush();
-		for(k = 0; k < MAX_MSG_LINE + 2; k++) {
-			saveline_buf(k, 0);
-		}
-		premsg = RMSG;
-	}
-	while (msg_num) {
-		if (DEFINE(DEF_SOUNDMSG)) {
-			bell();
-		}
-		setuserfile(fname, "msgfile");
-		//i = get_num_records(fname, 129);
-		i = get_num_msgs(fname);
-		if ((fp = fopen(fname, "r")) == NULL){
-			sigemptyset(&act.sa_mask);
-			act.sa_flags = SA_NODEFER;
-			act.sa_handler = r_msg;
-			sigaction(SIGUSR2, &act, NULL);
-			return;
-		}
-		for (j = 0; j <= (i - msg_num); j++) {
-			if (fgets(bufhead, 256, fp) == NULL || fgets(buf, MAX_MSG_SIZE + 2, fp) == NULL)
-				break;
-			else
-			{
-				strcpy(msghead,bufhead);
-				strcpy(msg,buf);
-			}
-		}
-		fclose(fp);
-
-		move(line, 0);
-		clrtoeol();
-		// This is a temporary solution to Fterm message recognition.
-		char user[13], date[25];
-		strlcpy(user, msghead + 12, sizeof(user));
-		strlcpy(date, msghead + 35, sizeof(date));
-		prints("\033[1;36;44m%s  \033[33m(%s)\033[37m", user, date);
-		move(line, 93);
-		outs("\033[31m(^Z»Ø)\033[37m");
-		move(line + 1, 0);
-		clrtoeol();
-		msg_line = show_data(msg, LINE_LEN-1, line + 1, 0);
-		move(msg_line, 0);
-		clrtoeol();
-		outs("\033[m°´^Z»ØÑ¶Ï¢");
-		refresh();
-		msg_num--;
-		if (DEFINE(DEF_MSGGETKEY)) {
-			RMSG = YEA;
-			ch = 0;
-			while (ch != '\r' && ch != '\n') {
-				ch = igetkey();
-				if (ch == '\r' || ch == '\n') {
-					break;
-				}
-				else if (ch == Ctrl('R') || ch == 'R' || ch == 'r' || ch == Ctrl('Z')) {
-					struct user_info *uin;
-					char    msgbuf[STRLEN];
-					int     good_id, send_pid;
-					char   *ptr, usid[STRLEN];
-					ptr = strrchr(msghead, '[');
-					send_pid = atoi(ptr + 1);
-					/* added by roly 02.06.02 for disable reply logout msg*/
-					if (send_pid==0) send_pid=-1;
-					/* add end */ 
-					ptr = strtok(msghead + 12, " [");
-					if (ptr == NULL)
-						good_id = NA;
-					else if (!strcmp(ptr, currentuser.userid))
-						good_id = NA;
-					else {
-						strcpy(usid, ptr);
-						uin = t_search(usid, send_pid);
-						if (uin == NULL) 
-							good_id = NA;
-						else
-							good_id = YEA;
-					}
-					oflush();
-					//saveline(line + 1, 2);
-					for(k = MAX_MSG_LINE + 1; k < MAX_MSG_LINE*2 + 2; k++)
-					{
-						saveline_buf(k, 0);
-					}
-
-					if (good_id == YEA) {
-						int     userpid;
-						userpid = uin->pid;
-						move(msg_line, 0);
-						clrtoeol();
-						sprintf(msgbuf, "Á¢¼´»ØÑ¶Ï¢¸ø %s: ", usid);
-						prints("%s", msgbuf);
-
-						move(msg_line + 1, 0);
-						clrtoeol();
-						refresh();
-						multi_getdata(msg_line + 1, 0, LINE_LEN-1, NULL, buf, MAX_MSG_SIZE+1, MAX_MSG_LINE, 1, 0);
-						if (buf[0] != '\0' && buf[0] != Ctrl('Z') && buf[0] != Ctrl('A')) {
-							if (do_sendmsg(uin, buf, 2, userpid))
-								sprintf(msgbuf, "[1;32m°ïÄúËÍ³öÑ¶Ï¢¸ø %s ÁË![m", usid);
-							else
-								sprintf(msgbuf, "[1;32mÑ¶Ï¢ÎÞ·¨ËÍ³ö.[m");
-						} else
-							sprintf(msgbuf, "[1;33m¿ÕÑ¶Ï¢, ËùÒÔ²»ËÍ³ö. [m");
-					} else {
-						sprintf(msgbuf, "[1;32mÕÒ²»µ½·¢Ñ¶Ï¢µÄ %s.[m", usid);
-					}
-					move(msg_line, 0);
-					clrtoeol();
-					refresh();
-					prints("%s", msgbuf);
-					refresh();
-					if (!strstr(msgbuf, "°ïÄú"))
-						sleep(1);
-					//saveline(line + 1, 3);
-
-					for(k = msg_line; k < MAX_MSG_LINE*2+2; k++)
-					{
-						saveline_buf(k, 1);
-					}
-					refresh();
-					break;
-				}	/* if */
-			}	/* while */
-		}		/* if */
-	}			/* while */
-
-	setuserfile(fname, "msgfile.me");
-	//i = get_num_records(fname, 129);
-	i = get_num_msgs(fname);
-	if (i > 500) {
-		char bak_title[STRLEN];
-		sprintf(mustbak_title, "[%s] Ç¿ÖÆÑ¶Ï¢±¸·Ý%dÌõ", getdatestring(time(NULL), NA), i);
-		strncpy(bak_title, save_title, STRLEN-1);
-		bak_title[STRLEN-1]=0;
-		mail_file(fname, currentuser.userid, mustbak_title);
-		strcpy(save_title, bak_title);
-		unlink(fname);
-	}
-
-	sigemptyset(&act.sa_mask);
-	act.sa_flags = SA_NODEFER;
-	act.sa_handler = r_msg;
-	sigaction(SIGUSR2, &act, NULL);
-
-	if (DEFINE(DEF_MSGGETKEY)) {
-		RMSG = premsg;
-		for (k = 0; k <= msg_line; k++) {
-			saveline_buf(k, 1);
-		}
-	}
-	showansi = tmpansi;
-	move(y, x);
-	refresh();
-	return;
-}
-
 int friend_login_wall(const struct user_info *pageinfo)
 {
 	char    msg[MAX_MSG_SIZE+2];
@@ -773,4 +393,337 @@ int friend_login_wall(const struct user_info *pageinfo)
 		do_sendmsg(pageinfo, msg, 2, pageinfo->pid);
 	}
 	return 0;
+}
+
+enum {
+	MSG_INIT, MSG_SHOW, MSG_REPLYING,
+	MSG_BAK_THRES = 500,
+};
+
+/**
+ *
+ */
+static int get_msg3(const char *user, int *num, char *head, size_t hsize,
+		char *buf, size_t size)
+{
+	char file[HOMELEN];
+	sethomefile(file, currentuser.userid, "msgfile");
+	int all = get_num_msgs(file);
+	if (*num < 1)
+		*num = 1;
+	if (*num > all)
+		*num = all;
+
+	FILE *fp = fopen(file, "r");
+	if (!fp)
+		return 0;
+	int j = all - *num;
+	while (j-- >= 0) {
+		if (!fgets(head, hsize, fp) || !fgets(buf, size, fp))
+			break;
+	}
+	fclose(fp);
+
+	if (j < 0) {
+		char *ptr = strrchr(head, '[');
+		if (!ptr)
+			return 0;
+		return strtol(ptr + 1, NULL, 10);
+	}
+	return 0;
+}
+
+static int show_msg(const char *user, const char *head, const char *buf, int line)
+{
+	if (!RMSG && DEFINE(DEF_SOUNDMSG))
+		bell();
+	move(line, 0);
+	clrtoeol();
+
+	// This is a temporary solution to Fterm & Cterm message recognition.
+	char sender[IDLEN + 1], date[25];
+	strlcpy(sender, head + 12, sizeof(sender));
+	strlcpy(date, head + 35, sizeof(date));
+
+	prints("\033[1;36;44m%s  \033[33m(%s)\033[37m", sender, date);
+	move(line, 93);
+	outs("\033[31m(^Z»Ø)\033[37m");
+	move(++line, 0);
+	clrtoeol();
+	line = show_data(buf, LINE_LEN - 1, line, 0);
+	move(line, 0);
+	clrtoeol();
+	prints("\033[mÁ¢¼´»ØÑ¶Ï¢¸ø %s", sender);
+	move(++line, 0);
+	clrtoeol();
+	refresh();
+	return line;
+}
+
+static int string_remove(char *str, int bytes)
+{
+	int len = strlen(str);
+	if (len < bytes)
+		return 0;
+	memmove(str, str + bytes, len - bytes);
+	str[len - bytes] = '\0';
+	return bytes;
+}
+
+static int string_delete(char *str, int pos, bool backspace)
+{
+	bool ingbk = false;
+	char *ptr = str + pos - (backspace ? 1 : 0);
+	if (ptr < str)
+		return 0;
+	while (*str != '\0' && str != ptr) {
+		if (ingbk)
+			ingbk = false;
+		else if (*str & 0x80)
+			ingbk = true;
+		str++;
+	}
+	if (ingbk) {
+		return string_remove(str - 1, 2);
+	} else {
+		if (*str & 0x80)
+			return string_remove(str, 2);
+		else
+			return string_remove(str, 1);
+	}
+}
+
+static void pos_change(size_t max, int base, int width, int height,
+		int *x, int *y, int change)
+{
+	int pos = (*y - base) * width + *x + change;
+	if (pos < 0)
+		pos = 0;
+	if (pos > max)
+		pos = max;
+	if (pos > width * height)
+		pos = width * height;
+	*y = base + pos / width;
+	*x = pos % width;
+}
+
+static void getdata_r(char *buf, size_t size, size_t *len,
+		int ch, int base, int *ht)
+{
+	int pos, ret, redraw = false, x, y;
+	getyx(&y, &x);
+	pos = (y - base) * LINE_LEN + x;
+	switch (ch) {
+		case KEY_LEFT:
+			pos_change(*len, base, LINE_LEN, *ht, &x, &y, -1);
+			break;
+		case KEY_RIGHT:
+			pos_change(*len, base, LINE_LEN, *ht, &x, &y, 1);
+			break;
+		case KEY_DOWN:
+			pos_change(*len, base, LINE_LEN, *ht, &x, &y, LINE_LEN);
+			break;
+		case KEY_UP:
+			pos_change(*len, base, LINE_LEN, *ht, &x, &y, -LINE_LEN);
+			break;
+		case KEY_HOME:
+			y = base;
+			x = 0;
+			break;
+		case KEY_END:
+			pos_change(*len, base, LINE_LEN, *ht, &x, &y, MAX_MSG_SIZE);
+			break;
+		case Ctrl('H'):
+		case KEY_DEL:
+			ret = string_delete(buf, pos, ch != KEY_DEL);
+			if (ch != KEY_DEL)
+				pos_change(*len, base, LINE_LEN, *ht, &x, &y, -ret);
+			*len -= ret;
+			redraw = true;
+			break;
+		default:
+			if (*len < size - 1 && isprint2(ch)) {
+				pos = (y - base) * LINE_LEN + x;
+				if (pos < *len)
+					memmove(buf + pos + 1, buf + pos, *len - pos);
+				buf[pos] = ch;
+				buf[*len + 1] = '\0';
+				*ht = (*len)++ / LINE_LEN + 1;
+				pos_change(*len, base, LINE_LEN, *ht, &x, &y, 1);
+				redraw = true;
+			}
+			break;
+	}
+	move(y, x);
+	if (redraw) {
+		show_data(buf, LINE_LEN - 1, base, 0);
+	}
+}
+
+/**
+ *
+ */
+static void send_msg3(const char *receiver, int pid, const char *msg, int line)
+{
+	char buf[STRLEN];
+	bool success = false;
+
+	if (*msg != '\0') {
+		struct user_info *uin = t_search(receiver, pid);
+		if (!uin) {
+			snprintf(buf, sizeof(buf), "\033[1;32mÕÒ²»µ½·¢Ñ¶Ï¢µÄ %s.\033[m",
+					receiver);
+		} else if (do_sendmsg(uin, msg, 2, uin->pid)) {
+			success = true;
+		} else {
+			strlcpy(buf, "\033[1;32mÑ¶Ï¢ÎÞ·¨ËÍ³ö.\033[m", sizeof(buf));
+		}
+	} else {
+		strlcpy(buf, "\033[1;33m¿ÕÑ¶Ï¢, ËùÒÔ²»ËÍ³ö.\033[m", sizeof(buf));
+	}
+
+	move(line, 0);
+	clrtoeol();
+	if (!success) {
+		outs(buf);
+		refresh();
+		sleep(1);
+	}
+
+	int i;
+	for (i = 0; i < MAX_MSG_LINE * 2 + 2; i++) {
+		saveline_buf(i, 1);
+	}
+	refresh();
+}
+
+/**
+ *
+ */
+static void msg_backup(const char *user)
+{
+	char file[HOMELEN];
+	sethomefile(file, user, "msgfile.me");
+
+	int num = get_num_msgs(file);
+	if (num > MSG_BAK_THRES) {
+		char title[STRLEN];
+		snprintf(title, sizeof(title), "[%s] Ç¿ÖÆÑ¶Ï¢±¸·Ý%dÌõ",
+				getdatestring(time(NULL), DATE_ZH), num);
+		mail_file(file, user, title);
+		unlink(file);
+	}
+}
+
+typedef struct {
+	int status;
+	int x;
+	int y;
+	int cury;
+	int height;
+	int rpid;
+	int num;
+	int sa;
+	size_t len;
+	char msg[MAX_MSG_LINE * LINE_LEN + 1];
+	char receiver[IDLEN + 1];
+} msg_status_t;
+
+static int msg_show(msg_status_t *st, char *head, size_t hsize,
+		char *buf, size_t size)
+{
+	st->rpid = get_msg3(currentuser.userid, &st->num, head, hsize, buf, size);
+	if (st->rpid) {
+		strlcpy(st->receiver, head + 12, sizeof(st->receiver));
+		strtok(st->receiver, " ");
+		int line = (uinfo.mode == TALK ? t_lines / 2 - 1 : 0);
+		st->cury = show_msg(currentuser.userid, head, buf, line);
+	}
+	st->status = MSG_REPLYING;
+	return st->rpid;
+}
+
+int msg_reply(int ch)
+{
+	static msg_status_t st = { .status = MSG_INIT, .height = 1,
+			.num = 0, .len = 0};
+
+	int k;
+	char buf[LINE_BUFSIZE], head[LINE_BUFSIZE];
+		
+	switch (st.status) {
+		case MSG_INIT:
+			getyx(&st.y, &st.x);
+			st.sa = showansi;
+			showansi = true;
+			if (DEFINE(DEF_MSGGETKEY)) {
+				for (k = 0; k < MAX_MSG_LINE * 2 + 2; k++)
+					saveline_buf(k, 0);
+			}
+			if (RMSG)
+				st.num++;
+			else
+				st.num = msg_num;
+			// fall through
+		case MSG_SHOW:
+			msg_show(&st, head, sizeof(head), buf, sizeof(buf));
+			ch = 0;
+			// fall through
+		case MSG_REPLYING:
+			switch (ch) {
+				case '\r':
+				case '\n':
+					send_msg3(st.receiver, st.rpid, st.msg, st.cury);
+					msg_backup(currentuser.userid);
+					st.msg[0] = '\0';
+					st.len = 0;
+					st.height = 1;
+					st.status = MSG_SHOW;
+
+					if (!RMSG) {
+						msg_num--;
+						st.num--;
+					} else {
+						RMSG = false;
+						st.num = 0;
+					}
+
+					if (!msg_num) {
+						st.status = MSG_INIT;
+						for (k = 0; k < MAX_MSG_LINE + 2; k++)
+							saveline_buf(k, 1);
+						move(st.y, st.x);
+						showansi = st.sa;
+					} else {
+						msg_show(&st, head, sizeof(head), buf, sizeof(buf));
+					}
+					break;
+				case '\0':
+					break;
+				case Ctrl('Z'):
+				case Ctrl('A'):
+					st.num += (ch == Ctrl('Z') ? 1 : -1);
+					if (st.num < 1)
+						st.num = 1;
+					st.msg[0] = '\0';
+					st.len = 0;
+					st.height = 1;
+					msg_show(&st, head, sizeof(head), buf, sizeof(buf));
+					break;
+				default:
+					getdata_r(st.msg, sizeof(st.msg), &st.len, ch, st.cury,
+							&st.height);
+					break;
+			}
+			break;
+		default:
+			break;
+	}
+	return 0;
+}
+
+void msg_handler(int signum)
+{
+	if (msg_num++ == 0)
+		msg_reply(0);
 }

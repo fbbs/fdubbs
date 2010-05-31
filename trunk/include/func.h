@@ -37,9 +37,7 @@ struct bstat *getbstat(const char *bname);
 int getbnum(const char *bname, const struct userec *cuser);
 int getbnum2(const struct boardheader *bp);
 int apply_boards(int (*func) (), const struct userec *cuser);
-#ifdef NEWONLINECOUNT
 void bonlinesync(time_t now);
-#endif
 
 //ucache.c (bcache.c)
 extern struct UCACHE *uidshm;
@@ -65,21 +63,17 @@ int get_online(void);
 int refresh_utmp(void);
 int getnewutmpent(struct user_info *up);
 int apply_ulist(int (*fptr)());
-int search_ulist(struct user_info *uentp, int (*fptr)(), int farg);
+int search_ulist(struct user_info *uentp,
+		int (*fptr)(int, const struct user_info *), int farg);
 int search_ulistn(struct user_info *uentp, int (*fptr)(), int farg, int unum);
 void update_ulist(struct user_info *uentp, int uent);
 int who_callme(struct user_info *uentp, int (*fptr)(), int farg, int me);
 int count_online(void);
+int cmpfnames(void *user, void *over);
 
 //log.c
 void report(const char *s, const char *userid);
 void log_usies(const char *mode, const char *mesg, const struct userec *user);
-
-//sysconf.c
-extern sysconf_t sys_conf;
-char *sysconf_str(const char *key);
-int sysconf_eval(const char *key, sysconf_t *conf);
-void sysconf_build(const char *configfile, const char *imgfile);
 
 //stuffs.c
 char *sethomefile(char *buf, const char *userid, const char *filename);
@@ -117,7 +111,7 @@ void update_endline(void);
 
 //convert.c
 #ifdef ALLOWSWITCHCODE
-void switch_code(void);
+int switch_code(void);
 int resolve_gbkbig5_table(void);
 int convert_g2b(int ch);
 int convert_b2g(int ch);

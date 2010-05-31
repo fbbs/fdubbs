@@ -1,5 +1,6 @@
 #include <dlfcn.h>
 #include "bbs.h"
+#include "sysconf.h"
 
 #ifndef DLM
 #undef  ALLOWGAME
@@ -8,15 +9,13 @@
 #ifdef FDQUAN
 #define ALLOWGAME
 #endif
-//modified by money 2002.11.15
 
 int domenu(const char *menu_name);
-int Announce(), Personal(), Boards(), EGroup(), Info(), Goodbye(),
-		BoardGroup();
-int New(), GoodBrds(), Read(), Select(), Users(), Welcome();
+int Announce(), Personal(), board_read_all(), board_read_group(), Info(), Goodbye();
+int board_read_new(), goodbrd_show(), board_read(), board_select(), Welcome();
 int setcalltime();
-int show_allmsgs(), x_lockscreen(), x_showuser();
-int Conditions(), x_cloak(), t_users(), x_info(), x_fillform(), x_vote();
+int msg_more(), x_lockscreen(), x_showuser();
+int Conditions(), x_cloak(), online_users_show(), x_info(), x_fillform(), x_vote();
 int x_results(), ent_bnet(), a_edits(), x_edits();
 int shownotepad(), x_userdefine();
 int m_new(), m_read(), m_send(), g_send();
@@ -26,9 +25,6 @@ int r_searchall();
 /*2003.04.23 added by stephen*/
 int giveUpBBS();
 /*stephen add end*/
-#ifdef SMS
-void sms_menu();
-#endif
 
 int ent_bnet2();
 
@@ -40,17 +36,11 @@ int ent_winmine();
 int m_internet();
 #endif
 
-int t_users(), t_friends(), t_list(), t_monitor();
+int online_users_show_override(), t_list(), t_monitor();
 int t_query(), t_talk(), t_pager(), t_friend(), t_reject(), x_cloak();
 int ent_chat();
 int AddPCorpus(); // deardragon 个人文集 
 int sendgoodwish();
-//int	show_myfile();
-
-#ifdef DLM 
-int exec_mbem();
-#endif
-//modified by money 2002.11.15
 
 #ifndef WITHOUT_ADMIN_TOOLS
 int kick_user(), m_vote();
@@ -66,185 +56,194 @@ int setsystempasswd();
 
 int wall();
 int friend_wall();
-/*Add By Excellent */
+static int exec_mbem(const char *s);
+
+typedef int (*telnet_handler_t)();
 
 typedef struct {
-	char *name;
-	void *fptr;
-	int type;
-} smenu_t;
+	const char *name;
+	telnet_handler_t fptr;
+} cmd_list_t;
 
-smenu_t currcmd;
-
-//保存字符串所对应的函数
-static smenu_t sysconf_cmdlist[] = {
-	{ "domenu", domenu, 0 },
-	{ "EGroups", EGroup, 0 },
-	{ "BGroups", BoardGroup, 0 },
-	{ "BoardsAll", Boards, 0 },
-	{ "BoardsGood", GoodBrds, 0 },
-	{ "BoardsNew", New, 0 },
-	{ "LeaveBBS", Goodbye, 0 },
-	{ "Announce", Announce, 0 },
-	{ "Personal", Personal, 0 },
-	{ "SelectBoard", Select, 0 },
-	{ "ReadBoard", Read, 0 },
-	{ "SetAlarm", setcalltime, 0 },
-	{ "MailAll", mailall, 0 },
-	{ "LockScreen", x_lockscreen, 0 },
-	{ "ShowUser", x_showuser, 0 },
-	{ "OffLine", offline, 0 },
-	{ "GiveUpBBS", giveUpBBS, 0 },
-#ifdef SMS
-	{ "Sms_Menu", sms_menu, 0},
+#ifdef DLM
+typedef struct {
+	const char *name;
+	const char *fptr;
+} dlm_list_t;
 #endif
-	{ "ReadNewMail", m_new, 0 },
-	{ "ReadMail", m_read, 0 },
-	{ "SendMail", m_send, 0 },
-	{ "GroupSend", g_send, 0 },
-	{ "OverrideSend", ov_send, 0 },
+
+static telnet_handler_t sysconf_funcptr(const char *name)
+{
+	static const cmd_list_t cmdlist[] = {
+		{ "domenu", domenu },
+		{ "EGroups", board_read_group },
+		{ "BoardsAll", board_read_all },
+		{ "BoardsGood", goodbrd_show },
+		{ "BoardsNew", board_read_new },
+		{ "LeaveBBS", Goodbye },
+		{ "Announce", Announce },
+		{ "Personal", Personal },
+		{ "SelectBoard", board_select },
+		{ "ReadBoard", board_read },
+		{ "SetAlarm", setcalltime },
+		{ "MailAll", mailall },
+		{ "LockScreen", x_lockscreen },
+		{ "ShowUser", x_showuser },
+		{ "OffLine", offline },
+		{ "GiveUpBBS", giveUpBBS },
+		{ "ReadNewMail", m_new },
+		{ "ReadMail", m_read },
+		{ "SendMail", m_send },
+		{ "GroupSend", g_send },
+		{ "OverrideSend", ov_send },
 #ifdef INTERNET_EMAIL
-	{ "SendNetMail", m_internet, 0},
+		{ "SendNetMail", m_internet },
 #endif
-	{ "UserDefine", x_userdefine, 0 },
-	{ "ShowFriends", t_friends, 0 },
-	{ "ShowLogins", t_users, 0 },
-	{ "QueryUser", t_query, 0 },
-	{ "Talk", t_talk, 0 },
-	{ "SetPager", t_pager, 0 },
-	{ "SetCloak", x_cloak, 0 },
-	{ "SendMsg", s_msg, 0 },
-	{ "ShowMsg", show_allmsgs, 0 },
-	{ "SetFriends", t_friend, 0 },
-	{ "SetRejects", t_reject, 0 },
-	{ "RFriendWall", friend_wall, 	0 },
-	{ "EnterChat", ent_chat, 0 },
-	{ "ListLogins", t_list, 0 },
-	{ "Monitor", t_monitor, 0 },
-	{ "FillForm", x_fillform, 0 },
-	{ "Information", x_info, 0 },
-	{ "EditUFiles", x_edits, 0 },
-	{ "ShowLicense", Conditions, 0 },
-	{ "ShowVersion", Info, 0 },
-	{ "Notepad", shownotepad, 0 },
-	{ "Vote", x_vote, 0 },
-	{ "VoteResult", x_results, 0 },
-	{ "ExecBBSNet", ent_bnet, 0 },
-	{ "ExecBBSNet2", ent_bnet2, 0 },
-	{ "ShowWelcome", Welcome, 0 },
-	{ "AllUsers", Users, 0 },
-	{ "AddPCorpus", AddPCorpus, 0 },
-	{ "GoodWish", sendgoodwish, 0 },
+		{ "UserDefine", x_userdefine },
+		{ "ShowFriends", online_users_show_override },
+		{ "ShowLogins", online_users_show },
+		{ "QueryUser", t_query },
+		{ "Talk", t_talk },
+		{ "SetPager", t_pager },
+		{ "SetCloak", x_cloak },
+		{ "SendMsg", s_msg },
+		{ "ShowMsg", msg_more },
+		{ "SetFriends", t_friend },
+		{ "SetRejects", t_reject },
+		{ "RFriendWall", friend_wall },
+		{ "EnterChat", ent_chat },
+		{ "ListLogins", t_list },
+		{ "Monitor", t_monitor },
+		{ "FillForm", x_fillform },
+		{ "Information", x_info },
+		{ "EditUFiles", x_edits },
+		{ "ShowLicense", Conditions },
+		{ "ShowVersion", Info },
+		{ "Notepad", shownotepad },
+		{ "Vote", x_vote },
+		{ "VoteResult", x_results },
+		{ "ExecBBSNet", ent_bnet },
+		{ "ExecBBSNet2", ent_bnet2 },
+		{ "ShowWelcome", Welcome },
+		{ "AddPCorpus", AddPCorpus },
+		{ "GoodWish", sendgoodwish },
 #ifdef ALLOWSWITCHCODE
-	{ "SwitchCode", switch_code, 0 },
+		{ "SwitchCode", switch_code },
 #endif
 #ifdef ALLOWGAME
-	{ "WinMine", ent_winmine,0},
-	{ "Gagb", "@mod:so/game.so#gagb", 1},
-	{ "BlackJack", "@mod:so/game.so#BlackJack", 1},
-	{ "X_dice", "@mod:so/game.so#x_dice", 1},
-	{ "P_gp", "@mod:so/game.so#p_gp", 1},
-	{ "IP_nine", "@mod:so/game.so#p_nine", 1},
-	{ "OBingo", "@mod:so/game.so#bingo", 1},
-	{ "Chicken", "@mod:so/game.so#chicken_main", 1},
-	{ "Mary", "@mod:so/game.so#mary_m", 1},
-	{ "Borrow", "@mod:so/game.so#borrow", 1},
-	{ "Payoff", "@mod:so/game.so#payoff", 1},
-	{ "Impawn", "@mod:so/game.so#popshop", 1},
-	{ "Doshopping", "@mod:so/game.so#doshopping", 1},
-	{ "Lending", "@mod:so/game.so#lending", 1},
-	{ "StarChicken", "@mod:so/pip.so#mod_default", 1},
-#endif 
-#ifdef DLM 
-	{ "RunMBEM",exec_mbem,0},
+		{ "WinMine", ent_winmine },
 #endif
-	{ "Kick", kick_user, 0 },
-	{ "OpenVote", m_vote, 0 },
-	{ "SearchAll", r_searchall, 0 },
+		{ "RunMBEM", exec_mbem },
+		{ "Kick", kick_user },
+		{ "OpenVote", m_vote },
+		{ "SearchAll", r_searchall },
 #ifndef DLM
-	{ "Setsyspass", setsystempasswd, 0 },
-	{ "Register", m_register, 0 },
-	{ "ShowRegister", show_register, 0 },
-	{ "Info", m_info, 0 },
-	{ "Level", x_level, 0 },
-	{ "OrdainBM", m_ordainBM, 0 },
-	{ "RetireBM", m_retireBM, 0 },
-	{ "NewChangeLevel", x_new_denylevel, 0 },
-	{ "DelUser", d_user, 0 },
-	{ "NewBoard", m_newbrd, 0 },
-	{ "ChangeBrd", m_editbrd, 0 },
-	{ "BoardDel", d_board, 0 },
-	{ "SysFiles", a_edits, 0 },
-	{ "Wall", wall, 0 },
-#else
-	{ "Setsyspass", "@mod:so/admintool.so#setsystempasswd",1},
-	{ "Register", "@mod:so/admintool.so#m_register", 1},
-	{ "ShowRegister", "@mod:so/admintool.so#show_register",1},
-	{ "Info", "@mod:so/admintool.so#m_info", 1},
-	{ "Level", "@mod:so/admintool.so#x_level", 1},
-	{ "OrdainBM", "@mod:so/admintool.so#m_ordainBM", 1},
-	{ "RetireBM", "@mod:so/admintool.so#m_retireBM", 1},
-	{ "ChangeLevel", "@mod:so/admintool.so#x_denylevel", 1},
-	{ "NewChangeLevel", "@mod:so/admintool.so#x_new_denylevel", 1},
-	{ "DelUser", "@mod:so/admintool.so#d_user", 1},
-	{ "NewBoard", "@mod:so/admintool.so#m_newbrd", 1},
-	{ "ChangeBrd", "@mod:so/admintool.so#m_editbrd", 1},
-	{ "BoardDel", "@mod:so/admintool.so#d_board", 1},
-	{ "SysFiles", "@mod:so/admintool.so#a_edits", 1},
-	{ "Wall", "@mod:so/admintool.so#wall", 1},
+		{ "Setsyspass", setsystempasswd },
+		{ "Register", m_register },
+		{ "ShowRegister", show_register },
+		{ "Info", m_info },
+		{ "Level", x_level },
+		{ "OrdainBM", m_ordainBM },
+		{ "RetireBM", m_retireBM },
+		{ "NewChangeLevel", x_new_denylevel },
+		{ "DelUser", d_user },
+		{ "NewBoard", m_newbrd },
+		{ "ChangeBrd", m_editbrd },
+		{ "BoardDel", d_board },
+		{ "SysFiles", a_edits },
+		{ "Wall", wall },
 #endif
-	{ 0, 0, 0 }
-};
+		{ NULL, NULL }
+	};
 
-void *sysconf_funcptr(const char *func_name, int *type)
-{
-	int n = 0;
-	char *str;
-
-	while ((str = sysconf_cmdlist[n].name) != NULL) {
-		if (strcmp(func_name, str) == 0) {
-			*type = sysconf_cmdlist[n].type;
-			return (sysconf_cmdlist[n].fptr);
-		}
-		n++;
+	const cmd_list_t *cmd = cmdlist;
+	while (cmd->name != NULL) {
+		if (strcmp(name, cmd->name) == 0)
+			return cmd->fptr;
+		++cmd;
 	}
-	*type = -1;
 	return NULL;
 }
 
-#ifdef DLM 
-//modified by money 2002.11.15
-int exec_mbem(char *s)
+#ifdef DLM
+static const char *sysconf_funcstr(const char *name)
 {
-	void *hdll;
-	int (*func)();
-	char *c;
-	char buf[80];
+	static const dlm_list_t dlmlist[] = {
+#ifdef ALLOWGAME
+		{ "Gagb", "@mod:so/game.so#gagb" },
+		{ "BlackJack", "@mod:so/game.so#BlackJack" },
+		{ "X_dice", "@mod:so/game.so#x_dice" },
+		{ "P_gp", "@mod:so/game.so#p_gp" },
+		{ "IP_nine", "@mod:so/game.so#p_nine" },
+		{ "OBingo", "@mod:so/game.so#bingo" },
+		{ "Chicken", "@mod:so/game.so#chicken_main" },
+		{ "Mary", "@mod:so/game.so#mary_m" },
+		{ "Borrow", "@mod:so/game.so#borrow" },
+		{ "Payoff", "@mod:so/game.so#payoff" },
+		{ "Impawn", "@mod:so/game.so#popshop" },
+		{ "Doshopping", "@mod:so/game.so#doshopping" },
+		{ "Lending", "@mod:so/game.so#lending" },
+		{ "StarChicken", "@mod:so/pip.so#mod_default" },
+#endif // ALLOWGAME
+		{ "Setsyspass", "@mod:so/admintool.so#setsystempasswd" },
+		{ "Register", "@mod:so/admintool.so#m_register" },
+		{ "ShowRegister", "@mod:so/admintool.so#show_register" },
+		{ "Info", "@mod:so/admintool.so#m_info" },
+		{ "Level", "@mod:so/admintool.so#x_level" },
+		{ "OrdainBM", "@mod:so/admintool.so#m_ordainBM" },
+		{ "RetireBM", "@mod:so/admintool.so#m_retireBM" },
+		{ "ChangeLevel", "@mod:so/admintool.so#x_denylevel" },
+		{ "NewChangeLevel", "@mod:so/admintool.so#x_new_denylevel" },
+		{ "DelUser", "@mod:so/admintool.so#d_user" },
+		{ "NewBoard", "@mod:so/admintool.so#m_newbrd" },
+		{ "ChangeBrd", "@mod:so/admintool.so#m_editbrd" },
+		{ "BoardDel", "@mod:so/admintool.so#d_board" },
+		{ "SysFiles", "@mod:so/admintool.so#a_edits" },
+		{ "Wall", "@mod:so/admintool.so#wall" },
+		{ NULL, NULL }
+	};
 
-	strcpy(buf,s);
-	s = strstr(buf,"@mod:");
-	if (s)	{
-		c = strstr(s + 5,"#");
-		if (c) {
-			*c = 0;
-			c++;
+	const dlm_list_t *dlm = dlmlist;
+	while (dlm->name != NULL) {
+		if (strcmp(name, dlm->name) == 0)
+			return dlm->fptr;
+		++dlm;
+	}
+	return NULL;
+}
+#endif // DLM
+
+/**
+ * Execute function in dynamic loaded modules.
+ * @param str function location, format: \@mod:[file]\#[function].
+ * @return 0.
+ */
+static int exec_mbem(const char *str)
+{
+	char buf[128];
+	strlcpy(buf, str, sizeof(buf));
+
+	char *ptr = strstr(buf, "@mod:");
+	if (ptr) {
+		ptr = strstr(buf + 5, "#");
+		if (ptr) {
+			*ptr = '\0';
+			++ptr;
 		}
-		hdll = dlopen(s + 5, RTLD_LAZY);
+
+		void *hdll = dlopen(buf + 5, RTLD_LAZY);
 		if (hdll) {
-			if (func = dlsym(hdll, c ? c : "mod_main"))
+			int (*func)();
+			*(void **)(&func) = dlsym(hdll, ptr ? ptr : "mod_main");
+			if (func)
 				func();
-			else
-				report(dlerror(), currentuser.userid);
 			dlclose(hdll);
 		}
-		else {
-			report(dlerror(), currentuser.userid);
-		}
 	}
+	return 0;
 }
-#endif
 
-void decodestr(char *str)
+static void decodestr(const char *str)
 {
 	register char ch;
 	int n;
@@ -261,68 +260,19 @@ void decodestr(char *str)
 			}
 }
 
-void load_sysconf_image(const char *imgfile)
+static int draw_menu(menuitem_t *pm)
 {
-	struct sysheader shead;
-	struct stat st;
-	char *ptr, *func;
-	int fh, n, diff, x;
-
-	if ((fh = open(imgfile, O_RDONLY))> 0) {
-		fstat(fh, &st);
-		ptr = malloc(st.st_size);
-		if (ptr == NULL)
-			report( "Insufficient memory available", "");
-		read(fh, &shead, sizeof(shead));
-		read(fh, ptr, st.st_size);
-		close(fh);
-
-		sys_conf.item = (void *) ptr;
-		ptr += shead.menu * sizeof(struct smenuitem);
-		sys_conf.var = (void *) ptr;
-		ptr += shead.key * sizeof(struct sdefine);
-		sys_conf.buf = (void *) ptr;
-		ptr += shead.len;
-		sys_conf.items = shead.menu;
-		sys_conf.keys = shead.key;
-		sys_conf.len = shead.len;
-		diff = sys_conf.buf - shead.buf;
-		for (n = 0; n < sys_conf.items; n++) {
-			sys_conf.item[n].name += diff;
-			sys_conf.item[n].desc += diff;
-			sys_conf.item[n].arg += diff;
-			func = (char *) sys_conf.item[n].fptr;
-			sys_conf.item[n].fptr = sysconf_funcptr(func + diff, &x);
-		}
-		for (n = 0; n < sys_conf.keys; n++) {
-			sys_conf.var[n].key += diff;
-			sys_conf.var[n].str += diff;
-		}
-	}
-}
-
-void load_sysconf(void)
-{
-	if (!dashf("sysconf.img")) {
-		report("build sysconf.img", "");
-		sysconf_build("etc/sysconf.ini", "sysconf.img");
-	}
-	load_sysconf_image("sysconf.img");
-}
-
-int domenu_screen(struct smenuitem *pm)
-{
-	char *str;
-	int line, col, num;
+	const char *str;
 
 	clear();
-	line = 3;
-	col = 0;
-	num = 0;
+	int line = 3;
+	int col = 0;
+	int num = 0;
+
 	while (1) {
 		switch (pm->level) {
 			case -1:
-				return (num);
+				return num;
 			case -2:
 				if (strcmp(pm->name, "title") == 0) {
 					firsttitle(pm->desc);
@@ -346,7 +296,7 @@ int domenu_screen(struct smenuitem *pm)
 					prints("  %s", pm->desc);
 					line++;
 				} else {
-					if (pm->line> 0) {
+					if (pm->line > 0) {
 						line = pm->line;
 						col = pm->col;
 					}
@@ -361,142 +311,150 @@ int domenu_screen(struct smenuitem *pm)
 int domenu(const char *menu_name)
 {
 	extern int refscreen;
-	struct smenuitem *pm;
-	int size, now;
-	int cmd, i;
+	int ch, i;
 
-	if (sys_conf.items <= 0) {
+	if (sys_conf.items <= 0)
 		return -1;
-	}
-	pm = sys_conf.item + sysconf_eval(menu_name, &sys_conf);
-	size = domenu_screen(pm);
-	now = 0;
+
+	menuitem_t *pm = sys_conf.item + sysconf_eval(menu_name, &sys_conf);
+
+	int size = draw_menu(pm);
+
+	int now = 0;
+
+	// Jump to mail menu if user have unread mail.
 	if (strcmp(menu_name, "TOPMENU") == 0 && chkmail()) {
 		for (i = 0; i < size; i++)
 		if (pm[i].line> 0 && pm[i].name[0] == 'M')
 		now = i;
-
 	}
+
 	modify_user_mode(MMENU);
+
+	// TODO: deprecate
 	R_monitor();
+
 	while (1) {
 		printacbar();
+
 		while (pm[now].level < 0 || !HAS_PERM(pm[now].level)) {
 			now++;
 			if (now >= size)
-			now = 0;
+				now = 0;
 		}
-		move(pm[now].line, pm[now].col);
-		prints("> ");
-		move(pm[now].line, pm[now].col+1);
-		cmd = egetch();
-		move(pm[now].line, pm[now].col);
-		prints("  ");
-		switch (cmd) {
-			case EOF:
-			if (!refscreen) {
-				abort_bbs(0);
-			}
-			domenu_screen(pm);
-			modify_user_mode(MMENU);
-			R_monitor();
-			break;
-			case KEY_RIGHT:
-			for (i = 0; i < size; i++) {
-				if (pm[i].line == pm[now].line && pm[i].level >= 0 &&
-						pm[i].col> pm[now].col && HAS_PERM(pm[i].level))
-				break;
-			}
-			if (i < size) {
-				now = i;
-				break;
-			}
-			case '\n':
-			case '\r':
-			if (strcmp(pm[now].arg, "..") == 0) {
-				return 0;
-			}
-			if (pm[now].fptr != NULL) {
-				int type;
 
-				(void *) sysconf_funcptr(pm[now].name, &type);
-#ifdef DLM 
-				if (type == 1) {
-					exec_mbem((char *)pm[now].fptr);
-				} else
-#endif
-				//modified by money 2002.11.15
-				(*pm[now].fptr) (pm[now].arg);
-				if (pm[now].fptr == Select) {
-					now++;
+		move(pm[now].line, pm[now].col);
+		prints(">");
+
+		ch = egetch();
+
+		move(pm[now].line, pm[now].col);
+		prints(" ");
+
+		switch (ch) {
+			case EOF:
+				// TODO: deprecate
+				if (!refscreen) {
+					abort_bbs(0);
 				}
-				domenu_screen(pm);
+				draw_menu(pm);
 				modify_user_mode(MMENU);
 				R_monitor();
-			}
-			break;
-			case KEY_LEFT:
-			for (i = 0; i < size; i++) {
-				if (pm[i].line == pm[now].line && pm[i].level >= 0 &&
-						pm[i].col < pm[now].col && HAS_PERM(pm[i].level))
 				break;
-				if (pm[i].fptr == Goodbye)
-				break;
-			}
-			if (i < size) {
-				now = i;
-				break;
-			}
-			return 0;
-			case KEY_DOWN:
-			now++;
-			break;
-			case KEY_UP:
-			now--;
-			while (pm[now].level < 0 || !HAS_PERM(pm[now].level)) {
-				if (now> 0)
-				now--;
-				else
-				now = size - 1;
-			}
-			break;
-			// Modified by Flier - 2000.5.12 - Begin
-			case KEY_PGUP:
-			now = 0;
-			break;
-			case KEY_PGDN:
-			now = size - 1;
-			while (pm[now].level < 0 || !HAS_PERM(pm[now].level)) now--;
-			break;
-			// Modified by Flier - 2000.5.12 - End
-			case '~':
-			if (!(HAS_PERM(PERM_ESYSFILE))) {
-				//modified by roly 02.01.24 add PERM_WELCOME
-				break;
-			}
-			free(sys_conf.items);
-			report("rebuild sysconf.img", currentuser.userid);
-			sysconf_build("etc/sysconf.ini", "sysconf.img");
-			report("reload sysconf.img", currentuser.userid);
-			load_sysconf_image("sysconf.img");
-			pm = sys_conf.item + sysconf_eval(menu_name, &sys_conf);
-			ActiveBoard_Init();
-			size = domenu_screen(pm);
-			now = 0;
-			break;
-			case '!': /* youzi leave */
-			if (strcmp("TOPMENU", menu_name) == 0)
-			break;
-			else
-			return Goodbye();
-			default:
-			if (cmd >= 'a' && cmd <= 'z')
-			cmd = cmd - 'a' + 'A';
-			for (i = 0; i < size; i++) {
-				if (pm[i].line> 0 && cmd == pm[i].name[0] &&
-						HAS_PERM(pm[i].level)) {
+			case KEY_RIGHT:
+				for (i = 0; i < size; i++) {
+					if (pm[i].line == pm[now].line && pm[i].level >= 0 &&
+							pm[i].col > pm[now].col && HAS_PERM(pm[i].level))
+						break;
+				}
+				// If there are items on the right to current item.
+				if (i < size) {
 					now = i;
 					break;
+				}
+				// fall through.
+			case '\n':
+			case '\r':
+				if (strcmp(pm[now].arg, "..") == 0)
+					return 0;
+				if (pm[now].func) {
+					telnet_handler_t func = sysconf_funcptr(pm[now].func);
+					if (func) {
+						(*func)(pm[now].arg);
+						if (func == board_select)
+							now++;
+					} else {
+#ifdef DLM
+						const char *ptr = sysconf_funcstr(pm[now].func);
+						if (!ptr)
+							break;
+						else
+							exec_mbem(ptr);
+#else
+						;
+#endif // DLM
+					}
+					draw_menu(pm);
+					modify_user_mode(MMENU);
+					R_monitor();
+				}
+				break;
+			case KEY_LEFT:
+				for (i = 0; i < size; i++) {
+					if (pm[i].line == pm[now].line && pm[i].level >= 0 &&
+							pm[i].col < pm[now].col && HAS_PERM(pm[i].level))
+						break;
+					if (strcmp(pm[i].func, "LeaveBBS") == 0)
+						break;
+				}
+				if (i < size) {
+					now = i;
+					break;
+				}
+				return 0;
+			case KEY_DOWN:
+				now++;
+				break;
+			case KEY_UP:
+				now--;
+				while (pm[now].level < 0 || !HAS_PERM(pm[now].level)) {
+					if (now > 0)
+						now--;
+					else
+						now = size - 1;
+				}
+				break;
+			case KEY_PGUP:
+				now = 0;
+				break;
+			case KEY_PGDN:
+				now = size - 1;
+				while (pm[now].level < 0 || !HAS_PERM(pm[now].level))
+					now--;
+				break;
+			case '~':
+				if (!(HAS_PERM(PERM_ESYSFILE)))
+					break;
+				sysconf_load(true);
+				report("reload sysconf.img", currentuser.userid);
+				pm = sys_conf.item + sysconf_eval(menu_name, &sys_conf);
+				ActiveBoard_Init();
+				size = draw_menu(pm);
+				now = 0;
+				break;
+			case '!':
+				if (strcmp("TOPMENU", menu_name) == 0)
+					break;
+				else
+					return 0;
+			default:
+				if (ch >= 'a' && ch <= 'z')
+					ch = ch - 'a' + 'A';
+				for (i = 0; i < size; i++) {
+					if (pm[i].line> 0 && ch == pm[i].name[0]
+							&& HAS_PERM(pm[i].level)) {
+						now = i;
+						break;
 				}
 			}
 		}
