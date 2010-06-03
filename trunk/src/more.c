@@ -1,4 +1,5 @@
 #include "bbs.h"
+#include "mmap.h"
 
 static time_t calltime = 0;
 void R_monitor();
@@ -809,7 +810,7 @@ static int more_open_msg(const char *file, more_file_t *more)
 	FILE *fp = fopen(file, "r");
 	if (fp == NULL)
 		return -1;
-	flock(fileno(fp), LOCK_EX);
+	fb_flock(fileno(fp), LOCK_EX);
 	fseek(fp, 0, SEEK_END);
 	int size = ftell(fp);
 
@@ -830,7 +831,7 @@ static int more_open_msg(const char *file, more_file_t *more)
 				break;
 			}
 		}
-		flock(fileno(fp), LOCK_UN);
+		fb_flock(fileno(fp), LOCK_UN);
 		fclose(fp);
 
 		more->size = len;

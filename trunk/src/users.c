@@ -1,5 +1,6 @@
 #include "bbs.h"
 #include "list.h"
+#include "record.h"
 
 #define BBS_PAGESIZE (t_lines - 4)
 
@@ -86,7 +87,7 @@ static void online_users_swap(online_users_t *up, int a, int b)
 	up->users[b] = tmp;
 }
 
-static int online_users_load(choose_t *cp)
+static choose_loader_t online_users_load(choose_t *cp)
 {
 	online_users_t *up = cp->data;
 
@@ -133,10 +134,11 @@ static int online_users_load(choose_t *cp)
 		cp->all = up->onum;
 	else
 		cp->all = up->num;
+	cp->eod = true;
 	return cp->all;
 }
 
-static void online_users_title(choose_t *cp)
+static choose_title_t online_users_title(choose_t *cp)
 {
 	online_users_t *up = cp->data;
 	docmdtitle(up->ovr_only ? "[好朋友列表]" : "[使用者列表]",
@@ -179,7 +181,7 @@ static void get_override_note(const char *userid, char *buf, size_t size)
 
 extern const char *idle_str(struct user_info *uent);
 
-static int online_users_display(choose_t *cp)
+static choose_display_t online_users_display(choose_t *cp)
 {
 	online_users_t *up = cp->data;
 
@@ -243,7 +245,7 @@ static int online_users_display(choose_t *cp)
 }
 
 extern int friendflag;
-static int online_users_handler(choose_t *cp, int ch)
+static choose_handler_t online_users_handler(choose_t *cp, int ch)
 {
 	char buf[STRLEN], tmp[EXT_IDLEN], *ptr;
 	online_users_t *up = cp->data;
