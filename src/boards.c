@@ -1,6 +1,7 @@
 #include "bbs.h"
 #include "list.h"
 #include "sysconf.h"
+#include "record.h"
 
 #define BBS_PAGESIZE    (t_lines - 4)
 
@@ -459,7 +460,7 @@ static bool check_newpost(board_data_t *ptr)
 /**
  *
  */
-static int choose_board_load(choose_t *cp)
+static choose_loader_t choose_board_load(choose_t *cp)
 {
 	choose_board_t *cbrd = cp->data;
 	struct boardheader *bptr;
@@ -590,6 +591,7 @@ static int choose_board_load(choose_t *cp)
 	}
 
 	cp->all= cbrd->num;
+	cp->eod = true;
 	return 0;
 }
 
@@ -695,7 +697,7 @@ int unread_position(char *dirfile, board_data_t *ptr)
 /**
  *
  */
-static int choose_board_display(choose_t *cp)
+static choose_display_t choose_board_display(choose_t *cp)
 {
 	choose_board_t *cbrd = cp->data;
 	board_data_t *ptr;
@@ -931,7 +933,7 @@ static int choose_board_init(choose_board_t *cbrd)
 /**
  *
  */
-static void choose_board_title(choose_t *cp)
+static choose_title_t choose_board_title(choose_t *cp)
 {
 	choose_board_t *cbrd = cp->data;
 
@@ -959,7 +961,7 @@ static void choose_board_title(choose_t *cp)
 			cbrd->newflag ? "È« ²¿  Î´" : "±à ºÅ  Î´", "ÖĞ  ÎÄ  Ğğ  Êö");
 }
 
-static int choose_board_handler(choose_t *cp, int ch)
+static choose_handler_t choose_board_handler(choose_t *cp, int ch)
 {
 	choose_board_t *cbrd = cp->data;
 	board_data_t *ptr;
