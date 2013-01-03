@@ -50,7 +50,7 @@ int bbsrss_main(void)
 		setbfile(file, bp->filename, fp->filename);
 		printf("<item><title>");
 		xml_fputs(fp->title, stdout);
-		printf("</title><link>http://"BASEURL"/con?bid=%d&amp;f=%u</link>"
+		printf("</title><link>http://"BASEURL"/tcon?new=1&amp;bid=%d&amp;f=%u</link>"
 				"<author>%s</author><pubDate>%s</pubDate><source>%s</source>"
 				"<guid>http://"BASEURL"/con?bid=%d&amp;f=%u</guid>"
 				"<description><![CDATA[<pre>", bid, fp->id, fp->owner,
